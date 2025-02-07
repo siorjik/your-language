@@ -1,13 +1,13 @@
-'use client'
+import Layout from '@/components/layout'
 
-// import Spinner from '@/components/spinner'
-import { Button } from '@/components/ui/button'
+import delay from '@/helpers/delay'
 
-export default function Home() {
+export default async function Home() {
+  await delay(3000)
+  
   return (
-    <>
-      <Button onClick={() => console.log('click')}>Click me</Button>
-      {/* <Spinner /> */}
-    </>
+    <Layout>
+      <div className='my-1'>Loading</div>
+    </Layout>
   )
 }

@@ -7,7 +7,7 @@ export default function Spinner() {
   const { theme } = useTheme()
 
   return (
-    <div className='flex justify-center items-center fixed w-full h-screen bg-zinc-300 dark:bg-zinc-700 top-0 left-0 z-10'>
+    <div className='flex justify-center items-center fixed w-full h-screen bg-zinc-400/80 dark:bg-zinc-700/80 top-0 left-0 z-10'>
       <ScaleLoader color={`${theme === 'light' ? 'black' : 'gray'}`} />
     </div>
   )
