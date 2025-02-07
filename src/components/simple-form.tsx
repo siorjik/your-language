@@ -18,7 +18,7 @@ import Spinner from './spinner'
 
 type CustomFormPropsType = {
   submit: (data: z.infer<ZodSchema>) => Promise<void>,
-  fieldsData: { name: string, label: string }[],
+  fieldsData: { name: string, label: string, type?: string }[],
   btnText: string,
   data?: z.infer<ZodSchema>,
   schema: ZodSchema,
@@ -40,9 +40,11 @@ export default function CustomForm(props: CustomFormPropsType) {
   return (
     <>
       <Form {...form}>
-        <form className='w-full md:w-1/2 lg:w-1/3' onSubmit={form.handleSubmit(onSubmit)}>
+        <form className='w-full' onSubmit={form.handleSubmit(onSubmit)}>
           {
             fieldsData.map((item, idx) => {
+              if (!item.type) item.type = 'text'
+
               return (
                 <div className='mb-5' key={idx}>
                   <FormField
@@ -51,7 +53,7 @@ export default function CustomForm(props: CustomFormPropsType) {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>{item.label}</FormLabel>
-                        <FormControl><Input {...field} /></FormControl>
+                        <FormControl><Input type={item.type} {...field} /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )}

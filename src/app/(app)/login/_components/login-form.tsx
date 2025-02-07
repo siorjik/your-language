@@ -19,18 +19,21 @@ export default function LoginForm() {
     },
     {
       name: 'password',
-      label: 'Password*'
+      label: 'Password*',
+      type: 'password'
     }
   ]
 
   return (
-    <Form
-      submit={onSubmit}
-      schema={loginFormTypeSchema}
-      fieldsData={fieldsData}
-      btnText='Login'
-      showSpinner
-      data={{ email: '', password: '' }}
-    />
+    <div className='w-full max-w-[350px]'>
+      <Form
+        submit={onSubmit}
+        schema={loginFormTypeSchema}
+        fieldsData={fieldsData}
+        btnText='Login'
+        showSpinner
+        data={{ email: '', password: '' }}
+      />
+    </div>
   )
 }
