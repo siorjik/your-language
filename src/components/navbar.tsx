@@ -38,8 +38,8 @@ export default function Navbar() {
     return (
       <Link
         className={`
-          px-2 text-gray-500 dark:text-gray-200 border-b-[3px] border-transparent font-semibold
-          hover:border-stone-300 dark:hover:border-yellow-200 ${css} relative top-[8px] pb-4
+          px-2 border-b-[3px] border-transparent font-semibold hover:border-stone-300
+          dark:hover:border-stone-500 ${css} relative top-[8px] pb-4
         `}
         href={path}
       >{title}</Link>
@@ -48,11 +48,9 @@ export default function Navbar() {
 
   const userMenu = session?.user ? (
     <NavigationMenu>
-      <NavigationMenuList className='h-[10px]'>
+      <NavigationMenuList className='h-[20px]'>
         <NavigationMenuItem>
-          <NavigationMenuTrigger
-            className='bg-stone-50 dark:bg-stone-900'
-          >
+          <NavigationMenuTrigger className='px-0 bg-stone-50 dark:bg-stone-900'>
             <Settings className='text-gray-500 dark:text-foreground' />
           </NavigationMenuTrigger>
           <NavigationMenuContent className='p-3 flex flex-col gap-3 text-current'>
@@ -81,14 +79,10 @@ export default function Navbar() {
     { title: 'Profile', path: '/profile' }
   ]
 
-  const menuData = isAuth ? navData : [navData[0]]
-
   return (
     <nav className='flex justify-between'>
       <div className='flex gap-2'>
-        {
-          menuData.map((item, idx) => <Fragment key={idx}>{getMenuItem(item)}</Fragment>)
-        }
+        {isAuth ? navData.map((item, idx) => <Fragment key={idx}>{getMenuItem(item)}</Fragment>) : getMenuItem(navData[0])}
       </div>
       <div className='pb-1 flex items-center'>{userMenu}</div>
     </nav>
