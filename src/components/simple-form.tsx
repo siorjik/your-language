@@ -16,7 +16,7 @@ import {
 import { Input } from "@/components/ui/input"
 import Spinner from './spinner'
 
-type CustomFormPropsType = {
+type SimpleFormPropsType = {
   submit: (data: z.infer<ZodSchema>) => Promise<void>,
   fieldsData: { name: string, label: string, type?: string }[],
   btnText: string,
@@ -25,7 +25,7 @@ type CustomFormPropsType = {
   showSpinner?: boolean
 }
 
-export default function CustomForm(props: CustomFormPropsType) {
+export default function SimpleForm(props: SimpleFormPropsType) {
   const { submit, fieldsData, btnText, data = null, showSpinner = false, schema } = props
 
   const form = useForm<z.infer<typeof schema>>({
