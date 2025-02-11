@@ -75,8 +75,11 @@ body {
     @apply bg-background text-foreground;
   }
 
-  div, p, span, a {
-    @apply leading-4
+  div,
+  p,
+  span,
+  a {
+    @apply leading-4;
   }
 
   input {
@@ -84,6 +87,6 @@ body {
   }
 
   .title {
-    @apply mb-5 text-2xl font-medium
+    @apply mb-5 text-3xl font-medium;
   }
 }

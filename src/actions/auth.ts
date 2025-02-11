@@ -8,7 +8,7 @@ export const login = async (data: z.infer<typeof loginFormTypeSchema>) => {
   const { email, password } = data
 
   try {
-    return await prisma.user.findFirst({ where: { AND: [{ email }, { password }] }, omit: { password: true } }) 
+    return await prisma.user.findFirst({ where: { AND: [{ email }, { password }] }, omit: { password: true } })
   } catch (error) {
     console.log(error)
 

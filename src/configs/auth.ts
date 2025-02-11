@@ -8,7 +8,7 @@ import { loginFormTypeSchema } from '@/types/forms/auth'
 class InvalidLoginError extends CredentialsSignin {
   code = 'Invalid credentials...'
 }
- 
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
   logger: {
     error(code, ...message) {
@@ -19,7 +19,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     debug(code, ...message) {
       console.debug(code, ...message)
-    }
+    },
   },
   providers: [
     Credentials({
@@ -36,30 +36,25 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (!user) throw new InvalidLoginError()
 
         return user
-      }
-    })
+      },
+    }),
   ],
 
   callbacks: {
     jwt: ({ token, user }) => {
-      return { ...token, ...user}
+      return { ...token, ...user }
     },
 
     session: ({ session, token }) => {
-      session.user = {
-        id: '', emailVerified: new Date(),
-        name: token.name!, email: token.email!, image: null
-      }
+      session.user = { id: '', emailVerified: new Date(), name: token.name!, email: token.email!, image: null }
 
       return session
-    }
+    },
   },
-  
+
   trustHost: true,
-  session: { strategy: 'jwt', maxAge: 60  },
+  session: { strategy: 'jwt', maxAge: 60 },
   secret: process.env.NEXTAUTH_SECRET,
 
-  pages: {
-    signIn: '/login'
-  },
+  pages: { signIn: '/login' },
 })

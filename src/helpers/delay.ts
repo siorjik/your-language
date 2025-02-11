@@ -1,6 +1,6 @@
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
-export default async (ms:  number) => {
+export default async (ms: number) => {
   console.log(`Waiting ${ms} seconds...`)
 
   await delay(ms)
