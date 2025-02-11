@@ -16,33 +16,22 @@ export default function LoginForm() {
 
     if (!res?.error) window.location.href = '/'
     else {
-      toast({
-        variant: 'destructive',
-        title: 'Login Error',
-        description: res.code,
-      })
+      toast({ variant: 'destructive', title: 'Login Error', description: res.code })
     }
   }
 
   const fieldsData = [
-    {
-      name: 'email',
-      label: 'Email*'
-    },
-    {
-      name: 'password',
-      label: 'Password*',
-      type: 'password'
-    }
+    { name: 'email', label: 'Email*' },
+    { name: 'password', label: 'Password*', type: 'password' },
   ]
 
   return (
-    <div className='w-full max-w-[350px]'>
+    <div className="w-full max-w-[350px]">
       <Form
         submit={onSubmit}
         schema={loginFormTypeSchema}
         fieldsData={fieldsData}
-        btnText='Login'
+        btnText="Login"
         showSpinner
         data={{ email: '', password: '' }}
       />
