@@ -3,18 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
+    "dev:turbo": "next dev --turbopack",
     "build": "npx prisma generate && next build",
     "start": "next start",
+    "launch": "pnpm build && pnpm start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "prettier": "prettier --check src",
     "prettier:fix": "prettier --write src",
-    "launch": "pnpm build && pnpm start",
-    "migrate:new": "dotenv -e .env.development.local -- npx prisma migrate dev --name",
-    "migrate": "dotenv -e .env.development.local -- npx prisma migrate dev",
-    "seed": "dotenv -e .env.development.local -- npx prisma db seed",
-    "studio": "dotenv -e .env.development.local -- npx prisma studio"
+    "migrate:new": "npx prisma migrate dev --name",
+    "migrate": "npx prisma migrate dev",
+    "seed": "npx prisma db seed",
+    "studio": "npx prisma studio"
   },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"

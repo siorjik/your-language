@@ -3,7 +3,7 @@ import LoginForm from './_components/login-form'
 export default function Login() {
   return (
     <>
-      <h2 className="title">Login</h2>
+      <h2 className="title">Sign In</h2>
       <LoginForm />
     </>
   )

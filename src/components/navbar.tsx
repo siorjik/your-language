@@ -57,10 +57,7 @@ export default function Navbar() {
           </NavigationMenuTrigger>
           <NavigationMenuContent className="p-3 flex flex-col gap-3 text-current">
             <NavigationMenuLink asChild>
-              <Link
-                className="flex items-center gap-2"
-                href={profileAppPath}
-              >
+              <Link className="flex items-center gap-2" href={profileAppPath}>
                 <UserRoundCog className="text-gray-500 dark:text-foreground" />
               </Link>
             </NavigationMenuLink>
@@ -68,10 +65,7 @@ export default function Navbar() {
               <ThemeBtn />
             </NavigationMenuLink>
             <NavigationMenuLink asChild>
-              <LogOut
-                onClick={logOut}
-                className="text-gray-500 dark:text-foreground"
-              />
+              <LogOut onClick={logOut} className="text-gray-500 dark:text-foreground" />
             </NavigationMenuLink>
           </NavigationMenuContent>
         </NavigationMenuItem>
