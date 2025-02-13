@@ -2,11 +2,13 @@
 
 import { signIn } from 'next-auth/react'
 import z from 'zod'
+import Link from 'next/link'
 
 import Form from '@/components/simple-form'
 
 import { loginFormTypeSchema } from '@/types/forms/auth'
 import { useToast } from '@/hooks/use-toast'
+import { createAccountAppPath } from '@/utils/paths'
 
 export default function LoginForm() {
   const { toast } = useToast()
@@ -14,9 +16,14 @@ export default function LoginForm() {
   const onSubmit = async (values: z.infer<typeof loginFormTypeSchema>) => {
     const res = await signIn('credentials', { ...values, redirect: false })
 
-    if (!res?.error) window.location.href = '/'
-    else {
+    if (!res?.error) {
+      window.location.href = '/'
+
+      return true
+    } else {
       toast({ variant: 'destructive', title: 'Login Error', description: res.code })
+
+      return false
     }
   }
 
@@ -27,14 +34,18 @@ export default function LoginForm() {
 
   return (
     <div className="w-full max-w-[350px]">
-      <Form
-        submit={onSubmit}
-        schema={loginFormTypeSchema}
-        fieldsData={fieldsData}
-        btnText="Login"
-        showSpinner
-        data={{ email: '', password: '' }}
-      />
+      <Form submit={onSubmit} schema={loginFormTypeSchema} fieldsData={fieldsData} btnText="Login" showSpinner />
+      <div className="mt-8 w-fit mx-auto">
+        Go to{' '}
+        <Link className="link" href="/">
+          Home
+        </Link>
+        {' or '}
+        <Link className="link" href={createAccountAppPath}>
+          Sign Up
+        </Link>{' '}
+        page
+      </div>
     </div>
   )
 }
