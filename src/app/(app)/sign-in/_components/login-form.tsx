@@ -8,7 +8,7 @@ import Form from '@/components/simple-form'
 
 import { loginFormTypeSchema } from '@/types/forms/auth'
 import { useToast } from '@/hooks/use-toast'
-import { createAccountAppPath } from '@/utils/paths'
+import { signUpAppPath } from '@/utils/paths'
 
 export default function LoginForm() {
   const { toast } = useToast()
@@ -41,7 +41,7 @@ export default function LoginForm() {
           Home
         </Link>
         {' or '}
-        <Link className="link" href={createAccountAppPath}>
+        <Link className="link" href={signUpAppPath}>
           Sign Up
         </Link>{' '}
         page

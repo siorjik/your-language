@@ -3,8 +3,9 @@
 import { Fragment } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { UserRoundCog, Settings, LogOut, UserRoundPlus, LogIn } from 'lucide-react'
+import { UserRoundCog, LogOut, Settings, UserRoundPlus, LogIn } from 'lucide-react'
 import { signOut, useSession } from 'next-auth/react'
+import Image from 'next/image'
 
 import {
   NavigationMenu,
@@ -16,7 +17,9 @@ import {
 } from '@/components/ui/navigation-menu'
 import ThemeBtn from './theme-btn'
 
-import { createAccountAppPath, loginAppPath, profileAppPath } from '@/utils/paths'
+import logo from '@/../public/logo.png'
+
+import { signInAppPath, signUpAppPath, profileAppPath } from '@/utils/paths'
 
 export default function Navbar() {
   const pathname = usePathname()
@@ -53,7 +56,17 @@ export default function Navbar() {
       <NavigationMenuList className="h-[20px]">
         <NavigationMenuItem>
           <NavigationMenuTrigger className="px-0 bg-stone-50 dark:bg-stone-900">
-            <Settings className="text-gray-500 dark:text-foreground" />
+            {
+              !session.user.image ? <Settings className="text-gray-500 dark:text-foreground" /> :
+                <Image
+                  className='h-[30px] w-[30px] rounded-full object-cover'
+                  src={session.user.image}
+                  width={30}
+                  height={30}
+                  alt='image'
+                  priority
+                />
+            }
           </NavigationMenuTrigger>
           <NavigationMenuContent className="p-3 flex flex-col gap-3 text-current">
             <NavigationMenuLink asChild>
@@ -73,10 +86,10 @@ export default function Navbar() {
     </NavigationMenu>
   ) : (
     <div className="flex gap-2">
-      <Link href={createAccountAppPath}>
+      <Link href={signUpAppPath}>
         <UserRoundPlus className="text-gray-500 dark:text-foreground" />
       </Link>
-      <Link href={loginAppPath}>
+      <Link href={signInAppPath}>
         <LogIn className="text-gray-500 dark:text-foreground" />
       </Link>
     </div>
@@ -90,6 +103,9 @@ export default function Navbar() {
   return (
     <nav className="flex justify-between">
       <div className="flex gap-2">
+        <Link href='/'>
+          <Image className='h-[30px] w-[30px] mr-10' src={logo} alt='logo' placeholder='blur' priority />
+        </Link>
         {isAuth ? navData.map((item, idx) => <Fragment key={idx}>{getMenuItem(item)}</Fragment>) : getMenuItem(navData[0])}
       </div>
       <div className="pb-1 flex items-center">{userMenu}</div>
