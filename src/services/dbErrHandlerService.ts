@@ -1,16 +1,14 @@
 import { Prisma } from '@prisma/client'
 
+import { dbErrorList } from '@/utils/constants'
+
 const { PrismaClientKnownRequestError } = Prisma
 
 export default (error: unknown): { error: string } => {
-  console.log({ ...(error as Error) })
-
-  let err
+  console.error({ ...(error as Error) })
 
   if (error instanceof PrismaClientKnownRequestError) {
-    err = { ...error }
-
-    if (err.code === 'P2002') return { error: 'This email already exists!' }
+    return { error: dbErrorList.find(item => item.code === error.code)?.message as string }
   }
 
   return { error: 'Something went wrong...' }

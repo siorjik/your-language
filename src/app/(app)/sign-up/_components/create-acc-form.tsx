@@ -8,7 +8,7 @@ import Form from '@/components/simple-form'
 import { createAccFormTypeSchema } from '@/types/forms/auth'
 import { createAcc } from '@/actions/auth'
 import { useToast } from '@/hooks/use-toast'
-import { loginAppPath } from '@/utils/paths'
+import { signInAppPath } from '@/utils/paths'
 
 export default function CreateAccountForm() {
   const { toast } = useToast()
@@ -23,6 +23,7 @@ export default function CreateAccountForm() {
     } else {
       toast({
         title: 'Account Creation',
+        duration: 7000,
         description: 'Your account was created successfully! Check your email to create password and finish registration.',
       })
 
@@ -51,7 +52,7 @@ export default function CreateAccountForm() {
           Home
         </Link>{' '}
         or{' '}
-        <Link className="link" href={loginAppPath}>
+        <Link className="link" href={signInAppPath}>
           Sign In
         </Link>{' '}
         page

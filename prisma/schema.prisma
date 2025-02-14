@@ -15,6 +15,7 @@ model User {
   role      String   @default("user")
   isActive  Boolean  @default(false)
   isTwoFa   Boolean  @default(false)
+  image     String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

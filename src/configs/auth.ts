@@ -4,6 +4,8 @@ import { z } from 'zod'
 
 import { login } from '@/actions/auth'
 import { loginFormTypeSchema } from '@/types/forms/auth'
+import { signInAppPath } from '@/utils/paths'
+import { SelectedUser } from '@/types/models/user'
 
 class InvalidLoginError extends CredentialsSignin {
   code = 'Invalid credentials...'
@@ -31,7 +33,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       authorize: async (credentials) => {
         const { email, password } = credentials
 
-        const user = await login({ email, password } as z.infer<typeof loginFormTypeSchema>)
+        const user: SelectedUser | null | { error: string } =
+          await login({ email, password } as z.infer<typeof loginFormTypeSchema>)
 
         if (!user || 'error' in user) throw new InvalidLoginError()
 
@@ -46,7 +49,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
 
     session: ({ session, token }) => {
-      session.user = { id: '', emailVerified: new Date(), name: token.name!, email: token.email!, image: null }
+      session.user = { id: '', emailVerified: new Date(), name: token.name!, email: token.email!, image: token.picture }
 
       return session
     },
@@ -56,5 +59,5 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   session: { strategy: 'jwt', maxAge: 60 },
   secret: process.env.NEXTAUTH_SECRET,
 
-  pages: { signIn: '/login' },
+  pages: { signIn: signInAppPath },
 })
