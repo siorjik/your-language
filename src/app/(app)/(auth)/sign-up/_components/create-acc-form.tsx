@@ -9,25 +9,38 @@ import { createAccFormTypeSchema } from '@/types/forms/auth'
 import { createAcc } from '@/actions/auth'
 import { useToast } from '@/hooks/use-toast'
 import { signInAppPath } from '@/utils/paths'
+import { SelectedUser } from '@/types/models/user'
+import { Err } from '@/types/errTypes'
+import apiRequestService from '@/services/apiRequestService'
 
 export default function CreateAccountForm() {
   const { toast } = useToast()
 
-  const submit = async (data: z.infer<typeof createAccFormTypeSchema>) => {
-    const res = await createAcc(data)
+  const submit = async (data: z.infer<typeof createAccFormTypeSchema>): Promise<boolean> => {
+    try {
+      const res: SelectedUser | Err = await createAcc(data)
 
-    if ('error' in res) {
-      toast({ variant: 'destructive', title: 'Account Creation Error', description: res.error })
+      if (!('error' in res)) {
+        await apiRequestService<{ success: boolean }>({
+          url: '/api/email/create-pass',
+          method: 'POST',
+          body: { email: res.email, name: res.name },
+        })
 
-      return false
-    } else {
-      toast({
-        title: 'Account Creation',
-        duration: 7000,
-        description: 'Your account was created successfully! Check your email to create password and finish registration.',
-      })
+        toast({
+          title: 'Account Creation',
+          duration: 7000,
+          description: 'Your account was created successfully! Check your email to create password and finish registration.',
+        })
+      } else throw res
 
       return true
+    } catch (error) {
+      const err = error as Err
+
+      toast({ variant: 'destructive', title: 'Account Creation Error', description: err.error.message })
+
+      return false
     }
   }
 

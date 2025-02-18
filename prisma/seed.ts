@@ -11,11 +11,23 @@ async function main() {
       name: 'admin',
       role: 'admin',
       isActive: true,
-      password: '12345'
+      password: '$2b$10$pPr4wTNfosXBCV2sH9vMGerAXuxL.lxk2TY3uCeCh.xxPL3qBBNHC'
     },
   })
 
-  console.log({ admin })
+  const test = await prisma.user.upsert({
+    where: { email: 'test@test.com' },
+    update: {},
+    create: {
+      email: 'test@test.com',
+      name: 'test',
+      role: 'user',
+      isActive: true,
+      password: '$2b$10$pPr4wTNfosXBCV2sH9vMGerAXuxL.lxk2TY3uCeCh.xxPL3qBBNHC'
+    },
+  })
+
+  console.log({ admin, test })
 }
 
 main()
