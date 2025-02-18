@@ -56,17 +56,18 @@ export default function Navbar() {
       <NavigationMenuList className="h-[20px]">
         <NavigationMenuItem>
           <NavigationMenuTrigger className="px-0 bg-stone-50 dark:bg-stone-900">
-            {
-              !session.user.image ? <Settings className="text-gray-500 dark:text-foreground" /> :
-                <Image
-                  className='h-[30px] w-[30px] rounded-full object-cover'
-                  src={session.user.image}
-                  width={30}
-                  height={30}
-                  alt='image'
-                  priority
-                />
-            }
+            {!session.user.image ? (
+              <Settings className="text-gray-500 dark:text-foreground" />
+            ) : (
+              <Image
+                className="h-[30px] w-[30px] rounded-full object-cover"
+                src={session.user.image}
+                width={30}
+                height={30}
+                alt="image"
+                priority
+              />
+            )}
           </NavigationMenuTrigger>
           <NavigationMenuContent className="p-3 flex flex-col gap-3 text-current">
             <NavigationMenuLink asChild>
@@ -103,8 +104,8 @@ export default function Navbar() {
   return (
     <nav className="flex justify-between">
       <div className="flex gap-2">
-        <Link href='/'>
-          <Image className='h-[30px] w-[30px] mr-10' src={logo} alt='logo' placeholder='blur' priority />
+        <Link href="/">
+          <Image className="h-[30px] w-[30px] mr-10 rounded-full" src={logo} alt="logo" placeholder="blur" priority />
         </Link>
         {isAuth ? navData.map((item, idx) => <Fragment key={idx}>{getMenuItem(item)}</Fragment>) : getMenuItem(navData[0])}
       </div>

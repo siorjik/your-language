@@ -6,6 +6,7 @@ import { login } from '@/actions/auth'
 import { loginFormTypeSchema } from '@/types/forms/auth'
 import { signInAppPath } from '@/utils/paths'
 import { SelectedUser } from '@/types/models/user'
+import { Err } from '@/types/errTypes'
 
 class InvalidLoginError extends CredentialsSignin {
   code = 'Invalid credentials...'
@@ -33,8 +34,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       authorize: async (credentials) => {
         const { email, password } = credentials
 
-        const user: SelectedUser | null | { error: string } =
-          await login({ email, password } as z.infer<typeof loginFormTypeSchema>)
+        const user: SelectedUser | null | Err = await login({ email, password } as z.infer<typeof loginFormTypeSchema>)
 
         if (!user || 'error' in user) throw new InvalidLoginError()
 

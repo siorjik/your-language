@@ -13,7 +13,7 @@ import { signUpAppPath } from '@/utils/paths'
 export default function LoginForm() {
   const { toast } = useToast()
 
-  const onSubmit = async (values: z.infer<typeof loginFormTypeSchema>) => {
+  const onSubmit = async (values: z.infer<typeof loginFormTypeSchema>): Promise<boolean> => {
     const res = await signIn('credentials', { ...values, redirect: false })
 
     if (!res?.error) {

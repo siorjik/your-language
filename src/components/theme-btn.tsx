@@ -23,9 +23,9 @@ export default function ThemeBtn() {
           onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
         >
           {mode === 'light' ? (
-            <Moon className="text-gray-500 dark:text-foreground" size={20} />
+            <Moon className="text-gray-500 dark:text-foreground" />
           ) : (
-            <Sun className="text-gray-500 dark:text-foreground" size={20} />
+            <Sun className="text-gray-500 dark:text-foreground" />
           )}
         </button>
       )}
