@@ -11,6 +11,8 @@ import { Err } from '@/types/errTypes'
 import { verifyToken } from '@/services/jwtService'
 import errHandlerService from '@/services/errHandlerService'
 
+const registrationTime = 1000 * 60 * 3 // 3 mins
+
 export const login = async (data: z.infer<typeof loginFormTypeSchema>): Promise<SelectedUser | null | Err> => {
   const { email, password } = data
 
@@ -31,10 +33,20 @@ export const login = async (data: z.infer<typeof loginFormTypeSchema>): Promise<
   }
 }
 
+const deleteInactiveUsers = async () => {
+  const lte = new Date(+new Date() - registrationTime).toISOString()
+
+  await prisma.user.deleteMany({ where: { password: null, isActive: false, createdAt: { lte } } })
+}
+
 export const createAcc = async (data: z.infer<typeof createAccFormTypeSchema>): Promise<SelectedUser | Err> => {
   const { email, name } = data
 
   try {
+    await deleteInactiveUsers()
+
+    await prisma.user.deleteMany({ where: { AND: [{ email }, { password: null }] } }) // delete inactive acc with the same email
+
     const user = await prisma.user.create({ data: { email, name }, omit: { password: true } })
 
     if (user) return user
@@ -61,7 +73,7 @@ export const createPass = async (data: z.infer<typeof createPassActionTypeSchema
 
         return await prisma.user.update({ data: { password: hash, isActive: true }, where: { email }, omit: { password: true } })
       } else throw Error('User already have password!')
-    } else throw Error('Email error in token!')
+    } else throw Error('Token error!')
   } catch (error) {
     return errHandlerService(error)
   }

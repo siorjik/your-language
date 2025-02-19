@@ -11,14 +11,14 @@ import { SelectedUser } from '@/types/models/user'
 import { Err } from '@/types/errTypes'
 import { signInAppPath } from '@/utils/paths'
 
-export default function CreatePassword({ token }: { token: string | '' }) {
+export default function CreatePasswordForm({ token }: { token: string | '' }) {
   const { toast } = useToast()
 
   const onSubmit = async (values: z.infer<typeof createPassFormTypeSchema>): Promise<boolean> => {
     const res: SelectedUser | Err = await createPass({ password: values.password, token })
 
     if (!('error' in res)) {
-      toast({ title: 'Password Creating Success', description: 'Password was created successfully!' })
+      toast({ title: 'Password Creating Success', description: 'Password was created successfully! Redirect to login page...' })
 
       setTimeout(() => (window.location.href = signInAppPath), 3000)
 
