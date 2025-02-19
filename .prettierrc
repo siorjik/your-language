@@ -3,5 +3,6 @@
   "singleQuote": true,
   "printWidth": 130,
   "singleAttributePerLine": false,
-  "objectWrap": "collapse"
+  "objectWrap": "collapse",
+  "endOfLine": "lf"
 }
