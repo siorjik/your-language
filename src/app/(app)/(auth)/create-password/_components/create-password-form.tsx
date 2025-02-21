@@ -2,7 +2,7 @@
 
 import z from 'zod'
 
-import Form from '@/components/simple-form'
+import Form from '@/components/forms/simple-form'
 
 import { createPassFormTypeSchema } from '@/types/forms/auth'
 import { useToast } from '@/hooks/use-toast'
@@ -37,7 +37,13 @@ export default function CreatePasswordForm({ token }: { token: string | '' }) {
 
   return (
     <div className="w-full max-w-[350px]">
-      <Form submit={onSubmit} schema={createPassFormTypeSchema} fieldsData={fieldsData} btnText="Login" showSpinner />
+      <Form
+        submit={onSubmit}
+        schema={createPassFormTypeSchema}
+        fieldsData={fieldsData}
+        btn={{ text: 'Create Password' }}
+        showSpinner
+      />
     </div>
   )
 }

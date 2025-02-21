@@ -8,13 +8,13 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import Spinner from './spinner'
+import Spinner from '../spinner'
 
 type FieldsDataType = { name: string; label: string; type?: string }[]
 type SimpleFormPropsType = {
   submit: (data: z.infer<ZodSchema>) => Promise<boolean>
   fieldsData: FieldsDataType
-  btnText?: string
+  btn?: { text?: string; css?: string }
   data?: z.infer<ZodSchema>
   schema: ZodSchema
   showSpinner?: boolean
@@ -29,7 +29,7 @@ export default function SimpleForm(props: SimpleFormPropsType) {
   const {
     submit,
     fieldsData,
-    btnText,
+    btn,
     data = null,
     showSpinner = false,
     schema,
@@ -63,7 +63,7 @@ export default function SimpleForm(props: SimpleFormPropsType) {
     if (isDisabled && !isSubmitted) reset()
   }, [isDisabled])
 
-  const onSubmit = async (values: z.infer<typeof schema>) => {
+  const onSubmit = async (values: z.infer<typeof schema>): Promise<void> => {
     setErr(() => false)
 
     try {
@@ -111,11 +111,9 @@ export default function SimpleForm(props: SimpleFormPropsType) {
             )
           })}
           {((!isDisabled && Object.keys(dirtyFields).length > 0) || isErr) && (
-            <div className="flex justify-center">
-              <Button className="w-full" type="submit">
-                {btnText || 'Submit'}
-              </Button>
-            </div>
+            <Button className={`${btn?.css || 'w-full'}`} type="submit">
+              {btn?.text || 'Submit'}
+            </Button>
           )}
         </form>
       </Form>

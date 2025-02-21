@@ -3,7 +3,7 @@
 import z from 'zod'
 import Link from 'next/link'
 
-import Form from '@/components/simple-form'
+import Form from '@/components/forms/simple-form'
 
 import { createAccFormTypeSchema } from '@/types/forms/auth'
 import { createAcc } from '@/actions/auth'
@@ -55,7 +55,7 @@ export default function CreateAccountForm() {
         submit={submit}
         schema={createAccFormTypeSchema}
         fieldsData={fieldData}
-        btnText="Create Account"
+        btn={{ text: 'Create Account' }}
         showSpinner
         isReset
       />
