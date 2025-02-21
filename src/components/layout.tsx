@@ -1,16 +1,23 @@
 'use client'
 
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
+import { usePathname } from 'next/navigation'
 
 import ThemeBtn from './theme-btn'
 import Navbar from './navbar'
 import Spinner from './spinner'
 
 export default function Layout({ children }: { children: ReactNode }) {
-  const { status } = useSession()
+  const { status, data: session } = useSession()
+  const pathname = usePathname()
 
   const isLoadingSession = status === 'loading'
+  const isSession = !!session
+
+  useEffect(() => {
+    if (!isLoadingSession && !isSession && pathname !== '/') window.location.href = '/' // redirect if session expired
+  }, [isSession, isLoadingSession])
 
   return (
     <div className="main-wrap">

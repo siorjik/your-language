@@ -4,7 +4,7 @@ import { signIn } from 'next-auth/react'
 import z from 'zod'
 import Link from 'next/link'
 
-import Form from '@/components/simple-form'
+import Form from '@/components/forms/simple-form'
 
 import { loginFormTypeSchema } from '@/types/forms/auth'
 import { useToast } from '@/hooks/use-toast'
@@ -34,7 +34,7 @@ export default function LoginForm() {
 
   return (
     <div className="w-full max-w-[350px]">
-      <Form submit={onSubmit} schema={loginFormTypeSchema} fieldsData={fieldsData} btnText="Login" showSpinner />
+      <Form submit={onSubmit} schema={loginFormTypeSchema} fieldsData={fieldsData} btn={{ text: 'Login' }} showSpinner />
       <div className="mt-8 w-fit mx-auto">
         Go to{' '}
         <Link className="link" href="/">

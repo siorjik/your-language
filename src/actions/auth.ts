@@ -1,7 +1,6 @@
 'use server'
 
 import z from 'zod'
-import bcrypt from 'bcryptjs'
 
 import { SelectedUser } from '@/types/models/user'
 import { loginFormTypeSchema, createAccFormTypeSchema, createPassActionTypeSchema } from '@/types/forms/auth'
@@ -10,6 +9,7 @@ import dbErrHandlerService from '@/services/errHandlerService/dbErrHandlerServic
 import { Err } from '@/types/errTypes'
 import { verifyToken } from '@/services/jwtService'
 import errHandlerService from '@/services/errHandlerService'
+import { encode, isVerifiedStr } from '@/services/cryptoService'
 
 const registrationTime = 1000 * 60 * 3 // 3 mins
 
@@ -20,7 +20,7 @@ export const login = async (data: z.infer<typeof loginFormTypeSchema>): Promise<
     const user = await prisma.user.findFirst({ where: { email } })
 
     if (user && user.password) {
-      const isVerifiedPass = await bcrypt.compare(password, user?.password as string)
+      const isVerifiedPass = await isVerifiedStr(password, user?.password as string)
 
       if (isVerifiedPass) {
         delete (user as SelectedUser & { password?: string }).password
@@ -68,8 +68,7 @@ export const createPass = async (data: z.infer<typeof createPassActionTypeSchema
       const user = await prisma.user.findFirst({ where: { email } })
 
       if (!user?.password && !user?.isActive) {
-        const salt = bcrypt.genSaltSync(10)
-        const hash = bcrypt.hashSync(password, salt)
+        const hash = encode(password)
 
         return await prisma.user.update({ data: { password: hash, isActive: true }, where: { email }, omit: { password: true } })
       } else throw Error('User already have password!')
