@@ -12,8 +12,10 @@ export default async () => {
     })) as JWT & SelectedUser
 
     if (session?.id) return session
-    else throw Error('You are not authorized or session was expired!')
+    else throw Error('You are not authorized!')
   } catch (error) {
+    console.log('error in getServerSessionToken - ', error)
+
     throw error
   }
 }

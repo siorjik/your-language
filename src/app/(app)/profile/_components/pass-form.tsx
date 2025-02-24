@@ -1,6 +1,7 @@
 'use client'
 
 import z from 'zod'
+import { getSession } from 'next-auth/react'
 
 import Form from '@/components/forms/simple-form'
 
@@ -13,10 +14,12 @@ export default function EditAccountForm() {
   const { toast } = useToast()
 
   const submit = async (data: z.infer<typeof changePassFormTypeSchema>): Promise<boolean> => {
-    const res: { success: true } | Err = await updatePass(data)
+    await getSession()
 
-    if (!('error' in res)) {
-      toast({ title: 'Password Updating', description: 'Your password was updated successfully!' })
+    const res: { success: true; error: null } | Err = await updatePass(data)
+
+    if (res && !res?.error) {
+      toast({ title: 'Password Updating', variant: 'success', description: 'Your password was updated successfully!' })
 
       return true
     } else {

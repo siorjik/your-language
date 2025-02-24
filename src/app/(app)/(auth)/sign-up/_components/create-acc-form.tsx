@@ -20,7 +20,7 @@ export default function CreateAccountForm() {
     try {
       const res: SelectedUser | Err = await createAcc(data)
 
-      if (!('error' in res)) {
+      if (res && !res?.error) {
         await apiRequestService<{ success: boolean }>({
           url: '/api/email/create-pass',
           method: 'POST',

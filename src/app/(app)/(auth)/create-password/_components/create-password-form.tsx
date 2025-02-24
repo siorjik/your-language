@@ -17,7 +17,7 @@ export default function CreatePasswordForm({ token }: { token: string | '' }) {
   const onSubmit = async (values: z.infer<typeof createPassFormTypeSchema>): Promise<boolean> => {
     const res: SelectedUser | Err = await createPass({ password: values.password, token })
 
-    if (!('error' in res)) {
+    if (res && !res.error) {
       toast({ title: 'Password Creating Success', description: 'Password was created successfully! Redirect to login page...' })
 
       setTimeout(() => (window.location.href = signInAppPath), 3000)

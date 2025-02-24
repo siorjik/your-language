@@ -16,12 +16,12 @@ export default function LoginForm() {
   const onSubmit = async (values: z.infer<typeof loginFormTypeSchema>): Promise<boolean> => {
     const res = await signIn('credentials', { ...values, redirect: false })
 
-    if (!res?.error) {
+    if (res && !res?.error) {
       window.location.href = '/'
 
       return true
     } else {
-      toast({ variant: 'destructive', title: 'Login Error', description: res.code })
+      toast({ variant: 'destructive', title: 'Login Error', description: res?.code })
 
       return false
     }
