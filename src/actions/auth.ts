@@ -25,7 +25,7 @@ export const login = async (data: z.infer<typeof loginFormTypeSchema>): Promise<
       if (isVerifiedPass) {
         delete (user as SelectedUser & { password?: string }).password
 
-        return user
+        return { ...user, error: null }
       } else return null
     } else return null
   } catch (error) {
@@ -49,7 +49,7 @@ export const createAcc = async (data: z.infer<typeof createAccFormTypeSchema>): 
 
     const user = await prisma.user.create({ data: { email, name }, omit: { password: true } })
 
-    if (user) return user
+    if (user) return { ...user, error: null }
 
     return { error: { message: 'Creation user error...' } }
   } catch (error) {
@@ -70,7 +70,10 @@ export const createPass = async (data: z.infer<typeof createPassActionTypeSchema
       if (!user?.password && !user?.isActive) {
         const hash = encode(password)
 
-        return await prisma.user.update({ data: { password: hash, isActive: true }, where: { email }, omit: { password: true } })
+        return {
+          ...(await prisma.user.update({ data: { password: hash, isActive: true }, where: { email }, omit: { password: true } })),
+          error: null,
+        }
       } else throw Error('User already have password!')
     } else throw Error('Token error!')
   } catch (error) {

@@ -16,13 +16,18 @@ export const updateAcc = async (data: z.infer<typeof updateAccFormTypeSchema>): 
   try {
     const session = await getServerSessionToken()
 
-    return await prisma.user.update({ where: { id: session.id }, data: { email, name }, omit: { password: true } })
+    return {
+      ...(await prisma.user.update({ where: { id: session.id }, data: { email, name }, omit: { password: true } })),
+      error: null,
+    }
   } catch (error) {
     return errHandlerService(error)
   }
 }
 
-export const updatePass = async (data: z.infer<typeof changePassFormTypeSchema>): Promise<{ success: true } | Err> => {
+export const updatePass = async (
+  data: z.infer<typeof changePassFormTypeSchema>,
+): Promise<{ success: true; error: null } | Err> => {
   try {
     const session = await getServerSessionToken()
 
@@ -35,7 +40,7 @@ export const updatePass = async (data: z.infer<typeof changePassFormTypeSchema>)
 
       await prisma.user.update({ where: { id: session.id }, data: { password: hash } })
 
-      return { success: true }
+      return { success: true, error: null }
     } else throw Error('Invalid password...')
   } catch (error) {
     return errHandlerService(error)

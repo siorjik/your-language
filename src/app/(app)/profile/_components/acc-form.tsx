@@ -1,7 +1,7 @@
 'use client'
 
 import z from 'zod'
-import { useSession } from 'next-auth/react'
+import { useSession, getSession } from 'next-auth/react'
 
 import Form from '@/components/forms/simple-form'
 
@@ -16,16 +16,23 @@ export default function EditAccountForm() {
   const { data: session, update } = useSession()
 
   const submit = async (data: z.infer<typeof updateAccFormTypeSchema>): Promise<boolean> => {
+    await getSession()
+
     const res: SelectedUser | Err = await updateAcc(data)
 
-    if (!('error' in res)) {
-      toast({ title: 'Account Updating', description: 'Your account was updated successfully!' })
+    if (res && !res?.error) {
+      toast({
+        title: 'Account Updating',
+        color: 'bg-green-300',
+        variant: 'success',
+        description: 'Your account was updated successfully!',
+      })
 
       update({ ...data })
 
       return true
     } else {
-      toast({ variant: 'destructive', title: 'Account Updating Error', description: res.error.message })
+      toast({ variant: 'destructive', title: 'Account Updating Error', description: res?.error?.message })
 
       return false
     }

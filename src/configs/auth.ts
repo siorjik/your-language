@@ -36,7 +36,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         const user: SelectedUser | null | Err = await login({ email, password } as z.infer<typeof loginFormTypeSchema>)
 
-        if (!user || 'error' in user) throw new InvalidLoginError()
+        if (!user || user.error) throw new InvalidLoginError()
 
         return user
       },
