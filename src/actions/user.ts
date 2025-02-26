@@ -6,7 +6,7 @@ import getServerSessionToken from '@/helpers/getServerSessionToken'
 import { prisma } from '@/lib/prisma'
 import errHandlerService from '@/services/errHandlerService'
 import { Err } from '@/types/errTypes'
-import { updateAccFormTypeSchema, changePassFormTypeSchema } from '@/types/forms/user'
+import { updateAccFormTypeSchema, changePassFormTypeSchema, updateAccImageFormTypeSchema } from '@/types/forms/user'
 import { SelectedUser } from '@/types/models/user'
 import { encode, isVerifiedStr } from '@/services/cryptoService'
 
@@ -42,6 +42,21 @@ export const updatePass = async (
 
       return { success: true, error: null }
     } else throw Error('Invalid password...')
+  } catch (error) {
+    return errHandlerService(error)
+  }
+}
+
+export const updateAccImage = async (data: z.infer<typeof updateAccImageFormTypeSchema>): Promise<SelectedUser | Err> => {
+  const { image } = data
+
+  try {
+    const session = await getServerSessionToken()
+
+    return {
+      ...(await prisma.user.update({ where: { id: session.id }, data: { image }, omit: { password: true } })),
+      error: null,
+    }
   } catch (error) {
     return errHandlerService(error)
   }

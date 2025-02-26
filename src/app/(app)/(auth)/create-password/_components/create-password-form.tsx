@@ -18,7 +18,11 @@ export default function CreatePasswordForm({ token }: { token: string | '' }) {
     const res: SelectedUser | Err = await createPass({ password: values.password, token })
 
     if (res && !res.error) {
-      toast({ title: 'Password Creating Success', description: 'Password was created successfully! Redirect to login page...' })
+      toast({
+        title: 'Password Creating Success',
+        variant: 'success',
+        description: 'Password was created successfully! Redirect to login page...',
+      })
 
       setTimeout(() => (window.location.href = signInAppPath), 3000)
 
@@ -43,6 +47,7 @@ export default function CreatePasswordForm({ token }: { token: string | '' }) {
         fieldsData={fieldsData}
         btn={{ text: 'Create Password' }}
         showSpinner
+        isReset
       />
     </div>
   )

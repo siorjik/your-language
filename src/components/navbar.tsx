@@ -20,14 +20,18 @@ import ThemeBtn from './theme-btn'
 import logo from '@/../public/logo.png'
 
 import { signInAppPath, signUpAppPath, profileAppPath } from '@/utils/paths'
+import useFileStorage from '@/hooks/useFileStorage'
 
 export default function Navbar() {
   const pathname = usePathname()
   const { data: session } = useSession()
+  const { getAuthUrl } = useFileStorage()
 
   const isAuth = !!session
 
   const logOut = async () => {
+    if (window.localStorage.getItem('tab')) window.localStorage.removeItem('tab')
+
     await signOut({ redirectTo: '/' })
   }
 
@@ -42,7 +46,7 @@ export default function Navbar() {
       <Link
         className={`
           px-2 border-b-[3px] border-transparent font-semibold hover:border-stone-300
-          dark:hover:border-stone-500 ${css} relative top-[8px] pb-4
+          dark:hover:border-stone-500 relative top-[8px] pb-[17px] ${css}
         `}
         href={path}
       >
@@ -53,15 +57,15 @@ export default function Navbar() {
 
   const userMenu = session?.user ? (
     <NavigationMenu>
-      <NavigationMenuList className="h-[20px]">
+      <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuTrigger className="px-0 bg-stone-50 dark:bg-stone-900">
             {!session.user.image ? (
               <Settings className="text-gray-500 dark:text-foreground" />
             ) : (
               <Image
-                className="h-[30px] w-[30px] rounded-full object-cover"
-                src={session.user.image}
+                className="h-[40px] w-[40px] rounded-full object-cover"
+                src={getAuthUrl(session.user.image)}
                 width={30}
                 height={30}
                 alt="image"
@@ -103,13 +107,13 @@ export default function Navbar() {
 
   return (
     <nav className="flex justify-between">
-      <div className="flex gap-2">
+      <div className="flex gap-2 items-center">
         <Link href="/">
-          <Image className="h-[30px] w-[30px] mr-10 rounded-full" src={logo} alt="logo" placeholder="blur" priority />
+          <Image className="h-[40px] w-[40px] mr-10 relative bottom-[1px]" src={logo} alt="logo" placeholder="blur" priority />
         </Link>
         {isAuth ? navData.map((item, idx) => <Fragment key={idx}>{getMenuItem(item)}</Fragment>) : getMenuItem(navData[0])}
       </div>
-      <div className="pb-1 flex items-center">{userMenu}</div>
+      <div className="flex items-center">{userMenu}</div>
     </nav>
   )
 }

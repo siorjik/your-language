@@ -7,23 +7,16 @@ import { loginFormTypeSchema } from '@/types/forms/auth'
 import { signInAppPath } from '@/utils/paths'
 import { SelectedUser } from '@/types/models/user'
 import { Err } from '@/types/errTypes'
+import FileStorageService from '@/services/fileStorageService'
 
 class InvalidLoginError extends CredentialsSignin {
   code = 'Invalid credentials...'
 }
 
+const fileStorage = new FileStorageService()
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  logger: {
-    error(code, ...message) {
-      console.error({ code, message })
-    },
-    warn(code, ...message) {
-      console.warn(code, ...message)
-    },
-    debug(code, ...message) {
-      console.debug(code, ...message)
-    },
-  },
+  adapter: {},
   providers: [
     Credentials({
       name: 'credentials',
@@ -44,20 +37,34 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ],
 
   callbacks: {
-    jwt: ({ token, user, session }) => {
+    jwt: async ({ token, user, session }) => {
       return { ...token, ...user, ...session }
     },
 
-    session: ({ session, token }) => {
-      session.user = { id: '', emailVerified: new Date(), name: token.name!, email: token.email!, image: token.picture }
+    session: async ({ session, token }) => {
+      session.user = { id: '', emailVerified: new Date(), name: token.name!, email: token.email!, image: token.image as string }
 
-      return session
+      const fileStorageAuthData = await fileStorage.authorize()
+
+      return { ...session, fileStorageAuth: fileStorageAuthData.authToken }
     },
   },
 
   trustHost: true,
-  session: { strategy: 'jwt', maxAge: 60 },
+  session: { strategy: 'jwt', maxAge: 60 * 60, updateAge: 60 * 10 },
   secret: process.env.NEXTAUTH_SECRET,
 
   pages: { signIn: signInAppPath },
+
+  // logger: {
+  //   error(code, ...message) {
+  //     console.error({ code, message })
+  //   },
+  //   warn(code, ...message) {
+  //     console.warn(code, ...message)
+  //   },
+  //   debug(code, ...message) {
+  //     console.debug(code, ...message)
+  //   },
+  // },
 })

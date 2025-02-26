@@ -25,7 +25,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         <Spinner />
       ) : (
         <>
-          <header className="w-full h-[55px] px-5 md:px-8 py-3 flex items-center fixed top-0 bg-stone-50 dark:bg-stone-900">
+          <header className="w-full h-[55px] px-5 md:px-8 py-2 flex items-center fixed top-0 bg-stone-50 dark:bg-stone-900">
             <div className="w-full m-auto max-w-7xl text-gray-500 dark:text-foreground">
               <Navbar />
             </div>

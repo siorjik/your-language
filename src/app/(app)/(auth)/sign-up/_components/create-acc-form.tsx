@@ -22,7 +22,7 @@ export default function CreateAccountForm() {
 
       if (res && !res?.error) {
         await apiRequestService<{ success: boolean }>({
-          url: '/api/email/create-pass',
+          url: '/api/emails/create-pass',
           method: 'POST',
           body: { email: res.email, name: res.name },
         })
@@ -30,6 +30,7 @@ export default function CreateAccountForm() {
         toast({
           title: 'Account Creation',
           duration: 7000,
+          variant: 'success',
           description: 'Your account was created successfully! Check your email to create password and finish registration.',
         })
       } else throw res
