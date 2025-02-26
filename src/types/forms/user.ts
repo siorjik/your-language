@@ -9,3 +9,5 @@ export const changePassFormTypeSchema = z.object({
   currentPass: z.string().min(1, { message: 'Password is required' }),
   newPass: z.string().min(5, { message: 'New password length must be at least 5' }),
 })
+
+export const updateAccImageFormTypeSchema = z.object({ image: z.string().min(1, { message: 'Image is required' }) })

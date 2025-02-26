@@ -15,16 +15,16 @@ export const sendCreatePassMail = async ({ to, token, name }: { to: string; toke
       subject: 'Password creation.',
       html: `
         <p>Hello ${name}, you need to create password for your account.</p>
-        <a href='${process.env.CLIENT_HOST}/create-password?token=${token}'>
+        <a href='${process.env.NEXT_PUBLIC_APP_HOST}/create-password?token=${token}'>
           Link for password creating
         </a>
         <p>This link will be expired in 30 minutes.</p>
       `,
     })
 
-    console.log(result)
+    console.log('email sending result - ', result)
   } catch (error) {
-    console.log('sendCreatePassMail - ', error)
+    console.log('sendCreatePassMail error - ', error)
 
     throw error
   }
