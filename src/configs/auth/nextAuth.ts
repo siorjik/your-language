@@ -1,0 +1,46 @@
+import type { NextAuthConfig } from 'next-auth'
+import { CredentialsSignin } from 'next-auth'
+import Credentials from 'next-auth/providers/credentials'
+import z from 'zod'
+
+import { SelectedUser } from '@/types/models/user'
+import { Err } from '@/types/errTypes'
+import { login } from '@/actions/auth'
+import { loginFormTypeSchema } from '@/types/forms/auth'
+import { prisma } from '@/lib/prisma'
+
+class InvalidLoginError extends CredentialsSignin {
+  code = 'Invalid credentials...'
+}
+
+export default {
+  providers: [
+    Credentials({
+      name: 'credentials',
+      credentials: {
+        email: { label: 'Email', type: 'text', required: true },
+        password: { label: 'Password', type: 'password', required: true },
+      },
+      authorize: async (credentials) => {
+        const { email, password } = credentials
+
+        const user: SelectedUser | null | Err = await login({ email, password } as z.infer<typeof loginFormTypeSchema>)
+
+        if (!user || user.error) throw new InvalidLoginError()
+
+        const expires = new Date(Date.now() + (1000 * 60 * 60)) // 60 mins session expiration
+
+        // create session manually for credentials
+        const session = await prisma.session.create({
+          data: {
+            userId: user.id,
+            sessionToken: crypto.randomUUID(),
+            expires: expires
+          }
+        })
+
+        return { ...user, sessionToken: session.sessionToken, expires }
+      },
+    }),
+  ]
+} satisfies NextAuthConfig
