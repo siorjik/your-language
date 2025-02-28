@@ -1,5 +1,7 @@
 import type { NextAuthConfig } from 'next-auth'
 import { CredentialsSignin } from 'next-auth'
+import GoogleProvider from 'next-auth/providers/google'
+import GithubProvider from 'next-auth/providers/github'
 import Credentials from 'next-auth/providers/credentials'
 import z from 'zod'
 
@@ -15,6 +17,8 @@ class InvalidLoginError extends CredentialsSignin {
 
 export default {
   providers: [
+    GithubProvider({ allowDangerousEmailAccountLinking: true }),
+    GoogleProvider({ allowDangerousEmailAccountLinking: true }),
     Credentials({
       name: 'credentials',
       credentials: {
@@ -28,19 +32,16 @@ export default {
 
         if (!user || user.error) throw new InvalidLoginError()
 
-        const expires = new Date(Date.now() + (1000 * 60 * 60)) // 60 mins session expiration
+        const expires = new Date(Date.now() + 1000 * 60 * 60) // 60 mins session expiration
 
         // create session manually for credentials
         const session = await prisma.session.create({
-          data: {
-            userId: user.id,
-            sessionToken: crypto.randomUUID(),
-            expires: expires
-          }
+          data: { userId: user.id, sessionToken: crypto.randomUUID(), expires: expires },
         })
 
         return { ...user, sessionToken: session.sessionToken, expires }
       },
     }),
-  ]
+  ],
+  trustHost: true,
 } satisfies NextAuthConfig

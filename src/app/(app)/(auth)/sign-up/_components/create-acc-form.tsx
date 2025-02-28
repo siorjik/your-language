@@ -4,6 +4,7 @@ import z from 'zod'
 import Link from 'next/link'
 
 import Form from '@/components/forms/simple-form'
+import OAuthBlock from '@/components/oauth-block'
 
 import { createAccFormTypeSchema } from '@/types/forms/auth'
 import { createAcc } from '@/actions/auth'
@@ -60,6 +61,9 @@ export default function CreateAccountForm() {
         showSpinner
         isReset
       />
+      <div className="mt-5">
+        <OAuthBlock action="Sign Up" />
+      </div>
       <div className="mt-8 w-fit mx-auto">
         Go to{' '}
         <Link className="link" href="/">

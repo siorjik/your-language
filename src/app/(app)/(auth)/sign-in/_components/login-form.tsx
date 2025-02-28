@@ -5,6 +5,7 @@ import z from 'zod'
 import Link from 'next/link'
 
 import Form from '@/components/forms/simple-form'
+import OAuthBlock from '@/components/oauth-block'
 
 import { loginFormTypeSchema } from '@/types/forms/auth'
 import { useToast } from '@/hooks/use-toast'
@@ -35,6 +36,9 @@ export default function LoginForm() {
   return (
     <div className="w-full max-w-[350px]">
       <Form submit={onSubmit} schema={loginFormTypeSchema} fieldsData={fieldsData} btn={{ text: 'Login' }} showSpinner />
+      <div className="mt-5">
+        <OAuthBlock action="Sign In" />
+      </div>
       <div className="mt-8 w-fit mx-auto">
         Go to{' '}
         <Link className="link" href="/">

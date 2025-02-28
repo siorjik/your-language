@@ -8,25 +8,29 @@ import authConfig from './nextAuth'
 
 const fileStorage = new FileStorageService()
 
+export const nextAuthConfig = authConfig
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
-  ...authConfig,
+  ...nextAuthConfig,
   callbacks: {
-    jwt: async ({ token, user, session }) => {
-      // reset token data from db session if credentials
-      token.exp = +new Date(token.expires as string) / 1000
-      token.jti = token.sessionToken as string
+    jwt: async ({ token, user, session, profile }) => {
+      if (!profile && !token.isProfile) {
+        // reset token data from db session if credentials
+        token.exp = +new Date(token.expires as string) / 1000
+        token.jti = token.sessionToken as string
 
-      // check if session exists in db
-      const dbSession = await prisma.session.findFirst({ where: { sessionToken: token.sessionToken as string } })
-      if (!dbSession) return null
+        // check if session exists in db
+        const dbSession = await prisma.session.findFirst({ where: { sessionToken: token.sessionToken as string } })
+        if (!dbSession) return null
 
-      // check token expiration
-      if ((Date.now() / 1000) > token.exp!) {
-        await prisma.session.delete({ where: { sessionToken: token.sessionToken as string } })
+        // check token expiration
+        if ((Date.now() / 1000) > token.exp!) {
+          await prisma.session.delete({ where: { sessionToken: token.sessionToken as string } })
 
-        return null
-      }
+          return null
+        }
+      } else token.isProfile = true
 
       return { ...token, ...user, ...session }
     },
@@ -44,12 +48,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     signOut: async (params) => {
       // manually delete session if credentials
       if ('token' in params) {
-        await prisma.session.delete({ where: { sessionToken: params?.token?.sessionToken as string } })
+        if (!('isProfile' in params.token!))
+          await prisma.session.delete({ where: { sessionToken: params?.token?.sessionToken as string } })
       }
-    }
+    },
   },
 
-  trustHost: true,
   session: { strategy: 'jwt' },
   secret: process.env.NEXTAUTH_SECRET,
 
