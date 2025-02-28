@@ -10,6 +10,7 @@ import { Err } from '@/types/errTypes'
 import { verifyToken } from '@/services/jwtService'
 import errHandlerService from '@/services/errHandlerService'
 import { encode, isVerifiedStr } from '@/services/cryptoService'
+import { signIn } from '@/configs/auth'
 
 const registrationTime = 1000 * 60 * 3 // 3 mins
 
@@ -36,7 +37,7 @@ export const login = async (data: z.infer<typeof loginFormTypeSchema>): Promise<
 const deleteInactiveUsers = async () => {
   const lte = new Date(+new Date() - registrationTime).toISOString()
 
-  await prisma.user.deleteMany({ where: { password: null, isActive: false, createdAt: { lte } } })
+  await prisma.user.deleteMany({ where: { password: null, isActive: false, accounts: { none: {} }, createdAt: { lte } } })
 }
 
 export const createAcc = async (data: z.infer<typeof createAccFormTypeSchema>): Promise<SelectedUser | Err> => {
@@ -45,7 +46,10 @@ export const createAcc = async (data: z.infer<typeof createAccFormTypeSchema>): 
   try {
     await deleteInactiveUsers()
 
-    await prisma.user.deleteMany({ where: { AND: [{ email }, { password: null }] } }) // delete inactive acc with the same email
+    // delete inactive user with the same email without acc
+    await prisma.user.deleteMany({
+      where: { AND: [{ email }, { password: null }, { accounts: { none: {} } }] }
+    })
 
     const user = await prisma.user.create({ data: { email, name }, omit: { password: true } })
 
@@ -78,5 +82,17 @@ export const createPass = async (data: z.infer<typeof createPassActionTypeSchema
     } else throw Error('Token error!')
   } catch (error) {
     return errHandlerService(error)
+  }
+}
+
+export const oauthLogin = async (name: 'google' | 'github'): Promise<{ url: string; error: false } | Err> => {
+  try {
+    const res = await signIn(name, { redirect: false })
+
+    return { url: res, error: false }
+  } catch (error) {
+    console.log('error in oauth action - ', error)
+
+    return { error: { message: 'OAuth authentication error...' } }
   }
 }
