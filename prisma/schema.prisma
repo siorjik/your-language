@@ -17,6 +17,7 @@ model User {
   isTwoFa       Boolean   @default(false)
   image         String?
   emailVerified DateTime?
+  twoFaHash     String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 

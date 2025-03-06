@@ -4,6 +4,11 @@ export const signUpAppPath = '/sign-up'
 export const createPasswordAppPath = '/create-password'
 export const profileAppPath = '/profile'
 
+const appHost = process.env.NEXT_PUBLIC_APP_HOST
+
 /***** api *****/
 export const fileUploadApiPath = '/api/files/upload'
-export const fileAuthApiPath = '/api/files/authorize'
+export const fileAuthApiPath = `${appHost}/api/files/authorize`
+
+export const twoFaApiPath = `${appHost}/api/two-fa`
+export const twoFaVerifyApiPath = '/api/two-fa/verify'
