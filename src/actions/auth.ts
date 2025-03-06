@@ -18,6 +18,8 @@ export const login = async (data: z.infer<typeof loginFormTypeSchema>): Promise<
   const { email, password } = data
 
   try {
+    loginFormTypeSchema.parse(data)
+
     const user = await prisma.user.findFirst({ where: { email } })
 
     if (user && user.password) {
@@ -44,12 +46,12 @@ export const createAcc = async (data: z.infer<typeof createAccFormTypeSchema>): 
   const { email, name } = data
 
   try {
+    createAccFormTypeSchema.parse(data)
+
     await deleteInactiveUsers()
 
     // delete inactive user with the same email without acc
-    await prisma.user.deleteMany({
-      where: { AND: [{ email }, { password: null }, { accounts: { none: {} } }] }
-    })
+    await prisma.user.deleteMany({ where: { AND: [{ email }, { password: null }, { accounts: { none: {} } }] } })
 
     const user = await prisma.user.create({ data: { email, name }, omit: { password: true } })
 
@@ -65,6 +67,8 @@ export const createPass = async (data: z.infer<typeof createPassActionTypeSchema
   const { password, token } = data
 
   try {
+    createPassActionTypeSchema.parse(data)
+
     const verifiedToken = await verifyToken(token)
 
     if ('email' in verifiedToken) {
