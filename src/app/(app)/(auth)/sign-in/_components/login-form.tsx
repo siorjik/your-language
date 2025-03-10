@@ -37,7 +37,7 @@ export default function LoginForm() {
     <div className="w-full max-w-[350px]">
       <Form submit={onSubmit} schema={loginFormTypeSchema} fieldsData={fieldsData} btn={{ text: 'Login' }} showSpinner />
       <div className="mt-5">
-        <OAuthBlock action="Sign In" />
+        <OAuthBlock />
       </div>
       <div className="mt-8 w-fit mx-auto">
         Go to{' '}

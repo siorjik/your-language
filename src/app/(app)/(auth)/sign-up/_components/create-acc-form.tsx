@@ -62,7 +62,7 @@ export default function CreateAccountForm() {
         isReset
       />
       <div className="mt-5">
-        <OAuthBlock action="Sign Up" />
+        <OAuthBlock />
       </div>
       <div className="mt-8 w-fit mx-auto">
         Go to{' '}

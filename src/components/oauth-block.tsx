@@ -9,7 +9,7 @@ import Spinner from './spinner'
 import { oauthLogin } from '@/actions/auth'
 import { useToast } from '@/hooks/use-toast'
 
-export default function OAuthBlock({ action }: { action: string }) {
+export default function OAuthBlock() {
   const [isLoading, setLoading] = useState(false)
 
   const { toast } = useToast()
@@ -38,10 +38,10 @@ export default function OAuthBlock({ action }: { action: string }) {
         type="submit"
         onClick={async () => await onSubmit('google')}
       >
-        {action} with <span className="font-semibold">Google</span>
+        Continue with <span className="font-semibold">Google</span>
       </Button>
       <Button variant="secondary" className="w-full text-stone-500" onClick={async () => await onSubmit('github')}>
-        {action} with <span className="font-semibold">Github</span>
+        Continue with <span className="font-semibold">Github</span>
       </Button>
       {isLoading && <Spinner />}
     </>
