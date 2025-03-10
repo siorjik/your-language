@@ -14,8 +14,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
   ...nextAuthConfig,
   callbacks: {
-    jwt: async ({ token, user, session, profile }) => {
-      if (!profile && !token.isProfile) {
+    jwt: async ({ token, user, session, account }) => {
+      if (account?.provider === 'credentials' || token.isCredentials) { // check if credentials session
+        token.isCredentials = true
+
         // reset token data from db session if credentials
         token.exp = +new Date(token.expires as string) / 1000
         token.jti = token.sessionToken as string
@@ -30,7 +32,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
           return null
         }
-      } else token.isProfile = true
+      }
 
       return { ...token, ...user, ...session }
     },
@@ -48,7 +50,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     signOut: async (params) => {
       // manually delete session if credentials
       if ('token' in params) {
-        if (!('isProfile' in params.token!))
+        if ('isCredentials' in params.token!)
           await prisma.session.delete({ where: { sessionToken: params?.token?.sessionToken as string } })
       }
     },

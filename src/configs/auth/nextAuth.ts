@@ -36,7 +36,7 @@ export default {
 
         // create session manually for credentials
         const session = await prisma.session.create({
-          data: { userId: user.id, sessionToken: crypto.randomUUID(), expires: expires },
+          data: { userId: user.id, sessionToken: crypto.randomUUID(), expires },
         })
 
         return { ...user, sessionToken: session.sessionToken, expires }
