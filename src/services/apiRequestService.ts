@@ -1,9 +1,18 @@
 type ObjectType = { [k: string]: string | number | boolean | File | ObjectType[] }
-type RequestParams = { url: string; method?: 'POST' | 'GET' | 'PUT' | 'DELETE' | 'PATCH'; body?: ObjectType | undefined }
+type RequestParams = {
+  url: string
+  method?: 'POST' | 'GET' | 'PUT' | 'DELETE' | 'PATCH'
+  body?: ObjectType | undefined
+  headers?: null | Headers
+}
 
-export default async <T>({ url, method = 'GET', body }: RequestParams): Promise<T> => {
+export default async <T>({ url, method = 'GET', body, headers }: RequestParams): Promise<T> => {
+  const heads = headers ? { ...Object.fromEntries(headers) } : {}
+
+  if (Object.keys(heads).length) delete heads['content-length']
+
   try {
-    const resp = await fetch(url, { method, body: JSON.stringify(body) })
+    const resp = await fetch(url, { method, body: JSON.stringify(body), headers: heads })
 
     const res = await resp.json()
 

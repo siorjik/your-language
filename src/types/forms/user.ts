@@ -11,3 +11,7 @@ export const changePassFormTypeSchema = z.object({
 })
 
 export const updateAccImageFormTypeSchema = z.object({ image: z.string().min(1, { message: 'Image is required' }) })
+
+export const updateAccTwoFaTypeSchema = z.object({
+  secret: z.string().length(52, { message: 'Invalid two-fa secret' }).nullable(),
+})

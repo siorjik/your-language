@@ -5,6 +5,8 @@ import { signInAppPath } from '@/utils/paths'
 import FileStorageService from '@/services/fileStorageService'
 import { prisma } from '@/lib/prisma'
 import authConfig from './nextAuth'
+import { JWT } from 'next-auth/jwt'
+import { SelectedUser } from '@/types/models/user'
 
 const fileStorage = new FileStorageService()
 
@@ -14,7 +16,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
   ...nextAuthConfig,
   callbacks: {
-    jwt: async ({ token, user, session, account }) => {
+    jwt: async ({ token, user, session, account, trigger }) => {
+      if (trigger === 'update') token = { ...token, ...session }
+
       if (account?.provider === 'credentials' || token.isCredentials) { // check if credentials session
         token.isCredentials = true
 
@@ -27,18 +31,25 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (!dbSession) return null
 
         // check token expiration
-        if ((Date.now() / 1000) > token.exp!) {
+        if (Date.now() / 1000 > token.exp!) {
           await prisma.session.delete({ where: { sessionToken: token.sessionToken as string } })
 
           return null
         }
       }
 
-      return { ...token, ...user, ...session }
+      return { ...user, ...token } as JWT & SelectedUser
     },
 
     session: async ({ session, token }) => {
-      session.user = { id: '', emailVerified: new Date(), name: token.name!, email: token.email!, image: token.image as string }
+      session.user = {
+        id: '',
+        emailVerified: token.emailVerified || new Date(),
+        name: token.name!,
+        email: token.email!,
+        image: token.image as string,
+        isTwoFa: token.isTwoFa,
+      }
 
       const fileStorageAuthData = await fileStorage.authorize()
 

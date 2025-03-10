@@ -6,8 +6,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import AccForm from './acc-form'
 import PassForm from './pass-form'
 import ImageForm from './image-form'
+import TwoFa from './two-fa'
 
-export default function ProfileTabs() {
+export default function ProfileTabs({ twoFaData }: { twoFaData: { data: string; secret: string } | null }) {
   const [activeTab, setActiveTab] = useState<null | string>(null)
 
   useEffect(() => {
@@ -43,7 +44,9 @@ export default function ProfileTabs() {
           </div>
         </TabsContent>
         <TabsContent value="two-fa">
-          <div className="mt-10">Two-Fa</div>
+          <div className="mt-10">
+            <TwoFa twoFaData={twoFaData} />
+          </div>
         </TabsContent>
       </Tabs>
     </>
