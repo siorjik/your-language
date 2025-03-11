@@ -5,17 +5,18 @@ import z from 'zod'
 import { SelectedUser } from '@/types/models/user'
 import { loginFormTypeSchema, createAccFormTypeSchema, createPassActionTypeSchema } from '@/types/forms/auth'
 import { prisma } from '@/lib/prisma'
-import dbErrHandlerService from '@/services/errHandlerService/dbErrHandlerService'
 import { Err } from '@/types/errTypes'
 import { verifyToken } from '@/services/jwtService'
 import errHandlerService from '@/services/errHandlerService'
 import { encode, isVerifiedStr } from '@/services/cryptoService'
 import { signIn } from '@/configs/auth'
+import apiRequestService from '@/services/apiRequestService'
+import { appHost, twoFaVerifyApiPath } from '@/utils/paths'
 
 const registrationTime = 1000 * 60 * 3 // 3 mins
 
 export const login = async (data: z.infer<typeof loginFormTypeSchema>): Promise<SelectedUser | null | Err> => {
-  const { email, password } = data
+  const { email, password, code } = data
 
   try {
     loginFormTypeSchema.parse(data)
@@ -28,11 +29,22 @@ export const login = async (data: z.infer<typeof loginFormTypeSchema>): Promise<
       if (isVerifiedPass) {
         delete (user as SelectedUser & { password?: string }).password
 
+        if (user.isTwoFa && user.twoFaHash && code) {
+          const isVerifiedTwoFa: { verified: boolean } | Err = await apiRequestService({
+            url: `${appHost}${twoFaVerifyApiPath}`,
+            method: 'POST',
+            body: { secret: user.twoFaHash, code },
+          })
+
+          if (!('error' in isVerifiedTwoFa) && isVerifiedTwoFa.verified) return { ...user, error: null }
+          else return null
+        }
+
         return { ...user, error: null }
       } else return null
     } else return null
   } catch (error) {
-    return dbErrHandlerService(error)
+    return errHandlerService(error)
   }
 }
 
@@ -95,8 +107,20 @@ export const oauthLogin = async (name: 'google' | 'github'): Promise<{ url: stri
 
     return { url: res, error: false }
   } catch (error) {
-    console.log('error in oauth action - ', error)
+    console.log('oauthLogin err - ', error)
 
     return { error: { message: 'OAuth authentication error...' } }
+  }
+}
+
+export const checkTwoFa = async (email: string): Promise<{ isTwoFa: boolean; error: null } | Err> => {
+  try {
+    const user = await prisma.user.findFirst({ where: { email } })
+
+    return { isTwoFa: user?.isTwoFa as boolean, error: null }
+  } catch (error) {
+    console.log('checkTwoFa err - ', error)
+
+    return { error: { message: 'Check two-fa error...' } }
   }
 }

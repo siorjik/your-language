@@ -4,7 +4,7 @@ export const signUpAppPath = '/sign-up'
 export const createPasswordAppPath = '/create-password'
 export const profileAppPath = '/profile'
 
-const appHost = process.env.NEXT_PUBLIC_APP_HOST
+export const appHost = process.env.NEXT_PUBLIC_APP_HOST
 
 /***** api *****/
 export const fileUploadApiPath = '/api/files/upload'

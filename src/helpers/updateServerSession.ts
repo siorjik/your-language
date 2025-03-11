@@ -1,13 +1,14 @@
 import { headers, cookies } from 'next/headers'
 
 import getParsedCookie from './getParsedCookie'
+import { appHost } from '@/utils/paths'
 
 export default async (data: { [k: string]: string | number | boolean }): Promise<void> => {
   try {
     const heads = { ...Object.fromEntries(await headers()) }
     delete heads['content-length']
 
-    const crf = await fetch(`${process.env.NEXT_PUBLIC_APP_HOST}/api/auth/csrf`, {
+    const crf = await fetch(`${appHost}/api/auth/csrf`, {
       method: 'GET',
       headers: { ...heads, 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -17,7 +18,7 @@ export default async (data: { [k: string]: string | number | boolean }): Promise
 
     const crfRes = await crf.json()
 
-    const updatedSession = await fetch(`${process.env.NEXT_PUBLIC_APP_HOST}/api/auth/session`, {
+    const updatedSession = await fetch(`${appHost}/api/auth/session`, {
       method: 'POST',
       headers: { ...heads, 'Content-Type': 'application/json' },
       body: JSON.stringify({ csrfToken: crfRes.csrfToken, data }),
