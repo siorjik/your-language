@@ -1,5 +1,7 @@
 import nodemailer from 'nodemailer'
 
+import { appHost, createPasswordAppPath } from '@/utils/paths'
+
 const transporter = nodemailer.createTransport({
   host: process.env.MAILER_HOST,
   port: +process.env.MAILER_PORT!,
@@ -15,7 +17,7 @@ export const sendCreatePassMail = async ({ to, token, name }: { to: string; toke
       subject: 'Password creation.',
       html: `
         <p>Hello ${name}, you need to create password for your account.</p>
-        <a href='${process.env.NEXT_PUBLIC_APP_HOST}/create-password?token=${token}'>
+        <a href='${appHost}${createPasswordAppPath}?token=${token}'>
           Link for password creating
         </a>
         <p>This link will be expired in 30 minutes.</p>

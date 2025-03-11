@@ -20,19 +20,19 @@ export default function TwoFa({ twoFaData }: { twoFaData: { data: string; secret
   const { push } = useRouter()
 
   const getErrToast = (description: string) =>
-    toast({ title: 'Two-factor Authentication Error', variant: 'destructive', description })
+    toast({ title: 'Two-Factor Authentication Error', variant: 'destructive', description })
 
-  const setToken = (val: string): void => {
+  const setCode = (val: string): void => {
     if (val.length === 6) onSubmit(val)
   }
 
-  const onSubmit = async (token: string): Promise<void> => {
+  const onSubmit = async (code: string): Promise<void> => {
     setShow(true)
 
     const res: { verified: boolean } = await apiRequestService({
       url: twoFaVerifyApiPath,
       method: 'POST',
-      body: { secret: twoFaData?.secret as string, token },
+      body: { secret: twoFaData?.secret as string, code },
     })
 
     if (res.verified) {
@@ -65,7 +65,7 @@ export default function TwoFa({ twoFaData }: { twoFaData: { data: string; secret
           <Image className="mb-10 rounded-md" width={150} height={150} src={twoFaData?.data} alt="qr-code" />
           <p className="mb-2">1 - scan the QR Code with your Authenticator app</p>
           <p className="mb-10">2 - enter the code below from your app</p>
-          <InputOTP maxLength={6} onChange={(val) => setToken(val)}>
+          <InputOTP maxLength={6} onChange={(val) => setCode(val)}>
             <InputOTPGroup>
               <InputOTPSlot index={0} />
               <InputOTPSlot index={1} />
@@ -79,7 +79,7 @@ export default function TwoFa({ twoFaData }: { twoFaData: { data: string; secret
       ) : (
         <>
           <p className="mb-5 text-green-600 font-semibold">Two-Factor authentication is enabled!</p>
-          <Button variant="destructive" onClick={disableTwoFaHash}>
+          <Button variant="warn" onClick={disableTwoFaHash}>
             Disable
           </Button>
         </>

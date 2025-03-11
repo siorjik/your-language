@@ -1,11 +1,11 @@
 import NextAuth from 'next-auth'
 import { PrismaAdapter } from '@auth/prisma-adapter'
+import { JWT } from 'next-auth/jwt'
 
 import { signInAppPath } from '@/utils/paths'
 import FileStorageService from '@/services/fileStorageService'
 import { prisma } from '@/lib/prisma'
 import authConfig from './nextAuth'
-import { JWT } from 'next-auth/jwt'
 import { SelectedUser } from '@/types/models/user'
 
 const fileStorage = new FileStorageService()
@@ -19,7 +19,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     jwt: async ({ token, user, session, account, trigger }) => {
       if (trigger === 'update') token = { ...token, ...session }
 
-      if (account?.provider === 'credentials' || token.isCredentials) { // check if credentials session
+      if (account?.provider === 'credentials' || token.isCredentials) {
+        // check if credentials session
         token.isCredentials = true
 
         // reset token data from db session if credentials

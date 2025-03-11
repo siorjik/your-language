@@ -80,7 +80,7 @@ export const updateAccTwoFaHash = async (data: z.infer<typeof updateAccTwoFaType
 
     const session = await getServerSessionToken()
 
-    const twoFaHash = !!data.secret ? encode(data.secret) : null
+    const twoFaHash = data.secret || null
 
     const updatedUser = await prisma.user.update({
       where: { id: session.id },

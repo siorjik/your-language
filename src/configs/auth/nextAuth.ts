@@ -24,20 +24,19 @@ export default {
       credentials: {
         email: { label: 'Email', type: 'text', required: true },
         password: { label: 'Password', type: 'password', required: true },
+        code: { label: 'Code', type: 'text', required: false },
       },
       authorize: async (credentials) => {
-        const { email, password } = credentials
+        const { email, password, code } = credentials
 
-        const user: SelectedUser | null | Err = await login({ email, password } as z.infer<typeof loginFormTypeSchema>)
+        const user: SelectedUser | null | Err = await login({ email, password, code } as z.infer<typeof loginFormTypeSchema>)
 
         if (!user || user.error) throw new InvalidLoginError()
 
         const expires = new Date(Date.now() + 1000 * 60 * 60) // 60 mins session expiration
 
         // create session manually for credentials
-        const session = await prisma.session.create({
-          data: { userId: user.id, sessionToken: crypto.randomUUID(), expires },
-        })
+        const session = await prisma.session.create({ data: { userId: user.id, sessionToken: crypto.randomUUID(), expires } })
 
         return { ...user, sessionToken: session.sessionToken, expires }
       },
