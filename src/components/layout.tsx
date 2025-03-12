@@ -26,7 +26,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       ) : (
         <>
           <header className="w-full h-[55px] px-5 md:px-8 py-2 flex items-center fixed top-0 bg-stone-50 dark:bg-stone-900">
-            <div className="w-full m-auto max-w-7xl text-gray-500 dark:text-foreground">
+            <div className="w-full m-auto max-w-7xl text-muted-foreground">
               <Navbar />
             </div>
           </header>
@@ -39,7 +39,7 @@ export default function Layout({ children }: { children: ReactNode }) {
             >
               <div
                 className="
-                w-full m-auto max-w-7xl flex justify-between items-center text-sm text-gray-500 dark:text-foreground
+                w-full m-auto max-w-7xl flex justify-between items-center text-sm text-muted-foreground
               "
               >
                 <span>&copy;{new Date().getFullYear()}</span>

@@ -19,13 +19,13 @@ export default function ThemeBtn() {
     <>
       {mode && (
         <button
-          className="border-2 border-gray-500 dark:border-foreground rounded-md"
+          className="border-2 border-muted-foreground rounded-md"
           onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
         >
           {mode === 'light' ? (
-            <Moon className="text-gray-500 dark:text-foreground" />
+            <Moon className="text-muted-foreground" />
           ) : (
-            <Sun className="text-gray-500 dark:text-foreground" />
+            <Sun className="text-muted-foreground" />
           )}
         </button>
       )}
