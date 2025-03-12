@@ -28,7 +28,7 @@ body {
     --accent-foreground: 24 9.8% 10%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 60 9.1% 97.8%;
-    --warn: 25.9 95.8% 53.1%;
+    --warn: 30.9 95.8% 60.1%;
     --warn-foreground: 60 9.1% 97.8%;
     --success: 142.1 76.2% 36.3%;
     --success-foreground: 60 9.1% 97.8%;
@@ -59,9 +59,9 @@ body {
     --accent-foreground: 60 9.1% 97.8%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 60 9.1% 97.8%;
-    --warn: 25.9 95.8% 53.1%;
+    --warn: 23.9 95.8% 35.1%;
     --warn-foreground: 60 9.1% 97.8%;
-    --success: 142.1 60.2% 20.3%;
+    --success: 142.1 60.2% 25.3%;
     --success-foreground: 60 9.1% 97.8%;
     --border: 12 6.5% 15.1%;
     --input: 12 6.5% 15.1%;

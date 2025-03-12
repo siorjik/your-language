@@ -61,7 +61,7 @@ export default function Navbar() {
         <NavigationMenuItem>
           <NavigationMenuTrigger className="px-0 bg-stone-50 dark:bg-stone-900">
             {!session.user.image ? (
-              <Settings className="text-gray-500 dark:text-foreground" />
+              <Settings className="text-muted-foreground" />
             ) : (
               <Image
                 className="h-[40px] w-[40px] rounded-full object-cover"
@@ -74,16 +74,16 @@ export default function Navbar() {
             )}
           </NavigationMenuTrigger>
           <NavigationMenuContent className="p-3 flex flex-col gap-3 text-current">
-            <NavigationMenuLink asChild>
+            {session.user.isCredentials && <NavigationMenuLink asChild>
               <Link className="flex items-center gap-2" href={profileAppPath}>
-                <UserRoundCog className="text-gray-500 dark:text-foreground" />
+                <UserRoundCog className="text-muted-foreground" />
               </Link>
-            </NavigationMenuLink>
+            </NavigationMenuLink>}
             <NavigationMenuLink asChild>
               <ThemeBtn />
             </NavigationMenuLink>
             <NavigationMenuLink asChild>
-              <LogOut onClick={logOut} className="text-gray-500 dark:text-foreground" />
+              <LogOut onClick={logOut} className="text-muted-foreground" />
             </NavigationMenuLink>
           </NavigationMenuContent>
         </NavigationMenuItem>
@@ -92,17 +92,17 @@ export default function Navbar() {
   ) : (
     <div className="flex gap-2">
       <Link href={signUpAppPath}>
-        <UserRoundPlus className="text-gray-500 dark:text-foreground" />
+        <UserRoundPlus className="text-muted-foreground" />
       </Link>
       <Link href={signInAppPath}>
-        <LogIn className="text-gray-500 dark:text-foreground" />
+        <LogIn className="text-muted-foreground" />
       </Link>
     </div>
   )
 
   const navData = [
     { title: 'Home', path: '/' },
-    { title: 'Profile', path: '/profile' },
+    // { title: 'Profile', path: '/profile' },
   ]
 
   return (

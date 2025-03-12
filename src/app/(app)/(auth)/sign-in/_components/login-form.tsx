@@ -50,7 +50,7 @@ export default function LoginForm() {
     else return false
   }
 
-  const login = async (data: z.infer<typeof loginFormTypeSchema>) => {
+  const login = async (data: z.infer<typeof loginFormTypeSchema>): Promise<boolean> => {
     const res = await signIn('credentials', { ...data, redirect: false })
 
     if (res && !res?.error) {
@@ -74,7 +74,7 @@ export default function LoginForm() {
     <div className="w-full max-w-[350px]">
       {isTwoFa && (
         <div className="mx-auto mb-5">
-          <p className="mb-2 text-orange-500 font-semibold">Code*</p>
+          <p className="mb-2 text-warn font-semibold">Code*</p>
           <InputOTP maxLength={6} onChange={(val) => setCode(val)}>
             <InputOTPGroup>
               <InputOTPSlot index={0} />

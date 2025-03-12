@@ -3,6 +3,6 @@ import { SelectedUser } from './models/user'
 
 declare module 'next-auth' {
   interface Session {
-    user: SelectedUser & User & AdapterUser
+    user: { isCredentials: boolean } & SelectedUser & User & AdapterUser
   }
 }

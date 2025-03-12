@@ -78,7 +78,7 @@ export default function TwoFa({ twoFaData }: { twoFaData: { data: string; secret
         </div>
       ) : (
         <>
-          <p className="mb-5 text-green-600 font-semibold">Two-Factor authentication is enabled!</p>
+          <p className="mb-5 text-success font-semibold">Two-Factor authentication is enabled!</p>
           <Button variant="warn" onClick={disableTwoFaHash}>
             Disable
           </Button>
