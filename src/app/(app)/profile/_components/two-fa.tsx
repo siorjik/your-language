@@ -29,21 +29,26 @@ export default function TwoFa({ twoFaData }: { twoFaData: { data: string; secret
   const onSubmit = async (code: string): Promise<void> => {
     setShow(true)
 
-    const res: { verified: boolean } = await apiRequestService({
-      url: twoFaVerifyApiPath,
-      method: 'POST',
-      body: { secret: twoFaData?.secret as string, code },
-    })
+    try {
+      const res: { verified: boolean } = await apiRequestService({
+        url: twoFaVerifyApiPath,
+        method: 'POST',
+        body: { secret: twoFaData?.secret as string, code },
+      })
 
-    if (res.verified) {
-      const res = await updateAccTwoFaHash({ secret: twoFaData?.secret as string })
+      if (res.verified) {
+        const res = await updateAccTwoFaHash({ secret: twoFaData?.secret as string })
 
-      if (res.error) getErrToast(res.error.message)
+        if (res.error) getErrToast(res.error.message)
 
-      push(profileAppPath)
-    } else getErrToast('Invalid code, please repeat...')
+        push(profileAppPath)
+      } else getErrToast('Invalid code, please repeat...')
 
-    setShow(false)
+      setShow(false)
+    } catch (error) {
+      console.log(error)
+    }
+
   }
 
   const disableTwoFaHash = async () => {

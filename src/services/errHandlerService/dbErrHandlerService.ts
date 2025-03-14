@@ -12,5 +12,5 @@ export default (error: unknown): Err => {
     return { error: { message: dbErrorList.find((item) => item.code === error.code)?.message as string } }
   }
 
-  return { error: { message: 'Something went wrong in dbErrHandler...' } }
+  return { error: { message: 'Undefined error in dbErrHandler...' } }
 }
