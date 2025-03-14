@@ -38,7 +38,7 @@ export const login = async (data: z.infer<typeof loginFormTypeSchema>): Promise<
 
           if (!('error' in isVerifiedTwoFa) && isVerifiedTwoFa.verified) return { ...user, error: null }
           else return null
-        }
+        } else if (user.isTwoFa && user.twoFaHash && !code) throw Error('Two-fa code is required!')
 
         return { ...user, error: null }
       } else return null

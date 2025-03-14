@@ -14,7 +14,7 @@ export default async (data: { [k: string]: string | number | boolean }): Promise
       credentials: 'include',
     })
 
-    if (!crf.ok) throw crf
+    if (!crf.ok) throw Error('Getting crf token error...')
 
     const crfRes = await crf.json()
 
@@ -25,7 +25,7 @@ export default async (data: { [k: string]: string | number | boolean }): Promise
       credentials: 'include',
     })
 
-    if (!updatedSession.ok) throw updatedSession
+    if (!updatedSession.ok) throw Error('Updating server session error...')
 
     const sessionCookie = updatedSession.headers.get('set-cookie') as string
 

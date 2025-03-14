@@ -9,7 +9,7 @@ import OAuthBlock from '@/components/oauth-block'
 import { createAccFormTypeSchema } from '@/types/forms/auth'
 import { createAcc } from '@/actions/auth'
 import { useToast } from '@/hooks/use-toast'
-import { signInAppPath } from '@/utils/paths'
+import { emailCreatePassApiPath, signInAppPath } from '@/utils/paths'
 import { SelectedUser } from '@/types/models/user'
 import { Err } from '@/types/errTypes'
 import apiRequestService from '@/services/apiRequestService'
@@ -23,7 +23,7 @@ export default function CreateAccountForm() {
 
       if (res && !res?.error) {
         await apiRequestService<{ success: boolean }>({
-          url: '/api/emails/create-pass',
+          url: emailCreatePassApiPath,
           method: 'POST',
           body: { email: res.email, name: res.name },
         })

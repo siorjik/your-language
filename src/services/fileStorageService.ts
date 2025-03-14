@@ -3,7 +3,7 @@ import { fileAuthApiPath, fileUploadApiPath } from '@/utils/paths'
 
 export default class FileStorageService {
   private storageAuth: { authToken: string; downloadUrl: string } = { authToken: '', downloadUrl: '' }
-  private deleteTime = 1000 * 60 * 60 * 8 // 8 hours
+  private authTime = 1000 * 60 * 60 * 8 // 8 hours
 
   async authorize() {
     try {
@@ -14,7 +14,7 @@ export default class FileStorageService {
 
         this.storageAuth = { authToken: authorizationToken, downloadUrl: downloadUrl }
 
-        setTimeout(() => (this.storageAuth = { authToken: '', downloadUrl: '' }), this.deleteTime)
+        setTimeout(() => (this.storageAuth = { authToken: '', downloadUrl: '' }), this.authTime)
       }
 
       return this.storageAuth
