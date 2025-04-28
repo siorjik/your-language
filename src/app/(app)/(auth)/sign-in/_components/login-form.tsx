@@ -7,11 +7,11 @@ import Link from 'next/link'
 
 import Form from '@/components/forms/simple-form'
 import OAuthBlock from '@/components/oauth-block'
+import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp'
 
 import { loginFormTypeSchema } from '@/types/forms/auth'
 import { useToast } from '@/hooks/use-toast'
 import { signUpAppPath } from '@/utils/paths'
-import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp'
 import { checkTwoFa } from '@/actions/auth'
 import { Err } from '@/types/errTypes'
 

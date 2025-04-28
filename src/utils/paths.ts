@@ -4,9 +4,15 @@ export const signUpAppPath = '/sign-up'
 export const createPasswordAppPath = '/create-password'
 export const profileAppPath = '/profile'
 
+export const setAppPath = '/sets'
+export const newSetAppPath = `${setAppPath}/new`
+
 export const appHost = process.env.NEXT_PUBLIC_APP_HOST
 
 /***** api *****/
+export const dictionaryApiPath = '/api/dictionary'
+export const translateApiPath = '/api/translate'
+
 export const fileUploadApiPath = '/api/files/upload'
 export const fileAuthApiPath = `${appHost}/api/files/authorize`
 

@@ -74,11 +74,13 @@ export default function Navbar() {
             )}
           </NavigationMenuTrigger>
           <NavigationMenuContent className="p-3 flex flex-col gap-3 text-current">
-            {session.user.isCredentials && <NavigationMenuLink asChild>
-              <Link className="flex items-center gap-2" href={profileAppPath}>
-                <UserRoundCog className="text-muted-foreground" />
-              </Link>
-            </NavigationMenuLink>}
+            {session.user.isCredentials && (
+              <NavigationMenuLink asChild>
+                <Link className="flex items-center gap-2" href={profileAppPath}>
+                  <UserRoundCog className="text-muted-foreground" />
+                </Link>
+              </NavigationMenuLink>
+            )}
             <NavigationMenuLink asChild>
               <ThemeBtn />
             </NavigationMenuLink>

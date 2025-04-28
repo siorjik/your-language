@@ -50,7 +50,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         email: token.email!,
         image: token.image as string,
         isTwoFa: token.isTwoFa,
-        isCredentials: token.isCredentials || false
+        isCredentials: token.isCredentials || false,
       }
 
       const fileStorageAuthData = await fileStorage.authorize()

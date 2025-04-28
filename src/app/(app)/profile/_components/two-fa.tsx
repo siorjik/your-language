@@ -48,7 +48,6 @@ export default function TwoFa({ twoFaData }: { twoFaData: { data: string; secret
     } catch (error) {
       console.log(error)
     }
-
   }
 
   const disableTwoFaHash = async () => {

@@ -48,7 +48,7 @@ export const login = async (data: z.infer<typeof loginFormTypeSchema>): Promise<
   }
 }
 
-const deleteInactiveUsers = async () => {
+const deleteInactiveUsers = async (): Promise<void> => {
   const lte = new Date(+new Date() - registrationTime).toISOString()
 
   await prisma.user.deleteMany({ where: { password: null, isActive: false, accounts: { none: {} }, createdAt: { lte } } })
