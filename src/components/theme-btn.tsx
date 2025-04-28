@@ -22,11 +22,7 @@ export default function ThemeBtn() {
           className="border-2 border-muted-foreground rounded-md"
           onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
         >
-          {mode === 'light' ? (
-            <Moon className="text-muted-foreground" />
-          ) : (
-            <Sun className="text-muted-foreground" />
-          )}
+          {mode === 'light' ? <Moon className="text-muted-foreground" /> : <Sun className="text-muted-foreground" />}
         </button>
       )}
     </>
