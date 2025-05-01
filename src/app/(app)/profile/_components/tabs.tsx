@@ -22,12 +22,14 @@ export default function ProfileTabs({ twoFaData }: { twoFaData: { data: string; 
   return (
     <>
       <Tabs value={activeTab!} onValueChange={setActiveTab}>
-        <TabsList>
-          <TabsTrigger value="acc">Account</TabsTrigger>
-          <TabsTrigger value="pass">Password</TabsTrigger>
-          <TabsTrigger value="image">Image</TabsTrigger>
-          <TabsTrigger value="two-fa">Two-Factor Authentication</TabsTrigger>
-        </TabsList>
+        <div className="overflow-auto">
+          <TabsList>
+            <TabsTrigger value="acc">Account</TabsTrigger>
+            <TabsTrigger value="pass">Password</TabsTrigger>
+            <TabsTrigger value="image">Image</TabsTrigger>
+            <TabsTrigger value="two-fa">Two-Factor Authentication</TabsTrigger>
+          </TabsList>
+        </div>
         <TabsContent value="acc">
           <div className="mt-10">
             <AccForm />
