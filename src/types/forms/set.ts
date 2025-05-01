@@ -1,6 +1,7 @@
 import z from 'zod'
 
 export const setFormTypeSchema = z.object({
+  id: z.string().optional(),
   title: z.string().min(1, { message: 'Required!' }),
   source: z.string().min(1, { message: 'Required!' }),
   target: z.string().min(1, { message: 'Required!' }),

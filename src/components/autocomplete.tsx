@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, RefObject } from 'react'
+import { useState, useEffect, RefObject, useRef, memo } from 'react'
 import { Input } from '@/components/ui/input'
 
 interface AutoCompleteProps {
@@ -13,12 +13,23 @@ interface AutoCompleteProps {
   label?: string
 }
 
-export default function Autocomplete({ value = '', handleChange, getValue, data = [], ref, disabled, label }: AutoCompleteProps) {
+export default memo(function Autocomplete({
+  value = '',
+  handleChange,
+  getValue,
+  data = [],
+  ref,
+  disabled,
+  label,
+}: AutoCompleteProps) {
   const [query, setQuery] = useState(value)
   const [suggestions, setSuggestions] = useState<string[]>([])
   const [selectedIndex, setSelectedIndex] = useState(-1)
   const [isLoading, setIsLoading] = useState(false)
   const [isFocused, setIsFocused] = useState(false)
+  const [isOver, setOver] = useState(false)
+
+  const blockRef = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {
     if (data.length) {
@@ -27,6 +38,13 @@ export default function Autocomplete({ value = '', handleChange, getValue, data 
       if (isLoading) setIsLoading(false)
     } else setSuggestions([])
   }, [data, query])
+
+  useEffect(() => {
+    const bodyHeight = window.document.body.clientHeight
+    const inputYPosition = blockRef.current!.getBoundingClientRect().top!
+
+    if (bodyHeight - inputYPosition - window.scrollY < 350) setOver(true)
+  }, [isFocused])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value
@@ -79,8 +97,8 @@ export default function Autocomplete({ value = '', handleChange, getValue, data 
   }
 
   return (
-    <div>
-      <div className="relative">
+    <div ref={blockRef} className="relative">
+      <div>
         <Input
           type="text"
           placeholder={label || 'Search...'}
@@ -104,7 +122,11 @@ export default function Autocomplete({ value = '', handleChange, getValue, data 
         </div>
       )}
       {suggestions.length > 0 && !isLoading && isFocused && (
-        <ul id="suggestions-list" className="mt-2 bg-background border rounded-md shadow-sm absolute z-10" role="listbox">
+        <ul
+          id="suggestions-list"
+          className={`bg-background border rounded-md shadow-sm absolute ${isOver ? 'bottom-12' : 'top-12'} z-10`}
+          role="listbox"
+        >
           {suggestions.map((suggestion, index) => (
             <li
               key={suggestion}
@@ -120,4 +142,4 @@ export default function Autocomplete({ value = '', handleChange, getValue, data 
       )}
     </div>
   )
-}
+})

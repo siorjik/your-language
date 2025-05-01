@@ -1,32 +1,34 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { TrashIcon, CirclePlus } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
 import { Input } from '../ui/input'
 import Select from '../select-wrap'
 import { Button } from '../ui/button'
 import Autocomplete from '../autocomplete'
+import Spinner from '../spinner'
 
 import { setFormTypeSchema } from '@/types/forms/set'
 import apiRequestService from '@/services/apiRequestService'
-import { dictionaryApiPath, setAppPath, translateApiPath } from '@/utils/paths'
+import { dictionaryApiPath, getSetAppPath, setAppPath, translateApiPath } from '@/utils/paths'
 import { languageOptions } from '@/utils/constants'
-import { createSet } from '@/actions/set'
+import { createSet, updateSet } from '@/actions/set'
 import { Set } from '@prisma/client'
 import { Err } from '@/types/errTypes'
 import { toast } from '@/hooks/use-toast'
 
-const defaultValues = { list: [{ term: '', definition: '' }], title: '' }
+const defaultValues = { list: [{ term: '', definition: '' }], title: '', source: '', target: '' }
 
 type DataType = { name: string; words: string[] }
+type SetFormProps = { data?: (Set & z.infer<typeof setFormTypeSchema>) | null; action?: 'create' | 'update' | null }
 
-export default function SetForm() {
+export default function SetForm({ data = null, action = null }: SetFormProps) {
   const [dictionary, setDictionary] = useState<DataType>({ name: '', words: [] })
   const [translate, setTranslate] = useState<DataType>({ name: '', words: [] })
 
@@ -37,19 +39,26 @@ export default function SetForm() {
 
   const form = useForm<z.infer<typeof setFormTypeSchema>>({
     resolver: zodResolver(setFormTypeSchema),
-    defaultValues: defaultValues,
+    defaultValues: data || defaultValues,
   })
 
   const { fields, remove, append } = useFieldArray({ name: 'list', control: form.control })
 
   const onSubmit = async (values: z.infer<typeof setFormTypeSchema>): Promise<void> => {
-    const res: (Set & { error: null }) | Err = await createSet(values)
+    const res: (Set & { error: null }) | Err = action === 'create' ? await createSet(values) : await updateSet(values)
 
-    if (!res.error) push(setAppPath)
-    else toast({ title: 'Set Creation Error', variant: 'destructive', description: res.error.message })
+    if (!res.error) {
+      if (action === 'create') push(setAppPath)
+      else push(getSetAppPath(res.id))
+    } else
+      toast({
+        title: action === 'create' ? 'Set Creation Error' : 'Set Updating Error',
+        variant: 'destructive',
+        description: res.error.message,
+      })
   }
 
-  const handleChange = async (val: string, name: string): Promise<void> => {
+  const handleChange = useCallback(async (val: string, name: string): Promise<void> => {
     clearTimeout(timeoutRef.current as NodeJS.Timeout)
 
     timeoutRef.current = setTimeout(async () => {
@@ -65,7 +74,7 @@ export default function SetForm() {
         console.log(error)
       }
     }, 600)
-  }
+  }, [])
 
   const setTranslates = async (val: string, name: string): Promise<void> => {
     try {
@@ -91,28 +100,37 @@ export default function SetForm() {
               name="title"
               render={({ field }) => (
                 <FormItem className="grow">
-                  <FormLabel>Title</FormLabel>
+                  <FormLabel>Title*</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input {...field} disabled={!action} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <span className="py-3 px-4 border self-end rounded-full">{fields.length}</span>
+            <span className="h-fit w-fit py-3 px-4 mx-auto md:mt-6 border rounded-full">{fields.length}</span>
             <FormField
               control={form.control}
               name="source"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Language Source</FormLabel>
+                  <FormLabel>Language Source*</FormLabel>
                   <FormControl>
                     <Select
                       options={languageOptions}
                       placeholder="Choose source"
-                      onValueChange={field.onChange}
+                      onValueChange={(val) => {
+                        if (val === form.getValues('target')) {
+                          form.setError('source', { message: 'Need to be different than target' })
+                        } else if (form.formState.errors.source || form.formState.errors.target) {
+                          form.clearErrors('source')
+                          form.clearErrors('target')
+                        }
+
+                        form.setValue('source', val as string)
+                      }}
                       defaultValue={field.value}
-                      disabled={fields.length > 1}
+                      disabled={fields.length > 1 || !action}
                     />
                   </FormControl>
                   <FormMessage />
@@ -124,14 +142,23 @@ export default function SetForm() {
               name="target"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Language Target</FormLabel>
+                  <FormLabel>Language Target*</FormLabel>
                   <FormControl>
                     <Select
                       options={languageOptions}
                       placeholder="Choose target"
-                      onValueChange={field.onChange}
+                      onValueChange={(val) => {
+                        if (val === form.getValues('source')) {
+                          form.setError('target', { message: 'Need to be different than source' })
+                        } else if (form.formState.errors.source || form.formState.errors.target) {
+                          form.clearErrors('source')
+                          form.clearErrors('target')
+                        }
+
+                        form.setValue('target', val as string)
+                      }}
                       defaultValue={field.value}
-                      disabled={fields.length > 1}
+                      disabled={fields.length > 1 || !action}
                     />
                   </FormControl>
                   <FormMessage />
@@ -143,7 +170,9 @@ export default function SetForm() {
             return (
               <div
                 key={field.id}
-                className="mt-3 p-3 flex flex-col md:flex-row items-center md:items-stretch gap-3 bg-slate-50 rounded-md"
+                className="
+                  mt-3 p-3 flex flex-col md:flex-row items-center md:items-stretch gap-3 bg-slate-50 dark:bg-slate-600 rounded-md
+                "
               >
                 <span className="md:mt-8 text-sm">{idx + 1}</span>
                 <FormField
@@ -151,9 +180,10 @@ export default function SetForm() {
                   name={`list.${idx}.term`}
                   render={({ field }) => (
                     <FormItem className="w-full">
-                      <FormLabel>Term</FormLabel>
+                      <FormLabel>Term*</FormLabel>
                       <FormControl>
                         <Autocomplete
+                          value={field.value}
                           handleChange={(val) => handleChange(val, field.name)}
                           getValue={(val) => {
                             form.setValue(field.name, val)
@@ -165,12 +195,15 @@ export default function SetForm() {
                             setDictionary({ name: '', words: [] })
                           }}
                           data={dictionary.words}
-                          disabled={!(form.getValues('source') && form.getValues('target'))}
+                          disabled={!(form.getValues('source') && form.getValues('target')) || !action}
                           label={
                             !(form.getValues('source') && form.getValues('target')) ? 'Choose language source and target' : ''
                           }
                         />
                       </FormControl>
+                      <FormDescription>
+                        from: {languageOptions.find((item) => item.value === form.watch('source'))?.label}
+                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -180,9 +213,10 @@ export default function SetForm() {
                   name={`list.${idx}.definition`}
                   render={({ field }) => (
                     <FormItem className="w-full">
-                      <FormLabel>Definition</FormLabel>
+                      <FormLabel>Definition*</FormLabel>
                       <FormControl>
                         <Autocomplete
+                          value={field.value}
                           handleChange={(val) => handleChange(val, field.name)}
                           getValue={(val) => {
                             form.setValue(field.name, val)
@@ -191,17 +225,20 @@ export default function SetForm() {
                           }}
                           data={translate.words}
                           ref={translateRef}
-                          disabled={!(form.getValues('source') && form.getValues('target'))}
+                          disabled={!(form.getValues('source') && form.getValues('target')) || !action}
                           label={
                             !(form.getValues('source') && form.getValues('target')) ? 'Choose language source and target' : ''
                           }
                         />
                       </FormControl>
+                      <FormDescription>
+                        to: {languageOptions.find((item) => item.value === form.watch('target'))?.label}
+                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                {fields.length > 1 && (
+                {fields.length > 1 && action && (
                   <span className="md:mt-8" onClick={() => remove(idx)}>
                     <TrashIcon />
                   </span>
@@ -209,14 +246,18 @@ export default function SetForm() {
               </div>
             )
           })}
-          {!!(form.getValues('source') && form.getValues('target')) && (
-            <CirclePlus className="mt-5 mx-auto" onClick={() => append({ term: '', definition: '' })} />
+          {!!form.getValues('source') && form.getValues('target') && action && (
+            <CirclePlus className="mt-3 mx-auto" onClick={() => append({ term: '', definition: '' })} />
           )}
-          <Button type="button" className="mt-5" onClick={form.handleSubmit(onSubmit)}>
-            Create
-          </Button>
+          {action && (
+            <Button type="button" className="mt-3" onClick={form.handleSubmit(onSubmit)}>
+              {action === 'create' ? 'Create' : 'Update'}
+            </Button>
+          )}
         </form>
       </Form>
+
+      {form.formState.isSubmitting && <Spinner />}
     </>
   )
 }

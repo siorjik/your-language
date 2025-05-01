@@ -1,5 +1,17 @@
+import Link from 'next/link'
+
 import SetForm from '@/components/forms/set-form'
+import { Button } from '@/components/ui/button'
+
+import { setAppPath } from '@/utils/paths'
 
 export default function NewSet() {
-  return <SetForm />
+  return (
+    <>
+      <Button className="mb-5">
+        <Link href={setAppPath}>Cancel</Link>
+      </Button>
+      <SetForm action="create" />
+    </>
+  )
 }

@@ -4,8 +4,11 @@ export const signUpAppPath = '/sign-up'
 export const createPasswordAppPath = '/create-password'
 export const profileAppPath = '/profile'
 
+// set
 export const setAppPath = '/sets'
 export const newSetAppPath = `${setAppPath}/new`
+export const getSetAppPath = (id: string) => `${setAppPath}/${id}`
+export const getUpdateSetAppPath = (id: string) => `${setAppPath}/${id}/update`
 
 export const appHost = process.env.NEXT_PUBLIC_APP_HOST
 

@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import SetItem from './_components/set-item'
 
 import { getSetList } from '@/actions/set'
-import { newSetAppPath, setAppPath } from '@/utils/paths'
+import { getSetAppPath, newSetAppPath } from '@/utils/paths'
 import { Set } from '@prisma/client'
 import { Err } from '@/types/errTypes'
 
@@ -19,10 +19,10 @@ export default async function Sets() {
   return (
     <>
       <Button className="mb-5">
-        <Link href={`${newSetAppPath}`}>Create</Link>
+        <Link href={newSetAppPath}>Create</Link>
       </Button>
       {res.sets.map((set) => (
-        <Link key={set.id} href={`${setAppPath}/${set.id}`}>
+        <Link key={set.id} href={getSetAppPath(set.id)}>
           <SetItem set={set} />
         </Link>
       ))}

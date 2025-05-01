@@ -8,6 +8,7 @@ export async function POST(req: NextRequest): Promise<NextResponse<string[] | []
     const { word, inputLanguage, outputLanguage } = await req.json()
 
     return NextResponse.json(word ? await translateAIService(word, inputLanguage!, outputLanguage!) : [])
+    // return NextResponse.json(word ? ['1', '2', '3', '4', '5', '6', '7'] : [])
   } catch (error) {
     const err = error as ErrObj | Error
 
