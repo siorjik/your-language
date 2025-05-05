@@ -154,4 +154,8 @@ body {
   .link {
     @apply text-amber-600 dark:text-amber-500 border-b-2 border-amber-700 dark:border-amber-600 cursor-pointer;
   }
+
+  .dialog-submit-btn {
+    @apply w-fit absolute mt-4 left-[100px];
+  }
 }

@@ -30,3 +30,5 @@ export const createPassActionTypeSchema = z.object({
   password: z.string().min(5, { message: 'Password length must be at least 5' }),
   token: z.string().min(1, { message: 'Token is required' }),
 })
+
+export const recoverPassFormTypeSchema = z.object({ email: z.string().email({ message: 'Invalid email!' }) })

@@ -14,7 +14,7 @@ export default function SetItem({ set }: { set: Set }) {
       <div
         className="
           px-5 py-3 mt-2 flex gap-5 items-center justify-between border border-slate-200 rounded-lg hover:bg-slate-50
-          hover:scale-[1.02] transition-all duration-500 overflow-hidden
+          dark:hover:bg-slate-700 hover:scale-[1.01] transition-all duration-500 overflow-hidden
         "
       >
         <div className="overflow-hidden">

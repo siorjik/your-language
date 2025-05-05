@@ -2,6 +2,7 @@
 export const signInAppPath = '/sign-in'
 export const signUpAppPath = '/sign-up'
 export const createPasswordAppPath = '/create-password'
+export const recoverPasswordAppPath = '/recover-password'
 export const profileAppPath = '/profile'
 
 // set
@@ -23,3 +24,4 @@ export const twoFaApiPath = `${appHost}/api/two-fa`
 export const twoFaVerifyApiPath = '/api/two-fa/verify'
 
 export const emailCreatePassApiPath = '/api/emails/create-pass'
+export const emailRecoverPassApiPath = '/api/emails/recover-pass'
