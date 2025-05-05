@@ -101,6 +101,32 @@ export const createPass = async (data: z.infer<typeof createPassActionTypeSchema
   }
 }
 
+export const recoverPass = async (data: z.infer<typeof createPassActionTypeSchema>) => {
+  const { password, token } = data
+
+  try {
+    createPassActionTypeSchema.parse(data)
+
+    const verifiedToken = await verifyToken(token)
+
+    if ('email' in verifiedToken) {
+      const { email } = verifiedToken as { email: string }
+      const user = await prisma.user.findFirst({ where: { email } })
+
+      if (user) {
+        const hash = encode(password)
+
+        return {
+          ...(await prisma.user.update({ data: { password: hash }, where: { email }, omit: { password: true } })),
+          error: null,
+        }
+      } else throw Error(`User with ${email} not found!`)
+    } else throw Error('Token error!')
+  } catch (error) {
+    return errHandlerService(error)
+  }
+}
+
 export const oauthLogin = async (name: 'google' | 'github'): Promise<{ url: string; error: false } | Err> => {
   try {
     const res = await signIn(name, { redirect: false })
