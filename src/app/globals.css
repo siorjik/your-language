@@ -156,6 +156,6 @@ body {
   }
 
   .dialog-submit-btn {
-    @apply w-fit absolute mt-4 left-[100px];
+    @apply w-full md:w-fit md:absolute md:mt-4 md:left-[100px];
   }
 }

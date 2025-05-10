@@ -3,24 +3,19 @@
 import { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import z from 'zod'
-import Link from 'next/link'
 
-import Form from '@/components/forms/simple-form'
-import OAuthBlock from '@/components/oauth-block'
-import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp'
+import Form from './simple-form'
+import OAuthBlock from '../oauth-block'
+import { InputOTP, InputOTPGroup, InputOTPSlot } from '../ui/input-otp'
 
-import { loginFormTypeSchema, recoverPassFormTypeSchema } from '@/types/forms/auth'
+import { loginFormTypeSchema } from '@/types/forms/auth'
 import { useToast } from '@/hooks/use-toast'
-import { emailRecoverPassApiPath, signUpAppPath } from '@/utils/paths'
 import { checkTwoFa } from '@/actions/auth'
 import { Err } from '@/types/errTypes'
-import DialogWrap from '@/components/dialog-wrap'
-import apiRequestService from '@/services/apiRequestService'
 
-export default function LoginForm() {
+export default function SignInForm() {
   const [code, setCode] = useState('')
   const [isTwoFa, setTwoFa] = useState(false)
-  const [isClosed, setClose] = useState(false)
 
   const { toast } = useToast()
 
@@ -67,38 +62,6 @@ export default function LoginForm() {
     }
   }
 
-  const recoverPass = async (values: z.infer<typeof recoverPassFormTypeSchema>): Promise<boolean> => {
-    try {
-      await apiRequestService({ url: emailRecoverPassApiPath, method: 'POST', body: { ...values } })
-
-      toast({
-        title: 'Password Recovery',
-        variant: 'success',
-        description: 'Email with password recovery link was sent. Check your email.',
-      })
-
-      setClose(true)
-
-      return true
-    } catch (error) {
-      const err = error as Err
-
-      toast({ title: 'Password Recovery', variant: 'destructive', description: err.error.message })
-
-      return false
-    }
-  }
-
-  const passRecoveryForm = (
-    <Form
-      submit={recoverPass}
-      schema={recoverPassFormTypeSchema}
-      fieldsData={[{ name: 'email', label: 'Email*' }]}
-      btn={{ css: 'dialog-submit-btn' }}
-      showLoader
-    />
-  )
-
   const fieldsData = [
     { name: 'email', label: 'Email*' },
     { name: 'password', label: 'Password*', type: 'password' },
@@ -122,28 +85,9 @@ export default function LoginForm() {
           </InputOTP>
         </div>
       )}
-      <Form submit={onSubmit} schema={loginFormTypeSchema} fieldsData={fieldsData} btn={{ text: 'Login' }} showSpinner />
-      <DialogWrap
-        title="Password Recovery"
-        trigger={
-          <p className="my-8">
-            Forgot your password? <span className="link">Password Recovery</span>
-          </p>
-        }
-        content={passRecoveryForm}
-        isAutoClose={isClosed}
-      />
-      <OAuthBlock />
-      <div className="mt-8 w-fit mx-auto">
-        Go to{' '}
-        <Link className="link" href="/">
-          Home
-        </Link>
-        {' or '}
-        <Link className="link" href={signUpAppPath}>
-          Sign Up
-        </Link>{' '}
-        page
+      <Form submit={onSubmit} schema={loginFormTypeSchema} fieldsData={fieldsData} btn={{ text: 'Login' }} showLoader />
+      <div className="mt-5">
+        <OAuthBlock isMainPage />
       </div>
     </div>
   )

@@ -8,7 +8,7 @@ import { setAppPath } from '@/utils/paths'
 export default function NewSet() {
   return (
     <>
-      <Button className="mb-5">
+      <Button className="mb-5" asChild>
         <Link href={setAppPath}>Cancel</Link>
       </Button>
       <SetForm action="create" />

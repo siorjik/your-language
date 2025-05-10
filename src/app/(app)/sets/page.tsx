@@ -18,7 +18,7 @@ export default async function Sets() {
 
   return (
     <>
-      <Button className="mb-5">
+      <Button className="mb-5" asChild>
         <Link href={newSetAppPath}>Create</Link>
       </Button>
       {res.sets.map((set) => (

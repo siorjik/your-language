@@ -9,7 +9,7 @@ import Spinner from './spinner'
 import { oauthLogin } from '@/actions/auth'
 import { useToast } from '@/hooks/use-toast'
 
-export default function OAuthBlock() {
+export default function OAuthBlock({ isMainPage }: { isMainPage?: boolean }) {
   const [isLoading, setLoading] = useState(false)
 
   const { toast } = useToast()
@@ -43,7 +43,7 @@ export default function OAuthBlock() {
       <Button variant="secondary" className="w-full text-stone-500" onClick={async () => await onSubmit('github')}>
         Continue with <span className="font-semibold">Github</span>
       </Button>
-      {isLoading && <Spinner />}
+      {isLoading && !isMainPage && <Spinner />}
     </>
   )
 }
