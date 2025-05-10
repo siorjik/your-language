@@ -18,7 +18,7 @@ export default async function SetUpdate({ params }: { params: Promise<{ id: stri
 
   return (
     <>
-      <Button className="mb-5">
+      <Button className="mb-5" asChild>
         <Link href={getSetAppPath(id)}>Cancel</Link>
       </Button>
       <SetForm data={{ ...set, list: set.list as { term: string; definition: string }[] }} action="update" />

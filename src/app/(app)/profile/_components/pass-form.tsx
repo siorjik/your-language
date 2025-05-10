@@ -42,7 +42,7 @@ export default function EditAccountForm() {
         fieldsData={fieldData}
         btn={{ text: 'Update', css: 'w-auto' }}
         isReset
-        showSpinner
+        showLoader
       />
     </div>
   )

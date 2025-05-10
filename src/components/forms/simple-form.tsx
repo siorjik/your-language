@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import z, { ZodSchema } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Loader2 } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
@@ -21,6 +22,7 @@ type SimpleFormPropsType = {
   isReset?: boolean
   isDisabled?: boolean
   onSuccess?: () => void
+  showLoader?: boolean
 }
 
 export default function SimpleForm(props: SimpleFormPropsType) {
@@ -36,6 +38,7 @@ export default function SimpleForm(props: SimpleFormPropsType) {
     isReset = false,
     isDisabled = false,
     onSuccess,
+    showLoader = false,
   } = props
 
   const getDefaultValues = () => {
@@ -117,8 +120,8 @@ export default function SimpleForm(props: SimpleFormPropsType) {
             )
           })}
           {((!isDisabled && Object.keys(dirtyFields).length > 0) || isErr) && (
-            <Button className={`${btn?.css || 'w-full'}`} type="submit">
-              {btn?.text || 'Submit'}
+            <Button className={`${btn?.css || 'w-full'}`} type="submit" disabled={isSubmitting}>
+              {btn?.text || 'Submit'} {isSubmitting && showLoader && <Loader2 className="animate-spin" />}
             </Button>
           )}
         </form>

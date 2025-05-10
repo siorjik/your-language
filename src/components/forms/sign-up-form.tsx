@@ -14,7 +14,13 @@ import { SelectedUser } from '@/types/models/user'
 import { Err } from '@/types/errTypes'
 import apiRequestService from '@/services/apiRequestService'
 
-export default function CreateAccountForm() {
+export default function SignUpForm({
+  isMainPage = false,
+  onSuccess = null,
+}: {
+  isMainPage?: boolean
+  onSuccess?: (() => void) | null
+}) {
   const { toast } = useToast()
 
   const submit = async (data: z.infer<typeof createAccFormTypeSchema>): Promise<boolean> => {
@@ -34,6 +40,8 @@ export default function CreateAccountForm() {
           variant: 'success',
           description: 'Your account was created successfully! Check your email to create password and finish registration.',
         })
+
+        onSuccess?.()
       } else throw res
 
       return true
@@ -58,23 +66,26 @@ export default function CreateAccountForm() {
         schema={createAccFormTypeSchema}
         fieldsData={fieldData}
         btn={{ text: 'Create Account' }}
-        showSpinner
+        showSpinner={!isMainPage}
+        showLoader={isMainPage}
         isReset
       />
       <div className="mt-5">
-        <OAuthBlock />
+        <OAuthBlock isMainPage={isMainPage} />
       </div>
-      <div className="mt-8 w-fit mx-auto">
-        Go to{' '}
-        <Link className="link" href="/">
-          Home
-        </Link>{' '}
-        or{' '}
-        <Link className="link" href={signInAppPath}>
-          Sign In
-        </Link>{' '}
-        page
-      </div>
+      {!isMainPage && (
+        <div className="mt-8 w-fit mx-auto">
+          Go to{' '}
+          <Link className="link" href="/">
+            Home
+          </Link>{' '}
+          or{' '}
+          <Link className="link" href={signInAppPath}>
+            Sign In
+          </Link>{' '}
+          page
+        </div>
+      )}
     </div>
   )
 }

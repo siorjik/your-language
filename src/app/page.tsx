@@ -1,3 +1,4 @@
+import Main from '@/components/home'
 import Layout from '@/components/layout'
 
 // import delay from '@/helpers/delay'
@@ -10,7 +11,7 @@ export default async function Home() {
 
   return (
     <Layout>
-      <div>{session?.user ? session.user.name : 'no auth'}</div>
+      <Main session={session} />
     </Layout>
   )
 }

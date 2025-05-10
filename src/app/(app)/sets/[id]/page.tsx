@@ -22,7 +22,7 @@ export default async function SetData({ params }: { params: Promise<{ id: string
   return (
     <>
       <BreadcrumbWrap data={breadcrumbData} />
-      <Button className="mb-5">
+      <Button className="mb-5" asChild>
         <Link href={getUpdateSetAppPath(id)}>Update</Link>
       </Button>
       <SetForm data={{ ...set, list: set.list as { term: string; definition: string }[] }} />

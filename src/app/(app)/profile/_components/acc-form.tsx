@@ -51,7 +51,7 @@ export default function EditAccountForm() {
         fieldsData={fieldData}
         btn={{ text: 'Update', css: 'w-auto' }}
         data={{ email: session?.user?.email, name: session?.user?.name }}
-        showSpinner
+        showLoader
       />
     </div>
   )
