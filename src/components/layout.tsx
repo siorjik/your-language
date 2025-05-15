@@ -31,7 +31,6 @@ export default function Layout({ children }: { children: ReactNode }) {
       let lastScrollTop = div.scrollTop
 
       const cb = () => {
-        console.log('cb')
         const currentScrollTop = div.scrollTop
 
         if (currentScrollTop > lastScrollTop && currentScrollTop > 20) setHide(true)

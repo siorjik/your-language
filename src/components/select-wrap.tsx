@@ -14,7 +14,7 @@ type SelectProps = {
 export default function SelectWrap({ options, label, placeholder, defaultValue, onValueChange, disabled = false }: SelectProps) {
   return (
     <Select onValueChange={onValueChange} defaultValue={defaultValue} disabled={disabled}>
-      <SelectTrigger className="min-w-[180px]">
+      <SelectTrigger className="min-w-[180px] focus-visible:focus">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>

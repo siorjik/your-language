@@ -158,4 +158,8 @@ body {
   .dialog-submit-btn {
     @apply w-full md:w-fit md:absolute md:mt-4 md:left-[100px];
   }
+
+  .focus {
+    @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-300 focus-visible:outline-offset-2;
+  }
 }
