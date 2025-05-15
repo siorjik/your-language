@@ -5,22 +5,22 @@ import { Input } from '@/components/ui/input'
 
 interface AutoCompleteProps {
   value?: string
-  handleChange?: (value: string) => void
-  getValue?: (value: string) => void
+  handleChange?: ((value: string) => void) | null
+  getValue?: ((value: string) => void) | null
   data: string[]
-  ref?: RefObject<HTMLInputElement | null>
+  ref?: RefObject<HTMLInputElement | null> | ((el: HTMLInputElement | null) => void) | null
   disabled: boolean
-  label?: string
+  placeholder?: string
 }
 
 export default memo(function Autocomplete({
   value = '',
-  handleChange,
-  getValue,
+  handleChange = null,
+  getValue = null,
   data = [],
-  ref,
+  ref = null,
   disabled,
-  label,
+  placeholder,
 }: AutoCompleteProps) {
   const [query, setQuery] = useState(value)
   const [suggestions, setSuggestions] = useState<string[]>([])
@@ -50,9 +50,13 @@ export default memo(function Autocomplete({
     const newValue = e.target.value
 
     setQuery(newValue)
-    handleChange?.(newValue)
     setSelectedIndex(-1)
-    setIsLoading(true)
+
+    if (handleChange) {
+      handleChange(newValue)
+
+      setIsLoading(true)
+    }
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -71,6 +75,10 @@ export default memo(function Autocomplete({
     } else if (e.key === 'Escape') {
       setSuggestions([])
       setSelectedIndex(-1)
+    } else if (e.key === 'Tab') {
+      if (!query) return
+
+      setTimeout(() => getValue?.(query), 200)
     }
   }
 
@@ -101,13 +109,13 @@ export default memo(function Autocomplete({
       <div>
         <Input
           type="text"
-          placeholder={label || 'Search...'}
+          placeholder={placeholder || 'Search...'}
           value={query}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
           onFocus={handleFocus}
           onBlur={handleBlur}
-          className="pr-10"
+          className="focus-visible:focus"
           disabled={disabled}
           aria-label="Search input"
           aria-autocomplete="list"
@@ -124,7 +132,7 @@ export default memo(function Autocomplete({
       {suggestions.length > 0 && !isLoading && isFocused && (
         <ul
           id="suggestions-list"
-          className={`bg-background border rounded-md shadow-sm absolute ${isOver ? 'bottom-12' : 'top-12'} z-10`}
+          className={`py-1 bg-background border rounded-md shadow-sm absolute ${isOver ? 'bottom-12' : 'top-12'} z-10`}
           role="listbox"
         >
           {suggestions.map((suggestion, index) => (

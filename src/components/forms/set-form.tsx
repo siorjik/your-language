@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -35,7 +35,12 @@ export default function SetForm({ data = null, action = null }: SetFormProps) {
   const { push } = useRouter()
 
   const timeoutRef: { current: NodeJS.Timeout | null } = useRef(null)
-  const translateRef = useRef<HTMLInputElement | null>(null)
+  const translateRef = useRef<(HTMLInputElement | null)[]>([])
+  const dictionaryRef = useRef<HTMLInputElement | null>(null)
+
+  useEffect(() => {
+    form.setFocus('title')
+  }, [])
 
   const form = useForm<z.infer<typeof setFormTypeSchema>>({
     resolver: zodResolver(setFormTypeSchema),
@@ -77,6 +82,8 @@ export default function SetForm({ data = null, action = null }: SetFormProps) {
   }, [])
 
   const setTranslates = async (val: string, name: string): Promise<void> => {
+    if (!val) return
+
     try {
       const words: string[] = await apiRequestService({
         url: translateApiPath,
@@ -102,13 +109,13 @@ export default function SetForm({ data = null, action = null }: SetFormProps) {
                 <FormItem className="grow">
                   <FormLabel>Title*</FormLabel>
                   <FormControl>
-                    <Input {...field} disabled={!action} />
+                    <Input className="focus-visible:focus" {...field} disabled={!action} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <span className="h-fit w-fit py-3 px-4 mx-auto md:mt-6 border rounded-full">{fields.length}</span>
+            <span className="h-fit w-11 text-center py-3 mx-auto md:mt-6 border rounded-full">{fields.length}</span>
             <FormField
               control={form.control}
               name="source"
@@ -174,7 +181,7 @@ export default function SetForm({ data = null, action = null }: SetFormProps) {
                   mt-3 p-3 flex flex-col md:flex-row items-center md:items-stretch gap-3 bg-slate-50 dark:bg-slate-600 rounded-md
                 "
               >
-                <span className="md:mt-8 text-sm">{idx + 1}</span>
+                <span className="md:mt-9 text-sm">{idx + 1}</span>
                 <FormField
                   control={form.control}
                   name={`list.${idx}.term`}
@@ -188,17 +195,21 @@ export default function SetForm({ data = null, action = null }: SetFormProps) {
                           getValue={(val) => {
                             form.setValue(field.name, val)
 
-                            setTranslates(val, field.name)
+                            setTranslates(val, `list.${idx}.definition`)
 
-                            translateRef.current!.focus()
+                            translateRef.current[idx]!.focus()
 
+                            setTranslate({ ...translate, words: ['Loading...'] })
                             setDictionary({ name: '', words: [] })
                           }}
                           data={dictionary.words}
                           disabled={!(form.getValues('source') && form.getValues('target')) || !action}
-                          label={
-                            !(form.getValues('source') && form.getValues('target')) ? 'Choose language source and target' : ''
+                          placeholder={
+                            !(form.getValues('source') && form.getValues('target'))
+                              ? 'Choose language source and target'
+                              : 'Search Term'
                           }
+                          ref={dictionaryRef}
                         />
                       </FormControl>
                       <FormDescription>
@@ -217,17 +228,24 @@ export default function SetForm({ data = null, action = null }: SetFormProps) {
                       <FormControl>
                         <Autocomplete
                           value={field.value}
-                          handleChange={(val) => handleChange(val, field.name)}
                           getValue={(val) => {
-                            form.setValue(field.name, val)
+                            if (field.name === translate.name) {
+                              form.setValue(field.name, val)
 
-                            setTranslate({ name: '', words: [] })
+                              setTranslate({ name: '', words: [] })
+                            }
                           }}
                           data={translate.words}
-                          ref={translateRef}
+                          ref={(el) => {
+                            field.ref(el)
+
+                            translateRef.current[idx] = el
+                          }}
                           disabled={!(form.getValues('source') && form.getValues('target')) || !action}
-                          label={
-                            !(form.getValues('source') && form.getValues('target')) ? 'Choose language source and target' : ''
+                          placeholder={
+                            !(form.getValues('source') && form.getValues('target'))
+                              ? 'Choose language source and target'
+                              : 'Search Definition'
                           }
                         />
                       </FormControl>
@@ -239,18 +257,34 @@ export default function SetForm({ data = null, action = null }: SetFormProps) {
                   )}
                 />
                 {fields.length > 1 && action && (
-                  <span className="md:mt-8" onClick={() => remove(idx)}>
-                    <TrashIcon />
-                  </span>
+                  <Button
+                    type="button"
+                    className="md:mt-8 p-0 w-fit h-fit hover:bg-transparent focus-visible:focus"
+                    variant="ghost"
+                    onClick={() => remove(idx)}
+                  >
+                    <TrashIcon style={{ height: '22px', width: '22px' }} />
+                  </Button>
                 )}
               </div>
             )
           })}
           {!!form.getValues('source') && form.getValues('target') && action && (
-            <CirclePlus className="mt-3 mx-auto" onClick={() => append({ term: '', definition: '' })} />
+            <Button
+              type="button"
+              className="mt-3 mx-auto p-0 w-fit h-fit block hover:bg-transparent focus-visible:focus"
+              variant="ghost"
+              onClick={() => {
+                append({ term: '', definition: '' })
+
+                setTimeout(() => dictionaryRef.current?.focus(), 200)
+              }}
+            >
+              <CirclePlus style={{ height: '22px', width: '22px' }} />
+            </Button>
           )}
           {action && (
-            <Button type="button" className="mt-3" onClick={form.handleSubmit(onSubmit)}>
+            <Button type="button" className="mt-3 focus-visible:focus" onClick={form.handleSubmit(onSubmit)}>
               {action === 'create' ? 'Create' : 'Update'}
             </Button>
           )}
