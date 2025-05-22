@@ -137,7 +137,7 @@ export default memo(function Autocomplete({
         >
           {suggestions.map((suggestion, index) => (
             <li
-              key={suggestion}
+              key={suggestion + index}
               className={`px-4 py-2 cursor-pointer hover:bg-muted ${index === selectedIndex ? 'bg-muted' : ''}`}
               onClick={() => handleSuggestionClick(suggestion)}
               role="option"

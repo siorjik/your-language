@@ -5,7 +5,7 @@ export default async function RecoverPasswordPage({ searchParams }: { searchPara
 
   return (
     <>
-      <h2 className="title">Recover Password</h2>
+      <h2>Recover Password</h2>
       <RecoverPassword token={token} />
     </>
   )

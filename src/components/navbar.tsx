@@ -73,19 +73,23 @@ export default function Navbar() {
               />
             )}
           </NavigationMenuTrigger>
-          <NavigationMenuContent className="p-3 flex flex-col gap-3 text-current">
+          <NavigationMenuContent className="flex flex-col">
             {session.user.isCredentials && (
               <NavigationMenuLink asChild>
-                <Link className="flex items-center gap-2" href={profileAppPath}>
-                  <UserRoundCog className="text-muted-foreground" />
+                <Link className="w-full p-2 hover:bg-accent" href={profileAppPath}>
+                  <UserRoundCog className="mx-auto text-muted-foreground" />
                 </Link>
               </NavigationMenuLink>
             )}
             <NavigationMenuLink asChild>
-              <ThemeBtn />
+              <span className="p-2 hover:bg-accent">
+                <ThemeBtn />
+              </span>
             </NavigationMenuLink>
             <NavigationMenuLink asChild>
-              <LogOut onClick={logOut} className="text-muted-foreground" />
+              <span className="w-full p-2 hover:bg-accent">
+                <LogOut onClick={logOut} className="mx-auto text-muted-foreground" />
+              </span>
             </NavigationMenuLink>
           </NavigationMenuContent>
         </NavigationMenuItem>

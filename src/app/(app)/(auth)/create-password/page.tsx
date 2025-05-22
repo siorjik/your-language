@@ -5,7 +5,7 @@ export default async function CreatePasswordPage({ searchParams }: { searchParam
 
   return (
     <>
-      <h2 className="title">Create Password</h2>
+      <h2>Create Password</h2>
       <CreatePassword token={token} />
     </>
   )

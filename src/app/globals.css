@@ -147,8 +147,12 @@ body {
     outline: none;
   }
 
-  .title {
-    @apply mb-8 text-3xl font-medium;
+  h2 {
+    @apply mb-8 text-3xl font-medium leading-none;
+  }
+
+  h3 {
+    @apply mb-8 text-2xl font-medium leading-none;
   }
 
   .link {
