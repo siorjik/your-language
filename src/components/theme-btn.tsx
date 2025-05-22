@@ -21,6 +21,7 @@ export default function ThemeBtn() {
         <button
           className="border-2 border-muted-foreground rounded-md"
           onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+          onKeyDown={(e) => e.preventDefault()}
         >
           {mode === 'light' ? <Moon className="text-muted-foreground" /> : <Sun className="text-muted-foreground" />}
         </button>

@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import { GalleryHorizontal, FilePenLine } from 'lucide-react'
 
 import SetForm from '@/components/forms/set-form'
 import { Button } from '@/components/ui/button'
@@ -8,7 +9,8 @@ import BreadcrumbWrap from '@/components/breadcrumb-wrap'
 import { getSetById } from '@/actions/set'
 import { Err } from '@/types/errTypes'
 import { Set } from '@prisma/client'
-import { getUpdateSetAppPath, setAppPath } from '@/utils/paths'
+import { getFlashcardsAppPath, getUpdateSetAppPath, setAppPath } from '@/utils/paths'
+import { SetList } from '@/types/models/set'
 
 export default async function SetData({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -22,10 +24,23 @@ export default async function SetData({ params }: { params: Promise<{ id: string
   return (
     <>
       <BreadcrumbWrap data={breadcrumbData} />
-      <Button className="mb-5" asChild>
-        <Link href={getUpdateSetAppPath(id)}>Update</Link>
-      </Button>
-      <SetForm data={{ ...set, list: set.list as { term: string; definition: string }[] }} />
+      <div className="mb-5 flex justify-between">
+        <Button asChild>
+          <Link href={getUpdateSetAppPath(id)}>
+            <FilePenLine />
+            Update
+          </Link>
+        </Button>
+        <div className="flex">
+          <Button variant="outline" asChild>
+            <Link href={getFlashcardsAppPath(id)}>
+              <GalleryHorizontal />
+              Flashcards
+            </Link>
+          </Button>
+        </div>
+      </div>
+      <SetForm data={{ ...set, list: set.list as SetList }} />
     </>
   )
 }
