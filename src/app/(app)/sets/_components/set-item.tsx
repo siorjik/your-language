@@ -14,8 +14,8 @@ export default function SetItem({ set }: { set: Set }) {
     <>
       <motion.div
         className="
-          px-5 py-3 mt-2 flex gap-5 items-center justify-between border border-slate-200 rounded-lg hover:bg-slate-50
-          dark:hover:bg-slate-700 overflow-hidden
+          px-5 py-3 mt-2 flex gap-5 items-center justify-between border border-primary rounded-lg
+          hover:bg-secondary overflow-hidden
         "
         initial={{ y: -300, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}

@@ -68,7 +68,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         <>
           <header
             className={`
-              w-full h-[55px] px-5 md:px-8 py-2 flex items-center fixed bg-stone-50 dark:bg-stone-900 z-10
+              w-full h-[55px] px-5 md:px-8 py-2 flex items-center fixed bg-header z-10
               ${isHide ? 'top-[-55px]' : 'top-0'} transition-all duration-500
             `}
           >
@@ -78,7 +78,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           </header>
           <main className="h-[100vh] pt-[55px] overflow-x-hidden overflow-y-auto transition-all scroll-smooth" ref={mainRef}>
             <div className="min-h-[calc(100dvh-110px)] px-5 md:px-8 xl:px-0 py-5 w-full m-auto max-w-7xl">{children}</div>
-            <footer className="min-h-[55px] px-5 md:px-8 py-3 flex justify-between items-center bg-slate-200 dark:bg-slate-800">
+            <footer className="min-h-[55px] px-5 md:px-8 py-3 flex justify-between items-center bg-footer">
               <div className="w-full m-auto max-w-7xl flex justify-between items-center text-sm text-muted-foreground">
                 <span>&copy;{new Date().getFullYear()}</span>
                 <ThemeBtn />

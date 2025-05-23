@@ -115,7 +115,6 @@ export default memo(function Autocomplete({
           onKeyDown={handleKeyDown}
           onFocus={handleFocus}
           onBlur={handleBlur}
-          className="focus-visible:focus"
           disabled={disabled}
           aria-label="Search input"
           aria-autocomplete="list"

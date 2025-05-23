@@ -101,14 +101,14 @@ export default function ChangeImageForm() {
           <input className="absolute h-[200px] w-[200px] opacity-0 cursor-pointer rounded-full" type="file" onChange={onChange} />
           {image.url ? (
             <Image
-              className="rounded-full border-4 border-pink-400 object-cover w-[200px] h-[200px]"
+              className="rounded-full border-4 border-secondary object-cover w-[200px] h-[200px]"
               src={image.url as string}
               width={200}
               height={200}
               alt="user"
             />
           ) : (
-            <div className="flex justify-center items-center rounded-full border-4 border-pink-400 w-[200px] h-[200px]">
+            <div className="flex justify-center items-center rounded-full border-4 border-secondary w-[200px] h-[200px]">
               <User size={100} />
             </div>
           )}

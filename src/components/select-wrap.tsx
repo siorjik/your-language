@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 type SelectProps = {
   options: { value: string; label: string }[]
   label?: string
-  onValueChange: (val?: string) => void
+  onValueChange: (val: string) => void
   defaultValue: string
   placeholder: string
   disabled?: boolean
@@ -29,7 +29,7 @@ export default function SelectWrap({
 
   return (
     <Select open={isOpen} onOpenChange={setIsOpen} onValueChange={onValueChange} defaultValue={defaultValue} disabled={disabled}>
-      <SelectTrigger className="min-w-[180px] focus-visible:focus">
+      <SelectTrigger className="min-w-[180px]">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>
