@@ -16,10 +16,10 @@ export default function Spinner() {
   return (
     <div
       className="
-        flex justify-center items-center fixed w-full h-screen bg-slate-400/80 dark:bg-slate-700/50 top-0 left-0 z-[100]
+        flex justify-center items-center fixed w-full h-screen bg-primary/30 top-0 left-0 z-[100]
       "
     >
-      <ScaleLoader color={`${mode === 'light' ? 'black' : 'gray'}`} />
+      <ScaleLoader color={`${!mode.includes('-dark') ? 'black' : 'gray'}`} />
     </div>
   )
 }

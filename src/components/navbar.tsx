@@ -59,7 +59,7 @@ export default function Navbar() {
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger className="px-0 bg-stone-50 dark:bg-stone-900">
+          <NavigationMenuTrigger className="px-0 bg-header">
             {!session.user.image ? (
               <Settings className="text-muted-foreground" />
             ) : (
@@ -76,18 +76,18 @@ export default function Navbar() {
           <NavigationMenuContent className="flex flex-col">
             {session.user.isCredentials && (
               <NavigationMenuLink asChild>
-                <Link className="w-full p-2 hover:bg-accent" href={profileAppPath}>
+                <Link className="w-full py-2 px-3 hover:bg-accent" href={profileAppPath}>
                   <UserRoundCog className="mx-auto text-muted-foreground" />
                 </Link>
               </NavigationMenuLink>
             )}
             <NavigationMenuLink asChild>
-              <span className="p-2 hover:bg-accent">
+              <span className="py-2 px-3 hover:bg-accent">
                 <ThemeBtn />
               </span>
             </NavigationMenuLink>
             <NavigationMenuLink asChild>
-              <span className="w-full p-2 hover:bg-accent">
+              <span className="w-full py-2 px-3 hover:bg-accent">
                 <LogOut onClick={logOut} className="mx-auto text-muted-foreground" />
               </span>
             </NavigationMenuLink>

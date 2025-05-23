@@ -72,7 +72,7 @@ export default function Flashcards({ data }: { data: Set }) {
     if (isSound && selectedMode === mode) sound(true, index + newDirection, selectedMode)
 
     const xVariants = {
-      hidden: { x: newDirection > 0 ? 300 : -300, y: 30, rotate: newDirection > 0 ? 10 : -10, opacity: 0.3 },
+      hidden: { x: newDirection > 0 ? 300 : -300, y: -30, rotate: newDirection > 0 ? -10 : 10, opacity: 0.3 },
       visible: { x: 0, y: 0, rotate: 0, opacity: 1 },
       exit: { x: newDirection > 0 ? -300 : 300, opacity: 0 },
     }
@@ -117,7 +117,6 @@ export default function Flashcards({ data }: { data: Set }) {
     <>
       <h2 className="font-semibold text-center">{data.title}</h2>
       <div className="w-fit mx-auto mb-5">
-        <p className="mb-2">Choose mode:</p>
         <SelectWrap
           options={[
             { label: `Term (${languageOptions.find((item) => data.source === item.value)?.label})`, value: 'term' },
@@ -156,38 +155,38 @@ export default function Flashcards({ data }: { data: Set }) {
           `}
           onClick={() => play(!isPlay)}
         >
-          <Play size={20} />
+          <Play size={22} />
         </span>
         <CircleArrowLeft
-          className={`${index > 0 ? '' : 'text-slate-300 dark:text-gray-700'}`}
+          className={`${index > 0 ? '' : 'text-secondary'}`}
           strokeWidth={1}
           size={40}
           onClick={() => paginate(-1)}
         />
         <span>{index + 1 + ' / ' + setList.length}</span>
         <CircleArrowRight
-          className={`${index + 1 < setList.length ? '' : 'text-slate-300 dark:text-gray-700'}`}
+          className={`${index + 1 < setList.length ? '' : 'text-secondary'}`}
           strokeWidth={1}
           size={40}
           onClick={() => paginate(1)}
         />
         <span
-          className={`
-            absolute right-[-100px] border-2 rounded-full p-[5px] border-transparent
-            ${isSound ? '!border-gray-500 dark:border-gray-500' : ''}
-          `}
-          onClick={() => setSound(!isSound)}
-        >
-          <Volume2 size={25} />
-        </span>
-        <span
-          className="absolute right-[-50px] md:right-[-135px]"
+          className="absolute right-[-90px]"
           onClick={() => {
             setIndex(0)
             setMode(selectedMode)
           }}
         >
           <RotateCcw size={20} />
+        </span>
+        <span
+          className={`
+            absolute right-[-60px] md:right-[-150px] border-2 rounded-full p-[5px] border-transparent
+            ${isSound ? '!border-gray-500 dark:border-gray-500' : ''}
+          `}
+          onClick={() => setSound(!isSound)}
+        >
+          <Volume2 size={25} />
         </span>
       </div>
     </>

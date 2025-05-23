@@ -109,7 +109,7 @@ export default function SetForm({ data = null, action = null }: SetFormProps) {
                 <FormItem className="grow">
                   <FormLabel>Title*</FormLabel>
                   <FormControl>
-                    <Input className="focus-visible:focus" {...field} disabled={!action} />
+                    <Input {...field} disabled={!action} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -177,9 +177,7 @@ export default function SetForm({ data = null, action = null }: SetFormProps) {
             return (
               <div
                 key={field.id}
-                className="
-                  mt-3 p-3 flex flex-col md:flex-row items-center md:items-stretch gap-3 bg-slate-50 dark:bg-slate-600 rounded-md
-                "
+                className="mt-3 p-3 flex flex-col md:flex-row items-center md:items-stretch gap-3 bg-secondary rounded-md"
               >
                 <span className="md:mt-9 text-sm">{idx + 1}</span>
                 <FormField
@@ -259,7 +257,7 @@ export default function SetForm({ data = null, action = null }: SetFormProps) {
                 {fields.length > 1 && action && (
                   <Button
                     type="button"
-                    className="md:mt-8 p-0 w-fit h-fit hover:bg-transparent focus-visible:focus"
+                    className="md:mt-8 p-0 w-fit h-fit hover:bg-transparent"
                     variant="ghost"
                     onClick={() => remove(idx)}
                   >
@@ -272,7 +270,7 @@ export default function SetForm({ data = null, action = null }: SetFormProps) {
           {!!form.getValues('source') && form.getValues('target') && action && (
             <Button
               type="button"
-              className="mt-3 mx-auto p-0 w-fit h-fit block hover:bg-transparent focus-visible:focus"
+              className="mt-3 mx-auto p-0 w-fit h-fit block hover:bg-transparent"
               variant="ghost"
               onClick={() => {
                 append({ term: '', definition: '' })
@@ -284,7 +282,7 @@ export default function SetForm({ data = null, action = null }: SetFormProps) {
             </Button>
           )}
           {action && (
-            <Button type="button" className="mt-3 focus-visible:focus" onClick={form.handleSubmit(onSubmit)}>
+            <Button type="button" className="mt-3" onClick={form.handleSubmit(onSubmit)}>
               {action === 'create' ? 'Create' : 'Update'}
             </Button>
           )}
