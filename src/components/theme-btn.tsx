@@ -21,7 +21,6 @@ export default function ThemeBtn() {
     <>
       {mode && (
         <button
-          // className="border-2 border-muted-foreground rounded-md"
           onClick={() => setTheme(theme?.includes('-dark') ? theme.replace('-dark', '') : theme + '-dark')}
           onKeyDown={(e) => e.preventDefault()}
         >

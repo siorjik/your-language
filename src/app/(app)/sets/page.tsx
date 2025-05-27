@@ -21,11 +21,12 @@ export default async function Sets() {
       <Button className="mb-5" asChild>
         <Link href={newSetAppPath}>Create</Link>
       </Button>
-      {res.sets.map((set) => (
-        <Link key={set.id} href={getSetAppPath(set.id)}>
-          <SetItem set={set} />
-        </Link>
-      ))}
+      {!res.sets.length ? <p className='w-fit mx-auto'>There are no sets yet...</p> :
+        res.sets.map((set) => (
+          <Link key={set.id} href={getSetAppPath(set.id)}>
+            <SetItem set={set} />
+          </Link>
+        ))}
     </>
   )
 }

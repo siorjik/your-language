@@ -11,6 +11,7 @@ import { Set } from '@prisma/client'
 import SelectWrap from '@/components/select-wrap'
 import { languageOptions } from '@/utils/constants'
 import useKeyPress from '@/hooks/useKeyPress'
+import getShuffledArr from '@/helpers/getShuffledArr'
 
 export default function Flashcards({ data }: { data: Set }) {
   const [mode, setMode] = useState<'term' | 'definition'>('term')
@@ -81,28 +82,18 @@ export default function Flashcards({ data }: { data: Set }) {
   }
 
   const rotate = () => {
-    const yVariants = { hidden: { opacity: 0, rotateX: 90 }, visible: { rotateX: 0, opacity: 1 }, exit: { opacity: 0 } }
+    const yVariants = { hidden: { opacity: 0.5, rotateX: 90 }, visible: { rotateX: 0, opacity: 1 }, exit: { opacity: 0.5 } }
 
     setVariants(yVariants)
     setMode(mode === 'term' ? 'definition' : 'term')
   }
 
   const shuffle = () => {
-    const arr = [...setList]
+    const shuffledArr = getShuffledArr(setList)
 
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1))
-
-      ;[arr[i], arr[j]] = [arr[j], arr[i]] // swap
-    }
-
-    setSetList(arr)
+    setSetList(shuffledArr as SetList)
     setIndex(0)
     setMode(selectedMode)
-  }
-
-  const play = (isPlay: boolean) => {
-    setPlay(isPlay)
   }
 
   const sound = (isSound: boolean = true, itemIndex: number | null = null, itemMode: 'term' | 'definition' | null = null) => {
@@ -138,7 +129,7 @@ export default function Flashcards({ data }: { data: Set }) {
         exit="exit"
         transition={{ duration: 0.5 }}
       >
-        <Card onClick={rotate}>
+        <Card className="shadow-xl" onClick={rotate}>
           <CardContent className="h-80 flex items-center justify-center p-6 overflow-auto text-center">
             <span className="w-full text-3xl">{setList[index][mode]}</span>
           </CardContent>
@@ -153,7 +144,7 @@ export default function Flashcards({ data }: { data: Set }) {
             absolute left-[-60px] md:left-[-145px] border-2 rounded-full p-[5px] border-transparent
             ${isPlay ? '!border-gray-500 dark:border-gray-500' : ''}
           `}
-          onClick={() => play(!isPlay)}
+          onClick={() => setPlay(!isPlay)}
         >
           <Play size={22} />
         </span>

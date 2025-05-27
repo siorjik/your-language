@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { GalleryHorizontal, FilePenLine } from 'lucide-react'
+import { GalleryHorizontal, FilePenLine, BrainCircuit } from 'lucide-react'
 
 import SetForm from '@/components/forms/set-form'
 import { Button } from '@/components/ui/button'
@@ -9,7 +9,7 @@ import BreadcrumbWrap from '@/components/breadcrumb-wrap'
 import { getSetById } from '@/actions/set'
 import { Err } from '@/types/errTypes'
 import { Set } from '@prisma/client'
-import { getFlashcardsAppPath, getUpdateSetAppPath, setAppPath } from '@/utils/paths'
+import { getFlashcardsAppPath, getMemorizationAppPath, getUpdateSetAppPath, setAppPath } from '@/utils/paths'
 import { SetList } from '@/types/models/set'
 
 export default async function SetData({ params }: { params: Promise<{ id: string }> }) {
@@ -31,11 +31,17 @@ export default async function SetData({ params }: { params: Promise<{ id: string
             Update
           </Link>
         </Button>
-        <div className="flex">
+        <div className="flex gap-2">
           <Button variant="outline" asChild>
             <Link href={getFlashcardsAppPath(id)}>
               <GalleryHorizontal />
               Flashcards
+            </Link>
+          </Button>
+          <Button variant="outline" asChild>
+            <Link href={getMemorizationAppPath(id)}>
+              <BrainCircuit />
+              Memorization
             </Link>
           </Button>
         </div>

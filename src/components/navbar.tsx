@@ -39,14 +39,13 @@ export default function Navbar() {
     let css: string = ''
 
     if (pathname === path || (pathname.startsWith(path) && path !== '/')) {
-      css = '!border-stone-500 dark:!border-yellow-500'
+      css = '!border-primary'
     }
 
     return (
       <Link
         className={`
-          px-2 border-b-[3px] border-transparent font-semibold hover:border-stone-300
-          dark:hover:border-stone-500 relative top-[8px] pb-[17px] ${css}
+          px-2 border-b-[3px] border-transparent font-semibold hover:border-accent relative top-[8px] pb-[17px] ${css}
         `}
         href={path}
       >
