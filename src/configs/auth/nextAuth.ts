@@ -33,7 +33,8 @@ export default {
 
         if (!user || user.error) throw new InvalidLoginError()
 
-        const expires = new Date(Date.now() + 1000 * 60 * 60) // 60 mins session expiration
+        const hours = 2
+        const expires = new Date(Date.now() + 1000 * 60 * 60 * hours) // session expiration
 
         // create session manually for credentials
         const session = await prisma.session.create({ data: { userId: user.id, sessionToken: crypto.randomUUID(), expires } })

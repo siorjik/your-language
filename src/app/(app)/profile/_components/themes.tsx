@@ -18,7 +18,8 @@ export default function ColorThemes() {
     .map((theme) => ({ label: theme.label, value: theme.value }))
 
   const onSelectTheme = (val: string) => {
-    console.log(val)
+    if (val === theme) return
+
     setShow(true)
 
     setTimeout(() => {

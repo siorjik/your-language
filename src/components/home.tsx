@@ -37,7 +37,7 @@ export default function Main({ session }: { session: Session | null }) {
   return (
     <div>
       {session?.user ? (
-        session.user.name
+        <div>Welcome, {session.user.name}</div>
       ) : (
         <DialogWrap
           title="Welcome!"
