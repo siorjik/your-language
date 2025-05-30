@@ -29,16 +29,16 @@ export default function Memorization({ data }: { data: Set }) {
     shuffledArr.push(setList[index])
 
     setShuffledList(getShuffledArr(shuffledArr) as SetList)
-  }, [index])
+  }, [index, setList])
 
   const onSetResult = (item: SetListItem, idx: number): void => {
     const isLast = index + 1 === setList.length
 
     if (item[selectedMode] === setList[index][selectedMode]) {
       setSelectedAnswerStyle({ style: 'bg-success text-success-foreground', idx })
+      setResult({ ...result, passed: [...result.passed, setList[index]] })
 
       setTimeout(() => {
-        setResult({ ...result, passed: [...result.passed, setList[index]] })
         setSelectedAnswerStyle(null)
 
         if (!isLast) setIndex((prev) => prev + 1)
@@ -46,14 +46,21 @@ export default function Memorization({ data }: { data: Set }) {
       }, 1000)
     } else {
       setSelectedAnswerStyle({ style: 'bg-destructive text-destructive-foreground', idx })
+      setResult({ ...result, failed: [...result.failed, setList[index]] })
+
+      // show correct answer if failed
+      shuffledList.forEach((el, idx) => {
+        if (el[selectedMode] === setList[index][selectedMode]) {
+          setTimeout(() => setSelectedAnswerStyle({ style: 'bg-accent', idx }), 1000)
+        }
+      })
 
       setTimeout(() => {
-        setResult({ ...result, failed: [...result.failed, setList[index]] })
         setSelectedAnswerStyle(null)
 
         if (!isLast) setIndex((prev) => prev + 1)
         else setFinish(true)
-      }, 1000)
+      }, 3000)
     }
   }
 
@@ -65,8 +72,6 @@ export default function Memorization({ data }: { data: Set }) {
   }
 
   const shuffle = () => {
-    if (index === 0) return
-
     const shuffledArr = getShuffledArr(setList)
 
     setSetList(shuffledArr as SetList)
@@ -96,11 +101,11 @@ export default function Memorization({ data }: { data: Set }) {
           <p className="mb-5 text-lg font-semibold">{setList[index][selectedMode]}:</p>
           <motion.ul
             key={index}
-            className="grid grid-cols-2 gap-2"
+            className="grid grid-cols-1 md:grid-cols-2 gap-2"
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0 }}
-            transition={{ duration: 0.5, type: 'spring', stiffness: 200 }}
+            transition={{ duration: 1, type: 'spring', stiffness: 200 }}
           >
             {shuffledList?.map((item, idx) => (
               <motion.li
@@ -153,9 +158,9 @@ export default function Memorization({ data }: { data: Set }) {
           <motion.span
             className="inline-block"
             key={result.passed.length}
-            initial={{ scale: 3 }}
+            initial={{ scale: 5 }}
             animate={{ scale: 1 }}
-            transition={{ duration: 1, type: 'spring', stiffness: 300 }}
+            transition={{ duration: 2, type: 'spring', stiffness: 300 }}
           >
             {result.passed.length}
           </motion.span>
@@ -165,9 +170,9 @@ export default function Memorization({ data }: { data: Set }) {
           <motion.span
             className="inline-block"
             key={result.failed.length}
-            initial={{ scale: 3 }}
+            initial={{ scale: 5 }}
             animate={{ scale: 1 }}
-            transition={{ duration: 1, type: 'spring', stiffness: 300 }}
+            transition={{ duration: 2, type: 'spring', stiffness: 300 }}
           >
             {result.failed.length}
           </motion.span>
@@ -176,7 +181,7 @@ export default function Memorization({ data }: { data: Set }) {
 
       {isFinish && (
         <div className="w-fit mt-5 mx-auto text-xl font-semibold">
-          Do you want to{' '}
+          Nice job! Do you want to{' '}
           {!!result.failed.length && (
             <>
               <span className="link" onClick={() => onStartOver('repeat')}>
