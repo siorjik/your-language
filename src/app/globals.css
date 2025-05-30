@@ -344,4 +344,12 @@ body {
   .focus {
     @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-300 focus-visible:outline-offset-2;
   }
+
+  .border-animated {
+    @apply relative text-xl w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-secondary after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-500 after:origin-center;
+  }
+
+  .bg-animated {
+    @apply relative text-xl w-fit block after:block after:content-[''] after:absolute after:h-[100%] after:top-0 after:z-[-1] after:bg-secondary after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-500 after:origin-center;
+  }
 }
