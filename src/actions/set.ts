@@ -55,9 +55,9 @@ export const getSetList = async (): Promise<{ sets: Set[]; error: null } | Err> 
 
 export const getSetById = async (id: string): Promise<(Set & { error: null }) | Err> => {
   try {
-    await getServerSessionToken()
+    const session = await getServerSessionToken()
 
-    const set = await prisma.set.findFirst({ where: { id } })
+    const set = await prisma.set.findFirst({ where: { id, userId: session.id } })
 
     if (set) return { ...set, error: null }
     else throw Error('Set not found')

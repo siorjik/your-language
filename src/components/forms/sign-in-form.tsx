@@ -65,7 +65,6 @@ export default function SignInForm() {
   const fieldsData = [
     { name: 'email', label: 'Email*' },
     { name: 'password', label: 'Password*', type: 'password' },
-    { name: 'code', label: 'Code', hidden: true },
   ]
 
   return (

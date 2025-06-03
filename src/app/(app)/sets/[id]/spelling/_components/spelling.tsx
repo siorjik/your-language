@@ -64,41 +64,20 @@ export default function Memorization({ data }: { data: Set }) {
       const valueCharArr = value.split('')
       const setListItemCharArr = setList[index].term.split('')
 
-      if (valueCharArr.length === setListItemCharArr.length) {
-        valueCharArr.forEach((val, idx) => {
-          if (val !== setListItemCharArr[idx]) arr.push({ value: val, isCorrect: false })
-          else arr.push({ value: val, isCorrect: true })
-        })
-      } else {
-        let i = 0
-        let j = 0
+      const startIndex = valueCharArr.indexOf(setListItemCharArr[0])
+      const spareStartArr = valueCharArr.slice(0, startIndex)
+      const valueArr = valueCharArr.slice(startIndex, setListItemCharArr.length + startIndex)
+      const spareEndArr = valueCharArr.slice(setListItemCharArr.length + startIndex)
 
-        valueCharArr.forEach((val, idx) => {
-          if (!setList[index].term.includes(val)) {
-            arr.push({ value: val, isCorrect: false })
+      if (!!spareStartArr.length) spareStartArr.forEach((value) => arr.push({ value, isCorrect: false }))
 
-            j += idx > 0 ? 1 : 0
-          } else {
-            if (setListItemCharArr[i] !== value[idx - j] && !arr.find((_, index) => index !== idx - j)) {
-              arr.push({ value: val, isCorrect: false })
-
-              i += 1
-            } else if (setListItemCharArr.length - 1 > i && setListItemCharArr[i] === value[idx - j]) {
-              arr.push({ value: val, isCorrect: true })
-
-              i += 1
-            } /*else if (!arr.find((_, index) => index !== idx - j)) {
-              arr.push({ value: val, isCorrect: false })
-
-              i += 1
-            }*/ else {
-              arr.push({ value: val, isCorrect: false })
-
-              i += 1
-            }
-          }
+      if (!!valueArr.length) {
+        valueArr.forEach((value, idx) => {
+          arr.push({ value, isCorrect: value === setListItemCharArr[idx] ? true : false })
         })
       }
+
+      if (!!spareEndArr.length) spareEndArr.forEach((value) => arr.push({ value, isCorrect: false }))
 
       setSelectedAnswerStyle({ style: 'text-destructive font-semibold text-2xl', letters: [...arr] })
       setResult({ ...result, failed: [...result.failed, setList[index]] })
@@ -115,6 +94,10 @@ export default function Memorization({ data }: { data: Set }) {
     setIndex(0)
     setResult({ passed: [], failed: [] })
     setFinish(false)
+    setSelectedAnswerStyle(null)
+    setValue('')
+
+    setTimeout(() => inputRef.current?.focus(), 100)
   }
 
   const shuffle = () => {
@@ -123,6 +106,8 @@ export default function Memorization({ data }: { data: Set }) {
     setSetList(shuffledArr as SetList)
     setIndex(0)
     setResult({ passed: [], failed: [] })
+    setSelectedAnswerStyle(null)
+    setValue('')
   }
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value)
@@ -205,7 +190,7 @@ export default function Memorization({ data }: { data: Set }) {
       {!isFinish && (
         <>
           <div className="my-5 mx-auto flex items-center justify-center gap-10">
-            <Button size="sm" onClick={onSetResult}>
+            <Button size="sm" variant="outline" onClick={onSetResult}>
               Check
             </Button>
             <span onClick={shuffle}>
@@ -228,7 +213,7 @@ export default function Memorization({ data }: { data: Set }) {
             >
               <RotateCcw size={20} />
             </span>
-            <Button size="sm" onClick={onProvideAnswer}>
+            <Button size="sm" variant="outline" onClick={onProvideAnswer}>
               Answer
             </Button>
           </div>

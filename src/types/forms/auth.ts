@@ -3,7 +3,7 @@ import z from 'zod'
 export const loginFormTypeSchema = z.object({
   email: z.string().email({ message: 'Invalid email!' }),
   password: z.string().min(1, { message: 'Password is required!' }),
-  code: z.string().nullable(),
+  code: z.string().optional(),
 })
 
 export const createAccFormTypeSchema = z.object({
