@@ -13,7 +13,7 @@ echo "🚀 Running migrations..."
 pnpm migrate
 
 # Run seeds
-echo "🚀 Running migrations..."
+echo "🚀 Running seeds..."
 pnpm seed
 
 # Build the Next.js app

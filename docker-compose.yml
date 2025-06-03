@@ -1,6 +1,6 @@
-# networks:
-#   your-language:
-#     driver: bridge
+networks:
+  your-language:
+    driver: bridge
 
 volumes:
   postgres-data:
@@ -20,12 +20,26 @@ services:
     environment:
       - PORT=3001
     restart: always
+    networks:
+      - your-language
     depends_on:
       - db
     # volumes:
     #   - ./app:/app
     #   - /app/node_modules
     #   - /app/.next
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - your-language
+    depends_on:
+      - next-js
 
   db:
     image: postgres
@@ -41,3 +55,5 @@ services:
       - postgres-data:/var/lib/postgresql/data
     ports:
       - '5432:5432'
+    networks:
+      - your-language
