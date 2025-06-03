@@ -11,7 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input'
 import Spinner from '../spinner'
 
-type FieldsDataType = { name: string; label: string; type?: string; hidden?: boolean }[]
+type FieldsDataType = { name: string; label: string; type?: string }[]
 type SimpleFormPropsType = {
   submit: (data: z.infer<ZodSchema>) => Promise<boolean>
   fieldsData: FieldsDataType
@@ -102,17 +102,13 @@ export default function SimpleForm(props: SimpleFormPropsType) {
                   name={item.name}
                   render={({ field }) => {
                     return (
-                      <>
-                        {!item.hidden && (
-                          <FormItem>
-                            <FormLabel>{item.label}</FormLabel>
-                            <FormControl>
-                              <Input type={item.type} disabled={isDisabled} {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      </>
+                      <FormItem>
+                        <FormLabel>{item.label}</FormLabel>
+                        <FormControl>
+                          <Input type={item.type} disabled={isDisabled} {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
                     )
                   }}
                 />
@@ -120,7 +116,7 @@ export default function SimpleForm(props: SimpleFormPropsType) {
             )
           })}
           {((!isDisabled && Object.keys(dirtyFields).length > 0) || isErr) && (
-            <Button className={`${btn?.css || 'w-full'}`} type="submit" disabled={isSubmitting}>
+            <Button className={`${btn?.css || 'w-full'} mt-2`} type="submit" disabled={isSubmitting}>
               {btn?.text || 'Submit'} {isSubmitting && showLoader && <Loader2 className="animate-spin" />}
             </Button>
           )}
