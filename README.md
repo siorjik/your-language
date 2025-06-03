@@ -45,3 +45,11 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 - set db url in .env file
 - pnpm migrate (execute all migrations and seeds)
+
+## Some Docker commands for testing:
+
+- docker-compose up (--build, -d)
+- docker-compose down
+- docker ps -a
+- docker images
+- docker system prune -a

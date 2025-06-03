@@ -25,7 +25,6 @@ export default function Memorization({ data }: { data: Set }) {
   const [value, setValue] = useState('')
 
   const pressEnter = useKeyPress('Enter')
-  const pressSpace = useKeyPress(' ')
 
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -37,10 +36,6 @@ export default function Memorization({ data }: { data: Set }) {
 
     return () => clearTimeout(timer)
   }, [index])
-
-  useEffect(() => {
-    if (pressSpace) onProvideAnswer()
-  }, [pressSpace])
 
   useEffect(() => {
     if (pressEnter) onSetResult()
@@ -111,6 +106,7 @@ export default function Memorization({ data }: { data: Set }) {
   }
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value)
+  // console.log(value)
 
   const onProvideAnswer = () => {
     if (
@@ -165,7 +161,7 @@ export default function Memorization({ data }: { data: Set }) {
                         animate={{ scaleX: 1 }}
                         transition={{ duration: 2, type: 'spring', stiffness: 300 }}
                       >
-                        {el}
+                        {el !== ' ' ? el : <span>&nbsp;</span>}
                       </motion.span>
                     )
                   })}
