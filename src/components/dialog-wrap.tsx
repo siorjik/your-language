@@ -32,10 +32,10 @@ export default function DialogWrap({ trigger, description = null, title, content
     <>
       <Dialog open={isOpen} onOpenChange={setOpen}>
         <DialogTrigger asChild>{trigger}</DialogTrigger>
-        <DialogContent>
+        <DialogContent className="gap-8">
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
-            <DialogDescription>{description}</DialogDescription>
+            {description && <DialogDescription>{description}</DialogDescription>}
           </DialogHeader>
           <div>{content}</div>
           <DialogFooter className="sm:justify-start">

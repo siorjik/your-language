@@ -22,12 +22,12 @@ export default function Main({ session }: { session: Session | null }) {
         </TabsTrigger>
       </TabsList>
       <TabsContent value="signIn">
-        <div className="my-5 flex justify-center">
+        <div className="mt-5 flex justify-center">
           <SignInForm />
         </div>
       </TabsContent>
       <TabsContent value="signUp">
-        <div className="my-5 flex justify-center">
+        <div className="mt-5 flex justify-center">
           <SignUpForm isMainPage onSuccess={() => setClose(true)} />
         </div>
       </TabsContent>

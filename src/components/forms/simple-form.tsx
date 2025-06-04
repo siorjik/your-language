@@ -96,7 +96,7 @@ export default function SimpleForm(props: SimpleFormPropsType) {
             if (!item.type) item.type = 'text'
 
             return (
-              <div className="mb-5" key={idx}>
+              <div className={`${idx === fieldsData.length - 1 ? '' : 'mb-5'}`} key={idx}>
                 <FormField
                   control={form.control}
                   name={item.name}
@@ -116,7 +116,7 @@ export default function SimpleForm(props: SimpleFormPropsType) {
             )
           })}
           {((!isDisabled && Object.keys(dirtyFields).length > 0) || isErr) && (
-            <Button className={`${btn?.css || 'w-full'} mt-2`} type="submit" disabled={isSubmitting}>
+            <Button className={`${btn?.css || 'w-full'} mt-8`} type="submit" disabled={isSubmitting}>
               {btn?.text || 'Submit'} {isSubmitting && showLoader && <Loader2 className="animate-spin" />}
             </Button>
           )}

@@ -9,7 +9,7 @@ import { getSetAppPath, newSetAppPath } from '@/utils/paths'
 import { Set } from '@prisma/client'
 import { Err } from '@/types/errTypes'
 
-// export const dynamic = 'force-dynamic'
+export const dynamic = 'force-dynamic'
 
 export default async function Sets() {
   const res: { sets: Set[]; error: null } | Err = await getSetList()
@@ -18,7 +18,7 @@ export default async function Sets() {
 
   return (
     <>
-      <Button className="mb-6" asChild>
+      <Button className="mb-5" asChild>
         <Link href={newSetAppPath}>Create</Link>
       </Button>
       {!res.sets.length ? (

@@ -60,7 +60,7 @@ export default function SignUpForm({
   ]
 
   return (
-    <div className="w-full max-w-[350px]">
+    <div className="w-full">
       <Form
         submit={submit}
         schema={createAccFormTypeSchema}

@@ -24,13 +24,12 @@ export default function SetItem({ set }: { set: Set }) {
     >
       <motion.div
         className="
-          px-5 py-3 mt-2 flex gap-5 items-center justify-between border border-primary rounded-lg
-          overflow-hidden w-full
+          px-5 py-3 mt-3 flex gap-5 items-center justify-between rounded-lg
+          overflow-hidden w-full bg-primary/5 hover:bg-primary/15 shadow-md transition-colors duration-500
         "
         initial={{ y: -300, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 2, type: 'spring', stiffness: 400 }}
-        whileHover={{ scale: 1.01 }}
+        transition={{ type: 'spring', stiffness: 400 }}
       >
         <div className="overflow-hidden">
           <p className="mb-[2px] text-sm text-muted-foreground truncate">

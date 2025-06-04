@@ -35,20 +35,18 @@ export default function RecoverPasswordForm({ token }: { token: string | '' }) {
   }
 
   const fieldsData = [
-    { name: 'password', label: 'Password*', type: 'password' },
+    { name: 'password', label: 'New Password*', type: 'password' },
     { name: 'confirmPassword', label: 'Confirm Password*', type: 'password' },
   ]
 
   return (
-    <div className="w-full max-w-[350px]">
-      <Form
-        submit={onSubmit}
-        schema={createPassFormTypeSchema}
-        fieldsData={fieldsData}
-        btn={{ text: 'Recover Password' }}
-        showSpinner
-        isReset
-      />
-    </div>
+    <Form
+      submit={onSubmit}
+      schema={createPassFormTypeSchema}
+      fieldsData={fieldsData}
+      btn={{ text: 'Recover Password' }}
+      showSpinner
+      isReset
+    />
   )
 }

@@ -105,7 +105,7 @@ export default function LoginForm() {
   ]
 
   return (
-    <div className="w-full max-w-[350px]">
+    <div className="w-full">
       {isTwoFa && (
         <div className="mx-auto mb-5">
           <p className="mb-2 text-warn font-semibold">Code*</p>

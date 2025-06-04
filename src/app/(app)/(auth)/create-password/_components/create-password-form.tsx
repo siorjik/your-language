@@ -40,15 +40,13 @@ export default function CreatePasswordForm({ token }: { token: string | '' }) {
   ]
 
   return (
-    <div className="w-full max-w-[350px]">
-      <Form
-        submit={onSubmit}
-        schema={createPassFormTypeSchema}
-        fieldsData={fieldsData}
-        btn={{ text: 'Create Password' }}
-        showSpinner
-        isReset
-      />
-    </div>
+    <Form
+      submit={onSubmit}
+      schema={createPassFormTypeSchema}
+      fieldsData={fieldsData}
+      btn={{ text: 'Create Password' }}
+      showSpinner
+      isReset
+    />
   )
 }

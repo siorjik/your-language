@@ -177,7 +177,9 @@ export default function SetForm({ data = null, action = null }: SetFormProps) {
             return (
               <div
                 key={field.id}
-                className="mt-3 p-3 flex flex-col md:flex-row items-center md:items-stretch gap-3 bg-secondary rounded-md"
+                className="
+                  mt-3 p-3 flex flex-col md:flex-row items-center md:items-stretch gap-3 bg-secondary/20 shadow-md rounded-md
+                "
               >
                 <span className="md:mt-9 text-sm">{idx + 1}</span>
                 <FormField

@@ -45,7 +45,7 @@ export default function Navbar() {
     return (
       <Link
         className={`
-          px-2 border-b-[3px] border-transparent font-semibold hover:border-accent relative top-[8px] pb-[17px] ${css}
+          px-2 border-b-[3px] border-transparent font-semibold hover:border-primary/50 relative top-[10px] pb-[15px] ${css}
         `}
         href={path}
       >

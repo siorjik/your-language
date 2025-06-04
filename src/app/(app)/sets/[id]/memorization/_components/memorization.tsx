@@ -35,7 +35,7 @@ export default function Memorization({ data }: { data: Set }) {
     const isLast = index + 1 === setList.length
 
     if (item[selectedMode] === setList[index][selectedMode]) {
-      setSelectedAnswerStyle({ style: 'bg-success text-success-foreground', idx })
+      setSelectedAnswerStyle({ style: '!bg-success text-success-foreground', idx })
       setResult({ ...result, passed: [...result.passed, setList[index]] })
 
       setTimeout(() => {
@@ -45,13 +45,13 @@ export default function Memorization({ data }: { data: Set }) {
         else setFinish(true)
       }, 1000)
     } else {
-      setSelectedAnswerStyle({ style: 'bg-destructive text-destructive-foreground', idx })
+      setSelectedAnswerStyle({ style: '!bg-destructive text-destructive-foreground', idx })
       setResult({ ...result, failed: [...result.failed, setList[index]] })
 
       // show correct answer if failed
       shuffledList.forEach((el, idx) => {
         if (el[selectedMode] === setList[index][selectedMode]) {
-          setTimeout(() => setSelectedAnswerStyle({ style: 'bg-accent', idx }), 1000)
+          setTimeout(() => setSelectedAnswerStyle({ style: '!bg-accent border-2 border-success', idx }), 1000)
         }
       })
 
@@ -111,7 +111,7 @@ export default function Memorization({ data }: { data: Set }) {
               <motion.li
                 key={idx}
                 className={`
-                h-14 py-2 px-3 flex items-center border-2 border-secondary cursor-pointer rounded-lg
+                h-14 py-2 px-3 flex items-center bg-secondary/30 cursor-pointer rounded-lg shadow-md duration-500
                 ${selectedAnswerStyle?.idx === idx ? selectedAnswerStyle.style : ''}
               `}
                 whileHover={{ boxShadow: '5px 5px 5px hsl(var(--secondary))' }}

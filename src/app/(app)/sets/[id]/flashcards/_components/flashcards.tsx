@@ -106,7 +106,7 @@ export default function Flashcards({ data }: { data: Set }) {
 
   return (
     <>
-      <h2 className="font-semibold text-center">{data.title}</h2>
+      <h2 className="title font-semibold text-center">{data.title}</h2>
       <div className="w-fit mx-auto mb-5">
         <SelectWrap
           options={[
@@ -129,7 +129,7 @@ export default function Flashcards({ data }: { data: Set }) {
         exit="exit"
         transition={{ duration: 0.5 }}
       >
-        <Card className="shadow-xl" onClick={rotate}>
+        <Card className="shadow-xl border-transparent bg-secondary/30" onClick={rotate}>
           <CardContent className="h-80 flex items-center justify-center p-6 overflow-auto text-center">
             <span className="w-full text-3xl">{setList[index][mode]}</span>
           </CardContent>
