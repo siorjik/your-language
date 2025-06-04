@@ -7,7 +7,6 @@ volumes:
 
 services:
   next-js:
-    platform: linux/amd64
     image: next-image
     build:
       context: .
@@ -33,7 +32,7 @@ services:
     image: nginx:alpine
     container_name: nginx
     ports:
-      - "80:80"
+      - '80:80'
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     networks:
