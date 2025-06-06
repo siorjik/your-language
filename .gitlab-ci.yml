@@ -1,0 +1,17 @@
+stages:    
+  - check_project_build
+  - check_docker_build
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+
+check_project_build_job:
+  stage: check_project_build
+  image: node:20-alpine
+  script:
+    - npm install pnpm -g
+    - pnpm install
+    - pnpm prettier
+    - pnpm build
