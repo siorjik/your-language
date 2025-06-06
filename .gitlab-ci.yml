@@ -9,6 +9,8 @@ cache:
 
 check_project_build_job:
   stage: check_project_build
+  rules:
+    - if: $CI_COMMIT_BRANCH == "development"
   image: node:20-alpine
   script:
     - npm install pnpm -g
