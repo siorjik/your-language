@@ -34,6 +34,8 @@ docker_build_job:
 
 cleanup_job:
   stage: cleanup
+  tags:
+    - build
   script:
     - echo "Cleaning up workspace..."
     - docker system prune -af
