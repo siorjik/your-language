@@ -1,18 +1,14 @@
-image: creatiwww/docker-compose:latest
-
-services:
-  - docker:dind
-
 stages:    
-  - check_project_build
-  - check_docker_build
+  - project_build
+  - docker_build
+  - cleanup
 
 cache:
   paths:
     - node_modules/
 
-check_project_build_job:
-  stage: check_project_build
+project_build_job:
+  stage: project_build
   image: node:20-alpine
   tags:
     - build
@@ -20,6 +16,26 @@ check_project_build_job:
     - if: $CI_COMMIT_BRANCH == "development"
   script:
     - npm install pnpm -g
-    - pnpm install
+    - pnpm install --silent
     - pnpm prettier
     - pnpm build
+
+docker_build_job:
+  stage: docker_build
+  image: creatiwww/docker-compose:latest
+  services:
+    - docker:dind
+  tags:
+    - build
+  rules:
+    - if: $CI_COMMIT_BRANCH == "development"
+  script:
+    - docker build
+
+cleanup_job:
+  stage: cleanup
+  script:
+    - echo "Cleaning up workspace..."
+    - docker system prune -af
+  when: always
+  
