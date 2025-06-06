@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation'
-import { FilePenLine } from 'lucide-react'
+import { FileCog } from 'lucide-react'
 import Link from 'next/link'
 
 import SetForm from '@/components/forms/set-form'
@@ -28,7 +28,7 @@ export default async function SetData({ params }: { params: Promise<{ id: string
       <div className="mb-8 flex justify-between">
         <Button asChild>
           <Link href={getUpdateSetAppPath(id)}>
-            <FilePenLine />
+            <FileCog />
             Update
           </Link>
         </Button>

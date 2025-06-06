@@ -3,11 +3,11 @@ import { StructuredOutputParser } from '@langchain/core/output_parsers'
 import { ChatPromptTemplate } from '@langchain/core/prompts'
 import { z } from 'zod'
 
-import { languageOptions } from '@/utils/constants'
+import { LANGUAGE_OPTIONS } from '@/utils/constants'
 
 export default async (word: string, language: string) => {
   const system = `
-    You are an expert in ${languageOptions.find((item) => item.value === language)?.label.toLocaleLowerCase()} dictionary.
+    You are an expert in ${LANGUAGE_OPTIONS.find((item) => item.value === language)?.label.toLocaleLowerCase()} dictionary.
   `
 
   const input = `

@@ -23,6 +23,9 @@ export default function Layout({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (!isLoadingSession && !isSession && pathname !== '/') window.location.href = '/' // redirect if session expired
+
+    // clear chosen tab in the profile
+    if (!isLoadingSession && !isSession && window.localStorage.getItem('tab')) window.localStorage.removeItem('tab')
   }, [isSession, isLoadingSession])
 
   useEffect(() => {
@@ -68,7 +71,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         <>
           <header
             className={`
-              w-full h-[55px] px-5 md:px-8 py-2 flex items-center fixed bg-header z-10 shadow-md
+              w-full h-[55px] px-5 md:px-8 py-2 flex items-center fixed bg-background z-10 shadow-md
               ${isHide ? 'top-[-55px]' : 'top-0'} transition-all duration-500
             `}
           >
@@ -80,12 +83,14 @@ export default function Layout({ children }: { children: ReactNode }) {
             <div className="min-h-[calc(100dvh-110px)] px-5 md:px-8 xl:px-0 py-5 w-full m-auto max-w-7xl">{children}</div>
             <footer
               className="
-                min-h-[55px] px-5 md:px-8 py-3 flex justify-between items-center bg-gradient-to-t from-footer to-footer/20
+                min-h-[55px] px-5 md:px-8 flex justify-between items-center bg-gradient-to-t from-background to-secondary/30
               "
             >
-              <div className="w-full m-auto max-w-7xl flex justify-between items-center text-sm text-muted-foreground">
+              <div className="w-full mx-auto max-w-7xl flex justify-between items-center text-sm text-muted-foreground">
                 <span>&copy; {new Date().getFullYear()}</span>
-                <ThemeBtn />
+                <p className="icon-hover mr-[-8px] cursor-pointer">
+                  <ThemeBtn />
+                </p>
               </div>
             </footer>
           </main>

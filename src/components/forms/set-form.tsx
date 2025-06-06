@@ -17,7 +17,7 @@ import Spinner from '../spinner'
 import { setFormTypeSchema } from '@/types/forms/set'
 import apiRequestService from '@/services/apiRequestService'
 import { dictionaryApiPath, getSetAppPath, setAppPath, translateApiPath } from '@/utils/paths'
-import { languageOptions } from '@/utils/constants'
+import { LANGUAGE_OPTIONS } from '@/utils/constants'
 import { createSet, updateSet } from '@/actions/set'
 import { Set } from '@prisma/client'
 import { Err } from '@/types/errTypes'
@@ -124,7 +124,7 @@ export default function SetForm({ data = null, action = null }: SetFormProps) {
                   <FormLabel>Language Source*</FormLabel>
                   <FormControl>
                     <Select
-                      options={languageOptions}
+                      options={LANGUAGE_OPTIONS}
                       placeholder="Choose source"
                       onValueChange={(val) => {
                         if (val === form.getValues('target')) {
@@ -152,7 +152,7 @@ export default function SetForm({ data = null, action = null }: SetFormProps) {
                   <FormLabel>Language Target*</FormLabel>
                   <FormControl>
                     <Select
-                      options={languageOptions}
+                      options={LANGUAGE_OPTIONS}
                       placeholder="Choose target"
                       onValueChange={(val) => {
                         if (val === form.getValues('source')) {
@@ -213,7 +213,7 @@ export default function SetForm({ data = null, action = null }: SetFormProps) {
                         />
                       </FormControl>
                       <FormDescription>
-                        from: {languageOptions.find((item) => item.value === form.watch('source'))?.label}
+                        from: {LANGUAGE_OPTIONS.find((item) => item.value === form.watch('source'))?.label}
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -250,7 +250,7 @@ export default function SetForm({ data = null, action = null }: SetFormProps) {
                         />
                       </FormControl>
                       <FormDescription>
-                        to: {languageOptions.find((item) => item.value === form.watch('target'))?.label}
+                        to: {LANGUAGE_OPTIONS.find((item) => item.value === form.watch('target'))?.label}
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -259,7 +259,7 @@ export default function SetForm({ data = null, action = null }: SetFormProps) {
                 {fields.length > 1 && action && (
                   <Button
                     type="button"
-                    className="md:mt-8 p-0 w-fit h-fit hover:bg-transparent"
+                    className="md:mt-8 p-0 w-fit h-fit hover:bg-transparent hover:text-destructive"
                     variant="ghost"
                     onClick={() => remove(idx)}
                   >

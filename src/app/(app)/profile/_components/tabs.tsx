@@ -18,10 +18,6 @@ export default function ProfileTabs({ twoFaData }: { twoFaData: { data: string; 
 
   useEffect(() => {
     setActiveTab(window.localStorage.getItem('tab') || 'acc')
-
-    return () => {
-      if (window.localStorage.getItem('tab')) window.localStorage.removeItem('tab')
-    }
   }, [])
 
   return (

@@ -45,7 +45,8 @@ export default function Navbar() {
     return (
       <Link
         className={`
-          px-2 border-b-[3px] border-transparent font-semibold hover:border-primary/50 relative top-[10px] pb-[15px] ${css}
+          px-2 border-b-[3px] border-transparent font-semibold relative top-[10px] pb-[15px] ${css}
+          ${pathname !== path ? 'border-animated after:bottom-[-3px] after:left-0' : ''}
         `}
         href={path}
       >
@@ -58,7 +59,7 @@ export default function Navbar() {
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger className="px-0 bg-header">
+          <NavigationMenuTrigger className="px-0 bg-background">
             {!session.user.image ? (
               <Settings className="text-muted-foreground" />
             ) : (
@@ -97,10 +98,10 @@ export default function Navbar() {
   ) : (
     <div className="flex gap-2">
       <Link href={signUpAppPath}>
-        <UserRoundPlus className="text-muted-foreground" />
+        <UserRoundPlus className="text-muted-foreground hover:text-foreground" />
       </Link>
       <Link href={signInAppPath}>
-        <LogIn className="text-muted-foreground" />
+        <LogIn className="text-muted-foreground hover:text-foreground" />
       </Link>
     </div>
   )

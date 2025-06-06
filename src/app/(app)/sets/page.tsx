@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { CirclePlus } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import SetItem from './_components/set-item'
@@ -18,8 +19,11 @@ export default async function Sets() {
 
   return (
     <>
-      <Button className="mb-5" asChild>
-        <Link href={newSetAppPath}>Create</Link>
+      <Button className="mb-6" asChild>
+        <Link href={newSetAppPath}>
+          <CirclePlus />
+          Create New
+        </Link>
       </Button>
       {!res.sets.length ? (
         <p className="w-fit mx-auto">There are no sets yet...</p>

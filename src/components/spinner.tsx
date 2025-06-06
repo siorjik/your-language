@@ -1,25 +1,11 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { ScaleLoader } from 'react-spinners'
-import { useTheme } from 'next-themes'
+import { Loader } from 'lucide-react'
 
 export default function Spinner() {
-  const [mode, setMode] = useState('')
-
-  const { theme } = useTheme()
-
-  useEffect(() => {
-    setMode(theme!)
-  }, [theme])
-
   return (
-    <div
-      className="
-        flex justify-center items-center fixed w-full h-screen bg-primary/30 top-0 left-0 z-[100]
-      "
-    >
-      <ScaleLoader color={`${!mode.includes('-dark') ? 'black' : 'gray'}`} />
+    <div className="flex justify-center items-center fixed w-full h-screen bg-primary/30 top-0 left-0 z-[100]">
+      <Loader className="text-primary animate-spin" size={80} />
     </div>
   )
 }

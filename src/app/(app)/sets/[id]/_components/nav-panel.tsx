@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { GalleryHorizontal, BrainCircuit, PanelRightOpen, FileText } from 'lucide-react'
+import { GalleryHorizontal, Brain, PanelRightOpen, Pen } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 
@@ -19,11 +19,11 @@ export default function NavPanel({ id }: { id: string }) {
         Flashcards
       </Link>
       <Link className="py-3 flex gap-2 border-b-2 border-accent" href={getMemorizationAppPath(id)}>
-        <BrainCircuit size={15} />
+        <Brain size={15} />
         Memorization
       </Link>
       <Link className="py-3 flex gap-2" href={getSpellingAppPath(id)}>
-        <FileText size={15} />
+        <Pen size={15} />
         Spelling
       </Link>
     </div>
@@ -34,21 +34,21 @@ export default function NavPanel({ id }: { id: string }) {
       {!isMobile ? (
         <>
           <div className="flex gap-2">
-            <Button variant="outline" asChild>
+            <Button variant="outline" className="pushed-btn" asChild>
               <Link href={getFlashcardsAppPath(id)}>
                 <GalleryHorizontal />
                 Flashcards
               </Link>
             </Button>
-            <Button variant="outline" asChild>
+            <Button variant="outline" className="pushed-btn" asChild>
               <Link href={getMemorizationAppPath(id)}>
-                <BrainCircuit />
+                <Brain />
                 Memorization
               </Link>
             </Button>
-            <Button variant="outline" asChild>
+            <Button variant="outline" className="pushed-btn" asChild>
               <Link href={getSpellingAppPath(id)}>
-                <FileText />
+                <Pen />
                 Spelling
               </Link>
             </Button>
