@@ -6,7 +6,7 @@ import { SessionProvider } from 'next-auth/react'
 import './globals.css'
 
 import { Toaster } from '@/components/ui/toaster'
-import { themes } from '@/utils/constants'
+import { THEMES } from '@/utils/constants'
 
 const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] })
 
@@ -22,7 +22,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
           <ThemeProvider
             attribute="class"
             defaultTheme="theme-default"
-            themes={themes.map((theme) => theme.value)}
+            themes={THEMES.map((theme) => theme.value)}
             enableSystem={false}
           >
             {children}

@@ -9,7 +9,7 @@ import { Progress } from '@/components/ui/progress'
 import { Set } from '@prisma/client'
 import { SetList, SetListItem } from '@/types/models/set'
 import SelectWrap from '@/components/select-wrap'
-import { languageOptions } from '@/utils/constants'
+import { LANGUAGE_OPTIONS } from '@/utils/constants'
 import getShuffledArr from '@/helpers/getShuffledArr'
 
 export default function Memorization({ data }: { data: Set }) {
@@ -85,8 +85,11 @@ export default function Memorization({ data }: { data: Set }) {
         <div className="w-fit mx-auto mb-5">
           <SelectWrap
             options={[
-              { label: `Term (${languageOptions.find((item) => data.source === item.value)?.label})`, value: 'term' },
-              { label: `Definition (${languageOptions.find((item) => data.target === item.value)?.label})`, value: 'definition' },
+              { label: `Term (${LANGUAGE_OPTIONS.find((item) => data.source === item.value)?.label})`, value: 'term' },
+              {
+                label: `Definition (${LANGUAGE_OPTIONS.find((item) => data.target === item.value)?.label})`,
+                value: 'definition',
+              },
             ]}
             onValueChange={(val) => setSelectedMode(val as 'term' | 'definition')}
             defaultValue={selectedMode}

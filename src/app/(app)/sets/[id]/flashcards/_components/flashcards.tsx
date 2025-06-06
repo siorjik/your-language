@@ -9,7 +9,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { SetList } from '@/types/models/set'
 import { Set } from '@prisma/client'
 import SelectWrap from '@/components/select-wrap'
-import { languageOptions } from '@/utils/constants'
+import { LANGUAGE_OPTIONS } from '@/utils/constants'
 import useKeyPress from '@/hooks/useKeyPress'
 import getShuffledArr from '@/helpers/getShuffledArr'
 
@@ -73,7 +73,7 @@ export default function Flashcards({ data }: { data: Set }) {
     if (isSound && selectedMode === mode) sound(true, index + newDirection, selectedMode)
 
     const xVariants = {
-      hidden: { x: newDirection > 0 ? 300 : -300, y: -30, rotate: newDirection > 0 ? -10 : 10, opacity: 0.3 },
+      hidden: { x: newDirection > 0 ? 300 : -300, y: -20, rotate: newDirection > 0 ? -5 : 5, opacity: 0.3 },
       visible: { x: 0, y: 0, rotate: 0, opacity: 1 },
       exit: { x: newDirection > 0 ? -300 : 300, opacity: 0 },
     }
@@ -106,19 +106,24 @@ export default function Flashcards({ data }: { data: Set }) {
 
   return (
     <>
-      <h2 className="title font-semibold text-center">{data.title}</h2>
-      <div className="w-fit mx-auto mb-5">
-        <SelectWrap
-          options={[
-            { label: `Term (${languageOptions.find((item) => data.source === item.value)?.label})`, value: 'term' },
-            { label: `Definition (${languageOptions.find((item) => data.target === item.value)?.label})`, value: 'definition' },
-          ]}
-          onValueChange={(val) => setSelectedMode(val as 'term' | 'definition')}
-          defaultValue={selectedMode}
-          placeholder="Choose mode"
-          label="Choose mode"
-          checkIsActive={(val) => setSelectOpen(val)}
-        />
+      <div className="w-full mb-5 flex flex-col md:flex-row justify-evenly items-center">
+        <h2 className="title w-full md:w-fit !truncate md:mb-0 font-semibold text-center">{data.title}</h2>
+        <div className="w-fit">
+          <SelectWrap
+            options={[
+              { label: `Term (${LANGUAGE_OPTIONS.find((item) => data.source === item.value)?.label})`, value: 'term' },
+              {
+                label: `Definition (${LANGUAGE_OPTIONS.find((item) => data.target === item.value)?.label})`,
+                value: 'definition',
+              },
+            ]}
+            onValueChange={(val) => setSelectedMode(val as 'term' | 'definition')}
+            defaultValue={selectedMode}
+            placeholder="Choose mode"
+            label="Choose mode"
+            checkIsActive={(val) => setSelectOpen(val)}
+          />
+        </div>
       </div>
       <motion.div
         key={index + ' / ' + mode}
@@ -130,7 +135,7 @@ export default function Flashcards({ data }: { data: Set }) {
         transition={{ duration: 0.5 }}
       >
         <Card className="shadow-xl border-transparent bg-secondary/30" onClick={rotate}>
-          <CardContent className="h-80 flex items-center justify-center p-6 overflow-auto text-center">
+          <CardContent className="h-80 md:h-96 flex items-center justify-center p-6 overflow-auto text-center">
             <span className="w-full text-3xl">{setList[index][mode]}</span>
           </CardContent>
         </Card>

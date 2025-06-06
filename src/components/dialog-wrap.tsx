@@ -35,7 +35,7 @@ export default function DialogWrap({ trigger, description = null, title, content
         <DialogContent className="gap-8">
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
-            {description && <DialogDescription>{description}</DialogDescription>}
+            <DialogDescription>{description}</DialogDescription>
           </DialogHeader>
           <div>{content}</div>
           <DialogFooter className="sm:justify-start">

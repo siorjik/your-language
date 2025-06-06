@@ -1,6 +1,7 @@
 'use client'
 
 import { Fragment } from 'react'
+import { House } from 'lucide-react'
 
 import {
   Breadcrumb,
@@ -15,18 +16,26 @@ export default function BreadcrumbWrap({ data }: { data: { links: { href: string
   return (
     <Breadcrumb className="mb-8">
       <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink href="/">
+            <House size={15} />
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
         {data.links.map((item, idx) => {
           return (
             <Fragment key={idx}>
               <BreadcrumbItem>
-                <BreadcrumbLink href={item.href}>{item.label}</BreadcrumbLink>
+                <BreadcrumbLink className="max-w-40 truncate" href={item.href}>
+                  {item.label}
+                </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
             </Fragment>
           )
         })}
         <BreadcrumbItem>
-          <BreadcrumbPage>{data.current}</BreadcrumbPage>
+          <BreadcrumbPage className="max-w-40 truncate">{data.current}</BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>

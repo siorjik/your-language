@@ -3,23 +3,14 @@ import { StructuredOutputParser } from '@langchain/core/output_parsers'
 import { ChatPromptTemplate } from '@langchain/core/prompts'
 import { z } from 'zod'
 
-import { languageOptions } from '@/utils/constants'
-
-const getUniqueString = (arr: string[]): string => {
-  const resArr = arr.map((item) => item.split(', ')).flat()
-
-  return Array.from(new Set(resArr)).join(', ')
-}
+import { LANGUAGE_OPTIONS } from '@/utils/constants'
 
 const getMappedTranslates = (data: string[]): string[] => {
   let res: string[] = []
-  let index = 0
 
-  while (index < data.length) {
-    res = [...res, getUniqueString([...res, data[index]])]
-
-    index += 1
-  }
+  data.forEach((word, index) => {
+    if (!res.find((item) => item.includes(word))) res = res.length > 0 ? [...res, res[index - 1] + ', ' + word] : [word]
+  })
 
   return res
 }
@@ -29,8 +20,8 @@ export default async (word: string, inputLanguage: string, outputLanguage: strin
 
   const input = `
     Translate '${word}' with unique variants
-    from ${languageOptions.find((item) => item.value === inputLanguage)?.label.toLowerCase()}
-    to ${languageOptions.find((item) => item.value === outputLanguage)?.label.toLowerCase()}.
+    from ${LANGUAGE_OPTIONS.find((item) => item.value === inputLanguage)?.label.toLowerCase()}
+    to ${LANGUAGE_OPTIONS.find((item) => item.value === outputLanguage)?.label.toLowerCase()}.
     Return data in JSON format according following format: { translates: string[] }.
   `
 
