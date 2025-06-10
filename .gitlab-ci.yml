@@ -32,7 +32,7 @@ docker_build_job:
   rules:
     - if: $CI_COMMIT_BRANCH == "development"
   script:
-    - docker build -t your-language:latest .
+    - docker build -t siorjik/your-language:latest .
 
 docker_push_job:
   stage: docker_push
@@ -43,7 +43,7 @@ docker_push_job:
   before_script:
     - docker login -u "$DOCKER_LOGIN" -p "$DOCKER_PASS"
   script:
-    - docker push your-language:latest
+    - docker push siorjik/your-language:latest
 
 cleanup_job:
   stage: cleanup
