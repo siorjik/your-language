@@ -5,13 +5,13 @@ import Link from 'next/link'
 import SetForm from '@/components/forms/set-form'
 import BreadcrumbWrap from '@/components/breadcrumb-wrap'
 import NavPanel from './_components/nav-panel'
+import { Button } from '@/components/ui/button'
 
 import { getSetById } from '@/actions/set'
 import { Err } from '@/types/errTypes'
 import { Set } from '@prisma/client'
-import { getUpdateSetAppPath, setAppPath } from '@/utils/paths'
+import { getUpdateSetAppPath, setsAppPath } from '@/utils/paths'
 import { SetList } from '@/types/models/set'
-import { Button } from '@/components/ui/button'
 
 export default async function SetData({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -20,7 +20,7 @@ export default async function SetData({ params }: { params: Promise<{ id: string
 
   if (set.error) notFound()
 
-  const breadcrumbData = { links: [{ href: setAppPath, label: 'sets' }], current: set.title }
+  const breadcrumbData = { links: [{ href: setsAppPath, label: 'sets' }], current: set.title }
 
   return (
     <>

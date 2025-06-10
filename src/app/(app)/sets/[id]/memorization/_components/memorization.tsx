@@ -130,13 +130,14 @@ export default function Memorization({ data }: { data: Set }) {
       {!isFinish && (
         <>
           <div className="my-5 mx-auto flex items-center justify-center gap-10">
-            <span onClick={shuffle}>
+            <span className="icon-hover" onClick={shuffle}>
               <Shuffle size={20} />
             </span>
             <span className="w-10 h-10 flex items-center justify-center border-2 border-bg-secondary rounded-full font-semibold">
               {index + 1}
             </span>
             <span
+              className="icon-hover"
               onClick={() => {
                 if (index === 0) return
 

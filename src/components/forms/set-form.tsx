@@ -16,7 +16,7 @@ import Spinner from '../spinner'
 
 import { setFormTypeSchema } from '@/types/forms/set'
 import apiRequestService from '@/services/apiRequestService'
-import { dictionaryApiPath, getSetAppPath, setAppPath, translateApiPath } from '@/utils/paths'
+import { dictionaryApiPath, getSetAppPath, setsAppPath, translateApiPath } from '@/utils/paths'
 import { LANGUAGE_OPTIONS } from '@/utils/constants'
 import { createSet, updateSet } from '@/actions/set'
 import { Set } from '@prisma/client'
@@ -53,7 +53,7 @@ export default function SetForm({ data = null, action = null }: SetFormProps) {
     const res: (Set & { error: null }) | Err = action === 'create' ? await createSet(values) : await updateSet(values)
 
     if (!res.error) {
-      if (action === 'create') push(setAppPath)
+      if (action === 'create') push(setsAppPath)
       else push(getSetAppPath(res.id))
     } else
       toast({

@@ -6,13 +6,13 @@ export const recoverPasswordAppPath = '/recover-password'
 export const profileAppPath = '/profile'
 
 // set
-export const setAppPath = '/sets'
-export const newSetAppPath = `${setAppPath}/new`
-export const getSetAppPath = (id: string) => `${setAppPath}/${id}`
-export const getUpdateSetAppPath = (id: string) => `${setAppPath}/${id}/update`
-export const getFlashcardsAppPath = (id: string) => `${setAppPath}/${id}/flashcards`
-export const getMemorizationAppPath = (id: string) => `${setAppPath}/${id}/memorization`
-export const getSpellingAppPath = (id: string) => `${setAppPath}/${id}/spelling`
+export const setsAppPath = '/sets'
+export const newSetAppPath = `${setsAppPath}/new`
+export const getSetAppPath = (id: string) => `${setsAppPath}/${id}`
+export const getUpdateSetAppPath = (id: string) => `${setsAppPath}/${id}/update`
+export const getFlashcardsAppPath = (id: string) => `${setsAppPath}/${id}/flashcards`
+export const getMemorizationAppPath = (id: string) => `${setsAppPath}/${id}/memorization`
+export const getSpellingAppPath = (id: string) => `${setsAppPath}/${id}/spelling`
 
 export const appHost = process.env.NEXT_PUBLIC_APP_HOST
 

@@ -106,7 +106,6 @@ export default function Memorization({ data }: { data: Set }) {
   }
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value)
-  // console.log(value)
 
   const onProvideAnswer = () => {
     if (
@@ -189,7 +188,7 @@ export default function Memorization({ data }: { data: Set }) {
             <Button size="sm" variant="outline" onClick={onSetResult}>
               Check
             </Button>
-            <span onClick={shuffle}>
+            <span className="icon-hover" onClick={shuffle}>
               <Shuffle size={20} />
             </span>
             <span
@@ -200,6 +199,7 @@ export default function Memorization({ data }: { data: Set }) {
               {index + 1}
             </span>
             <span
+              className="icon-hover"
               onClick={() => {
                 if (index === 0) return
 
