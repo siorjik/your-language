@@ -1,38 +1,23 @@
-import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { CirclePlus } from 'lucide-react'
-
-import { Button } from '@/components/ui/button'
-import SetItem from './_components/set-item'
 
 import { getSetList } from '@/actions/set'
-import { getSetAppPath, newSetAppPath } from '@/utils/paths'
 import { Set } from '@prisma/client'
 import { Err } from '@/types/errTypes'
+import SetList from './_components/set-list'
 
-export const dynamic = 'force-dynamic'
+export default async function Sets({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
+  const { title = '' } = await searchParams
 
-export default async function Sets() {
-  const res: { sets: Set[]; error: null } | Err = await getSetList()
+  const res: { sets: Set[]; filtered: Set[]; error: null } | Err = await getSetList({ title })
 
   if (res.error) notFound()
 
   return (
     <>
-      <Button className="mb-6" asChild>
-        <Link href={newSetAppPath}>
-          <CirclePlus />
-          Create New
-        </Link>
-      </Button>
       {!res.sets.length ? (
         <p className="w-fit mx-auto">There are no sets yet...</p>
       ) : (
-        res.sets.map((set) => (
-          <Link key={set.id} href={getSetAppPath(set.id)}>
-            <SetItem set={set} />
-          </Link>
-        ))
+        <SetList sets={!!title ? res.filtered : res.sets} />
       )}
     </>
   )

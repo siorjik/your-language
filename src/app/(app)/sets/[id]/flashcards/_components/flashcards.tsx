@@ -141,13 +141,13 @@ export default function Flashcards({ data }: { data: Set }) {
         </Card>
       </motion.div>
       <div className="w-fit mx-auto mt-2 flex items-center gap-4 relative">
-        <span className="absolute left-[-90px]" onClick={shuffle}>
+        <span className="absolute left-[-90px] icon-hover" onClick={shuffle}>
           <Shuffle size={20} />
         </span>
         <span
           className={`
             absolute left-[-60px] md:left-[-145px] border-2 rounded-full p-[5px] border-transparent
-            ${isPlay ? '!border-gray-500 dark:border-gray-500' : ''}
+            icon-hover ${isPlay ? '!border-gray-500 dark:border-gray-500' : ''}
           `}
           onClick={() => setPlay(!isPlay)}
         >
@@ -167,7 +167,7 @@ export default function Flashcards({ data }: { data: Set }) {
           onClick={() => paginate(1)}
         />
         <span
-          className="absolute right-[-90px]"
+          className="absolute right-[-90px] icon-hover"
           onClick={() => {
             setIndex(0)
             setMode(selectedMode)
@@ -178,7 +178,7 @@ export default function Flashcards({ data }: { data: Set }) {
         <span
           className={`
             absolute right-[-60px] md:right-[-150px] border-2 rounded-full p-[5px] border-transparent
-            ${isSound ? '!border-gray-500 dark:border-gray-500' : ''}
+            icon-hover ${isSound ? '!border-gray-500 dark:border-gray-500' : ''}
           `}
           onClick={() => setSound(!isSound)}
         >

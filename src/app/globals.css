@@ -334,6 +334,6 @@ body {
   }
 
   .pushed-btn {
-    @apply !border-b-4 hover:!border-b-0 hover:border-transparent !transition-all !duration-300;
+    @apply !border-b-4 hover:!border-b-0 !transition-all !duration-300;
   }
 }
