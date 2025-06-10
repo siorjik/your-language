@@ -1,11 +1,18 @@
 stages:    
   - project_build
   - docker_build
+  - docker_push
   - cleanup
 
 cache:
   paths:
     - node_modules/
+
+image: creatiwww/docker-compose:latest
+services:
+  - docker:dind
+tags:
+  - build
 
 project_build_job:
   stage: project_build
@@ -22,15 +29,19 @@ project_build_job:
 
 docker_build_job:
   stage: docker_build
-  image: creatiwww/docker-compose:latest
-  services:
-    - docker:dind
-  tags:
-    - build
   rules:
     - if: $CI_COMMIT_BRANCH == "development"
   script:
-    - docker build -t your-language .
+    - docker build -t your-language:latest .
+
+docker_push_job:
+  stage: docker_push
+  rules:
+    - if: $CI_COMMIT_BRANCH == "development"
+  before_script:
+    - docker login -u "$DOCKER_LOGIN" -p "$DOCKER_PASS"
+  script:
+    - docker push your-language:latest
 
 cleanup_job:
   stage: cleanup
