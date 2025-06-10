@@ -11,8 +11,6 @@ cache:
 image: creatiwww/docker-compose:latest
 services:
   - docker:dind
-tags:
-  - build
 
 project_build_job:
   stage: project_build
@@ -29,6 +27,8 @@ project_build_job:
 
 docker_build_job:
   stage: docker_build
+  tags:
+    - build
   rules:
     - if: $CI_COMMIT_BRANCH == "development"
   script:
@@ -36,6 +36,8 @@ docker_build_job:
 
 docker_push_job:
   stage: docker_push
+  tags:
+    - build
   rules:
     - if: $CI_COMMIT_BRANCH == "development"
   before_script:
