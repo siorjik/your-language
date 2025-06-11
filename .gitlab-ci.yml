@@ -72,8 +72,8 @@ docker_build_migrations_job:
     - if: $CI_COMMIT_BRANCH == "development"
   script:
     - docker build --build-arg MODE=migration -t $DOCKER_IMAGE:latest -f docker/Dockerfile .
-    - docker run --env-file=.env --name=$DOCKER_IMAGE:latest $DOCKER_IMAGE:latest sh -c "pnpm migrate && pnpm seed"
-    - docker rm $DOCKER_IMAGE:latest
+    - docker run --env-file=.env --name=your-language $DOCKER_IMAGE:latest sh -c "pnpm migrate && pnpm seed"
+    - docker rm your-language
     - docker rmi $DOCKER_IMAGE:latest
 
 docker_build_start_job:
@@ -84,7 +84,7 @@ docker_build_start_job:
     - if: $CI_COMMIT_BRANCH == "development"
   script:
     - docker build --build-arg MODE=start -t $DOCKER_IMAGE:latest -f docker/Dockerfile .
-    - docker run -p=3001:3001 --env-file=.env --name=$DOCKER_IMAGE:latest $DOCKER_IMAGE:latest sh -c "pnpm launch --port=3001"
+    - docker run -p=3001:3001 --env-file=.env --name=your-language $DOCKER_IMAGE:latest sh -c "pnpm launch --port=3001"
 
 # docker_push_job:
 #   stage: docker_push
