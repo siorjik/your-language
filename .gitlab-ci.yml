@@ -1,8 +1,10 @@
-stages:    
+stages:
+  - create_env
   - project_build
-  - docker_build
-  - docker_push
-  - cleanup
+  - docker_build_migrations
+  - docker_build_start
+  # - docker_push
+  # - cleanup
 
 cache:
   paths:
@@ -11,6 +13,38 @@ cache:
 image: creatiwww/docker-compose:latest
 services:
   - docker:dind
+
+create_env_job:
+  stage: create_env
+  image: node:20-alpine
+  tags:
+    - build
+  rules:
+    - if: $CI_COMMIT_BRANCH == "development"
+  script:
+    - echo "NEXT_PUBLIC_APP_HOST=$NEXT_PUBLIC_APP_HOST" >> .env
+    - echo "NEXTAUTH_SECRET=$NEXTAUTH_SECRET" >> .env
+    - echo "NEXTAUTH_URL=$NEXTAUTH_URL" >> .env
+    - echo "JWT_SECRET=$JWT_SECRET" >> .env
+    - echo "AUTH_GOOGLE_ID=$AUTH_GOOGLE_ID" >> .env
+    - echo "AUTH_GOOGLE_SECRET=$AUTH_GOOGLE_SECRET" >> .env
+    - echo "AUTH_GITHUB_ID=$AUTH_GITHUB_ID" >> .env
+    - echo "AUTH_GITHUB_SECRET=$AUTH_GITHUB_SECRET" >> .env
+    - echo "MAILER_HOST=$MAILER_HOST" >> .env
+    - echo "MAILER_PORT=$MAILER_PORT" >> .env
+    - echo "MAILER_USER=$MAILER_USER" >> .env
+    - echo "MAILER_PASS=$MAILER_PASS" >> .env
+    - echo "STORAGE_ACCESS_KEY=$STORAGE_ACCESS_KEY" >> .env
+    - echo "STORAGE_ACCESS_KEY_ID=$STORAGE_ACCESS_KEY_ID" >> .env
+    - echo "STORAGE_ID=$STORAGE_ID" >> .env
+    - echo "STORAGE_NAME=$STORAGE_NAME" >> .env
+    - echo "DICTIONARY_API_URL=$DICTIONARY_API_URL" >> .env
+    - echo "OPENAI_API_KEY=$OPENAI_API_KEY" >> .env
+    - echo "LANGCHAIN_API_KEY=$LANGCHAIN_API_KEY" >> .env
+    - echo "LANGCHAIN_ENDPOINT=$LANGCHAIN_ENDPOINT" >> .env
+    - echo "LANGCHAIN_TRACING_V2=$LANGCHAIN_TRACING_V2" >> .env
+    - echo "LANGCHAIN_PROJECT=$LANGCHAIN_PROJECT" >> .env
+    - echo "DATABASE_URL=$DATABASE_URL" >> .env
 
 project_build_job:
   stage: project_build
@@ -25,32 +59,42 @@ project_build_job:
     - pnpm prettier
     - pnpm build
 
-docker_build_job:
-  stage: docker_build
+docker_build_migration_job:
+  stage: docker_build_migration
   tags:
     - build
   rules:
     - if: $CI_COMMIT_BRANCH == "development"
   script:
-    - docker build -t $DOCKER_IMAGE:latest .
+    - docker build --env-file .env --build-arg MODE=migration -t $DOCKER_IMAGE:latest docker/
+    - docker rmi $DOCKER_IMAGE:latest # delete image after migration executing
 
-docker_push_job:
-  stage: docker_push
+docker_build_start_job:
+  stage: docker_build_start
   tags:
     - build
   rules:
     - if: $CI_COMMIT_BRANCH == "development"
-  before_script:
-    - docker login -u "$DOCKER_LOGIN" -p "$DOCKER_PASS"
   script:
-    - docker push $DOCKER_IMAGE:latest
+    - docker build --env-file .env --build-arg MODE=start -t $DOCKER_IMAGE:latest docker/
 
-cleanup_job:
-  stage: cleanup
-  tags:
-    - build
-  script:
-    - echo "Cleaning up workspace..."
-    - docker system prune -af
-  when: always
+# docker_push_job:
+#   stage: docker_push
+#   tags:
+#     - build
+#   rules:
+#     - if: $CI_COMMIT_BRANCH == "development"
+#   before_script:
+#     - docker login -u "$DOCKER_LOGIN" -p "$DOCKER_PASS"
+#   script:
+#     - docker push $DOCKER_IMAGE:latest
+
+# cleanup_job:
+#   stage: cleanup
+#   tags:
+#     - build
+#   script:
+#     - echo "Cleaning up workspace..."
+#     - docker system prune -af
+#   when: always
   
