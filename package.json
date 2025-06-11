@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "dev:turbo": "next dev --turbopack",
-    "build": "npx prisma generate && next build",
+    "build": "pnpm generate && next build",
     "start": "next start",
     "launch": "pnpm build && pnpm start",
     "lint": "next lint",
@@ -15,7 +15,8 @@
     "migrate:new": "npx prisma migrate dev --name",
     "migrate": "npx prisma migrate dev",
     "seed": "npx prisma db seed",
-    "studio": "npx prisma studio"
+    "studio": "npx prisma studio",
+    "generate": "npx prisma generate"
   },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"

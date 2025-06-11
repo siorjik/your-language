@@ -9,19 +9,16 @@ RUN npm install -g pnpm
 WORKDIR /app
 
 COPY package.json /app
-COPY pnpm-lock.yaml /app/
+COPY pnpm-lock.yaml /app
 
 RUN pnpm install
 
 COPY . .
 
+EXPOSE 3001
+
 RUN if [ "$MODE" = "migration" ]; then \
-      echo "migration mode" &&\
-      pnpm migrate &&\
-      pnpm seed; \
+      echo "migration mode"; \
     else \
-      echo "start mode" &&\
-      EXPOSE 3001 &&\
-      pnpm build &&\
-      CMD ["pnpm", "start"]; \
+      echo "start mode"; \
     fi
