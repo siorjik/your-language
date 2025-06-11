@@ -6,13 +6,18 @@ stages:
   # - docker_push
   # - cleanup
 
-cache:
-  paths:
-    - node_modules/
+# cache:
+#   paths:
+#     - node_modules/
 
 image: creatiwww/docker-compose:latest
 services:
   - docker:dind
+
+default:
+  artifacts:
+    paths:
+      - .env
 
 create_env_job:
   stage: create_env
@@ -59,7 +64,7 @@ project_build_job:
     - pnpm prettier
     - pnpm build
 
-docker_build_migration_job:
+docker_build_migrations_job:
   stage: docker_build_migrations
   tags:
     - build
