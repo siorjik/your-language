@@ -71,7 +71,7 @@ docker_build_migrations_job:
   rules:
     - if: $CI_COMMIT_BRANCH == "development"
   script:
-    - docker build --env-file .env --build-arg MODE=migration -t $DOCKER_IMAGE:latest docker/
+    - docker build --build-arg MODE=migration -t $DOCKER_IMAGE:latest docker/
     - docker rmi $DOCKER_IMAGE:latest # delete image after migration executing
 
 docker_build_start_job:
@@ -81,7 +81,7 @@ docker_build_start_job:
   rules:
     - if: $CI_COMMIT_BRANCH == "development"
   script:
-    - docker build --env-file .env --build-arg MODE=start -t $DOCKER_IMAGE:latest docker/
+    - docker build --build-arg MODE=start -t $DOCKER_IMAGE:latest docker/
 
 # docker_push_job:
 #   stage: docker_push
