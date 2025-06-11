@@ -12,13 +12,5 @@ export default async function Sets({ searchParams }: { searchParams: Promise<{ [
 
   if (res.error) notFound()
 
-  return (
-    <>
-      {!res.sets.length ? (
-        <p className="w-fit mx-auto">There are no sets yet...</p>
-      ) : (
-        <SetList sets={!!title ? res.filtered : res.sets} />
-      )}
-    </>
-  )
+  return <SetList sets={!!title ? res.filtered : res.sets} />
 }
