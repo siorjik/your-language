@@ -60,7 +60,7 @@ project_build_job:
     - pnpm build
 
 docker_build_migration_job:
-  stage: docker_build_migration
+  stage: docker_build_migrations
   tags:
     - build
   rules:
