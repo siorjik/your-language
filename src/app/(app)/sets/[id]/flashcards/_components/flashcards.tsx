@@ -74,8 +74,11 @@ export default function Flashcards({ data }: { data: Set }) {
 
     const xVariants = {
       hidden: {
-        x: newDirection > 0 ? 300 : -300, y: -20, rotate: newDirection > 0 ? -10 : 10,
-        rotateY: newDirection > 0 ? 90 : -90, opacity: .5
+        x: newDirection > 0 ? 300 : -300,
+        y: -20,
+        rotate: newDirection > 0 ? -10 : 10,
+        rotateY: newDirection > 0 ? 90 : -90,
+        opacity: 0.5,
       },
       visible: { x: 0, y: 0, rotate: 0, rotateY: 0, opacity: 1 },
       exit: { x: newDirection > 0 ? -300 : 300, opacity: 0 },
