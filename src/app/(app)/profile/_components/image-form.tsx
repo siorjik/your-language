@@ -3,10 +3,10 @@
 import { useState, useEffect, useCallback } from 'react'
 import { getSession, useSession } from 'next-auth/react'
 import Image from 'next/image'
+import { User2 } from 'lucide-react'
 
 import Spinner from '@/components/spinner'
 import { Button } from '@/components/ui/button'
-import { User } from 'lucide-react'
 
 import useFileStorage from '@/hooks/useFileStorage'
 import { useToast } from '@/hooks/use-toast'
@@ -109,7 +109,7 @@ export default function ChangeImageForm() {
             />
           ) : (
             <div className="flex justify-center items-center rounded-full border-4 border-secondary w-[200px] h-[200px]">
-              <User size={100} />
+              <User2 size={100} />
             </div>
           )}
           {showControlBlock && (

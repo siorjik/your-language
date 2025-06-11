@@ -67,7 +67,7 @@ export default function SetList({ sets }: { sets: Set[] }) {
             Create New
           </Link>
         </Button>
-        <div className="w-full max-w-[700px] relative">
+        {!!sets.length && <div className="w-full max-w-[700px] relative">
           <span className="h-10 w-10 bg-secondary/40 absolute top-0 left-0 flex justify-center items-center rounded-l-md">
             <Search />
           </span>
@@ -84,7 +84,7 @@ export default function SetList({ sets }: { sets: Set[] }) {
           >
             <X />
           </span>
-        </div>
+        </div>}
       </div>
       {!isLoader && !!sets.length ? (
         sets.map((set) => (
