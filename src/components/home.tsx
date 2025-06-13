@@ -40,6 +40,7 @@ export default function Main({ session }: { session: Session | null }) {
         <div>Welcome, {session.user.name}</div>
       ) : (
         <DialogWrap
+          width="max-w-[400px]"
           title="Welcome!"
           trigger={
             <div>

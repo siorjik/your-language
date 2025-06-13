@@ -72,13 +72,13 @@ export const getSetById = async (id: string): Promise<(Set & { error: null }) | 
   }
 }
 
-export const deleteSet = async (id: string): Promise<{ success: true; error: null } | Err> => {
+export const deleteSet = async (id: string, isRevalidate: boolean = true): Promise<{ success: true; error: null } | Err> => {
   try {
     await getServerSessionToken()
 
     await prisma.set.delete({ where: { id } })
 
-    revalidatePath(setsAppPath)
+    if (isRevalidate) revalidatePath(setsAppPath)
 
     return { success: true, error: null }
   } catch (error) {

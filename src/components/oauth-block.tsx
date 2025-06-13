@@ -34,13 +34,17 @@ export default function OAuthBlock({ isMainPage }: { isMainPage?: boolean }) {
       </div>
       <Button
         variant="secondary"
-        className="w-full mt-5 mb-3 text-stone-500"
+        className="w-full mt-5 mb-3 text-stone-500 bg-secondary/40"
         type="submit"
         onClick={async () => await onSubmit('google')}
       >
         Continue with <span className="font-semibold">Google</span>
       </Button>
-      <Button variant="secondary" className="w-full text-stone-500" onClick={async () => await onSubmit('github')}>
+      <Button
+        variant="secondary"
+        className="w-full text-stone-500 bg-secondary/40"
+        onClick={async () => await onSubmit('github')}
+      >
         Continue with <span className="font-semibold">Github</span>
       </Button>
       {isLoading && !isMainPage && <Spinner />}

@@ -115,7 +115,10 @@ export default function SetForm({ data = null, action = null }: SetFormProps) {
                 </FormItem>
               )}
             />
-            <span className="h-fit w-11 text-center py-3 mx-auto md:mt-6 border rounded-full">{fields.length}</span>
+            <div className="h-10 w-10 text-center pt-2 mx-auto md:mt-7 border-2 rounded-md text-xs leading-[.6] font-semibold">
+              {fields.length}
+              <p>items</p>
+            </div>
             <FormField
               control={form.control}
               name="source"
@@ -181,7 +184,7 @@ export default function SetForm({ data = null, action = null }: SetFormProps) {
                   mt-3 p-3 flex flex-col md:flex-row items-center md:items-stretch gap-3 bg-secondary/20 shadow-md rounded-md
                 "
               >
-                <span className="md:mt-9 text-sm">{idx + 1}</span>
+                {fields.length > 1 && <span className="md:mt-9 text-sm">{idx + 1}</span>}
                 <FormField
                   control={form.control}
                   name={`list.${idx}.term`}

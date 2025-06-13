@@ -60,14 +60,14 @@ export default function SetList({ sets }: { sets: Set[] }) {
 
   return (
     <>
-      <div className="mb-6 flex flex-col md:flex-row gap-5 md:gap-10 justify-between">
+      <div className="mb-8 flex flex-col md:flex-row gap-5 md:gap-10 justify-between">
         <Button asChild>
           <Link href={newSetAppPath}>
             <CirclePlus />
             Create New
           </Link>
         </Button>
-        {!!sets.length && (
+        {(!!sets.length || titleParam) && (
           <div className="w-full max-w-[700px] relative">
             <span className="h-10 w-10 bg-secondary/40 absolute top-0 left-0 flex justify-center items-center rounded-l-md">
               <Search />
@@ -79,19 +79,21 @@ export default function SetList({ sets }: { sets: Set[] }) {
               value={value}
               ref={inputRef}
             />
-            <span
-              className="h-10 w-10 bg-secondary/40 absolute top-0 right-0 flex justify-center items-center rounded-r-md"
-              onClick={onReset}
-            >
-              <X />
-            </span>
+            {value && (
+              <span
+                className="h-10 w-10 bg-secondary/40 absolute top-0 right-0 flex justify-center items-center rounded-r-md"
+                onClick={onReset}
+              >
+                <X />
+              </span>
+            )}
           </div>
         )}
       </div>
       {!isLoader && !!sets.length ? (
-        sets.map((set) => (
+        sets.map((set, idx) => (
           <Link key={set.id} href={getSetAppPath(set.id)}>
-            <SetItem set={set} />
+            <SetItem set={set} idx={idx} />
           </Link>
         ))
       ) : isLoader ? null : (

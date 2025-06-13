@@ -298,7 +298,7 @@ body {
   p,
   span,
   a {
-    @apply leading-4;
+    @apply leading-5;
   }
 
   input {
@@ -330,7 +330,7 @@ body {
   }
 
   .icon-hover {
-    @apply text-muted-foreground hover:bg-secondary/50 h-fit w-fit p-2 relative rounded-full flex justify-center items-center duration-500;
+    @apply text-muted-foreground hover:bg-primary/30 h-fit w-fit p-2 relative rounded-full flex justify-center items-center duration-500;
   }
 
   .pushed-btn {

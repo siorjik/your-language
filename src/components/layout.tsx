@@ -71,7 +71,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         <>
           <header
             className={`
-              w-full h-[55px] px-5 md:px-8 py-2 flex items-center fixed bg-background z-10 shadow-md
+              w-full h-[55px] px-5 md:px-8 py-1 flex items-center fixed bg-background z-10 shadow-md
               ${isHide ? 'top-[-55px]' : 'top-0'} transition-all duration-500
             `}
           >
