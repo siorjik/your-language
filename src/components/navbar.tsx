@@ -45,8 +45,8 @@ export default function Navbar() {
     return (
       <Link
         className={`
-          px-2 border-b-[3px] border-transparent font-semibold relative top-[10px] pb-[15px] ${css}
-          ${pathname !== path ? 'border-animated after:bottom-[-3px] after:left-0' : ''}
+          px-3 border-b-[3px] border-transparent font-semibold relative top-[10px] pb-[13px] ${css}
+          text-md ${pathname !== path ? 'border-animated after:bottom-[-3px] after:left-0' : ''}
         `}
         href={path}
       >
@@ -58,13 +58,13 @@ export default function Navbar() {
   const userMenu = session?.user ? (
     <NavigationMenu>
       <NavigationMenuList>
-        <NavigationMenuItem>
+        <NavigationMenuItem className="h-[43px] mt-1">
           <NavigationMenuTrigger className="px-0 bg-background">
             {!session.user.image ? (
               <Settings className="text-muted-foreground" />
             ) : (
               <Image
-                className="h-[40px] w-[40px] rounded-full object-cover"
+                className="h-[43px] w-[43px] rounded-full object-cover"
                 src={getAuthUrl(session.user.image)}
                 width={30}
                 height={30}
@@ -76,19 +76,19 @@ export default function Navbar() {
           <NavigationMenuContent className="flex flex-col">
             {session.user.isCredentials && (
               <NavigationMenuLink asChild>
-                <Link className="w-full py-2 px-3 hover:bg-accent" href={profileAppPath}>
-                  <UserRoundCog className="mx-auto text-muted-foreground" />
+                <Link className="w-full py-2 px-3 hover:bg-accent flex justify-center items-center" href={profileAppPath}>
+                  <UserRoundCog className="mt-[-3px] text-muted-foreground" />
                 </Link>
               </NavigationMenuLink>
             )}
             <NavigationMenuLink asChild>
-              <span className="py-2 px-3 hover:bg-accent">
+              <span className="py-2 px-3 hover:bg-accent flex justify-center items-center">
                 <ThemeBtn />
               </span>
             </NavigationMenuLink>
             <NavigationMenuLink asChild>
-              <span className="w-full py-2 px-3 hover:bg-accent">
-                <LogOut onClick={logOut} className="mx-auto text-muted-foreground" />
+              <span className="w-full py-2 px-3 hover:bg-accent flex justify-center items-center">
+                <LogOut onClick={logOut} className="text-muted-foreground" />
               </span>
             </NavigationMenuLink>
           </NavigationMenuContent>
@@ -115,7 +115,7 @@ export default function Navbar() {
     <nav className="flex justify-between">
       <div className="flex gap-2 items-center">
         <Link href="/">
-          <Image className="h-[40px] w-[40px] mr-10 relative bottom-[1px]" src={logo} alt="logo" placeholder="blur" priority />
+          <Image className="h-[39px] w-[39px] mr-10" src={logo} alt="logo" placeholder="blur" priority />
         </Link>
         {isAuth ? navData.map((item, idx) => <Fragment key={idx}>{getMenuItem(item)}</Fragment>) : getMenuItem(navData[0])}
       </div>

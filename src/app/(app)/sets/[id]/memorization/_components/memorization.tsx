@@ -120,7 +120,7 @@ export default function Memorization({ data }: { data: Set }) {
                 whileHover={{ boxShadow: '5px 5px 5px hsl(var(--secondary))' }}
                 onClick={() => onSetResult(item, idx)}
               >
-                <span className="max-h-8 line-clamp-2">{item[selectedMode === 'term' ? 'definition' : 'term']}</span>
+                <span className="max-h-10 line-clamp-2">{item[selectedMode === 'term' ? 'definition' : 'term']}</span>
               </motion.li>
             ))}
           </motion.ul>
@@ -150,7 +150,7 @@ export default function Memorization({ data }: { data: Set }) {
           </div>
           <div className="max-w-4xl mx-auto flex items-center gap-1">
             <span className="text-xl font-semibold">1</span>
-            <Progress className="" value={(100 / setList.length) * (index + 1)} />
+            <Progress className="" value={(100 / setList.length) * (result.passed.length + result.failed.length)} />
             <span className="text-xl font-semibold">{setList.length}</span>
           </div>
         </>
@@ -162,9 +162,9 @@ export default function Memorization({ data }: { data: Set }) {
           <motion.span
             className="inline-block"
             key={result.passed.length}
-            initial={{ scale: 5 }}
+            initial={{ scale: 10 }}
             animate={{ scale: 1 }}
-            transition={{ duration: 2, type: 'spring', stiffness: 300 }}
+            transition={{ duration: 0.5 }}
           >
             {result.passed.length}
           </motion.span>
@@ -174,9 +174,9 @@ export default function Memorization({ data }: { data: Set }) {
           <motion.span
             className="inline-block"
             key={result.failed.length}
-            initial={{ scale: 5 }}
+            initial={{ scale: 10 }}
             animate={{ scale: 1 }}
-            transition={{ duration: 2, type: 'spring', stiffness: 300 }}
+            transition={{ duration: 0.5 }}
           >
             {result.failed.length}
           </motion.span>

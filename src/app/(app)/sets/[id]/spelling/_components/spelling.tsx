@@ -59,16 +59,35 @@ export default function Memorization({ data }: { data: Set }) {
       const valueCharArr = value.split('')
       const setListItemCharArr = setList[index].term.split('')
 
-      const startIndex = valueCharArr.indexOf(setListItemCharArr[0])
-      const spareStartArr = valueCharArr.slice(0, startIndex)
-      const valueArr = valueCharArr.slice(startIndex, setListItemCharArr.length + startIndex)
-      const spareEndArr = valueCharArr.slice(setListItemCharArr.length + startIndex)
+      let firstMatchedLetter = ''
+
+      allBreak: for (let i = 0; i < valueCharArr.length; i++) {
+        for (const char of setListItemCharArr) {
+          if (char === valueCharArr[i] && setListItemCharArr.indexOf(char) > 0 && valueCharArr.includes(setListItemCharArr[0])) {
+            continue
+          }
+
+          if (char === valueCharArr[i]) {
+            firstMatchedLetter = char
+
+            break allBreak
+          }
+        }
+      }
+
+      const startIndexValue = valueCharArr.indexOf(firstMatchedLetter)
+      const startIndexSet = setListItemCharArr.indexOf(firstMatchedLetter)
+      const endIndexValue = setListItemCharArr.length - startIndexSet + startIndexValue
+
+      const spareStartArr = valueCharArr.slice(0, startIndexValue)
+      const valueArr = valueCharArr.slice(startIndexValue, endIndexValue)
+      const spareEndArr = valueCharArr.slice(endIndexValue)
 
       if (!!spareStartArr.length) spareStartArr.forEach((value) => arr.push({ value, isCorrect: false }))
 
       if (!!valueArr.length) {
         valueArr.forEach((value, idx) => {
-          arr.push({ value, isCorrect: value === setListItemCharArr[idx] ? true : false })
+          arr.push({ value, isCorrect: value === setListItemCharArr[idx + startIndexSet] ? true : false })
         })
       }
 
@@ -80,7 +99,7 @@ export default function Memorization({ data }: { data: Set }) {
       setTimeout(() => {
         if (!isLast) setIndex((prev) => prev + 1)
         else setFinish(true)
-      }, 3000)
+      }, 4000)
     }
   }
 
@@ -143,7 +162,7 @@ export default function Memorization({ data }: { data: Set }) {
             {(selectedAnswerStyle || result.failed.find((el) => el.definition === setList[index].definition)) && (
               <div
                 className={`
-                h-8 border-b-2 border-b-secondary text-xl text-center flex gap-5 justify-center items-center
+                h-8 border-b-2 border-b-secondary text-xl flex gap-5 justify-center items-center
                 ${selectedAnswerStyle && !selectedAnswerStyle.letters ? selectedAnswerStyle.style : ''}
               `}
               >
@@ -215,7 +234,7 @@ export default function Memorization({ data }: { data: Set }) {
           </div>
           <div className="max-w-4xl mx-auto flex items-center gap-1">
             <span className="text-xl font-semibold">1</span>
-            <Progress className="" value={(100 / setList.length) * (index + 1)} />
+            <Progress className="" value={(100 / setList.length) * (result.passed.length + result.failed.length)} />
             <span className="text-xl font-semibold">{setList.length}</span>
           </div>
         </>
@@ -227,9 +246,9 @@ export default function Memorization({ data }: { data: Set }) {
           <motion.span
             className="inline-block"
             key={result.passed.length}
-            initial={{ scale: 5 }}
+            initial={{ scale: 10 }}
             animate={{ scale: 1 }}
-            transition={{ duration: 2, type: 'spring', stiffness: 300 }}
+            transition={{ duration: 0.5 }}
           >
             {result.passed.length}
           </motion.span>
@@ -239,9 +258,9 @@ export default function Memorization({ data }: { data: Set }) {
           <motion.span
             className="inline-block"
             key={result.failed.length}
-            initial={{ scale: 5 }}
+            initial={{ scale: 10 }}
             animate={{ scale: 1 }}
-            transition={{ duration: 2, type: 'spring', stiffness: 300 }}
+            transition={{ duration: 0.5 }}
           >
             {result.failed.length}
           </motion.span>

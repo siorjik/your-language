@@ -19,9 +19,17 @@ type DialogProps = {
   title: string
   content: ReactElement
   isAutoClose?: boolean
+  width?: string
 }
 
-export default function DialogWrap({ trigger, description = null, title, content, isAutoClose = false }: DialogProps) {
+export default function DialogWrap({
+  trigger,
+  description = null,
+  title,
+  content,
+  isAutoClose = false,
+  width = '',
+}: DialogProps) {
   const [isOpen, setOpen] = useState(false)
 
   useEffect(() => {
@@ -32,7 +40,7 @@ export default function DialogWrap({ trigger, description = null, title, content
     <>
       <Dialog open={isOpen} onOpenChange={setOpen}>
         <DialogTrigger asChild>{trigger}</DialogTrigger>
-        <DialogContent className="gap-8">
+        <DialogContent className={`${width} gap-8`}>
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
             <DialogDescription>{description}</DialogDescription>
