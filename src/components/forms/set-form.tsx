@@ -116,7 +116,7 @@ export default function SetForm({ data = null, action = null }: SetFormProps) {
               )}
             />
             <div className="h-10 w-10 text-center pt-2 mx-auto md:mt-7 border-2 rounded-md text-xs leading-[.6] font-semibold">
-              {fields.length}
+              <span className="text-sm leading-[.3]">{fields.length}</span>
               <p>items</p>
             </div>
             <FormField
@@ -275,7 +275,7 @@ export default function SetForm({ data = null, action = null }: SetFormProps) {
           {!!form.getValues('source') && form.getValues('target') && action && (
             <Button
               type="button"
-              className="mt-3 mx-auto p-0 w-fit h-fit block hover:bg-transparent"
+              className="mt-3 mx-auto p-0 w-fit h-fit block hover:bg-transparent hover:text-success"
               variant="ghost"
               onClick={() => {
                 append({ term: '', definition: '' })

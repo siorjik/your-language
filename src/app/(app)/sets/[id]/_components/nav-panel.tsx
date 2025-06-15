@@ -58,7 +58,7 @@ export default function NavPanel({ id }: { id: string }) {
         </Button>
         <AlertDialogWrap
           trigger={
-            <Button asChild>
+            <Button variant="destructive" asChild>
               <span>
                 <Trash2 />
                 Remove

@@ -310,7 +310,7 @@ body {
   }
 
   .link {
-    @apply text-amber-600 dark:text-amber-500 border-b-2 border-amber-700 dark:border-amber-600 cursor-pointer;
+    @apply text-amber-600 dark:text-amber-500 border-b-2 border-amber-700 dark:border-amber-600 cursor-pointer font-semibold;
   }
 
   .dialog-submit-btn {
