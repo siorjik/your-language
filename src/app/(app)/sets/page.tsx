@@ -1,9 +1,10 @@
 import { notFound } from 'next/navigation'
 
+import SetList from './_components/set-list'
+
 import { getSetList } from '@/actions/set'
 import { Set } from '@prisma/client'
 import { Err } from '@/types/errTypes'
-import SetList from './_components/set-list'
 
 export default async function Sets({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
   const { title = '' } = await searchParams

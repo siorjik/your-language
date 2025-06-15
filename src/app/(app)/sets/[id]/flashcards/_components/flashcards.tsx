@@ -13,6 +13,8 @@ import { Set } from '@prisma/client'
 import { LANGUAGE_OPTIONS } from '@/utils/constants'
 import useKeyPress from '@/hooks/useKeyPress'
 import getShuffledArr from '@/helpers/getShuffledArr'
+import { getUtterance, getVoices } from '@/services/speechService'
+import { Voices } from '@/types/speech'
 
 export default function Flashcards({ data }: { data: Set }) {
   const [mode, setMode] = useState<'term' | 'definition'>('term')
@@ -23,11 +25,7 @@ export default function Flashcards({ data }: { data: Set }) {
   const [isSound, setSound] = useState(false)
   const [selectedMode, setSelectedMode] = useState<'term' | 'definition'>('term')
   const [isSelectOpen, setSelectOpen] = useState(false)
-  const [voices, setVoices] = useState<{
-    en: SpeechSynthesisVoice | null
-    ru: SpeechSynthesisVoice | null
-    ua: SpeechSynthesisVoice | null
-  } | null>(null)
+  const [voices, setVoices] = useState<Voices | null>(null)
 
   const downPress = useKeyPress('ArrowDown')
   const upPress = useKeyPress('ArrowUp')
@@ -36,18 +34,11 @@ export default function Flashcards({ data }: { data: Set }) {
   const leftPress = useKeyPress('ArrowLeft')
 
   useEffect(() => {
-    speechSynthesis.onvoiceschanged = () => {
-      const voices = speechSynthesis.getVoices()
-      // console.log(voices)
+    ;(async () => {
+      const voices = await getVoices()
 
-      const selectedVoices = {
-        en: voices.find((voice) => voice.name === 'Nicky')!,
-        ru: voices.find((voice) => voice.lang === 'ru-RU')!,
-        ua: voices.find((voice) => voice.name === 'Lesya')!,
-      }
-
-      setVoices({ ...selectedVoices })
-    }
+      if (voices) setVoices(voices)
+    })()
   }, [])
 
   useEffect(() => {
@@ -125,29 +116,10 @@ export default function Flashcards({ data }: { data: Set }) {
 
   const sound = (isSound: boolean = true, itemIndex: number | null = null, itemMode: 'term' | 'definition' | null = null) => {
     if (isSound) {
-      const utterance = new SpeechSynthesisUtterance(setList[itemIndex !== null ? itemIndex : index][itemMode || mode])
+      const msg = setList[itemIndex !== null ? itemIndex : index][itemMode || mode]
+      const lang = (mode === 'term' ? data.source : data.target) as 'en' | 'ru' | 'ua'
 
-      const getMappedLanguages = (mode: string) => {
-        switch (mode) {
-          case 'en':
-            return 'en-US'
-
-          case 'ru':
-            return 'ru-RU'
-
-          case 'ua':
-            return 'uk-UA'
-
-          default:
-            break
-        }
-      }
-
-      utterance.voice = voices ? voices[(mode === 'term' ? data.source : data.target) as 'en' | 'ru' | 'ua'] : null
-
-      utterance.lang = `${mode === 'term' ? getMappedLanguages(data.source) : getMappedLanguages(data.target)}`
-
-      speechSynthesis.speak(utterance)
+      getUtterance(voices, msg, lang)
     }
   }
 

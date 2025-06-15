@@ -98,10 +98,10 @@ export default function Navbar() {
   ) : (
     <div className="flex gap-2">
       <Link href={signUpAppPath}>
-        <UserRoundPlus className="text-muted-foreground hover:text-foreground" />
+        <UserRoundPlus className="text-muted-foreground hover:text-primary" />
       </Link>
       <Link href={signInAppPath}>
-        <LogIn className="text-muted-foreground hover:text-foreground" />
+        <LogIn className="text-muted-foreground hover:text-primary" />
       </Link>
     </div>
   )
@@ -115,7 +115,7 @@ export default function Navbar() {
     <nav className="flex justify-between">
       <div className="flex gap-2 items-center">
         <Link href="/">
-          <Image className="h-[39px] w-[39px] mr-10" src={logo} alt="logo" placeholder="blur" priority />
+          <Image className="h-[43px] w-[43px] mr-10" src={logo} alt="logo" placeholder="blur" priority />
         </Link>
         {isAuth ? navData.map((item, idx) => <Fragment key={idx}>{getMenuItem(item)}</Fragment>) : getMenuItem(navData[0])}
       </div>
