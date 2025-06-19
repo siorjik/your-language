@@ -27,7 +27,7 @@ export default function OAuthBlock({ isMainPage }: { isMainPage?: boolean }) {
 
   return (
     <>
-      <div className="flex justify-center items-center gap-2 overflow-hidden text-primary">
+      <div className="flex justify-center items-center gap-2 overflow-hidden text-primary font-semibold">
         <Separator className="bg-primary h-[2px]" />
         OR
         <Separator className="bg-primary h-[2px]" />
