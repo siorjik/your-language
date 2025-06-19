@@ -7,6 +7,7 @@ import { CircleArrowLeft, CircleArrowRight, Shuffle, Play, Volume2, RotateCcw } 
 import { Card, CardContent } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
 import SelectWrap from '@/components/select-wrap'
+import DropdownMenu from './dropdownMenu'
 
 import { SetList } from '@/types/models/set'
 import { Set } from '@prisma/client'
@@ -14,7 +15,8 @@ import { LANGUAGE_OPTIONS } from '@/utils/constants'
 import useKeyPress from '@/hooks/useKeyPress'
 import getShuffledArr from '@/helpers/getShuffledArr'
 import { getUtterance, getVoices } from '@/services/speechService'
-import { Voices } from '@/types/speech'
+import { Langs, Voices } from '@/types/speech'
+import useDisplayData from '@/hooks/useDisplayData'
 
 export default function Flashcards({ data }: { data: Set }) {
   const [mode, setMode] = useState<'term' | 'definition'>('term')
@@ -26,12 +28,16 @@ export default function Flashcards({ data }: { data: Set }) {
   const [selectedMode, setSelectedMode] = useState<'term' | 'definition'>('term')
   const [isSelectOpen, setSelectOpen] = useState(false)
   const [voices, setVoices] = useState<Voices | null>(null)
+  const [isShowDropdownMenu, setShowDropdownMenu] = useState(false)
+  const [soundMode, setSoundMode] = useState<{ term: boolean, definition: boolean }>({ term: false, definition: false })
 
   const downPress = useKeyPress('ArrowDown')
   const upPress = useKeyPress('ArrowUp')
   const spacePress = useKeyPress(' ')
   const rightPress = useKeyPress('ArrowRight')
   const leftPress = useKeyPress('ArrowLeft')
+
+  const { isMobile } = useDisplayData()
 
   useEffect(() => {
     ;(async () => {
@@ -115,9 +121,9 @@ export default function Flashcards({ data }: { data: Set }) {
   }
 
   const sound = (isSound: boolean = true, itemIndex: number | null = null, itemMode: 'term' | 'definition' | null = null) => {
-    if (isSound) {
+    if (isSound && (soundMode[mode || itemMode] || Object.values(soundMode).every((mode) => !mode))) {
       const msg = setList[itemIndex !== null ? itemIndex : index][itemMode || mode]
-      const lang = (mode === 'term' ? data.source : data.target) as 'en' | 'ru' | 'ua'
+      const lang = (mode === 'term' ? data.source : data.target) as Langs
 
       getUtterance(voices, msg, lang)
     }
@@ -198,10 +204,25 @@ export default function Flashcards({ data }: { data: Set }) {
           className={`
             absolute right-[-60px] md:right-[-150px] border-2 rounded-full p-[5px] border-transparent
             icon-hover ${isSound ? '!border-gray-500 dark:border-gray-500' : ''}
-            `}
-          onClick={() => setSound(!isSound)}
+          `}
+          onMouseLeave={() => setShowDropdownMenu(false)}
+          onClick={(e) => {
+            if (!isShowDropdownMenu) setShowDropdownMenu(true)
+
+            const el = e.target as HTMLSpanElement
+
+            if (el.tagName !== 'DIV') setSound(!isSound)
+          }}
         >
-          <Volume2 size={25} />
+          {isMobile ? <Volume2 size={25} /> : <DropdownMenu
+            trigger={<Volume2 size={25} />}
+            setShowDropdownMenu={setShowDropdownMenu}
+            setSoundMode={setSoundMode}
+            soundMode={soundMode}
+            isShowDropdownMenu={isShowDropdownMenu}
+            dataSource={data.source as Langs}
+            dataTarget={data.target as Langs}
+          />}
         </span>
       </div>
       <Progress className="max-w-4xl h-1 mx-auto mt-2" value={(100 / setList.length) * (index + 1)} />

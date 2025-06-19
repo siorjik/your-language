@@ -330,10 +330,10 @@ body {
   }
 
   .icon-hover {
-    @apply text-muted-foreground hover:bg-primary/30 h-fit w-fit p-2 relative rounded-full flex justify-center items-center duration-500;
+    @apply text-muted-foreground hover:bg-primary/30 h-fit w-fit p-2 relative rounded-full flex justify-center items-center cursor-pointer duration-500;
   }
 
   .pushed-btn {
-    @apply !border-b-4 hover:!border-b-0 !transition-all !duration-300;
+    @apply !border-b-4 hover:!border-b-0 !transition-all;
   }
 }

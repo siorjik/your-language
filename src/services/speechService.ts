@@ -1,4 +1,4 @@
-import { Voices } from '@/types/speech'
+import { Langs, Voices } from '@/types/speech'
 
 export const getVoices = async (): Promise<Voices> => {
   const loadVoices = (): Promise<SpeechSynthesisVoice[]> => {
@@ -23,7 +23,7 @@ export const getVoices = async (): Promise<Voices> => {
   }
 }
 
-export const getUtterance = (voices: Voices | null = null, msg: string, lang: 'en' | 'ru' | 'ua') => {
+export const getUtterance = (voices: Voices | null = null, msg: string, lang: Langs) => {
   const utterance = new SpeechSynthesisUtterance(msg)
 
   if (voices) utterance.voice = voices ? voices[lang] : null
