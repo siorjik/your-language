@@ -2,14 +2,21 @@ image: node:20
 
 steps:
   - step: &build
-      name: Build checking
-      caches:
-        - node
-      script:
-        - npm install -g pnpm
-        - pnpm install
-        - pnpm prettier
-        - pnpm build
+    name: Build checking
+    caches:
+      - node
+    script:
+      - npm install -g pnpm
+      - pnpm install
+      - pnpm prettier
+      - pnpm build
+
+  - step: &dev-merge
+    name: Merge in dev
+    caches:
+      - node
+    script:
+         - echo "🧪 Runs only merge on development branch"
 
 pipelines:
   pull-request:
@@ -18,7 +25,4 @@ pipelines:
 
   branches:
     development:
-      - step:
-      - name: Merge in development
-        script:
-          - echo "🧪 Runs only merge on development branch"
+      - step: *dev-merge
