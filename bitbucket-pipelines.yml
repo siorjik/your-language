@@ -2,9 +2,20 @@ image: node:20
 
 pipelines:
   pull-requests:
-    development:
+    'development':
       - step:
-          name: Build checking (PR)
+          name: Build checking (PR) to dev
+          caches:
+            - node
+          script:
+            - npm install -g pnpm
+            - pnpm install
+            - pnpm run prettier
+            - pnpm build
+
+    'main':
+      - step:
+          name: Build checking (PR) to main
           caches:
             - node
           script:
@@ -16,8 +27,16 @@ pipelines:
   branches:
     development:
       - step:
-          name: Merge in dev
+          name: Merge in development
           caches:
             - node
           script:
             - echo "🧪 Runs only on merge into development"
+
+    main:
+      - step:
+          name: Merge in main
+          caches:
+            - node
+          script:
+            - echo "🧪 Runs only on merge into main"
