@@ -13,5 +13,5 @@ steps:
 
 pipelines:
   default:
-    step: *build
+    - step: *build
     
