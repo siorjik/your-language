@@ -19,5 +19,6 @@ pipelines:
   branches:
     development:
       - step:
+      - name: Merge in development
         script:
           - echo "🧪 Runs only merge on development branch"
