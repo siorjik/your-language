@@ -1,28 +1,24 @@
 image: node:20
 
+definitions:
+  steps:
+    - step: &build
+        name: Build checking
+        caches:
+          - node
+        script:
+          - npm install -g pnpm
+          - pnpm install
+          - pnpm run prettier
+          - pnpm build
+
 pipelines:
   pull-requests:
     'feature/*':
-      - step:
-          name: Build checking (PR) from feature
-          caches:
-            - node
-          script:
-            - npm install -g pnpm
-            - pnpm install
-            - pnpm run prettier
-            - pnpm build
+      - step: *build
 
     'fix/*':
-      - step:
-          name: Build checking (PR) from fix
-          caches:
-            - node
-          script:
-            - npm install -g pnpm
-            - pnpm install
-            - pnpm run prettier
-            - pnpm build
+      - step: *build
 
   branches:
     development:
