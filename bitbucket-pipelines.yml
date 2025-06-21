@@ -13,7 +13,7 @@ steps:
 
 pipelines:
   pull-request:
-    'development':
+    development:
       - step: *build
 
   branches:
