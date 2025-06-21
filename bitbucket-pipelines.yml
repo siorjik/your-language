@@ -27,7 +27,7 @@ pipelines:
           caches:
             - node
           script:
-            - echo "🧪 Runs only on merge into development"
+            - echo "🧪 Runs only on merge into development!"
 
     main:
       - step:
@@ -35,4 +35,4 @@ pipelines:
           caches:
             - node
           script:
-            - echo "🧪 Runs only on merge into main"
+            - echo "🧪 Runs only on merge into main!"
