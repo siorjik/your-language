@@ -29,7 +29,7 @@ export default function Flashcards({ data }: { data: Set }) {
   const [isSelectOpen, setSelectOpen] = useState(false)
   const [voices, setVoices] = useState<Voices | null>(null)
   const [isShowDropdownMenu, setShowDropdownMenu] = useState(false)
-  const [soundMode, setSoundMode] = useState<{ term: boolean, definition: boolean }>({ term: false, definition: false })
+  const [soundMode, setSoundMode] = useState<{ term: boolean; definition: boolean }>({ term: false, definition: false })
 
   const downPress = useKeyPress('ArrowDown')
   const upPress = useKeyPress('ArrowUp')
@@ -214,15 +214,19 @@ export default function Flashcards({ data }: { data: Set }) {
             if (el.tagName !== 'DIV') setSound(!isSound)
           }}
         >
-          {isMobile ? <Volume2 size={25} /> : <DropdownMenu
-            trigger={<Volume2 size={25} />}
-            setShowDropdownMenu={setShowDropdownMenu}
-            setSoundMode={setSoundMode}
-            soundMode={soundMode}
-            isShowDropdownMenu={isShowDropdownMenu}
-            dataSource={data.source as Langs}
-            dataTarget={data.target as Langs}
-          />}
+          {isMobile ? (
+            <Volume2 size={25} />
+          ) : (
+            <DropdownMenu
+              trigger={<Volume2 size={25} />}
+              setShowDropdownMenu={setShowDropdownMenu}
+              setSoundMode={setSoundMode}
+              soundMode={soundMode}
+              isShowDropdownMenu={isShowDropdownMenu}
+              dataSource={data.source as Langs}
+              dataTarget={data.target as Langs}
+            />
+          )}
         </span>
       </div>
       <Progress className="max-w-4xl h-1 mx-auto mt-2" value={(100 / setList.length) * (index + 1)} />

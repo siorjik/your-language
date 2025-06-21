@@ -15,18 +15,24 @@ import { LANGUAGE_OPTIONS } from '@/utils/constants'
 import { Langs } from '@/types/speech'
 
 type DropdownMenu = {
-  soundMode: { term: boolean, definition: boolean }
-  setSoundMode: (soundMode: { term: boolean, definition: boolean }) => void,
-  isShowDropdownMenu: boolean,
-  setShowDropdownMenu: (isShow: boolean) => void,
-  trigger: ReactElement,
-  dataSource: Langs,
+  soundMode: { term: boolean; definition: boolean }
+  setSoundMode: (soundMode: { term: boolean; definition: boolean }) => void
+  isShowDropdownMenu: boolean
+  setShowDropdownMenu: (isShow: boolean) => void
+  trigger: ReactElement
+  dataSource: Langs
   dataTarget: Langs
 }
 
 export default function DropdownMenuComp({
-  soundMode, setSoundMode, isShowDropdownMenu, setShowDropdownMenu, trigger, dataSource, dataTarget }: DropdownMenu
-) {
+  soundMode,
+  setSoundMode,
+  isShowDropdownMenu,
+  setShowDropdownMenu,
+  trigger,
+  dataSource,
+  dataTarget,
+}: DropdownMenu) {
   return (
     <>
       <DropdownMenu open={isShowDropdownMenu} onOpenChange={setShowDropdownMenu}>

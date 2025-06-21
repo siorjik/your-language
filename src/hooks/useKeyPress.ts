@@ -6,8 +6,6 @@ export default function useKeyPress(targetKey: string) {
   const [keyPressed, setKeyPressed] = useState(false)
 
   const downHandler = (e: KeyboardEvent) => {
-    e.preventDefault()
-
     const { key } = e
 
     if (key === targetKey) {
