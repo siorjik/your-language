@@ -13,6 +13,11 @@ steps:
 
 pipelines:
   pull-request:
-    'developpment':
+    'development':
       - step: *build
-    
+
+  branches:
+    development:
+      - step:
+        script:
+          - echo "🧪 Runs only merge on development branch"
