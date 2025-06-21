@@ -20,4 +20,4 @@ pipelines:
           caches:
             - node
           script:
-            - echo "🧪 Runs only on merge into development branch"
+            - echo "🧪 Runs only on merge into development"
