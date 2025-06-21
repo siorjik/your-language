@@ -1,0 +1,17 @@
+image: node:20
+
+pipelines:
+  branches:
+    development:
+      - step:
+          name: Build checking
+          caches:
+            - node
+          script:
+            - npm install -g pnpm
+            - echo "📦 Installing dependencies..."
+            - pnpm install
+            - echo "🧹 Running prettier..."
+            - pnpm prettier
+            - echo "🏗️ Building Next.js app..."
+            - pnpm build
