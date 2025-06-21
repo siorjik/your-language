@@ -11,18 +11,7 @@ steps:
       - pnpm prettier
       - pnpm build
 
-  - step: &dev-merge
-    name: Merge in dev
-    caches:
-      - node
-    script:
-      - echo "🧪 Runs only merge on development branch"
-
 pipelines:
   pull-requests:
     development:
       - step: *build
-
-  branches:
-    development:
-      - step: *dev-merge
