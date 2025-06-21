@@ -16,10 +16,10 @@ steps:
     caches:
       - node
     script:
-         - echo "🧪 Runs only merge on development branch"
+      - echo "🧪 Runs only merge on development branch"
 
 pipelines:
-  pull-request:
+  pull-requests:
     development:
       - step: *build
 
