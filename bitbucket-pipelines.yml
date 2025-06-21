@@ -2,9 +2,9 @@ image: node:20
 
 pipelines:
   pull-requests:
-    'development':
+    'feature/*':
       - step:
-          name: Build checking (PR) to dev
+          name: Build checking (PR) from feature
           caches:
             - node
           script:
@@ -13,9 +13,9 @@ pipelines:
             - pnpm run prettier
             - pnpm build
 
-    'main':
+    'fix/*':
       - step:
-          name: Build checking (PR) to main
+          name: Build checking (PR) from fix
           caches:
             - node
           script:
