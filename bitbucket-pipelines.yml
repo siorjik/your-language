@@ -12,6 +12,7 @@ steps:
         - pnpm build
 
 pipelines:
-  default:
-    - step: *build
+  pull-request:
+    'developpment':
+      - step: *build
     
