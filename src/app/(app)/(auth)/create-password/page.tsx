@@ -1,5 +1,9 @@
+import type { Metadata } from 'next'
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import CreatePassword from './_components/create-password-form'
+
+export const metadata: Metadata = { title: 'Password Creation', description: 'Password Creation page' }
 
 export default async function CreatePasswordPage({ searchParams }: { searchParams: Promise<{ token: string }> }) {
   const { token } = await searchParams

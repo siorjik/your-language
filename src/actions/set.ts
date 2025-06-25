@@ -51,7 +51,9 @@ export const getSetList = async (
 
     return {
       sets: await prisma.set.findMany({ where: { userId: session.id } }),
-      filtered: filter ? await prisma.set.findMany({ where: { userId: session.id, title: { contains: filter?.title } } }) : [],
+      filtered: filter
+        ? await prisma.set.findMany({ where: { userId: session.id, title: { contains: filter?.title, mode: 'insensitive' } } })
+        : [],
       error: null,
     }
   } catch (error) {

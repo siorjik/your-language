@@ -56,7 +56,7 @@ export default function Navbar() {
   }
 
   const userMenu = session?.user ? (
-    <NavigationMenu>
+    <NavigationMenu className="profile-menu">
       <NavigationMenuList>
         <NavigationMenuItem className="h-[43px] mt-1">
           <NavigationMenuTrigger className="px-0 bg-background">
@@ -76,19 +76,22 @@ export default function Navbar() {
           <NavigationMenuContent className="flex flex-col">
             {session.user.isCredentials && (
               <NavigationMenuLink asChild>
-                <Link className="w-full py-2 px-3 hover:bg-accent flex justify-center items-center" href={profileAppPath}>
-                  <UserRoundCog className="mt-[-3px] text-muted-foreground" />
+                <Link className="w-full py-3 px-4 hover:bg-accent flex items-center gap-3 cursor-pointer" href={profileAppPath}>
+                  <UserRoundCog className="text-muted-foreground" />
+                  <span>Settings</span>
                 </Link>
               </NavigationMenuLink>
             )}
             <NavigationMenuLink asChild>
-              <span className="py-2 px-3 hover:bg-accent flex justify-center items-center">
+              <span className="py-3 px-4 hover:bg-accent flex items-center gap-3 cursor-pointer">
                 <ThemeBtn />
+                <span>Mode</span>
               </span>
             </NavigationMenuLink>
             <NavigationMenuLink asChild>
-              <span className="w-full py-2 px-3 hover:bg-accent flex justify-center items-center">
-                <LogOut onClick={logOut} className="text-muted-foreground" />
+              <span className="w-full py-3 px-4 pb-4 hover:bg-accent flex items-center gap-3 cursor-pointer" onClick={logOut}>
+                <LogOut className="text-muted-foreground" />
+                <span className="whitespace-nowrap">Log Out</span>
               </span>
             </NavigationMenuLink>
           </NavigationMenuContent>
