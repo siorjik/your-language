@@ -10,6 +10,16 @@ import { Set } from '@prisma/client'
 import { setsAppPath } from '@/utils/paths'
 import { SetList } from '@/types/models/set'
 
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+
+  const set: (Set & { error: null }) | Err = await getSetById(id)
+
+  if (set.error) notFound()
+
+  return { title: `Set: ${set.title}`, description: `${set.title} page` }
+}
+
 export default async function SetData({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
 

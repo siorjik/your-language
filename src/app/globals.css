@@ -305,12 +305,21 @@ body {
     outline: none;
   }
 
+  .profile-menu > .view-port-menu {
+    left: auto;
+    right: 0;
+  }
+
   .title {
     @apply mb-5 text-3xl font-medium leading-none;
   }
 
+  .sub-title {
+    @apply mb-5 text-2xl leading-none font-semibold text-muted-foreground;
+  }
+
   .link {
-    @apply text-amber-600 dark:text-amber-500 border-b-2 border-amber-700 dark:border-amber-600 cursor-pointer font-semibold;
+    @apply text-amber-600 hover:text-amber-500 border-b-2 border-amber-700 hover:border-amber-600 cursor-pointer font-semibold;
   }
 
   .dialog-submit-btn {

@@ -1,5 +1,9 @@
+import type { Metadata } from 'next'
+
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import RecoverPassword from './_components/recover-password-form'
+
+export const metadata: Metadata = { title: 'Password Recovery', description: 'Password Recovery page' }
 
 export default async function RecoverPasswordPage({ searchParams }: { searchParams: Promise<{ token: string }> }) {
   const { token } = await searchParams
