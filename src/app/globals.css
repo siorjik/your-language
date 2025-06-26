@@ -98,6 +98,14 @@ body {
   --input: 198 30% 48%;
   --ring: 198 43% 41%;
   --radius: 0.5rem;
+  --chart-1: 198 43% 41%;
+  --chart-2: 198 30% 70%;
+  --chart-3: 160 30% 80%;
+  --chart-4: 142.1 76.2% 36.3%;
+  --chart-1-foreground: 0 0% 100%;
+  --chart-2-foreground: 0 0% 0%;
+  --chart-3-foreground: 198 5% 15%;
+  --chart-4-foreground: 60 9.1% 97.8%;
 }
 .theme-blue-dark {
   --background: 198 48% 10%;
@@ -124,6 +132,14 @@ body {
   --input: 198 30% 48%;
   --ring: 198 43% 41%;
   --radius: 0.5rem;
+  --chart-1: 198 43% 41%;
+  --chart-2: 198 30% 20%;
+  --chart-3: 160 30% 25%;
+  --chart-4: 142.1 60.2% 25.3%;
+  --chart-1-foreground: 0 0% 100%;
+  --chart-2-foreground: 0 0% 100%;
+  --chart-3-foreground: 198 5% 90%;
+  --chart-4-foreground: 60 9.1% 97.8%;
 }
 
 .theme-red {
@@ -151,6 +167,14 @@ body {
   --input: 2 30% 48%;
   --ring: 2 43% 41%;
   --radius: 0.5rem;
+  --chart-1: 2 43% 41%;
+  --chart-2: 2 30% 70%;
+  --chart-3: -36 30% 80%;
+  --chart-4: 142.1 76.2% 36.3%;
+  --chart-1-foreground: 0 0% 100;
+  --chart-2-foreground: 0 0% 0%;
+  --chart-3-foreground: 2 5% 15%;
+  --chart-4-foreground: 60 9.1% 97.8%;
 }
 .theme-red-dark {
   --background: 2 48% 10%;
@@ -177,6 +201,14 @@ body {
   --input: 2 30% 48%;
   --ring: 2 43% 41%;
   --radius: 0.5rem;
+  --chart-1: 2 43% 41%;
+  --chart-2: 2 30% 20%;
+  --chart-3: -36 30% 25%;
+  --chart-4: 142.1 60.2% 25.3%;
+  --chart-1-foreground: 0 0% 100%;
+  --chart-2-foreground: 0 0% 100%;
+  --chart-3-foreground: 2 5% 90%;
+  --chart-4-foreground: 60 9.1% 97.8%;
 }
 
 .theme-green {
@@ -204,6 +236,14 @@ body {
   --input: 130 30% 48%;
   --ring: 130 43% 41%;
   --radius: 0.5rem;
+  --chart-1: 130 43% 41%;
+  --chart-2: 130 30% 70%;
+  --chart-3: 92 30% 80%;
+  --chart-4: 142.1 76.2% 36.3%;
+  --chart-1-foreground: 0 0% 100%;
+  --chart-2-foreground: 0 0% 0%;
+  --chart-3-foreground: 130 5% 15%;
+  --chart-4-foreground: 60 9.1% 97.8%;
 }
 .theme-green-dark {
   --background: 130 48% 10%;
@@ -230,6 +270,14 @@ body {
   --input: 130 30% 48%;
   --ring: 130 43% 41%;
   --radius: 0.5rem;
+  --chart-1: 130 43% 41%;
+  --chart-2: 130 30% 20%;
+  --chart-3: 92 30% 25%;
+  --chart-4: 142.1 60.2% 25.3%;
+  --chart-1-foreground: 0 0% 100%;
+  --chart-2-foreground: 0 0% 100%;
+  --chart-3-foreground: 130 5% 90%;
+  --chart-4-foreground: 60 9.1% 97.8%;
 }
 
 .theme-purple {
@@ -257,6 +305,14 @@ body {
   --input: 277 30% 48%;
   --ring: 277 43% 41%;
   --radius: 0.5rem;
+  --chart-1: 277 43% 41%;
+  --chart-2: 277 30% 70%;
+  --chart-3: 239 30% 80%;
+  --chart-4: 142.1 76.2% 36.3%;
+  --chart-1-foreground: 0 0% 100%;
+  --chart-2-foreground: 0 0% 0%;
+  --chart-3-foreground: 277 5% 15%;
+  --chart-4-foreground: 60 9.1% 97.8%;
 }
 .theme-purple-dark {
   --background: 277 48% 10%;
@@ -283,6 +339,14 @@ body {
   --input: 277 30% 48%;
   --ring: 277 43% 41%;
   --radius: 0.5rem;
+  --chart-1: 277 43% 41%;
+  --chart-2: 277 30% 20%;
+  --chart-3: 239 30% 25%;
+  --chart-4: 142.1 60.2% 25.3%;
+  --chart-1-foreground: 0 0% 100%;
+  --chart-2-foreground: 0 0% 100%;
+  --chart-3-foreground: 277 5% 90%;
+  --chart-4-foreground: 60 9.1% 97.8%;
 }
 
 @layer base {
@@ -314,8 +378,12 @@ body {
     @apply mb-5 text-3xl font-medium leading-none;
   }
 
-  .sub-title {
+  .sub-title-1 {
     @apply mb-5 text-2xl leading-none font-semibold text-muted-foreground;
+  }
+
+  .sub-title-3 {
+    @apply mb-5 text-lg leading-none font-semibold text-muted-foreground;
   }
 
   .link {

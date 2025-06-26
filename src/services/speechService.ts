@@ -32,3 +32,7 @@ export const getUtterance = (voices: Voices | null = null, msg: string, lang: La
 
   speechSynthesis.speak(utterance)
 }
+
+export const cancelUtterance = () => {
+  if (window.speechSynthesis.speaking) window.speechSynthesis.cancel()
+}

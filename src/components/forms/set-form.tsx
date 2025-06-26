@@ -22,6 +22,7 @@ import { createSet, updateSet } from '@/actions/set'
 import { Set } from '@prisma/client'
 import { Err } from '@/types/errTypes'
 import { toast } from '@/hooks/use-toast'
+import dictionaryService from '@/services/dictionaryService'
 
 const defaultValues = { list: [{ term: '', definition: '' }], title: '', source: '', target: '' }
 
@@ -64,15 +65,23 @@ export default function SetForm({ data = null, action = null }: SetFormProps) {
   }
 
   const handleChange = useCallback(async (val: string, name: string): Promise<void> => {
+    let words: string[] | [] = []
+
     clearTimeout(timeoutRef.current as NodeJS.Timeout)
 
     timeoutRef.current = setTimeout(async () => {
       try {
-        const words: string[] | [] = await apiRequestService({
-          url: dictionaryApiPath,
-          method: 'POST',
-          body: { word: val, language: form.getValues('source') },
-        })
+        if (form.getValues('source') === 'en') {
+          const res: { words: string[] } = await dictionaryService(val)
+
+          words = res.words
+        } else {
+          words = await apiRequestService({
+            url: dictionaryApiPath,
+            method: 'POST',
+            body: { word: val, language: form.getValues('source') },
+          })
+        }
 
         setDictionary({ name, words })
       } catch (error) {
@@ -210,7 +219,7 @@ export default function SetForm({ data = null, action = null }: SetFormProps) {
                           placeholder={
                             !(form.getValues('source') && form.getValues('target'))
                               ? 'Choose language source and target'
-                              : 'Search Term'
+                              : 'Text Term'
                           }
                           ref={dictionaryRef}
                         />
@@ -248,7 +257,7 @@ export default function SetForm({ data = null, action = null }: SetFormProps) {
                           placeholder={
                             !(form.getValues('source') && form.getValues('target'))
                               ? 'Choose language source and target'
-                              : 'Search Definition'
+                              : 'Text Definition'
                           }
                         />
                       </FormControl>

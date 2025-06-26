@@ -2,19 +2,20 @@
 
 import { useEffect, useState } from 'react'
 import { motion, Variants } from 'framer-motion'
-import { CircleArrowLeft, CircleArrowRight, Shuffle, Play, Volume2, RotateCcw } from 'lucide-react'
+import { CircleArrowLeft, CircleArrowRight, Shuffle, Play, Volume2, RotateCcw, Lightbulb } from 'lucide-react'
 
-import { Card, CardContent } from '@/components/ui/card'
+import { Card, CardContent, CardDescription, CardHeader } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
 import SelectWrap from '@/components/select-wrap'
 import DropdownMenu from './dropdownMenu'
+import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/components/ui/tooltip'
 
 import { SetList } from '@/types/models/set'
 import { Set } from '@prisma/client'
 import { LANGUAGE_OPTIONS } from '@/utils/constants'
 import useKeyPress from '@/hooks/useKeyPress'
 import getShuffledArr from '@/helpers/getShuffledArr'
-import { getUtterance, getVoices } from '@/services/speechService'
+import { cancelUtterance, getUtterance, getVoices } from '@/services/speechService'
 import { Langs, Voices } from '@/types/speech'
 import useDisplayData from '@/hooks/useDisplayData'
 
@@ -45,6 +46,8 @@ export default function Flashcards({ data }: { data: Set }) {
 
       if (voices) setVoices(voices)
     })()
+
+    return () => cancelUtterance()
   }, [])
 
   useEffect(() => {
@@ -67,7 +70,7 @@ export default function Flashcards({ data }: { data: Set }) {
   }, [isPlay, index])
 
   useEffect(() => {
-    if (isSound) sound()
+    if (isSound) sound({})
   }, [setList, mode, isSound])
 
   useEffect(() => {
@@ -83,12 +86,14 @@ export default function Flashcards({ data }: { data: Set }) {
   }, [spacePress, upPress, downPress])
 
   const paginate = (newDirection: number) => {
+    cancelUtterance()
+
     if ((index + 1 === setList.length && newDirection > 0) || (index === 0 && newDirection < 0)) return
 
     setIndex((prev) => (prev + newDirection + setList.length) % setList.length)
     setMode(selectedMode)
 
-    if (isSound && selectedMode === mode) sound(true, index + newDirection, selectedMode)
+    if (isSound && selectedMode === mode) sound({ isSound: true, itemIndex: index + newDirection, itemMode: selectedMode })
 
     const xVariants = {
       hidden: {
@@ -106,6 +111,8 @@ export default function Flashcards({ data }: { data: Set }) {
   }
 
   const rotate = () => {
+    cancelUtterance()
+
     const yVariants = { hidden: { opacity: 0.5, rotateX: 90 }, visible: { rotateX: 0, opacity: 1 }, exit: { opacity: 0.5 } }
 
     setVariants(yVariants)
@@ -120,8 +127,18 @@ export default function Flashcards({ data }: { data: Set }) {
     setMode(selectedMode)
   }
 
-  const sound = (isSound: boolean = true, itemIndex: number | null = null, itemMode: 'term' | 'definition' | null = null) => {
-    if (isSound && (soundMode[mode || itemMode] || Object.values(soundMode).every((mode) => !mode))) {
+  const sound = ({
+    isSound = true,
+    itemIndex = null,
+    itemMode = null,
+    isOneTime = false,
+  }: {
+    isSound?: boolean
+    itemIndex?: number | null
+    itemMode?: 'term' | 'definition' | null
+    isOneTime?: boolean
+  }) => {
+    if (isSound && (soundMode[mode || itemMode] || Object.values(soundMode).every((mode) => !mode || isOneTime))) {
       const msg = setList[itemIndex !== null ? itemIndex : index][itemMode || mode]
       const lang = (mode === 'term' ? data.source : data.target) as Langs
 
@@ -159,7 +176,35 @@ export default function Flashcards({ data }: { data: Set }) {
         exit="exit"
         transition={{ duration: 0.5 }}
       >
-        <Card className="w-full shadow-xl border-transparent bg-secondary/30" onClick={rotate}>
+        <Card className="w-full shadow-xl border-transparent bg-secondary/30 relative" onClick={rotate}>
+          <CardHeader className="w-full absolute">
+            <CardDescription className="flex justify-end">
+              <span
+                className="icon-hover"
+                onClick={(e) => {
+                  e.stopPropagation()
+
+                  sound({ isOneTime: true })
+                }}
+              >
+                <Volume2 size={18} />
+              </span>
+              {mode === 'definition' && (
+                <TooltipProvider>
+                  <Tooltip delayDuration={0.5}>
+                    <TooltipTrigger onClick={(e) => e.stopPropagation()} asChild>
+                      <span className="icon-hover">
+                        <Lightbulb size={16} />
+                      </span>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      {`${setList[index].term[0]}...${setList[index].term[setList[index].term.length - 1]}`}
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              )}
+            </CardDescription>
+          </CardHeader>
           <CardContent className="h-80 md:h-96 flex items-center justify-center p-6 overflow-auto text-center">
             <span className="w-full text-3xl">{setList[index][mode]}</span>
           </CardContent>

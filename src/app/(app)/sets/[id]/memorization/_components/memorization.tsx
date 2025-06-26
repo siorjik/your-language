@@ -51,7 +51,7 @@ export default function Memorization({ data }: { data: Set }) {
       // show correct answer if failed
       shuffledList.forEach((el, idx) => {
         if (el[selectedMode] === setList[index][selectedMode]) {
-          setTimeout(() => setSelectedAnswerStyle({ style: '!bg-accent border-2 border-success', idx }), 1000)
+          setTimeout(() => setSelectedAnswerStyle({ style: '!bg-success/30 border-2 border-success', idx }), 1000)
         }
       })
 
