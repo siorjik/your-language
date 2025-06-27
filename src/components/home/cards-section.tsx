@@ -37,8 +37,7 @@ export default function CardSection({ sets }: { sets: Set[] }) {
         transition={{ duration: 1, type: 'spring', stiffness: 500, delay: 0.3 }}
       >
         <Link href={getSetAppPath(set.id)}>
-          <Card className="text-center border-0 bg-secondary/10 shadow-lg cursor-pointer hover:bg-secondary/30 duration-300"
-          >
+          <Card className="text-center border-0 bg-secondary/10 shadow-lg cursor-pointer hover:bg-secondary/30 duration-300">
             <CardHeader>
               <CardTitle className="w-[250px] truncate">{set.title}</CardTitle>
               <CardDescription>

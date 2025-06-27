@@ -25,7 +25,7 @@ export function Combobox({ placeholder, searchText, notFoundText, data, getValue
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button variant="outline" role="combobox" aria-expanded={open} className="w-full px-3 overflow-hidden">
-          <span className='w-full truncate text-lg'>
+          <span className="w-full truncate text-lg">
             {value ? data.find((item) => item.value === value)?.label : placeholder}
           </span>
           <ChevronsUpDown className="opacity-50" />
@@ -49,7 +49,7 @@ export function Combobox({ placeholder, searchText, notFoundText, data, getValue
                     getValue?.(currentValue === value ? '' : id!)
                   }}
                 >
-                  <span className='max-w-[400px] truncate'>{item.label}</span>
+                  <span className="max-w-[400px] truncate">{item.label}</span>
                   <Check className={cn('ml-auto', value === item.value ? 'opacity-100' : 'opacity-0')} />
                 </CommandItem>
               ))}
