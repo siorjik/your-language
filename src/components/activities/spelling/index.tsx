@@ -147,6 +147,7 @@ export default function Memorization({ data }: { data: Set }) {
     <>
       {!isFinish && (
         <div className="max-w-4xl mx-auto">
+          <h2 className="title w-full mb-5 !truncate font-semibold text-center">{data.title}</h2>
           <p className="mb-5 text-lg font-semibold">{setList[index][selectedMode]}:</p>
           <div>
             {!selectedAnswerStyle && !result.failed.find((el) => el.definition === setList[index].definition) && (

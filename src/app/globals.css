@@ -349,6 +349,16 @@ body {
   --chart-4-foreground: 60 9.1% 97.8%;
 }
 
+/* to disable ring on focus */
+[data-state='active']:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+[data-radix-collection-item]:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
 @layer base {
   * {
     @apply border-border;

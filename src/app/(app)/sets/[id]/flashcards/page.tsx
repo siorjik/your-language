@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 
-import Flashcards from './_components/flashcards'
+import Flashcards from '@/components/activities/flashcards'
 import BreadcrumbWrap from '@/components/breadcrumb-wrap'
 
 import { getSetById } from '@/actions/set'

@@ -1,9 +1,14 @@
 /***** app *****/
+
+// auth
 export const signInAppPath = '/sign-in'
 export const signUpAppPath = '/sign-up'
 export const createPasswordAppPath = '/create-password'
 export const recoverPasswordAppPath = '/recover-password'
+
 export const profileAppPath = '/profile'
+export const libraryAppPath = '/library'
+export const activitiesAppPath = '/activities'
 
 // set
 export const setsAppPath = '/sets'

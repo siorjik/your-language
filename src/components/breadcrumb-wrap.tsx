@@ -35,7 +35,7 @@ export default function BreadcrumbWrap({ data }: { data: { links: { href: string
           )
         })}
         <BreadcrumbItem>
-          <BreadcrumbPage className="max-w-40 truncate">{data.current}</BreadcrumbPage>
+          <BreadcrumbPage className="max-w-40 truncate font-semibold">{data.current}</BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>

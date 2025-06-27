@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 
-import Memorization from './_components/memorization'
+import Memorization from '@/components/activities/memorization'
 import BreadcrumbWrap from '@/components/breadcrumb-wrap'
 
 import { getSetById } from '@/actions/set'

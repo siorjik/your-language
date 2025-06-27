@@ -19,7 +19,7 @@ import ThemeBtn from './theme-btn'
 
 import logo from '@/../public/logo.png'
 
-import { signInAppPath, signUpAppPath, profileAppPath } from '@/utils/paths'
+import { signInAppPath, signUpAppPath, profileAppPath, libraryAppPath, activitiesAppPath } from '@/utils/paths'
 import useFileStorage from '@/hooks/useFileStorage'
 
 export default function Navbar() {
@@ -89,7 +89,7 @@ export default function Navbar() {
               </span>
             </NavigationMenuLink>
             <NavigationMenuLink asChild>
-              <span className="w-full py-3 px-4 pb-4 hover:bg-accent flex items-center gap-3 cursor-pointer" onClick={logOut}>
+              <span className="w-full py-3 px-4 hover:bg-accent flex items-center gap-3 cursor-pointer" onClick={logOut}>
                 <LogOut className="text-muted-foreground" />
                 <span className="whitespace-nowrap">Log Out</span>
               </span>
@@ -99,19 +99,24 @@ export default function Navbar() {
       </NavigationMenuList>
     </NavigationMenu>
   ) : (
-    <div className="flex gap-2">
+    <div className="flex">
       <Link href={signUpAppPath}>
-        <UserRoundPlus className="text-muted-foreground hover:text-primary" />
+        <span className="icon-hover">
+          <UserRoundPlus className="text-muted-foreground" />
+        </span>
       </Link>
       <Link href={signInAppPath}>
-        <LogIn className="text-muted-foreground hover:text-primary" />
+        <span className="icon-hover mr-[-8px]">
+          <LogIn className="text-muted-foreground" />
+        </span>
       </Link>
     </div>
   )
 
   const navData = [
     { title: 'Home', path: '/' },
-    // { title: 'Profile', path: '/profile' },
+    { title: 'Library', path: libraryAppPath },
+    { title: 'Activities', path: activitiesAppPath },
   ]
 
   return (
