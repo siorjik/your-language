@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 
-import Spelling from './_components/spelling'
+import Spelling from '@/components/activities/spelling'
 import BreadcrumbWrap from '@/components/breadcrumb-wrap'
 
 import { getSetById } from '@/actions/set'

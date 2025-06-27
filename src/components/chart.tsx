@@ -29,7 +29,7 @@ export default function Chart({ data, config }: { data: ObjType[]; config: Chart
         <ChartTooltip content={<ChartTooltipContent />} />
         <ChartLegend content={<ChartLegendContent payload={{}} verticalAlign="top" />} />
         {Object.keys(config).map((key, idx) => {
-          return <Bar key={idx} dataKey={key} fill={`var(--color-${key})`} radius={3} />
+          return <Bar key={idx} dataKey={key} fill={`var(--color-${key})`} radius={3} maxBarSize={100} />
         })}
       </BarChart>
     </ChartContainer>

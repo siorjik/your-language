@@ -3,6 +3,7 @@
 import { RefObject, useLayoutEffect, useRef, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
+import { motion } from 'framer-motion'
 
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '../ui/card'
 
@@ -14,7 +15,7 @@ import { Set } from '@prisma/client'
 export default function CardSection({ sets }: { sets: Set[] }) {
   const [isShowNav, setShowNav] = useState(false)
 
-  const createdRef = useRef<HTMLDivElement>(null)
+  const divRef = useRef<HTMLDivElement>(null)
 
   useLayoutEffect(() => {
     // to trigger scroll arrows
@@ -29,34 +30,54 @@ export default function CardSection({ sets }: { sets: Set[] }) {
 
   const getSetCard = (set: Set, date: string) => {
     return (
-      <Card key={set.id} className="min-w-[300px] text-center border-0 bg-secondary/40 shadow-lg">
-        <CardHeader>
-          <CardTitle className="truncate">{set.title}</CardTitle>
-          <CardDescription>
-            {LANGUAGE_OPTIONS.find((lg) => lg.value === set.source)?.label + ' / '}
-            {LANGUAGE_OPTIONS.find((lg) => lg.value === set.target)?.label}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p>{date}</p>
-        </CardContent>
-        <CardFooter>
-          <Link href={getSetAppPath(set.id)} className="mx-auto link">
-            Go To Set {'>>>'}
-          </Link>
-        </CardFooter>
-      </Card>
+      <motion.div
+        key={set.id}
+        initial={{ rotateX: 90 }}
+        animate={{ rotateX: 0 }}
+        transition={{ duration: 1, type: 'spring', stiffness: 500, delay: 0.3 }}
+      >
+        <Link href={getSetAppPath(set.id)}>
+          <Card className="text-center border-0 bg-secondary/10 shadow-lg cursor-pointer hover:bg-secondary/30 duration-300"
+          >
+            <CardHeader>
+              <CardTitle className="w-[250px] truncate">{set.title}</CardTitle>
+              <CardDescription>
+                {LANGUAGE_OPTIONS.find((lg) => lg.value === set.source)?.label + ' / '}
+                {LANGUAGE_OPTIONS.find((lg) => lg.value === set.target)?.label}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p>{date}</p>
+            </CardContent>
+            <CardFooter>
+              <span className="mx-auto link">Go To Set {'>>>'}</span>
+            </CardFooter>
+          </Card>
+        </Link>
+      </motion.div>
     )
   }
 
   const getSuggestSetCard = () => (
-    <Card key={3} className="min-w-[300px] flex justify-center items-center border-0 bg-secondary/40 shadow-lg">
-      <CardContent className="p-0">
-        <Link className="link text-xl" href={newSetAppPath}>
-          Create one more!{' >>>'}
-        </Link>
-      </CardContent>
-    </Card>
+    <motion.div
+      key={3}
+      initial={{ rotateX: 90 }}
+      animate={{ rotateX: 0 }}
+      transition={{ duration: 1, type: 'spring', stiffness: 500, delay: 0.3 }}
+    >
+      <Link className="link text-xl" href={newSetAppPath}>
+        <Card
+          className="
+            w-[300px] h-[190px] flex justify-center items-center border-0 bg-secondary/10 shadow-lg
+            cursor-pointer hover:bg-secondary/30 duration-300
+          "
+        >
+          <CardContent className="p-0">
+            <span className="link text-xl">Create one more!{' >>>'}</span>
+          </CardContent>
+        </Card>
+      </Link>
+    </motion.div>
   )
 
   const moveSlides = (direction: 'back' | 'ahead', ref: HTMLDivElement) => {
@@ -92,7 +113,7 @@ export default function CardSection({ sets }: { sets: Set[] }) {
       <>
         <p className="sub-title-3">Recent created sets:</p>
         <div className="relative overflow-hidden">
-          <div className="w-full flex gap-5 overflow-x-auto scroll-smooth" ref={ref}>
+          <div className="w-full px-3 pb-5 flex gap-5 overflow-x-auto scroll-smooth" ref={ref}>
             <span
               className={`icon-hover absolute z-10 left-2 top-20 ${!isShow ? 'hidden' : ''}`}
               onClick={() => moveSlides('back', ref.current)}
@@ -119,5 +140,5 @@ export default function CardSection({ sets }: { sets: Set[] }) {
     )
   }
 
-  return <>{getCardsSection(createdRef as RefObject<HTMLDivElement>)}</>
+  return <>{getCardsSection(divRef as RefObject<HTMLDivElement>)}</>
 }

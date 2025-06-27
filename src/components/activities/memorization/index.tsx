@@ -82,20 +82,23 @@ export default function Memorization({ data }: { data: Set }) {
   return (
     <>
       {!isFinish && (
-        <div className="w-fit mx-auto mb-5">
-          <SelectWrap
-            options={[
-              { label: `Term (${LANGUAGE_OPTIONS.find((item) => data.source === item.value)?.label})`, value: 'term' },
-              {
-                label: `Definition (${LANGUAGE_OPTIONS.find((item) => data.target === item.value)?.label})`,
-                value: 'definition',
-              },
-            ]}
-            onValueChange={(val) => setSelectedMode(val as 'term' | 'definition')}
-            defaultValue={selectedMode}
-            placeholder="Choose mode"
-            label="Choose mode"
-          />
+        <div className="w-full mb-5 flex flex-col md:flex-row justify-evenly items-center">
+          <h2 className="title w-full md:w-fit !truncate md:mb-0 font-semibold text-center">{data.title}</h2>
+          <div className="w-fit">
+            <SelectWrap
+              options={[
+                { label: `Term (${LANGUAGE_OPTIONS.find((item) => data.source === item.value)?.label})`, value: 'term' },
+                {
+                  label: `Definition (${LANGUAGE_OPTIONS.find((item) => data.target === item.value)?.label})`,
+                  value: 'definition',
+                },
+              ]}
+              onValueChange={(val) => setSelectedMode(val as 'term' | 'definition')}
+              defaultValue={selectedMode}
+              placeholder="Choose mode"
+              label="Choose mode"
+            />
+          </div>
         </div>
       )}
 
