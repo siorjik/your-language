@@ -1,16 +1,18 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, use } from 'react'
 import { motion } from 'framer-motion'
 import { RotateCcw, Shuffle } from 'lucide-react'
 
 import { Progress } from '@/components/ui/progress'
 
-import { Set } from '@prisma/client'
+import { ActivityType, Set } from '@prisma/client'
 import { SetList, SetListItem } from '@/types/models/set'
 import SelectWrap from '@/components/select-wrap'
 import { LANGUAGE_OPTIONS } from '@/utils/constants'
 import getShuffledArr from '@/helpers/getShuffledArr'
+import { ActivityTypesContext } from '@/contexts/activity-types-context'
+import { createActivity } from '@/actions/activity'
 
 export default function Memorization({ data }: { data: Set }) {
   const [setList, setSetList] = useState<SetList>(data.list as SetList)
@@ -21,7 +23,18 @@ export default function Memorization({ data }: { data: Set }) {
   const [result, setResult] = useState<{ failed: SetList; passed: SetList }>({ failed: [], passed: [] })
   const [isFinish, setFinish] = useState(false)
 
+  const response = use(ActivityTypesContext) as { activityTypes: ActivityType[] } | null
+
   useEffect(() => {
+    // set activity for chart
+    if (index + 1 === setList.length) {
+      ;(async () => {
+        const activityTypeId = response?.activityTypes.find((item) => item.name === 'memorization')?.id
+
+        await createActivity(activityTypeId!, data.id)
+      })()
+    }
+
     const shuffledArr = getShuffledArr([
       ...(data.list as SetList)?.filter((item) => item[selectedMode] !== setList[index][selectedMode]),
     ]).splice(0, 3)
@@ -32,6 +45,9 @@ export default function Memorization({ data }: { data: Set }) {
   }, [index, setList])
 
   const onSetResult = (item: SetListItem, idx: number): void => {
+    // prevent double click the same item
+    if (result.passed.length + result.failed.length > index) return
+
     const isLast = index + 1 === setList.length
 
     if (item[selectedMode] === setList[index][selectedMode]) {

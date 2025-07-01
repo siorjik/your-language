@@ -45,8 +45,8 @@ export default function Navbar() {
     return (
       <Link
         className={`
-          px-3 border-b-[3px] border-transparent font-semibold relative top-[10px] pb-[13px] ${css}
-          text-md ${pathname !== path ? 'border-animated after:bottom-[-3px] after:left-0' : ''}
+          px-3 border-b-[3px] border-transparent relative top-[10px] pb-[13px] ${css}
+          font-thin text-md ${pathname !== path ? 'border-animated after:bottom-[-3px] after:left-0' : ''}
         `}
         href={path}
       >

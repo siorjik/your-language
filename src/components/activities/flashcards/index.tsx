@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, use } from 'react'
 import { motion, Variants } from 'framer-motion'
 import { CircleArrowLeft, CircleArrowRight, Shuffle, Play, Volume2, RotateCcw, Lightbulb } from 'lucide-react'
 
@@ -11,13 +11,15 @@ import DropdownMenu from './dropdownMenu'
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/components/ui/tooltip'
 
 import { SetList } from '@/types/models/set'
-import { Set } from '@prisma/client'
+import { ActivityType, Set } from '@prisma/client'
 import { LANGUAGE_OPTIONS } from '@/utils/constants'
 import useKeyPress from '@/hooks/useKeyPress'
 import getShuffledArr from '@/helpers/getShuffledArr'
 import { cancelUtterance, getUtterance, getVoices } from '@/services/speechService'
 import { Langs, Voices } from '@/types/speech'
 import useDisplayData from '@/hooks/useDisplayData'
+import { createActivity } from '@/actions/activity'
+import { ActivityTypesContext } from '@/contexts/activity-types-context'
 
 export default function Flashcards({ data }: { data: Set }) {
   const [mode, setMode] = useState<'term' | 'definition'>('term')
@@ -40,6 +42,8 @@ export default function Flashcards({ data }: { data: Set }) {
 
   const { isMobile } = useDisplayData()
 
+  const response = use(ActivityTypesContext) as { activityTypes: ActivityType[] } | null
+
   useEffect(() => {
     ;(async () => {
       const voices = await getVoices()
@@ -52,6 +56,15 @@ export default function Flashcards({ data }: { data: Set }) {
 
   useEffect(() => {
     let timeout = null
+
+    // set activity for chart
+    if (index + 1 === setList.length) {
+      ;(async () => {
+        const activityTypeId = response?.activityTypes.find((item) => item.name === 'flashcards')?.id
+
+        await createActivity(activityTypeId!, data.id)
+      })()
+    }
 
     if (isPlay) {
       timeout = setTimeout(() => {

@@ -1,16 +1,18 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, use } from 'react'
 import { motion } from 'framer-motion'
 import { RotateCcw, Shuffle } from 'lucide-react'
 
 import { Progress } from '@/components/ui/progress'
 import { Button } from '@/components/ui/button'
 
-import { Set } from '@prisma/client'
+import { ActivityType, Set } from '@prisma/client'
 import { SetList } from '@/types/models/set'
 import getShuffledArr from '@/helpers/getShuffledArr'
 import useKeyPress from '@/hooks/useKeyPress'
+import { ActivityTypesContext } from '@/contexts/activity-types-context'
+import { createActivity } from '@/actions/activity'
 
 export default function Memorization({ data }: { data: Set }) {
   const [setList, setSetList] = useState<SetList>(data.list as SetList)
@@ -26,9 +28,21 @@ export default function Memorization({ data }: { data: Set }) {
 
   const pressEnter = useKeyPress('Enter')
 
+  const response = use(ActivityTypesContext) as { activityTypes: ActivityType[] } | null
+
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
+    // set activity for chart
+    if (index + 1 === setList.length) {
+      ;(async () => {
+        console.log(response?.activityTypes)
+        const activityTypeId = response?.activityTypes.find((item) => item.name === 'spelling')?.id
+
+        await createActivity(activityTypeId!, data.id)
+      })()
+    }
+
     if (value) setValue('')
     if (selectedAnswerStyle) setSelectedAnswerStyle(null)
 
@@ -146,60 +160,62 @@ export default function Memorization({ data }: { data: Set }) {
   return (
     <>
       {!isFinish && (
-        <div className="max-w-4xl mx-auto">
+        <>
           <h2 className="title w-full mb-5 !truncate font-semibold text-center">{data.title}</h2>
-          <p className="mb-5 text-lg font-semibold">{setList[index][selectedMode]}:</p>
-          <div>
-            {!selectedAnswerStyle && !result.failed.find((el) => el.definition === setList[index].definition) && (
-              <input
-                className="w-full h-8 border-b-2 border-b-secondary text-xl text-center bg-transparent tracking-widest"
-                type="text"
-                onChange={onChange}
-                value={value}
-                placeholder="Your answer here..."
-                ref={inputRef}
-              />
-            )}
-            {(selectedAnswerStyle || result.failed.find((el) => el.definition === setList[index].definition)) && (
-              <div
-                className={`
+          <div className="max-w-4xl mx-auto">
+            <p className="mb-5 text-lg font-semibold">{setList[index][selectedMode]}:</p>
+            <div>
+              {!selectedAnswerStyle && !result.failed.find((el) => el.definition === setList[index].definition) && (
+                <input
+                  className="w-full h-8 border-b-2 border-b-secondary text-xl text-center bg-transparent tracking-widest"
+                  type="text"
+                  onChange={onChange}
+                  value={value}
+                  placeholder="Your answer here..."
+                  ref={inputRef}
+                />
+              )}
+              {(selectedAnswerStyle || result.failed.find((el) => el.definition === setList[index].definition)) && (
+                <div
+                  className={`
                 h-8 border-b-2 border-b-secondary text-xl flex gap-5 justify-center items-center
                 ${selectedAnswerStyle && !selectedAnswerStyle.letters ? selectedAnswerStyle.style : ''}
               `}
-              >
-                <p>
-                  {value.split('').map((el, idx) => {
-                    return (
-                      <motion.span
-                        className={`
+                >
+                  <p>
+                    {value.split('').map((el, idx) => {
+                      return (
+                        <motion.span
+                          className={`
                         tracking-widest inline-block
                         ${!selectedAnswerStyle?.letters?.[idx].isCorrect ? selectedAnswerStyle?.style : ''}
                       `}
-                        key={idx + result.failed.length}
-                        initial={{ scaleX: 2 }}
-                        animate={{ scaleX: 1 }}
-                        transition={{ duration: 2, type: 'spring', stiffness: 300 }}
-                      >
-                        {el !== ' ' ? el : <span>&nbsp;</span>}
-                      </motion.span>
-                    )
-                  })}
-                </p>
-                {result.failed.find((el) => el.definition === setList[index].definition) && (
-                  <motion.span
-                    className="text-success font-semibold tracking-widest text-2xl"
-                    key={result.failed.length}
-                    initial={{ scaleX: 2, x: 200, opacity: 0.5 }}
-                    animate={{ scaleX: 1, x: 0, opacity: 1 }}
-                    transition={{ duration: 2, type: 'spring', stiffness: 100 }}
-                  >
-                    {setList[index].term}
-                  </motion.span>
-                )}
-              </div>
-            )}
+                          key={idx + result.failed.length}
+                          initial={{ scaleX: 2 }}
+                          animate={{ scaleX: 1 }}
+                          transition={{ duration: 2, type: 'spring', stiffness: 300 }}
+                        >
+                          {el !== ' ' ? el : <span>&nbsp;</span>}
+                        </motion.span>
+                      )
+                    })}
+                  </p>
+                  {result.failed.find((el) => el.definition === setList[index].definition) && (
+                    <motion.span
+                      className="text-success font-semibold tracking-widest text-2xl"
+                      key={result.failed.length}
+                      initial={{ scaleX: 2, x: 200, opacity: 0.5 }}
+                      animate={{ scaleX: 1, x: 0, opacity: 1 }}
+                      transition={{ duration: 2, type: 'spring', stiffness: 100 }}
+                    >
+                      {setList[index].term}
+                    </motion.span>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        </>
       )}
 
       {!isFinish && (

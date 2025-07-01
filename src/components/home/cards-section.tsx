@@ -37,7 +37,12 @@ export default function CardSection({ sets }: { sets: Set[] }) {
         transition={{ duration: 1, type: 'spring', stiffness: 500, delay: 0.3 }}
       >
         <Link href={getSetAppPath(set.id)}>
-          <Card className="text-center border-0 bg-secondary/10 shadow-lg cursor-pointer hover:bg-secondary/30 duration-300">
+          <Card
+            className="
+              text-center border-0 bg-secondary/10 shadow-lg cursor-pointer
+              hover:bg-secondary/30 hover:translate-y-[-10px] hover:scale-[1.03] hover:shadow-xl duration-300
+            "
+          >
             <CardHeader>
               <CardTitle className="w-[250px] truncate">{set.title}</CardTitle>
               <CardDescription>
@@ -68,7 +73,7 @@ export default function CardSection({ sets }: { sets: Set[] }) {
         <Card
           className="
             w-[300px] h-[190px] flex justify-center items-center border-0 bg-secondary/10 shadow-lg
-            cursor-pointer hover:bg-secondary/30 duration-300
+            cursor-pointer hover:bg-secondary/30 hover:translate-y-[-10px] hover:scale-[1.03] hover:shadow-xl duration-300
           "
         >
           <CardContent className="p-0">
@@ -110,11 +115,11 @@ export default function CardSection({ sets }: { sets: Set[] }) {
 
     return (
       <>
-        <p className="sub-title-3">Recent created sets:</p>
+        <p className="sub-title-3 mb-0">Recent created sets:</p>
         <div className="relative overflow-hidden">
-          <div className="w-full px-3 pb-5 flex gap-5 overflow-x-auto scroll-smooth" ref={ref}>
+          <div className="w-full px-3 py-5 flex gap-5 overflow-x-auto scroll-smooth" ref={ref}>
             <span
-              className={`icon-hover absolute z-10 left-2 top-20 ${!isShow ? 'hidden' : ''}`}
+              className={`icon-hover absolute z-10 left-2 top-24 ${!isShow ? 'hidden' : ''}`}
               onClick={() => moveSlides('back', ref.current)}
             >
               <ChevronLeft size={30} />
@@ -128,7 +133,7 @@ export default function CardSection({ sets }: { sets: Set[] }) {
               getSuggestSetCard(),
             ].slice(0, 4)}
             <span
-              className={`icon-hover absolute z-10 right-2 top-20 ${!isShow ? 'hidden' : ''}`}
+              className={`icon-hover absolute z-10 right-2 top-24 ${!isShow ? 'hidden' : ''}`}
               onClick={() => moveSlides('ahead', ref.current)}
             >
               <ChevronRight size={30} />
