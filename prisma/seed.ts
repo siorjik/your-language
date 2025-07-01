@@ -27,7 +27,31 @@ async function main() {
     },
   })
 
-  console.log({ admin, test })
+  const flashcards = await prisma.activityType.upsert({
+    where: { name: 'flashcards' },
+    update: {},
+    create: {
+      name: 'flashcards'
+    }
+  })
+
+  const memorization = await prisma.activityType.upsert({
+    where: { name: 'memorization' },
+    update: {},
+    create: {
+      name: 'memorization'
+    }
+  })
+
+  const spelling = await prisma.activityType.upsert({
+    where: { name: 'spelling' },
+    update: {},
+    create: {
+      name: 'spelling'
+    }
+  })
+
+  console.log({ admin, test, flashcards, memorization, spelling })
 }
 
 main()

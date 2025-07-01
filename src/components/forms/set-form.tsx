@@ -295,7 +295,7 @@ export default function SetForm({ data = null, action = null }: SetFormProps) {
               <CirclePlus style={{ height: '22px', width: '22px' }} />
             </Button>
           )}
-          {action && (
+          {action && fields.length > 1 && (
             <Button type="button" className="mt-3" onClick={form.handleSubmit(onSubmit)}>
               {action === 'create' ? 'Create' : 'Update'}
             </Button>

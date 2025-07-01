@@ -3,12 +3,9 @@ import { PrismaAdapter } from '@auth/prisma-adapter'
 import { JWT } from 'next-auth/jwt'
 
 import { signInAppPath } from '@/utils/paths'
-import FileStorageService from '@/services/fileStorageService'
 import { prisma } from '@/lib/prisma'
 import authConfig from './nextAuth'
 import { SelectedUser } from '@/types/models/user'
-
-const fileStorage = new FileStorageService()
 
 export const nextAuthConfig = authConfig
 
@@ -53,9 +50,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         isCredentials: token.isCredentials || false,
       }
 
-      const fileStorageAuthData = await fileStorage.authorize()
-
-      return { ...session, fileStorageAuth: fileStorageAuthData.authToken }
+      return { ...session, fileStorageAuth: token.fileStorageAuth || '' }
     },
   },
 
@@ -69,7 +64,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
   },
 
-  session: { strategy: 'jwt' },
+  session: {
+    strategy: 'jwt',
+    maxAge: +process.env.NEXT_PUBLIC_SESSION_DURATION! / 1000,
+    updateAge: +process.env.NEXT_PUBLIC_SESSION_DURATION! / 100,
+  },
   secret: process.env.NEXTAUTH_SECRET,
 
   pages: { signIn: signInAppPath },

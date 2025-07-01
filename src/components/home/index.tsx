@@ -10,39 +10,24 @@ import SignInForm from '../forms/sign-in-form'
 import SignUpForm from '../forms/sign-up-form'
 import { Separator } from '../ui/separator'
 import Chart from '../chart'
+import CardSection from './cards-section'
 
 import { Set } from '@prisma/client'
 import { newSetAppPath } from '@/utils/paths'
-import getMonthName from '@/helpers/getMonthName'
-import CardSection from './cards-section'
 
-export default function Main({ session, sets }: { session: Session | null; sets: Set[] | [] }) {
+type MainProps = {
+  session: Session | null
+  sets: Set[] | []
+  chartData: { month: string; sets: number; flashcards: number; memorization: number; spelling: number }[]
+}
+export default function Main({ session, sets, chartData }: MainProps) {
   const [isClose, setClose] = useState(false)
 
-  const getChartMappedData = () => {
-    return sets.reduce(
-      (acc = [], current, _, arr) => {
-        if (!acc.find((item) => item.month === getMonthName(new Date(current.createdAt).getMonth()))) {
-          acc.push({
-            month: getMonthName(new Date(current.createdAt).getMonth()),
-            created: arr.filter(
-              (el) => getMonthName(new Date(el.createdAt).getMonth()) === getMonthName(new Date(current.createdAt).getMonth()),
-            ).length,
-            updated: arr.filter(
-              (el) => getMonthName(new Date(el.updatedAt).getMonth()) === getMonthName(new Date(current.updatedAt).getMonth()),
-            ).length,
-          })
-        }
-
-        return acc
-      },
-      [] as { month: string; created: number; updated: number }[],
-    )
-  }
-
   const chartConfig = {
-    created: { label: 'Created Sets', color: 'hsl(var(--chart-1))' },
-    updated: { label: 'Updated Sets', color: 'hsl(var(--chart-2))' },
+    sets: { label: 'Created Sets', color: 'hsl(var(--chart-1))' },
+    flashcards: { label: 'Passed Flashcards', color: 'hsl(var(--chart-2))' },
+    memorization: { label: 'Passed Memorization', color: 'hsl(var(--chart-3))' },
+    spelling: { label: 'Passed Spelling', color: 'hsl(var(--chart-4))' },
   }
 
   const dialogContent = (
@@ -75,8 +60,8 @@ export default function Main({ session, sets }: { session: Session | null; sets:
           {!!sets.length ? (
             <>
               <h3 className="sub-title-1 text-center">Your activity:</h3>
-              <Chart data={getChartMappedData()} config={chartConfig} />
-              <Separator className="my-5" />
+              <Chart data={chartData} config={chartConfig} />
+              <Separator className="my-5 h-[2px]" />
               <CardSection sets={sets} />
             </>
           ) : (

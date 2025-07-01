@@ -33,3 +33,5 @@ export const twoFaVerifyApiPath = '/api/two-fa/verify'
 
 export const emailCreatePassApiPath = '/api/emails/create-pass'
 export const emailRecoverPassApiPath = '/api/emails/recover-pass'
+
+export const activityTypesListApiPath = `${appHost}/api/activity-types`

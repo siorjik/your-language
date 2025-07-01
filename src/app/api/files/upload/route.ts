@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import B2 from 'backblaze-b2'
 
 import { Err } from '@/types/errTypes'
+import getServerSessionToken from '@/helpers/getServerSessionToken'
 
 const storageKeyId = process.env.STORAGE_ACCESS_KEY_ID!
 const storageKey = process.env.STORAGE_ACCESS_KEY!
@@ -15,6 +16,8 @@ export async function POST(req: NextRequest): Promise<NextResponse<string | Err>
   const fileName = req.headers.get('x-file-name')
 
   try {
+    await getServerSessionToken(req)
+
     const { data } = await b2.authorize()
 
     const preparedFile = file.replace(/^data:image\/\w+;base64,/, '')

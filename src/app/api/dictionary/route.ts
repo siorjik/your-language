@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import dictionaryAIService from '@/services/dictionaryAIService'
 import dictionaryService from '@/services/dictionaryService'
 import { ErrObj, Err } from '@/types/errTypes'
+import getServerSessionToken from '@/helpers/getServerSessionToken'
 
 type LanguageType = 'en' | 'ru' | 'ua'
 
@@ -11,6 +12,8 @@ export async function POST(req: NextRequest): Promise<NextResponse<string[] | Er
   let resp: { words: string[] } = { words: [] }
 
   try {
+    await getServerSessionToken(req)
+
     const { word, language } = (await req.json()) as { word: string; language: LanguageType }
 
     if (word) {
