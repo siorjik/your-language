@@ -101,11 +101,11 @@ export default function Layout({ children }: { children: ReactNode }) {
                 min-h-[55px] px-5 md:px-8 flex justify-between items-center bg-gradient-to-t from-background to-secondary/30
               "
             >
-              <div className="w-full mx-auto max-w-7xl flex justify-between items-center text-sm text-muted-foreground">
+              <div className="w-full mx-auto max-w-7xl flex justify-between items-center text-sm text-primary">
                 <span>&copy; {new Date().getFullYear()}</span>
-                <p className="icon-hover mr-[-8px] cursor-pointer">
+                <span className="icon-hover mr-[-8px] cursor-pointer">
                   <ThemeBtn />
-                </p>
+                </span>
               </div>
             </footer>
           </main>

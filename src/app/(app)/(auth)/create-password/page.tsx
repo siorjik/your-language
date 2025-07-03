@@ -11,7 +11,7 @@ export default async function CreatePasswordPage({ searchParams }: { searchParam
   return (
     <Card className="max-w-[450px] w-[100%] py-5 md:px-5 border-transparent bg-secondary/10 shadow-xl">
       <CardHeader>
-        <CardTitle className="text-center">Create Password</CardTitle>
+        <CardTitle className="text-center text-primary">Create Password</CardTitle>
       </CardHeader>
       <CardContent>
         <CreatePassword token={token} />
