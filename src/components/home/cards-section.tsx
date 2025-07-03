@@ -28,30 +28,30 @@ export default function CardSection({ sets }: { sets: Set[] }) {
 
   const toggleShowArr = () => setShowNav(!isShowNav)
 
-  const getSetCard = (set: Set, date: string) => {
+  const getSetCard = (set: Set, date: string, idx: number) => {
     return (
       <motion.div
         key={set.id}
         initial={{ rotateX: 90 }}
         animate={{ rotateX: 0 }}
-        transition={{ duration: 1, type: 'spring', stiffness: 500, delay: 0.3 }}
+        transition={{ duration: 1, type: 'spring', stiffness: 500, delay: (idx + 1) / 5 }}
       >
         <Link href={getSetAppPath(set.id)}>
           <Card
             className="
               text-center border-0 bg-secondary/10 shadow-lg cursor-pointer
-              hover:bg-secondary/30 hover:translate-y-[-10px] hover:scale-[1.03] hover:shadow-xl duration-300
+              hover:bg-secondary/30 hover:translate-y-[-10px] hover:scale-[1.03] duration-300
             "
           >
-            <CardHeader>
-              <CardTitle className="w-[250px] truncate">{set.title}</CardTitle>
-              <CardDescription>
+            <CardHeader className="pt-3">
+              <CardTitle className="w-[250px] truncate text-primary leading-tight">{set.title}</CardTitle>
+              <CardDescription className="text-primary/70">
                 {LANGUAGE_OPTIONS.find((lg) => lg.value === set.source)?.label + ' / '}
                 {LANGUAGE_OPTIONS.find((lg) => lg.value === set.target)?.label}
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <p>{date}</p>
+              <p className="text-primary/80 font-semibold">{date}</p>
             </CardContent>
             <CardFooter>
               <span className="mx-auto link">Go To Set {'>>>'}</span>
@@ -67,7 +67,7 @@ export default function CardSection({ sets }: { sets: Set[] }) {
       key={3}
       initial={{ rotateX: 90 }}
       animate={{ rotateX: 0 }}
-      transition={{ duration: 1, type: 'spring', stiffness: 500, delay: 0.3 }}
+      transition={{ duration: 1, type: 'spring', stiffness: 500, delay: 0.5 }}
     >
       <Link className="link text-xl" href={newSetAppPath}>
         <Card
@@ -125,10 +125,10 @@ export default function CardSection({ sets }: { sets: Set[] }) {
               <ChevronLeft size={30} />
             </span>
             {[
-              ...arr.map((set) => {
+              ...arr.map((set, idx) => {
                 const date = getTransformedDate(new Date(set.createdAt))
 
-                return getSetCard(set, date)
+                return getSetCard(set, date, idx)
               }),
               getSuggestSetCard(),
             ].slice(0, 4)}

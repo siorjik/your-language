@@ -67,8 +67,8 @@ export default function TwoFa({ twoFaData }: { twoFaData: { data: string; secret
       {twoFaData ? (
         <div>
           <Image className="mb-10 rounded-md" width={150} height={150} src={twoFaData?.data} alt="qr-code" />
-          <p className="mb-2">1 - scan the QR Code with your Authenticator app</p>
-          <p className="mb-10">2 - enter the code below from your app</p>
+          <p className="mb-2 text-primary font-semibold">1 - scan the QR Code with your Authenticator app</p>
+          <p className="mb-10 text-primary font-semibold">2 - enter the code below from your app</p>
           <InputOTP maxLength={6} onChange={(val) => setCode(val)}>
             <InputOTPGroup>
               <InputOTPSlot index={0} />

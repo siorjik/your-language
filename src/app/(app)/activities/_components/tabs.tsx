@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { GalleryHorizontal, Brain, Pen } from 'lucide-react'
 
 import Flashcards from '@/components/activities/flashcards'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -28,12 +29,15 @@ export default function TabsPage({ set }: { set: Set }) {
         <Tabs defaultValue="flashcards" className="w-full">
           <TabsList className="w-full mb-5 flex justify-between">
             <TabsTrigger className="w-full" value="flashcards">
+              <GalleryHorizontal className="mr-2" size={15} />
               Flashcards
             </TabsTrigger>
             <TabsTrigger className="w-full" value="memorization">
+              <Brain className="mr-2" size={15} />
               Memorization
             </TabsTrigger>
             <TabsTrigger className="w-full" value="spelling">
+              <Pen className="mr-2" size={15} />
               Spelling
             </TabsTrigger>
           </TabsList>

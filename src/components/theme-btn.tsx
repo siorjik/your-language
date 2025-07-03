@@ -24,7 +24,7 @@ export default function ThemeBtn() {
           onClick={() => setTheme(theme?.includes('-dark') ? theme.replace('-dark', '') : theme + '-dark')}
           onKeyDown={(e) => e.preventDefault()}
         >
-          {!mode.includes('-dark') ? <Moon className="text-muted-foreground" /> : <Sun className="text-muted-foreground" />}
+          {!mode.includes('-dark') ? <Moon className="text-primary" /> : <Sun className="text-primary" />}
         </button>
       )}
     </>

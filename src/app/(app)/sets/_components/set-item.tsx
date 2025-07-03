@@ -22,11 +22,11 @@ export default function SetItem({ set, idx }: { set: Set; idx: number }) {
       whileHover={{ scale: 1.02 }}
     >
       <div className="overflow-hidden">
-        <p className="mb-2 text-sm text-muted-foreground truncate">
+        <p className="mb-2 text-sm text-primary/60 truncate">
           {(set.list as [])?.length} items | {LANGUAGE_OPTIONS.find((item) => item.value === set.source)?.label + ' / '}
           {LANGUAGE_OPTIONS.find((item) => item.value === set.target)?.label} | author: {':)'}
         </p>
-        <p className="truncate text-xl font-semibold leading-[normal]">{set.title}</p>
+        <p className="truncate text-xl text-primary font-semibold leading-[normal]">{set.title}</p>
       </div>
       <span className="bg-primary/15 icon-hover hover:text-destructive" onClick={(e) => e.preventDefault()}>
         <AlertDialogWrap

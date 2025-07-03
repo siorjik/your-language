@@ -36,7 +36,6 @@ export default function Memorization({ data }: { data: Set }) {
     // set activity for chart
     if (index + 1 === setList.length) {
       ;(async () => {
-        console.log(response?.activityTypes)
         const activityTypeId = response?.activityTypes.find((item) => item.name === 'spelling')?.id
 
         await createActivity(activityTypeId!, data.id)
@@ -229,7 +228,8 @@ export default function Memorization({ data }: { data: Set }) {
             </span>
             <span
               className="
-                w-10 h-10 hidden md:flex items-center justify-center border-2 border-bg-secondary rounded-full font-semibold
+                w-10 h-10 hidden md:flex items-center justify-center border-2
+                border-bg-secondary rounded-full font-semibold text-primary
               "
             >
               {index + 1}
@@ -250,9 +250,9 @@ export default function Memorization({ data }: { data: Set }) {
             </Button>
           </div>
           <div className="max-w-4xl mx-auto flex items-center gap-1">
-            <span className="text-xl font-semibold">1</span>
+            <span className="text-xl font-semibold text-primary">1</span>
             <Progress className="" value={(100 / setList.length) * (result.passed.length + result.failed.length)} />
-            <span className="text-xl font-semibold">{setList.length}</span>
+            <span className="text-xl font-semibold text-primary">{setList.length}</span>
           </div>
         </>
       )}
@@ -286,7 +286,7 @@ export default function Memorization({ data }: { data: Set }) {
 
       {isFinish && (
         <div className="w-fit mt-5 mx-auto text-xl font-semibold">
-          Nice job! Do you want to{' '}
+          Nice job <span className="mr-1 emoji-large">🎉</span> ! Do you want to{' '}
           {!!result.failed.length && (
             <>
               <span className="link" onClick={() => onStartOver('repeat')}>

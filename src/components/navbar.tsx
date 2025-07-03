@@ -46,7 +46,7 @@ export default function Navbar() {
       <Link
         className={`
           px-3 border-b-[3px] border-transparent relative top-[10px] pb-[13px] ${css}
-          font-thin text-md ${pathname !== path ? 'border-animated after:bottom-[-3px] after:left-0' : ''}
+          font-montserrat font-medium text-md ${pathname !== path ? 'border-animated after:bottom-[-3px] after:left-0' : ''}
         `}
         href={path}
       >
@@ -73,25 +73,28 @@ export default function Navbar() {
               />
             )}
           </NavigationMenuTrigger>
-          <NavigationMenuContent className="flex flex-col">
+          <NavigationMenuContent className="p-1 pr-[6px] pb-[6px] flex flex-col">
             {session.user.isCredentials && (
               <NavigationMenuLink asChild>
-                <Link className="w-full py-3 px-4 hover:bg-accent flex items-center gap-3 cursor-pointer" href={profileAppPath}>
-                  <UserRoundCog className="text-muted-foreground" />
-                  <span>Settings</span>
+                <Link
+                  className="px-2 h-10 hover:bg-accent flex items-center gap-3 cursor-pointer rounded-md"
+                  href={profileAppPath}
+                >
+                  <UserRoundCog className="text-primary" />
+                  <span className="text-primary">Settings</span>
                 </Link>
               </NavigationMenuLink>
             )}
             <NavigationMenuLink asChild>
-              <span className="py-3 px-4 hover:bg-accent flex items-center gap-3 cursor-pointer">
+              <span className="my-1 h-10 px-2 hover:bg-accent flex items-center gap-3 cursor-pointer rounded-md">
                 <ThemeBtn />
-                <span>Mode</span>
+                <span className="text-primary">Mode</span>
               </span>
             </NavigationMenuLink>
             <NavigationMenuLink asChild>
-              <span className="w-full py-3 px-4 hover:bg-accent flex items-center gap-3 cursor-pointer" onClick={logOut}>
-                <LogOut className="text-muted-foreground" />
-                <span className="whitespace-nowrap">Log Out</span>
+              <span className="h-10 px-2 hover:bg-accent flex items-center gap-3 cursor-pointer rounded-md" onClick={logOut}>
+                <LogOut className="text-primary" />
+                <span className="whitespace-nowrap text-primary">Log Out</span>
               </span>
             </NavigationMenuLink>
           </NavigationMenuContent>
@@ -102,12 +105,12 @@ export default function Navbar() {
     <div className="flex">
       <Link href={signUpAppPath}>
         <span className="icon-hover">
-          <UserRoundPlus className="text-muted-foreground" />
+          <UserRoundPlus />
         </span>
       </Link>
       <Link href={signInAppPath}>
         <span className="icon-hover mr-[-8px]">
-          <LogIn className="text-muted-foreground" />
+          <LogIn />
         </span>
       </Link>
     </div>

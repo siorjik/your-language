@@ -42,8 +42,8 @@ export default function DialogWrap({
         <DialogTrigger asChild>{trigger}</DialogTrigger>
         <DialogContent className={`${width} gap-8`}>
           <DialogHeader>
-            <DialogTitle>{title}</DialogTitle>
-            <DialogDescription>{description}</DialogDescription>
+            <DialogTitle className="text-primary">{title}</DialogTitle>
+            <DialogDescription className="text-primary/70">{description}</DialogDescription>
           </DialogHeader>
           <div>{content}</div>
           <DialogFooter className="sm:justify-start">

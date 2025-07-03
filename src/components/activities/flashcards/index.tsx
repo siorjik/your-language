@@ -33,6 +33,7 @@ export default function Flashcards({ data }: { data: Set }) {
   const [voices, setVoices] = useState<Voices | null>(null)
   const [isShowDropdownMenu, setShowDropdownMenu] = useState(false)
   const [soundMode, setSoundMode] = useState<{ term: boolean; definition: boolean }>({ term: false, definition: false })
+  const [showTooltip, setShowTooltip] = useState(false)
 
   const downPress = useKeyPress('ArrowDown')
   const upPress = useKeyPress('ArrowUp')
@@ -187,7 +188,7 @@ export default function Flashcards({ data }: { data: Set }) {
         initial="hidden"
         animate="visible"
         exit="exit"
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.3 }}
       >
         <Card className="w-full shadow-xl border-transparent bg-secondary/30 relative" onClick={rotate}>
           <CardHeader className="w-full absolute">
@@ -204,9 +205,19 @@ export default function Flashcards({ data }: { data: Set }) {
               </span>
               {mode === 'definition' && (
                 <TooltipProvider>
-                  <Tooltip delayDuration={0.5}>
-                    <TooltipTrigger onClick={(e) => e.stopPropagation()} asChild>
-                      <span className="icon-hover">
+                  <Tooltip
+                    open={showTooltip}
+                    onOpenChange={() => {
+                      if (isMobile) {
+                        setShowTooltip(true)
+
+                        setTimeout(() => setShowTooltip(false), 1000)
+                      } else setShowTooltip(!showTooltip)
+                    }}
+                    delayDuration={0.5}
+                  >
+                    <TooltipTrigger asChild>
+                      <span className="icon-hover" onClick={(e) => e.stopPropagation()} onTouchStart={() => setShowTooltip(true)}>
                         <Lightbulb size={16} />
                       </span>
                     </TooltipTrigger>
@@ -230,21 +241,21 @@ export default function Flashcards({ data }: { data: Set }) {
         <span
           className={`
             absolute left-[-60px] md:left-[-145px] border-2 rounded-full p-[5px] border-transparent
-            icon-hover ${isPlay ? '!border-gray-500 dark:border-gray-500' : ''}
+            icon-hover ${isPlay ? '!border-primary' : ''}
           `}
           onClick={() => setPlay(!isPlay)}
         >
           <Play size={22} />
         </span>
         <CircleArrowLeft
-          className={`${index > 0 ? '' : 'text-secondary'}`}
+          className={`${index > 0 ? 'text-primary' : 'text-secondary'}`}
           strokeWidth={1}
           size={40}
           onClick={() => paginate(-1)}
         />
-        <span>{index + 1 + ' / ' + setList.length}</span>
+        <span className="text-primary">{index + 1 + ' / ' + setList.length}</span>
         <CircleArrowRight
-          className={`${index + 1 < setList.length ? '' : 'text-secondary'}`}
+          className={`${index + 1 < setList.length ? 'text-primary' : 'text-secondary'}`}
           strokeWidth={1}
           size={40}
           onClick={() => paginate(1)}
@@ -261,7 +272,7 @@ export default function Flashcards({ data }: { data: Set }) {
         <span
           className={`
             absolute right-[-60px] md:right-[-150px] border-2 rounded-full p-[5px] border-transparent
-            icon-hover ${isSound ? '!border-gray-500 dark:border-gray-500' : ''}
+            icon-hover ${isSound ? '!border-primary' : ''}
           `}
           onMouseLeave={() => setShowDropdownMenu(false)}
           onClick={(e) => {
