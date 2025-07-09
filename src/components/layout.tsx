@@ -44,24 +44,23 @@ export default function Layout({ children }: { children: ReactNode }) {
   }, [isSession, isLoadingSession])
 
   useEffect(() => {
-    if (mainRef.current) {
-      const div = mainRef.current
-      let lastScrollTop = div.scrollTop
+    if (window) {
+      let lastScrollTop = window.scrollY
 
       const cb = () => {
-        const currentScrollTop = div.scrollTop
+        const currentScrollTop = window.scrollY
 
         if (currentScrollTop > lastScrollTop && currentScrollTop > 20) setHide(true)
         else setHide(false)
 
         lastScrollTop = currentScrollTop
 
-        setShowBtn(currentScrollTop > 400)
+        setShowBtn(currentScrollTop > 700)
       }
 
-      div.addEventListener('scroll', throttle(cb))
+      window.addEventListener('scroll', throttle(cb))
 
-      return () => div.removeEventListener('scroll', throttle(cb))
+      return () => window.removeEventListener('scroll', throttle(cb))
     }
   }, [session])
 
@@ -86,7 +85,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         <>
           <header
             className={`
-              w-full h-[55px] px-5 md:px-8 py-1 flex items-center fixed bg-background z-10 shadow-md
+              w-full h-[55px] px-5 md:px-8 py-1 flex items-center fixed bg-background z-20 shadow-md
               ${isHide ? 'top-[-55px]' : 'top-0'} transition-all duration-500
             `}
           >
@@ -94,7 +93,7 @@ export default function Layout({ children }: { children: ReactNode }) {
               <Navbar />
             </div>
           </header>
-          <main className="h-[100vh] pt-[55px] overflow-x-hidden overflow-y-auto transition-all scroll-smooth" ref={mainRef}>
+          <main className="h-[100vh] w-full pt-[55px] transition-all scroll-smooth" ref={mainRef}>
             <div className="min-h-[calc(100dvh-110px)] px-5 md:px-8 xl:px-0 py-5 w-full m-auto max-w-7xl">{children}</div>
             <footer
               className="
@@ -111,8 +110,8 @@ export default function Layout({ children }: { children: ReactNode }) {
           </main>
           {isShowBtn && (
             <button
-              className="absolute bottom-36 right-10 p-3 rounded-xl bg-accent/[0.5]"
-              onClick={() => (mainRef.current!.scrollTop = 0)}
+              className="fixed bottom-36 right-10 p-3 rounded-xl bg-accent/[0.5]"
+              onClick={() => window.scroll({ top: 0, behavior: 'smooth' })}
             >
               <ChevronUp />
             </button>

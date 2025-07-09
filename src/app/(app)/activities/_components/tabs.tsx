@@ -27,7 +27,7 @@ export default function TabsPage({ set }: { set: Set }) {
     <ActivityTypesProvider>
       {!!set ? (
         <Tabs defaultValue="flashcards" className="w-full">
-          <TabsList className="w-full mb-5 flex justify-between">
+          <TabsList className="w-full mb-5 flex justify-between overflow-x-auto">
             <TabsTrigger className="w-full" value="flashcards">
               <GalleryHorizontal className="mr-2" size={15} />
               Flashcards
@@ -58,7 +58,9 @@ export default function TabsPage({ set }: { set: Set }) {
           )}
         </Tabs>
       ) : (
-        <p className="sub-title-3 text-center text-warn">First select Set above...</p>
+        <p className="sub-title-3 text-center text-warn">
+          First select Set above <span className="emoji">🧐</span>
+        </p>
       )}
     </ActivityTypesProvider>
   )

@@ -32,12 +32,12 @@ export default function Activities({ sets }: { sets: Set[] }) {
           <Tabs set={sets.find((set) => set.id === id)!} />
         </>
       ) : (
-        <>
-          <span>No created sets,</span>{' '}
-          <Link href={newSetAppPath} className="link">
-            create a new one!
+        <div className="h-[calc(100vh-160px)] flex flex-col justify-center items-center">
+          <p className="mb-1 text-lg font-semibold">No created sets yet 🤨</p>
+          <Link href={newSetAppPath} className="link text-xl">
+            Create a new one {'>>>'}
           </Link>
-        </>
+        </div>
       )}
     </>
   )

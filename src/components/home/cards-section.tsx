@@ -72,12 +72,12 @@ export default function CardSection({ sets }: { sets: Set[] }) {
       <Link className="link text-xl" href={newSetAppPath}>
         <Card
           className="
-            w-[300px] h-[190px] flex justify-center items-center border-0 bg-secondary/10 shadow-lg
-            cursor-pointer hover:bg-secondary/30 hover:translate-y-[-10px] hover:scale-[1.03] hover:shadow-xl duration-300
+            w-[300px] h-[183px] flex justify-center items-center border-0 bg-secondary/10 shadow-lg
+            cursor-pointer hover:bg-secondary/30 hover:translate-y-[-10px] hover:scale-[1.03] duration-300
           "
         >
           <CardContent className="p-0">
-            <span className="link text-xl">Create one more!{' >>>'}</span>
+            <span className="link text-xl">Create one more 🤓{' >>>'}</span>
           </CardContent>
         </Card>
       </Link>

@@ -35,7 +35,7 @@ export default function Memorization({ data }: { data: Set }) {
   useEffect(() => {
     // set activity for chart
     if (index + 1 === setList.length) {
-      ;(async () => {
+      ; (async () => {
         const activityTypeId = response?.activityTypes.find((item) => item.name === 'spelling')?.id
 
         await createActivity(activityTypeId!, data.id)
@@ -160,7 +160,7 @@ export default function Memorization({ data }: { data: Set }) {
     <>
       {!isFinish && (
         <>
-          <h2 className="title w-full mb-5 !truncate font-semibold text-center">{data.title}</h2>
+          <h2 className="title w-full mb-5 !truncate font-semibold text-center leading-tight">{data.title}</h2>
           <div className="max-w-4xl mx-auto">
             <p className="mb-5 text-lg font-semibold">{setList[index][selectedMode]}:</p>
             <div>
@@ -286,7 +286,7 @@ export default function Memorization({ data }: { data: Set }) {
 
       {isFinish && (
         <div className="w-fit mt-5 mx-auto text-xl font-semibold">
-          Nice job <span className="mr-1 emoji-large">🎉</span> ! Do you want to{' '}
+          Nice job <span className="emoji">👍</span>! Do you want to{' '}
           {!!result.failed.length && (
             <>
               <span className="link" onClick={() => onStartOver('repeat')}>
@@ -301,6 +301,7 @@ export default function Memorization({ data }: { data: Set }) {
             </span>{' '}
             ?
           </>
+          {!result.failed.length && <div className="mt-20 text-[80px] text-center">🎉</div>}
         </div>
       )}
     </>

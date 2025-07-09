@@ -46,7 +46,7 @@ export default function Flashcards({ data }: { data: Set }) {
   const response = use(ActivityTypesContext) as { activityTypes: ActivityType[] } | null
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const voices = await getVoices()
 
       if (voices) setVoices(voices)
@@ -60,7 +60,7 @@ export default function Flashcards({ data }: { data: Set }) {
 
     // set activity for chart
     if (index + 1 === setList.length) {
-      ;(async () => {
+      ; (async () => {
         const activityTypeId = response?.activityTypes.find((item) => item.name === 'flashcards')?.id
 
         await createActivity(activityTypeId!, data.id)
@@ -69,13 +69,12 @@ export default function Flashcards({ data }: { data: Set }) {
 
     if (isPlay) {
       timeout = setTimeout(() => {
-        if (index + 1 < setList.length) {
+        if (index < setList.length) {
           paginate(1)
         } else {
           clearTimeout(timeout!)
 
           setPlay(false)
-          setIndex(0)
         }
       }, 2500)
     }
@@ -102,26 +101,33 @@ export default function Flashcards({ data }: { data: Set }) {
   const paginate = (newDirection: number) => {
     cancelUtterance()
 
-    if ((index + 1 === setList.length && newDirection > 0) || (index === 0 && newDirection < 0)) return
+    const isEnd = index + 1 === setList.length
 
-    setIndex((prev) => (prev + newDirection + setList.length) % setList.length)
-    setMode(selectedMode)
+    if (index === 0 && newDirection < 0) return
 
-    if (isSound && selectedMode === mode) sound({ isSound: true, itemIndex: index + newDirection, itemMode: selectedMode })
+    setIndex((prev) => prev + newDirection)
 
-    const xVariants = {
-      hidden: {
-        x: newDirection > 0 ? 300 : -300,
-        y: -20,
-        rotate: newDirection > 0 ? -10 : 10,
-        rotateY: newDirection > 0 ? 90 : -90,
-        opacity: 0.5,
-      },
-      visible: { x: 0, y: 0, rotate: 0, rotateY: 0, opacity: 1 },
-      exit: { x: newDirection > 0 ? -300 : 300, opacity: 0 },
+    if (!isEnd) {
+      setMode(selectedMode)
+
+      if (isSound && selectedMode === mode) sound({ isSound: true, itemIndex: index + newDirection, itemMode: selectedMode })
+
+      const xVariants = {
+        hidden: {
+          x: newDirection > 0 ? 300 : -300,
+          y: -20,
+          rotate: newDirection > 0 ? -10 : 10,
+          rotateY: newDirection > 0 ? 90 : -90,
+          opacity: 0.5,
+        },
+        visible: { x: 0, y: 0, rotate: 0, rotateY: 0, opacity: 1 },
+        exit: { x: newDirection > 0 ? -300 : 300, opacity: 0 },
+      }
+
+      setVariants(xVariants)
+    } else {
+      if (isSound) setSound(false)
     }
-
-    setVariants(xVariants)
   }
 
   const rotate = () => {
@@ -162,143 +168,155 @@ export default function Flashcards({ data }: { data: Set }) {
 
   return (
     <>
-      <div className="w-full mb-5 flex flex-col md:flex-row justify-evenly items-center">
-        <h2 className="title w-full md:w-fit !truncate md:mb-0 font-semibold text-center">{data.title}</h2>
-        <div className="w-fit">
-          <SelectWrap
-            options={[
-              { label: `Term (${LANGUAGE_OPTIONS.find((item) => data.source === item.value)?.label})`, value: 'term' },
-              {
-                label: `Definition (${LANGUAGE_OPTIONS.find((item) => data.target === item.value)?.label})`,
-                value: 'definition',
-              },
-            ]}
-            onValueChange={(val) => setSelectedMode(val as 'term' | 'definition')}
-            defaultValue={selectedMode}
-            placeholder="Choose mode"
-            label="Choose mode"
-            checkIsActive={(val) => setSelectOpen(val)}
-          />
-        </div>
-      </div>
-      <motion.div
-        key={index + ' / ' + mode}
-        className="max-w-4xl mx-auto p-1 cursor-pointer"
-        variants={variants!}
-        initial="hidden"
-        animate="visible"
-        exit="exit"
-        transition={{ duration: 0.3 }}
-      >
-        <Card className="w-full shadow-xl border-transparent bg-secondary/30 relative" onClick={rotate}>
-          <CardHeader className="w-full absolute">
-            <CardDescription className="flex justify-end">
-              <span
-                className="icon-hover"
-                onClick={(e) => {
-                  e.stopPropagation()
+      {index < setList.length ? (
+        <>
+          <div className="w-full mb-5 flex flex-col md:flex-row justify-evenly items-center">
+            <h2 className="title w-full md:w-fit !truncate md:mb-0 font-semibold text-center leading-tight">{data.title}</h2>
+            <div className="w-fit">
+              <SelectWrap
+                options={[
+                  { label: `Term (${LANGUAGE_OPTIONS.find((item) => data.source === item.value)?.label})`, value: 'term' },
+                  {
+                    label: `Definition (${LANGUAGE_OPTIONS.find((item) => data.target === item.value)?.label})`,
+                    value: 'definition',
+                  },
+                ]}
+                onValueChange={(val) => setSelectedMode(val as 'term' | 'definition')}
+                defaultValue={selectedMode}
+                placeholder="Choose mode"
+                label="Choose mode"
+                checkIsActive={(val) => setSelectOpen(val)}
+              />
+            </div>
+          </div>
+          <motion.div
+            key={index + ' / ' + mode}
+            className="max-w-4xl mx-auto p-1 cursor-pointer"
+            variants={variants!}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            transition={{ duration: 0.3 }}
+          >
+            <Card className="w-full shadow-xl border-transparent bg-secondary/30 relative" onClick={rotate}>
+              <CardHeader className="w-full absolute">
+                <CardDescription className="flex justify-end">
+                  <span
+                    className="icon-hover"
+                    onClick={(e) => {
+                      e.stopPropagation()
 
-                  sound({ isOneTime: true })
-                }}
-              >
-                <Volume2 size={18} />
-              </span>
-              {mode === 'definition' && (
-                <TooltipProvider>
-                  <Tooltip
-                    open={showTooltip}
-                    onOpenChange={() => {
-                      if (isMobile) {
-                        setShowTooltip(true)
-
-                        setTimeout(() => setShowTooltip(false), 1000)
-                      } else setShowTooltip(!showTooltip)
+                      sound({ isOneTime: true })
                     }}
-                    delayDuration={0.5}
                   >
-                    <TooltipTrigger asChild>
-                      <span className="icon-hover" onClick={(e) => e.stopPropagation()} onTouchStart={() => setShowTooltip(true)}>
-                        <Lightbulb size={16} />
-                      </span>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      {`${setList[index].term[0]}...${setList[index].term[setList[index].term.length - 1]}`}
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              )}
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="h-80 md:h-96 flex items-center justify-center p-6 overflow-auto text-center">
-            <span className="w-full text-3xl">{setList[index][mode]}</span>
-          </CardContent>
-        </Card>
-      </motion.div>
-      <div className="w-fit mx-auto mt-2 flex items-center gap-4 relative">
-        <span className="absolute left-[-90px] icon-hover" onClick={shuffle}>
-          <Shuffle size={20} />
-        </span>
-        <span
-          className={`
+                    <Volume2 size={18} />
+                  </span>
+                  {mode === 'definition' && (
+                    <TooltipProvider>
+                      <Tooltip
+                        open={showTooltip}
+                        onOpenChange={() => {
+                          if (isMobile) {
+                            setShowTooltip(true)
+
+                            setTimeout(() => setShowTooltip(false), 1000)
+                          } else setShowTooltip(!showTooltip)
+                        }}
+                        delayDuration={0.5}
+                      >
+                        <TooltipTrigger asChild>
+                          <span
+                            className="icon-hover"
+                            onClick={(e) => e.stopPropagation()}
+                            onTouchStart={() => setShowTooltip(true)}
+                          >
+                            <Lightbulb size={16} />
+                          </span>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          {`${setList[index].term[0]}...${setList[index].term[setList[index].term.length - 1]}`}
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  )}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="h-80 md:h-96 flex items-center justify-center p-6 overflow-auto text-center">
+                <span className="w-full text-3xl">{setList[index][mode]}</span>
+              </CardContent>
+            </Card>
+          </motion.div>
+          <div className="w-fit mx-auto mt-2 flex items-center gap-4 relative">
+            <span className="absolute left-[-90px] icon-hover" onClick={shuffle}>
+              <Shuffle size={20} />
+            </span>
+            <span
+              className={`
             absolute left-[-60px] md:left-[-145px] border-2 rounded-full p-[5px] border-transparent
             icon-hover ${isPlay ? '!border-primary' : ''}
           `}
-          onClick={() => setPlay(!isPlay)}
-        >
-          <Play size={22} />
-        </span>
-        <CircleArrowLeft
-          className={`${index > 0 ? 'text-primary' : 'text-secondary'}`}
-          strokeWidth={1}
-          size={40}
-          onClick={() => paginate(-1)}
-        />
-        <span className="text-primary">{index + 1 + ' / ' + setList.length}</span>
-        <CircleArrowRight
-          className={`${index + 1 < setList.length ? 'text-primary' : 'text-secondary'}`}
-          strokeWidth={1}
-          size={40}
-          onClick={() => paginate(1)}
-        />
-        <span
-          className="absolute right-[-90px] icon-hover"
-          onClick={() => {
-            setIndex(0)
-            setMode(selectedMode)
-          }}
-        >
-          <RotateCcw size={20} />
-        </span>
-        <span
-          className={`
+              onClick={() => setPlay(!isPlay)}
+            >
+              <Play size={22} />
+            </span>
+            <CircleArrowLeft
+              className={`${index > 0 ? 'text-primary' : 'text-secondary'}`}
+              strokeWidth={1}
+              size={40}
+              onClick={() => paginate(-1)}
+            />
+            <span className="text-primary">{index + 1 + ' / ' + setList.length}</span>
+            <CircleArrowRight className="text-primary" strokeWidth={1} size={40} onClick={() => paginate(1)} />
+            <span
+              className="absolute right-[-90px] icon-hover"
+              onClick={() => {
+                setIndex(0)
+                setMode(selectedMode)
+              }}
+            >
+              <RotateCcw size={20} />
+            </span>
+            <span
+              className={`
             absolute right-[-60px] md:right-[-150px] border-2 rounded-full p-[5px] border-transparent
             icon-hover ${isSound ? '!border-primary' : ''}
           `}
-          onMouseLeave={() => setShowDropdownMenu(false)}
-          onClick={(e) => {
-            if (!isShowDropdownMenu) setShowDropdownMenu(true)
+              onMouseLeave={() => setShowDropdownMenu(false)}
+              onClick={(e) => {
+                if (!isShowDropdownMenu) setShowDropdownMenu(true)
 
-            const el = e.target as HTMLSpanElement
+                const el = e.target as HTMLSpanElement
 
-            if (el.tagName !== 'DIV') setSound(!isSound)
-          }}
-        >
-          {isMobile ? (
-            <Volume2 size={25} />
-          ) : (
-            <DropdownMenu
-              trigger={<Volume2 size={25} />}
-              setShowDropdownMenu={setShowDropdownMenu}
-              setSoundMode={setSoundMode}
-              soundMode={soundMode}
-              isShowDropdownMenu={isShowDropdownMenu}
-              dataSource={data.source as Langs}
-              dataTarget={data.target as Langs}
-            />
-          )}
-        </span>
-      </div>
-      <Progress className="max-w-4xl h-1 mx-auto mt-2" value={(100 / setList.length) * (index + 1)} />
+                if (el.tagName !== 'DIV') setSound(!isSound)
+              }}
+            >
+              {isMobile ? (
+                <Volume2 size={25} />
+              ) : (
+                <DropdownMenu
+                  trigger={<Volume2 size={25} />}
+                  setShowDropdownMenu={setShowDropdownMenu}
+                  setSoundMode={setSoundMode}
+                  soundMode={soundMode}
+                  isShowDropdownMenu={isShowDropdownMenu}
+                  dataSource={data.source as Langs}
+                  dataTarget={data.target as Langs}
+                />
+              )}
+            </span>
+          </div>
+          <Progress className="max-w-4xl h-1 mx-auto mt-2" value={(100 / setList.length) * (index + 1)} />
+        </>
+      ) : (
+        <div className="w-fit mt-5 mx-auto text-xl font-semibold">
+          Nice job <span className="emoji">👍</span>
+          {'! '}
+          <span className="link" onClick={() => setIndex(0)}>
+            Refresh flashcards
+          </span>
+          <div className="mt-20 text-[80px] text-center">🥳</div>
+        </div>
+      )}
     </>
   )
 }
