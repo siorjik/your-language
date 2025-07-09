@@ -16,7 +16,7 @@ import { Button } from './ui/button'
 type DialogProps = {
   trigger: ReactElement
   description?: string | null
-  title: string
+  title: string | ReactElement
   content: ReactElement
   isAutoClose?: boolean
   width?: string

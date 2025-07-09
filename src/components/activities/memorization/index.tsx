@@ -99,7 +99,7 @@ export default function Memorization({ data }: { data: Set }) {
     <>
       {!isFinish && (
         <div className="w-full mb-5 flex flex-col md:flex-row justify-evenly items-center">
-          <h2 className="title w-full md:w-fit !truncate md:mb-0 font-semibold text-center">{data.title}</h2>
+          <h2 className="title w-full md:w-fit !truncate md:mb-0 font-semibold text-center leading-tight">{data.title}</h2>
           <div className="w-fit">
             <SelectWrap
               options={[
@@ -208,7 +208,7 @@ export default function Memorization({ data }: { data: Set }) {
 
       {isFinish && (
         <div className="w-fit mt-5 mx-auto text-xl font-semibold">
-          Nice job <span className="emoji-large">🎉</span> ! Do you want to{' '}
+          Nice job <span className="emoji">👍</span>! Do you want to{' '}
           {!!result.failed.length && (
             <>
               <span className="link" onClick={() => onStartOver('repeat')}>
@@ -223,6 +223,7 @@ export default function Memorization({ data }: { data: Set }) {
             </span>{' '}
             ?
           </>
+          {!result.failed.length && <div className="mt-20 text-[80px] text-center">🎉</div>}
         </div>
       )}
     </>

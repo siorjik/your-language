@@ -97,7 +97,7 @@ export default function SetList({ sets }: { sets: Set[] }) {
           </Link>
         ))
       ) : isLoader ? null : (
-        <p className="w-fit mx-auto">There are no any sets...</p>
+        <p className="w-fit mx-auto text-lg font-semibold">There are no any sets 🤨</p>
       )}
       {isLoader && <Spinner />}
     </>

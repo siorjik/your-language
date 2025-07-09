@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from 'react'
 
-type WindowDataType = { viewSize: number; isMobile: boolean | undefined }
+type WindowDataType = { viewSize: number; isMobile: boolean | undefined; isXlDisplay: boolean | undefined }
 
 export default function useDisplayData() {
-  const [windowData, setWindowData] = useState<WindowDataType>({ viewSize: 0, isMobile: undefined })
+  const [windowData, setWindowData] = useState<WindowDataType>({ viewSize: 0, isMobile: undefined, isXlDisplay: undefined })
 
   useEffect(() => {
     setViewSize(window)
@@ -18,7 +18,12 @@ export default function useDisplayData() {
   }, [])
 
   const setViewSize = (window: Window) =>
-    setWindowData({ ...windowData, viewSize: window.innerWidth, isMobile: window.innerWidth < 768 })
+    setWindowData({
+      ...windowData,
+      viewSize: window.innerWidth,
+      isXlDisplay: window.innerWidth >= 1280,
+      isMobile: window.innerWidth < 768,
+    })
 
   return { ...windowData }
 }

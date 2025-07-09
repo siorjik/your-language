@@ -427,8 +427,4 @@ body {
   .emoji {
     @apply text-[20px];
   }
-
-  .emoji-large {
-    @apply text-[30px];
-  }
 }
