@@ -28,7 +28,7 @@ export default function Memorization({ data }: { data: Set }) {
   useEffect(() => {
     // set activity for chart
     if (index + 1 === setList.length) {
-      ; (async () => {
+      ;(async () => {
         const activityTypeId = response?.activityTypes.find((item) => item.name === 'memorization')?.id
 
         await createActivity(activityTypeId!, data.id)

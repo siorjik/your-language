@@ -46,7 +46,7 @@ export default function Flashcards({ data }: { data: Set }) {
   const response = use(ActivityTypesContext) as { activityTypes: ActivityType[] } | null
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       const voices = await getVoices()
 
       if (voices) setVoices(voices)
@@ -60,7 +60,7 @@ export default function Flashcards({ data }: { data: Set }) {
 
     // set activity for chart
     if (index + 1 === setList.length) {
-      ; (async () => {
+      ;(async () => {
         const activityTypeId = response?.activityTypes.find((item) => item.name === 'flashcards')?.id
 
         await createActivity(activityTypeId!, data.id)
