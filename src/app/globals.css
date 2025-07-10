@@ -238,7 +238,7 @@ body {
   --radius: 0.5rem;
   --chart-1: 130 43% 41%;
   --chart-2: 130 30% 70%;
-  --chart-3: 92 30% 80%;
+  --chart-3: 110 50% 70%;
   --chart-4: 142.1 76.2% 36.3%;
   --chart-1-foreground: 0 0% 100%;
   --chart-2-foreground: 0 0% 0%;
@@ -272,7 +272,7 @@ body {
   --radius: 0.5rem;
   --chart-1: 130 43% 41%;
   --chart-2: 130 30% 20%;
-  --chart-3: 92 30% 25%;
+  --chart-3: 110 40% 30%;
   --chart-4: 142.1 60.2% 25.3%;
   --chart-1-foreground: 0 0% 100%;
   --chart-2-foreground: 0 0% 100%;

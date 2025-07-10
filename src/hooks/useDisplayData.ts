@@ -20,7 +20,7 @@ export default function useDisplayData() {
   const setViewSize = (window: Window) =>
     setWindowData({
       ...windowData,
-      viewSize: window.innerWidth,
+      viewSize: window.document.documentElement.clientWidth,
       isXlDisplay: window.innerWidth >= 1280,
       isMobile: window.innerWidth < 768,
     })

@@ -46,7 +46,7 @@ export default function Flashcards({ data }: { data: Set }) {
   const response = use(ActivityTypesContext) as { activityTypes: ActivityType[] } | null
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const voices = await getVoices()
 
       if (voices) setVoices(voices)
@@ -60,7 +60,7 @@ export default function Flashcards({ data }: { data: Set }) {
 
     // set activity for chart
     if (index + 1 === setList.length) {
-      ;(async () => {
+      ; (async () => {
         const activityTypeId = response?.activityTypes.find((item) => item.name === 'flashcards')?.id
 
         await createActivity(activityTypeId!, data.id)
@@ -166,6 +166,8 @@ export default function Flashcards({ data }: { data: Set }) {
     }
   }
 
+  const tooltipMode = mode === 'definition' ? 'term' : 'definition'
+
   return (
     <>
       {index < setList.length ? (
@@ -211,7 +213,7 @@ export default function Flashcards({ data }: { data: Set }) {
                   >
                     <Volume2 size={18} />
                   </span>
-                  {mode === 'definition' && (
+                  {mode === selectedMode && (
                     <TooltipProvider>
                       <Tooltip
                         open={showTooltip}
@@ -234,7 +236,10 @@ export default function Flashcards({ data }: { data: Set }) {
                           </span>
                         </TooltipTrigger>
                         <TooltipContent>
-                          {`${setList[index].term[0]}...${setList[index].term[setList[index].term.length - 1]}`}
+                          {`
+                            ${setList[index][tooltipMode][0]} ...
+                            ${setList[index][tooltipMode][setList[index][tooltipMode].length - 1]}
+                          `}
                         </TooltipContent>
                       </Tooltip>
                     </TooltipProvider>
