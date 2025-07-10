@@ -63,8 +63,11 @@ export default function GuestMode() {
   return (
     <>
       <HeroSection dialogContent={dialogContent} isClose={isClose} />
-      <div className='flex flex-col items-center'>
-        <div className="min-h-[calc(100vh-50px)] p-5 bg-primary/30 flex flex-col md:flex-row gap-10 items-center justify-evenly" style={{ width: `${viewSize}px` }}>
+      <div className="flex flex-col items-center">
+        <div
+          className="min-h-[calc(100vh-50px)] p-5 bg-primary/30 flex flex-col md:flex-row gap-10 items-center justify-evenly"
+          style={{ width: `${viewSize}px` }}
+        >
           <Image src={flashcardsImg} alt="flash-cards" width={300} height={300} priority />
           <div className="text-center text-muted-foreground">
             <h3 className="sub-title-1 mb-5 text-primary/50">Flashcards & Quizzes</h3>
@@ -79,13 +82,18 @@ export default function GuestMode() {
           </div>
         </div>
 
-        <div className="min-h-[calc(100vh-50px)] p-5 bg-primary/20 flex flex-col-reverse md:flex-row gap-10 items-center justify-evenly" style={{ width: `${viewSize}px` }}>
+        <div
+          className="
+            min-h-[calc(100vh-50px)] p-5 bg-primary/20 flex flex-col-reverse md:flex-row gap-10 items-center justify-evenly
+          "
+          style={{ width: `${viewSize}px` }}
+        >
           <div className="text-center text-muted-foreground">
             <h3 className="sub-title-1 mb-5 text-primary/50">Your Personal Activity Tracker</h3>
             <p className="max-w-[500px] mx-auto mb-5 p-3 bg-muted rounded-lg italic font-semibold">
               Stay on top of your progress with <span className="text-primary">Your Personal Activity Tracker</span>. See how much
-              you’ve learned, track your daily practice, and celebrate every milestone. From completed flashcards to quiz scores and
-              study streaks, your tracker keeps everything organized in one place. It`s the easiest way to stay motivated, set
+              you`ve learned, track your daily practice, and celebrate every milestone. From completed flashcards to quiz scores
+              and study streaks, your tracker keeps everything organized in one place. It`s the easiest way to stay motivated, set
               goals, and watch your English skills grow step by step. Learning is a journey - let your activity tracker guide the
               way!
             </p>
@@ -94,15 +102,18 @@ export default function GuestMode() {
           <Image src={flashcardsImg} alt="flash-cards" width={300} height={300} priority />
         </div>
 
-        <div className="min-h-[calc(100vh-50px)] p-5 flex flex-col md:flex-row gap-10 items-center justify-evenly" style={{ width: `${viewSize}px` }}>
+        <div
+          className="min-h-[calc(100vh-50px)] p-5 flex flex-col md:flex-row gap-10 items-center justify-evenly"
+          style={{ width: `${viewSize}px` }}
+        >
           <Image src={flashcardsImg} alt="flash-cards" width={300} height={300} priority />
           <div className="text-center text-muted-foreground">
             <h3 className="sub-title-1 mb-5 text-primary/50">Accessible Anywhere</h3>
             <p className="max-w-[500px] mx-auto mb-5 p-3 bg-muted rounded-lg italic font-semibold">
-              With <span className="text-primary font-semibold">Accessible Anywhere</span>, your language learning goes wherever you
-              go. Whether you`re on your phone, tablet, or computer, all your flashcards, quizzes, and progress are always synced
-              and ready. Practice on the bus, at the café, or from the comfort of home - your learning is never limited by location.
-              Just log in and keep moving forward, no matter where life takes you.
+              With <span className="text-primary font-semibold">Accessible Anywhere</span>, your language learning goes wherever
+              you go. Whether you`re on your phone, tablet, or computer, all your flashcards, quizzes, and progress are always
+              synced and ready. Practice on the bus, at the café, or from the comfort of home - your learning is never limited by
+              location. Just log in and keep moving forward, no matter where life takes you.
             </p>
             {getDialog('Start Learning')}
           </div>
