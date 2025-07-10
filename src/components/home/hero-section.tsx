@@ -37,7 +37,7 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
         style={{ width: `${viewSize}px` }}
       />
       <div className="h-full backdrop-brightness-50 bg-primary/50 absolute" style={{ width: `${viewSize}px` }} />
-      <motion.div className="w-full xl:w-1/2 text-muted-foreground text-center z-10 relative" style={{ y, scale }}>
+      <motion.div className="xl:w-1/2 text-muted-foreground text-center z-10 relative" style={{ y, scale }}>
         <h3 className="sub-title-1 mb-5 text-background/70">Welcome to Your Language Companion!</h3>
         <p className="max-w-[500px] mx-auto p-3 bg-muted rounded-lg italic font-semibold">
           Discover a smarter, more engaging way to learn English. Whether you`re just starting out or sharpening advanced skills,
