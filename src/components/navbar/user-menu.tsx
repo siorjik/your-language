@@ -105,7 +105,10 @@ export default function UserMenu() {
                   />
                 )}
               </NavigationMenuTrigger>
-              <NavigationMenuContent className="p-1 pr-[6px] pb-[6px] flex flex-col">
+              <NavigationMenuContent
+                className="p-1 pr-[6px] pb-[6px] flex flex-col"
+                onPointerLeave={(e) => isShow && e.preventDefault()}
+              >
                 {session.user.isCredentials && (
                   <NavigationMenuLink asChild>
                     <Link
