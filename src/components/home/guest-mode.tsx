@@ -97,7 +97,7 @@ export default function GuestMode() {
               goals, and watch your English skills grow step by step. Learning is a journey - let your activity tracker guide the
               way!
             </p>
-            {getDialog('Make Activity')}
+            {getDialog('Start Activity')}
           </div>
           <Image src={flashcardsImg} alt="flash-cards" width={300} height={300} priority />
         </div>

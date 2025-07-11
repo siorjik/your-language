@@ -6,7 +6,7 @@ import { Moon, Sun } from 'lucide-react'
 
 import { THEMES } from '@/utils/constants'
 
-export default function ThemeBtn() {
+export default function ThemeBtn({ text }: { text?: string }) {
   const [mode, setMode] = useState('')
 
   const { theme, setTheme } = useTheme()
@@ -24,7 +24,17 @@ export default function ThemeBtn() {
           onClick={() => setTheme(theme?.includes('-dark') ? theme.replace('-dark', '') : theme + '-dark')}
           onKeyDown={(e) => e.preventDefault()}
         >
-          {!mode.includes('-dark') ? <Moon className="text-primary" /> : <Sun className="text-primary" />}
+          {!mode.includes('-dark') ? (
+            <p className="text-primary flex gap-3 justify-between items-center">
+              <Moon />
+              {text}
+            </p>
+          ) : (
+            <p className="text-primary flex gap-3 justify-between items-center">
+              <Sun />
+              {text}
+            </p>
+          )}
         </button>
       )}
     </>
