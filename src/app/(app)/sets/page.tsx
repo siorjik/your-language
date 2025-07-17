@@ -3,13 +3,13 @@ import { notFound } from 'next/navigation'
 import SetList from './_components/set-list'
 
 import { getSetList } from '@/actions/set'
-import { Set } from '@prisma/client'
 import { Err } from '@/types/errTypes'
+import { SelectedSet } from '@/types/models/set'
 
 export default async function Sets({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
   const { title = '' } = await searchParams
 
-  const res: { sets: Set[]; filtered: Set[]; error: null } | Err = await getSetList({ title })
+  const res: { sets: SelectedSet[]; filtered: SelectedSet[]; error: null } | Err = await getSetList({ title })
 
   if (res.error) notFound()
 

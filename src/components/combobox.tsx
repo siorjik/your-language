@@ -31,7 +31,7 @@ export function Combobox({ placeholder, searchText, notFoundText, data, getValue
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-full max-h-[400px] overflow-auto p-0">
+      <PopoverContent className="max-h-[400px] overflow-auto p-0">
         <Command>
           <CommandInput placeholder={searchText} className="h-9" />
           <CommandList>
