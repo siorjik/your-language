@@ -11,7 +11,9 @@ import { Button } from '../ui/button'
 import HeroSection from './hero-section'
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '../ui/card'
 
-import flashcardsImg from '@/../public/flashcards.jpg'
+import flashcardsImg from '@/../public/flashcards.png'
+import deviceImg from '@/../public/devices.png'
+import chartImg from '@/../public/chart.png'
 
 export default function GuestMode() {
   const [isClose, setClose] = useState(false)
@@ -62,7 +64,7 @@ export default function GuestMode() {
       <HeroSection dialogContent={dialogContent} isClose={isClose} />
       <div className="min-h-[calc(100vh-50px)] pt-10 pb-5 flex justify-center items-center">
         <div className="flex flex-wrap gap-10 justify-center items-center">
-          <Card className="lg:min-h-[900px] flex flex-col justify-between bg-primary/10 border-0 shadow-xl text-center">
+          <Card className="lg:min-h-[800px] flex flex-col justify-between bg-primary/10 border-0 shadow-xl text-center">
             <div>
               <CardHeader>
                 <CardTitle className="font-poppins text-primary/50">Flashcards & Quizzes</CardTitle>
@@ -76,7 +78,7 @@ export default function GuestMode() {
                   a few minutes or a whole hour, these tools adapt to your pace and keep you motivated. Explore, practice, and
                   grow your English skills - all in one place.
                 </p>
-                <Image src={flashcardsImg} alt="flash-cards" width={300} height={300} className="mx-auto" priority />
+                <Image src={flashcardsImg} alt="flash-cards" width={300} height={300} className="mx-auto mb-5" priority />
               </CardContent>
             </div>
             <CardFooter>
@@ -84,10 +86,10 @@ export default function GuestMode() {
             </CardFooter>
           </Card>
 
-          <Card className="lg:min-h-[900px] flex flex-col justify-between bg-primary/10 border-0 shadow-xl text-center">
+          <Card className="lg:min-h-[800px] flex flex-col justify-between bg-primary/10 border-0 shadow-xl text-center">
             <div>
               <CardHeader>
-                <CardTitle className="font-poppins text-primary/50">Your Personal Activity Tracker</CardTitle>
+                <CardTitle className="font-poppins text-primary/50">Your Personal Activity</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="max-w-[350px] mx-auto mb-8 p-3 bg-muted rounded-lg italic font-semibold text-muted-foreground">
@@ -97,7 +99,7 @@ export default function GuestMode() {
                   motivated, set goals, and watch your English skills grow step by step. Learning is a journey - let your activity
                   tracker guide the way!
                 </p>
-                <Image src={flashcardsImg} alt="flash-cards" width={300} height={300} className="mx-auto" priority />
+                <Image src={chartImg} alt="flash-cards" width={300} height={300} className="mx-auto mb-5" priority />
               </CardContent>
             </div>
             <CardFooter>
@@ -105,19 +107,19 @@ export default function GuestMode() {
             </CardFooter>
           </Card>
 
-          <Card className="lg:min-h-[900px] flex flex-col justify-between bg-primary/10 border-0 shadow-xl text-center">
+          <Card className="lg:min-h-[800px] flex flex-col justify-between bg-primary/10 border-0 shadow-xl text-center">
             <div>
               <CardHeader>
                 <CardTitle className="font-poppins text-primary/50">Accessible Anywhere</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="max-w-[350px] mx-auto mb-8 p-3 bg-muted rounded-lg italic font-semibold text-muted-foreground">
+                <p className="max-w-[350px] mx-auto mb-3 p-3 bg-muted rounded-lg italic font-semibold text-muted-foreground">
                   With <span className="text-primary font-semibold">Accessible Anywhere</span>, your language learning goes
                   wherever you go. Whether you`re on your phone, tablet, or computer, all your flashcards, quizzes, and progress
                   are always synced and ready. Practice on the bus, at the café, or from the comfort of home - your learning is
                   never limited by location. Just log in and keep moving forward, no matter where life takes you.
                 </p>
-                <Image src={flashcardsImg} alt="flash-cards" width={300} height={300} className="mx-auto" priority />
+                <Image src={deviceImg} alt="flash-cards" width={300} height={300} className="mx-auto" priority />
               </CardContent>
             </div>
             <CardFooter>
