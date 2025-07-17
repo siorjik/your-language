@@ -49,7 +49,7 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
         className="w-full xl:w-1/2 text-center"
         style={{ opacity: isXlDisplay ? 1 : opacity, y: isXlDisplay ? y : '', scale: isXlDisplay ? scale : 1 }}
       >
-        <TextLoop className="w-full mb-10 xl:mb-14 text-center hidden md:block" interval={5} transition={{ duration: 0.5 }}>
+        <TextLoop className="w-full mb-10 xl:mb-14 text-center hidden md:block" interval={3} transition={{ duration: .5 }}>
           <span className="sub-title-1 text-background text-3xl">Improve your language skills!</span>
           <span className="sub-title-1 text-background text-3xl">Increase your conversation confidence!</span>
           <span className="sub-title-1 text-background text-3xl ">Expend your vocabulary!</span>

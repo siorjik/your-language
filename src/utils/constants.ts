@@ -17,5 +17,19 @@ export const THEMES = [
   { label: 'Green Dark', name: 'greenDark', value: 'theme-green-dark' },
   { label: 'Purple', name: 'purple', value: 'theme-purple' },
   { label: 'Purple Dark', name: 'purpleDark', value: 'theme-purple-dark' },
-  // 'theme-default', 'theme-default-dark', 'theme-blue', 'theme-blue-dark', 'theme-red', 'theme-red-dark'
+]
+
+export const MONTHS = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
 ]

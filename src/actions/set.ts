@@ -10,6 +10,7 @@ import { prisma } from '@/lib/prisma'
 import { setsAppPath } from '@/utils/paths'
 import { Set } from '@prisma/client'
 import { Err } from '@/types/errTypes'
+import { SelectedSet } from '@/types/models/set'
 
 export const createSet = async (data: z.infer<typeof setFormTypeSchema>): Promise<(Set & { error: null }) | Err> => {
   try {
@@ -45,14 +46,20 @@ export const updateSet = async (data: z.infer<typeof setFormTypeSchema>): Promis
 
 export const getSetList = async (
   filter: { title: string } | null = null,
-): Promise<{ sets: Set[]; filtered: Set[]; error: null } | Err> => {
+): Promise<{ sets: SelectedSet[]; filtered: SelectedSet[]; error: null } | Err> => {
   try {
     const session = await getServerSessionToken()
 
     return {
-      sets: await prisma.set.findMany({ where: { userId: session.id } }),
+      sets: await prisma.set.findMany({
+        where: { userId: session.id },
+        include: { user: { select: { name: true, image: true } } },
+      }),
       filtered: filter
-        ? await prisma.set.findMany({ where: { userId: session.id, title: { contains: filter?.title, mode: 'insensitive' } } })
+        ? await prisma.set.findMany({
+            where: { userId: session.id, title: { contains: filter?.title, mode: 'insensitive' } },
+            include: { user: { select: { name: true, image: true } } },
+          })
         : [],
       error: null,
     }

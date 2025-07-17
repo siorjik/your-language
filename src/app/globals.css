@@ -397,7 +397,7 @@ body {
   }
 
   .link {
-    @apply text-amber-600 hover:text-amber-500 border-b-2 border-amber-700 hover:border-amber-600 cursor-pointer font-semibold;
+    @apply text-amber-600 hover:text-amber-500 border-b-2 border-amber-600 hover:border-amber-500 cursor-pointer font-semibold;
   }
 
   .dialog-submit-btn {

@@ -10,10 +10,10 @@ import SetItem from './set-item'
 import { Input } from '@/components/ui/input'
 
 import { getSetAppPath, newSetAppPath, setsAppPath } from '@/utils/paths'
-import { Set } from '@prisma/client'
 import Spinner from '@/components/spinner'
+import { SelectedSet } from '@/types/models/set'
 
-export default function SetList({ sets }: { sets: Set[] }) {
+export default function SetList({ sets }: { sets: SelectedSet[] }) {
   const [isLoader, setLoader] = useState(false)
   const [value, setValue] = useState('')
 
