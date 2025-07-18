@@ -7,7 +7,7 @@ import Chart from '../chart'
 import CardSection from './cards-section'
 
 import { Set } from '@prisma/client'
-import { newSetAppPath } from '@/utils/paths'
+import { libraryAppPath } from '@/utils/paths'
 import GuestMode from './guest-mode'
 
 type MainProps = {
@@ -36,8 +36,8 @@ export default function Main({ session, sets, chartData }: MainProps) {
             </>
           ) : (
             <div className="h-[calc(100vh-160px)] flex flex-col justify-center items-center">
-              <Link href={newSetAppPath} className="link text-xl">
-                Create your first set 🤓 {'>>>'}
+              <Link href={libraryAppPath} className="link text-xl">
+                Visit library and create your first set 🤓 {'>>>'}
               </Link>
             </div>
           )}
