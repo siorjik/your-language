@@ -23,7 +23,7 @@ export default function SetItem({ set, idx }: { set: SelectedSet; idx: number })
       initial={{ x: idx % 2 === 0 ? +200 : -200, y: 200, opacity: 0.5 }}
       animate={{ x: 0, y: 0, opacity: 1 }}
       transition={{ duration: 0.5, type: 'spring', stiffness: 100 }}
-      whileHover={{ scale: 1.02 }}
+      whileHover={{ scale: 1.01 }}
     >
       <div className="overflow-hidden">
         <p className="mb-2 text-sm text-primary/60 truncate">
@@ -39,6 +39,7 @@ export default function SetItem({ set, idx }: { set: SelectedSet; idx: number })
                 width={10}
                 height={10}
                 className="w-5 h-5 rounded-full relative bottom-[1px] inline object-cover"
+                priority
               />{' '}
             </>
           )}

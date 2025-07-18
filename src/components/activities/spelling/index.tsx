@@ -3,9 +3,12 @@
 import { useState, useEffect, useRef, use } from 'react'
 import { motion } from 'framer-motion'
 import { RotateCcw, Shuffle } from 'lucide-react'
+import Image from 'next/image'
 
 import { Progress } from '@/components/ui/progress'
 import { Button } from '@/components/ui/button'
+
+import partyPopperImg from '@/../public/party-popper.png'
 
 import { ActivityType, Set } from '@prisma/client'
 import { SetList } from '@/types/models/set'
@@ -301,7 +304,7 @@ export default function Memorization({ data }: { data: Set }) {
             </span>{' '}
             ?
           </>
-          {!result.failed.length && <div className="mt-20 text-[80px] text-center">🎉</div>}
+          {!result.failed.length && <Image className="mt-20 mx-auto" src={partyPopperImg} alt="party" width={200} height={200} />}
         </div>
       )}
     </>

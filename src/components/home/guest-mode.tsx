@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
+import { useTheme } from 'next-themes'
 
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '../ui/tabs'
 import DialogWrap from '../dialog-wrap'
@@ -17,6 +18,10 @@ import chartImg from '@/../public/chart.png'
 
 export default function GuestMode() {
   const [isClose, setClose] = useState(false)
+
+  const { theme } = useTheme()
+
+  const isDark = theme?.includes('-dark')
 
   const dialogContent = (
     <Tabs>
@@ -78,7 +83,14 @@ export default function GuestMode() {
                   a few minutes or a whole hour, these tools adapt to your pace and keep you motivated. Explore, practice, and
                   grow your English skills - all in one place.
                 </p>
-                <Image src={flashcardsImg} alt="flash-cards" width={300} height={300} className="mx-auto mb-5" priority />
+                <Image
+                  src={flashcardsImg}
+                  alt="flash-cards"
+                  width={300}
+                  height={300}
+                  className={`mx-auto mb-5 ${isDark ? 'brightness-50' : ''}`}
+                  priority
+                />
               </CardContent>
             </div>
             <CardFooter>
@@ -93,13 +105,20 @@ export default function GuestMode() {
               </CardHeader>
               <CardContent>
                 <p className="max-w-[350px] mx-auto mb-8 p-3 bg-muted rounded-lg italic font-semibold text-muted-foreground">
-                  Stay on top of your progress with <span className="text-primary">Your Personal Activity Tracker</span>. See how
+                  Stay on top of your progress with <span className="text-primary">Your Personal Activity</span> tracker. See how
                   much you`ve learned, track your daily practice, and celebrate every milestone. From completed flashcards to quiz
                   scores and study streaks, your tracker keeps everything organized in one place. It`s the easiest way to stay
                   motivated, set goals, and watch your English skills grow step by step. Learning is a journey - let your activity
                   tracker guide the way!
                 </p>
-                <Image src={chartImg} alt="flash-cards" width={300} height={300} className="mx-auto mb-5" priority />
+                <Image
+                  src={chartImg}
+                  alt="flash-cards"
+                  width={300}
+                  height={300}
+                  className={`mx-auto mb-1 ${isDark ? 'brightness-50' : ''}`}
+                  priority
+                />
               </CardContent>
             </div>
             <CardFooter>
@@ -119,7 +138,14 @@ export default function GuestMode() {
                   are always synced and ready. Practice on the bus, at the café, or from the comfort of home - your learning is
                   never limited by location. Just log in and keep moving forward, no matter where life takes you.
                 </p>
-                <Image src={deviceImg} alt="flash-cards" width={300} height={300} className="mx-auto" priority />
+                <Image
+                  src={deviceImg}
+                  alt="flash-cards"
+                  width={300}
+                  height={300}
+                  className={`mx-auto ${isDark ? 'brightness-50' : ''}`}
+                  priority
+                />
               </CardContent>
             </div>
             <CardFooter>

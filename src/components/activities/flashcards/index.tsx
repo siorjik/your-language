@@ -3,12 +3,15 @@
 import { useEffect, useState, use } from 'react'
 import { motion, Variants } from 'framer-motion'
 import { CircleArrowLeft, CircleArrowRight, Shuffle, Play, Volume2, RotateCcw, Lightbulb } from 'lucide-react'
+import Image from 'next/image'
 
 import { Card, CardContent, CardDescription, CardHeader } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
 import SelectWrap from '@/components/select-wrap'
 import DropdownMenu from './dropdownMenu'
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/components/ui/tooltip'
+
+import partyPopperImg from '@/../public/party-popper.png'
 
 import { SetList } from '@/types/models/set'
 import { ActivityType, Set } from '@prisma/client'
@@ -319,7 +322,7 @@ export default function Flashcards({ data }: { data: Set }) {
           <span className="link" onClick={() => setIndex(0)}>
             Refresh flashcards
           </span>
-          <div className="mt-20 text-[80px] text-center">🥳</div>
+          <Image className="mt-20 mx-auto" src={partyPopperImg} alt="party" width={200} height={200} />
         </div>
       )}
     </>

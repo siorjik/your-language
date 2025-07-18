@@ -7,7 +7,7 @@ import Tabs from './tabs'
 import { Combobox } from '@/components/combobox'
 
 import { Set } from '@prisma/client'
-import { newSetAppPath } from '@/utils/paths'
+import { libraryAppPath } from '@/utils/paths'
 
 export default function Activities({ sets }: { sets: Set[] }) {
   const [id, setId] = useState<string | null>(sets[0]?.id)
@@ -34,8 +34,8 @@ export default function Activities({ sets }: { sets: Set[] }) {
       ) : (
         <div className="h-[calc(100vh-160px)] flex flex-col justify-center items-center">
           <p className="mb-1 text-lg font-semibold">No created sets yet 🤨</p>
-          <Link href={newSetAppPath} className="link text-xl">
-            Create a new one {'>>>'}
+          <Link href={libraryAppPath} className="link text-xl">
+            Visit library and create a new one {'>>>'}
           </Link>
         </div>
       )}
