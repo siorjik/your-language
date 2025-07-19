@@ -77,7 +77,7 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
             <span className="sub-title-1 text-background text-3xl">Enjoy your learning process!</span>
           </TextLoop>
           <div className="w-fit mx-auto relative">
-            <GlowEffect className="rounded-lg" mode="colorShift" blur="soft" duration={5} scale={1} />
+            <GlowEffect className="rounded-lg" mode="colorShift" blur="softest" duration={5} scale={1} />
             <DialogWrap
               width="max-w-[400px]"
               title={

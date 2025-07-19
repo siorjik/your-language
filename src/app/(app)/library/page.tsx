@@ -12,14 +12,11 @@ export default function Library() {
       <div className="flex justify-center">
         <div className="flex flex-col items-center">
           <Link className="w-full" href={setsAppPath}>
-            <Button
-              variant="outline"
-              className="w-full p-5 text-primary hover:border-primary hover:bg-initial bg-animated text-lg"
-            >
+            <Button variant="outline" className="w-full text-primary hover:border-primary hover:bg-initial bg-animated text-lg">
               Go To Sets
             </Button>
           </Link>
-          <Card className="max-w-[500px] mt-5 flex flex-col justify-between bg-primary/30 border-0 shadow-xl">
+          <Card className="max-w-[500px] mt-5 flex flex-col justify-between bg-accent/30 border-0 shadow-xl">
             <CardHeader>
               <CardTitle className="text-primary text-center">🔥 Sets</CardTitle>
               <CardDescription className="text-center italic">

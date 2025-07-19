@@ -93,7 +93,7 @@ export default function Layout({ children }: { children: ReactNode }) {
               <Navbar />
             </div>
           </header>
-          <main className="h-[100vh] w-full pt-[55px] transition-all scroll-smooth" ref={mainRef}>
+          <main className="w-full pt-[55px] transition-all scroll-smooth" ref={mainRef}>
             <div className="min-h-[calc(100dvh-110px)] px-5 md:px-8 xl:px-0 py-5 w-full m-auto max-w-7xl">{children}</div>
             <footer
               className="

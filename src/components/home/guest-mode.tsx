@@ -11,6 +11,7 @@ import SignUpForm from '../forms/sign-up-form'
 import { Button } from '../ui/button'
 import HeroSection from './hero-section'
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '../ui/card'
+import { GlowEffect } from '../ui/glow-effect'
 
 import flashcardsImg from '@/../public/flashcards.png'
 import deviceImg from '@/../public/devices.png'
@@ -55,9 +56,10 @@ export default function GuestMode() {
         </p>
       }
       trigger={
-        <Button variant="outline" className="p-5 text-primary hover:border-primary hover:bg-initial bg-animated">
-          {text}
-        </Button>
+        <div className="relative">
+          <GlowEffect className="rounded-md" mode="rotate" blur="soft" duration={5} scale={1} />
+          <Button className="m-1 p-6 text-lg relative">{text}</Button>
+        </div>
       }
       content={dialogContent}
       isAutoClose={isClose}
@@ -69,13 +71,13 @@ export default function GuestMode() {
       <HeroSection dialogContent={dialogContent} isClose={isClose} />
       <div className="min-h-[calc(100vh-50px)] pt-10 pb-5 flex justify-center items-center">
         <div className="flex flex-wrap gap-10 justify-center items-center">
-          <Card className="lg:min-h-[800px] flex flex-col justify-between bg-primary/10 border-0 shadow-xl text-center">
+          <Card className="lg:min-h-[800px] flex flex-col justify-between bg-secondary/50 border-0 shadow-xl text-center">
             <div>
               <CardHeader>
                 <CardTitle className="font-poppins text-primary/50">Flashcards & Quizzes</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="max-w-[350px] mx-auto mb-8 p-3 bg-muted rounded-lg italic font-semibold text-muted-foreground">
+                <p className="max-w-[350px] mx-auto mb-8 p-3 bg-muted/50 rounded-lg italic font-semibold text-muted-foreground">
                   Master new words and phrases faster than ever with our{' '}
                   <span className="text-primary">Flashcards & Quizzes</span>. Effortlessly review vocabulary in bite-sized
                   sessions, then challenge yourself with quick quizzes that keep your memory sharp. Flashcards help you visualize,
@@ -98,13 +100,13 @@ export default function GuestMode() {
             </CardFooter>
           </Card>
 
-          <Card className="lg:min-h-[800px] flex flex-col justify-between bg-primary/10 border-0 shadow-xl text-center">
+          <Card className="lg:min-h-[800px] flex flex-col justify-between bg-secondary/50 border-0 shadow-xl text-center">
             <div>
               <CardHeader>
                 <CardTitle className="font-poppins text-primary/50">Your Personal Activity</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="max-w-[350px] mx-auto mb-8 p-3 bg-muted rounded-lg italic font-semibold text-muted-foreground">
+                <p className="max-w-[350px] mx-auto mb-8 p-3 bg-muted/50 rounded-lg italic font-semibold text-muted-foreground">
                   Stay on top of your progress with <span className="text-primary">Your Personal Activity</span> tracker. See how
                   much you`ve learned, track your daily practice, and celebrate every milestone. From completed flashcards to quiz
                   scores and study streaks, your tracker keeps everything organized in one place. It`s the easiest way to stay
@@ -126,13 +128,13 @@ export default function GuestMode() {
             </CardFooter>
           </Card>
 
-          <Card className="lg:min-h-[800px] flex flex-col justify-between bg-primary/10 border-0 shadow-xl text-center">
+          <Card className="lg:min-h-[800px] flex flex-col justify-between bg-secondary/50 border-0 shadow-xl text-center">
             <div>
               <CardHeader>
                 <CardTitle className="font-poppins text-primary/50">Accessible Anywhere</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="max-w-[350px] mx-auto mb-3 p-3 bg-muted rounded-lg italic font-semibold text-muted-foreground">
+                <p className="max-w-[350px] mx-auto mb-3 p-3 bg-muted/50 rounded-lg italic font-semibold text-muted-foreground">
                   With <span className="text-primary font-semibold">Accessible Anywhere</span>, your language learning goes
                   wherever you go. Whether you`re on your phone, tablet, or computer, all your flashcards, quizzes, and progress
                   are always synced and ready. Practice on the bus, at the café, or from the comfort of home - your learning is
