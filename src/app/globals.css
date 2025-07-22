@@ -385,7 +385,7 @@ body {
   }
 
   .title {
-    @apply mb-5 text-3xl font-medium leading-normal text-primary;
+    @apply mb-5 text-3xl font-medium leading-none text-primary font-balsamiqSans;
   }
 
   .sub-title-1 {

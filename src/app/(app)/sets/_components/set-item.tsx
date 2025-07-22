@@ -45,7 +45,7 @@ export default function SetItem({ set, idx }: { set: SelectedSet; idx: number })
           )}
           <span className="text-primary font-semibold">{set.user.name}</span>
         </p>
-        <p className="truncate text-xl text-primary font-semibold leading-[normal]">{set.title}</p>
+        <p className="truncate text-xl text-primary font-balsamiqSans leading-none">{set.title}</p>
       </div>
       <span className="bg-primary/15 icon-hover hover:text-destructive" onClick={(e) => e.preventDefault()}>
         <AlertDialogWrap

@@ -115,7 +115,7 @@ export default function CardSection({ sets }: { sets: Set[] }) {
 
     return (
       <>
-        <p className="sub-title-3 mb-0">Recent created sets:</p>
+        <p className="sub-title-1 mb-0">Recent created sets:</p>
         <div className="relative overflow-hidden">
           <div className="w-full px-3 py-5 flex gap-5 overflow-x-auto scroll-smooth" ref={ref}>
             <span

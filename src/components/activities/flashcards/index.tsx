@@ -326,7 +326,7 @@ export default function Flashcards({ data }: { data: Set }) {
                 size={40}
                 onClick={() => paginate(-1)}
               />
-              <span className="text-primary">{index + 1 + ' / ' + setList.length}</span>
+              <span className="text-primary font-semibold">{index + 1 + ' / ' + setList.length}</span>
               <CircleArrowRight className="text-primary" strokeWidth={1} size={40} onClick={() => paginate(1)} />
             </div>
             <div className="flex md:gap-5">

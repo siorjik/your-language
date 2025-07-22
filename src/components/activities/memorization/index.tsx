@@ -136,13 +136,15 @@ export default function Memorization({ data }: { data: Set }) {
               <motion.li
                 key={idx}
                 className={`
-                h-14 py-2 px-3 flex items-center bg-secondary/30 cursor-pointer rounded-lg shadow-md duration-500
+                h-14 pb-2 pt-1 px-3 flex items-center bg-secondary/30 cursor-pointer rounded-lg shadow-md duration-500
                 ${selectedAnswerStyle?.idx === idx ? selectedAnswerStyle.style : ''}
               `}
                 whileHover={{ boxShadow: '5px 5px 5px hsl(var(--secondary))' }}
                 onClick={() => onSetResult(item, idx)}
               >
-                <span className="max-h-10 line-clamp-2">{item[selectedMode === 'term' ? 'definition' : 'term']}</span>
+                <span className="max-h-12 line-clamp-2 leading-normal">
+                  {item[selectedMode === 'term' ? 'definition' : 'term']}
+                </span>
               </motion.li>
             ))}
           </motion.ul>

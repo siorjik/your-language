@@ -29,7 +29,7 @@ export default function Main({ session, sets, chartData }: MainProps) {
         <>
           {!!sets.length ? (
             <>
-              <h3 className="sub-title-1 text-center">Your activity:</h3>
+              <h3 className="title text-center">Your activity:</h3>
               <Chart data={chartData} config={chartConfig} />
               <Separator className="my-5 h-[2px]" />
               <CardSection sets={sets} />
