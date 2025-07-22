@@ -58,7 +58,7 @@ export default function GuestMode() {
       trigger={
         <div className="relative">
           <GlowEffect className="rounded-md" mode="rotate" blur="soft" duration={5} scale={1} />
-          <Button className="m-1 p-6 text-lg relative">{text}</Button>
+          <Button className={`m-1 p-6 text-lg relative ${isDark ? 'brightness-50' : ''}`}>{text}</Button>
         </div>
       }
       content={dialogContent}
@@ -74,7 +74,7 @@ export default function GuestMode() {
           <Card className="lg:min-h-[800px] flex flex-col justify-between bg-secondary/50 border-0 shadow-xl text-center">
             <div>
               <CardHeader>
-                <CardTitle className="font-poppins text-primary/50">Flashcards & Quizzes</CardTitle>
+                <CardTitle className="font-balsamiqSans text-primary/50">Flashcards & Quizzes</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="max-w-[350px] mx-auto mb-8 p-3 bg-muted/50 rounded-lg italic font-semibold text-muted-foreground">
@@ -103,12 +103,12 @@ export default function GuestMode() {
           <Card className="lg:min-h-[800px] flex flex-col justify-between bg-secondary/50 border-0 shadow-xl text-center">
             <div>
               <CardHeader>
-                <CardTitle className="font-poppins text-primary/50">Your Personal Activity</CardTitle>
+                <CardTitle className="font-balsamiqSans text-primary/50">Your Activity Tracker</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="max-w-[350px] mx-auto mb-8 p-3 bg-muted/50 rounded-lg italic font-semibold text-muted-foreground">
-                  Stay on top of your progress with <span className="text-primary">Your Personal Activity</span> tracker. See how
-                  much you`ve learned, track your daily practice, and celebrate every milestone. From completed flashcards to quiz
+                  Stay on top of your progress with <span className="text-primary">Your Activity Tracker</span>. See how much
+                  you`ve learned, track your daily practice, and celebrate every milestone. From completed flashcards to quiz
                   scores and study streaks, your tracker keeps everything organized in one place. It`s the easiest way to stay
                   motivated, set goals, and watch your English skills grow step by step. Learning is a journey - let your activity
                   tracker guide the way!
@@ -131,7 +131,7 @@ export default function GuestMode() {
           <Card className="lg:min-h-[800px] flex flex-col justify-between bg-secondary/50 border-0 shadow-xl text-center">
             <div>
               <CardHeader>
-                <CardTitle className="font-poppins text-primary/50">Accessible Anywhere</CardTitle>
+                <CardTitle className="font-balsamiqSans text-primary/50">Accessible Anywhere</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="max-w-[350px] mx-auto mb-3 p-3 bg-muted/50 rounded-lg italic font-semibold text-muted-foreground">

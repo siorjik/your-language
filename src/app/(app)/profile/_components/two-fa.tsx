@@ -64,6 +64,7 @@ export default function TwoFa({ twoFaData }: { twoFaData: { data: string; secret
 
   return (
     <>
+      <h3 className="sub-title-3">Manage your Two-Factor authentication:</h3>
       {twoFaData ? (
         <div>
           <Image className="mb-10 rounded-md" width={150} height={150} src={twoFaData?.data} alt="qr-code" />

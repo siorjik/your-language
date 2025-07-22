@@ -17,7 +17,7 @@ export default function SetItem({ set, idx }: { set: SelectedSet; idx: number })
   return (
     <motion.div
       className="
-        px-5 py-3 mt-3 flex gap-5 items-center justify-between overflow-hidden w-full bg-primary/5 shadow-md
+        px-5 pt-3 pb-2 mt-3 flex gap-5 items-center justify-between overflow-hidden w-full bg-primary/5 shadow-md
         border-b-4 border-b-transparent rounded-b-md hover:border-b-primary/70 transition-colors duration-500
       "
       initial={{ x: idx % 2 === 0 ? +200 : -200, y: 200, opacity: 0.5 }}
