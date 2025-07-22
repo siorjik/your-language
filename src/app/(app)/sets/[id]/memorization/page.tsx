@@ -6,7 +6,7 @@ import BreadcrumbWrap from '@/components/breadcrumb-wrap'
 import { getSetById } from '@/actions/set'
 import { Err } from '@/types/errTypes'
 import { Set } from '@prisma/client'
-import { getSetAppPath, setsAppPath } from '@/utils/paths'
+import { getSetAppPath, libraryAppPath, setsAppPath } from '@/utils/paths'
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -27,7 +27,8 @@ export default async function TestPage({ params }: { params: Promise<{ id: strin
 
   const breadcrumbData = {
     links: [
-      { href: setsAppPath, label: 'sets' },
+      { href: libraryAppPath, label: 'Library' },
+      { href: setsAppPath, label: 'Sets' },
       { href: getSetAppPath(set.id), label: `${set.title}` },
     ],
     current: 'memorization',

@@ -28,8 +28,8 @@ export default function Navbar() {
     return (
       <Link
         className={`
-          px-3 border-b-[3px] border-transparent relative top-[10px] pb-[13px] ${css}
-          font-montserrat font-medium text-md ${pathname !== path ? 'border-animated after:bottom-[-3px] after:left-0' : ''}
+          px-3 border-b-[3px] border-transparent relative top-[8px] pb-[10px] ${css}
+          font-balsamiqSans text-lg ${pathname !== path ? 'border-animated after:bottom-[-3px] after:left-0' : ''}
         `}
         href={path}
       >

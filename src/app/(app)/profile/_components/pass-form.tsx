@@ -36,6 +36,7 @@ export default function EditAccountForm() {
 
   return (
     <div className="w-full max-w-[350px]">
+      <h3 className="sub-title-3">Update password:</h3>
       <Form
         submit={submit}
         schema={changePassFormTypeSchema}

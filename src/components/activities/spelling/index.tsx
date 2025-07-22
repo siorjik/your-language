@@ -163,7 +163,7 @@ export default function Memorization({ data }: { data: Set }) {
     <>
       {!isFinish && (
         <>
-          <h2 className="title w-full mb-5 !truncate font-semibold text-center leading-tight">{data.title}</h2>
+          <h2 className="title w-full mb-5 !truncate font-semibold text-center">{data.title}</h2>
           <div className="max-w-4xl mx-auto">
             <p className="mb-5 text-lg font-semibold">{setList[index][selectedMode]}:</p>
             <div>

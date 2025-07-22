@@ -2,6 +2,7 @@ import Link from 'next/link'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardContent, CardDescription, CardFooter } from '@/components/ui/card'
+import { GlowEffect } from '@/components/ui/glow-effect'
 
 import { newSetAppPath, setsAppPath } from '@/utils/paths'
 
@@ -53,9 +54,12 @@ export default function Library() {
               </p>
             </CardContent>
             <CardFooter>
-              <Button variant="outline" className="mx-auto pushed-btn bg-transparent text-primary" asChild>
-                <Link href={newSetAppPath}>Create a new one</Link>
-              </Button>
+              <div className="mx-auto relative">
+                <GlowEffect className="rounded-md" mode="flowHorizontal" blur="soft" duration={5} scale={1} />
+                <Button asChild className="relative m-[2px]">
+                  <Link href={newSetAppPath}>Create a new one</Link>
+                </Button>
+              </div>
             </CardFooter>
           </Card>
         </div>

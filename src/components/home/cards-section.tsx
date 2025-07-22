@@ -43,8 +43,8 @@ export default function CardSection({ sets }: { sets: Set[] }) {
               hover:bg-secondary/30 hover:translate-y-[-10px] hover:scale-[1.03] duration-300
             "
           >
-            <CardHeader className="pt-3">
-              <CardTitle className="w-[250px] truncate text-primary leading-tight">{set.title}</CardTitle>
+            <CardHeader className="pt-2">
+              <CardTitle className="w-[250px] truncate text-primary leading-normal">{set.title}</CardTitle>
               <CardDescription className="text-primary/70">
                 {LANGUAGE_OPTIONS.find((lg) => lg.value === set.source)?.label + ' / '}
                 {LANGUAGE_OPTIONS.find((lg) => lg.value === set.target)?.label}

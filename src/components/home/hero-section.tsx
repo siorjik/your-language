@@ -20,6 +20,7 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
   const { theme } = useTheme()
 
   const isDark = theme?.includes('-dark')
+  const isDefault = theme?.includes('default')
 
   const ref = useRef<HTMLDivElement>(null)
 
@@ -41,10 +42,13 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
       ref={ref}
     >
       <div
-        className="h-full bg-[url('/board.webp')] brightness-75 bg-cover bg-center bg-fixed absolute z-0"
+        className={`h-full bg-[url('/board.webp')] ${isDark ? 'brightness-50' : ''} bg-cover bg-center bg-fixed absolute z-0`}
         style={{ width: `${viewSize}px` }}
       />
-      <div className="h-full backdrop-brightness-50 bg-primary/50 absolute" style={{ width: `${viewSize}px` }} />
+      <div
+        className={`h-full backdrop-brightness-50 ${isDefault ? 'bg-primary/30' : 'bg-primary/50'} absolute`}
+        style={{ width: `${viewSize}px` }}
+      />
       <div className="xl:w-1/2 text-muted-foreground text-center z-20 relative">
         <motion.div className="relative z-20" style={{ y, scale }}>
           <h3 className="sub-title-1 mb-5 text-background/70">Welcome to Your Language Companion!</h3>

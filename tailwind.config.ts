@@ -34,9 +34,8 @@ export default {
 			},
 			borderRadius: { lg: 'var(--radius)', md: 'calc(var(--radius) - 2px)', sm: 'calc(var(--radius) - 4px)' },
 			fontFamily: {
-				montserrat: ['var(--font-montserrat)'],
-				poppins: ['var(--font-poppins)'],
-				ubuntu: ['var(--font-ubuntu)']
+				playpenSans: ['var(--font-playpen-sans)'],
+				balsamiqSans: ['var(--font-balsamiq-sans)']
 			}
 		},
 	},

@@ -27,18 +27,20 @@ export default function ColorThemes() {
       setShow(false)
 
       setTheme(THEMES.find((theme) => theme.value === val)?.value as string)
-    }, 2000)
+    }, 1000)
   }
 
   return (
     <div className="w-fit">
+      <h3 className="sub-title-3">Choose your color theme:</h3>
       {theme && (
-        <div className="mb-3">
-          Current theme is:{' '}
-          <span className="text-primary font-semibold">{THEMES.find((item) => item.value === theme)?.label as string}</span>
-        </div>
+        <SelectWrap
+          options={themeOptions}
+          defaultValue={theme?.includes('-dark') ? theme.replaceAll('-dark', '') : theme}
+          placeholder="Choose color"
+          onValueChange={onSelectTheme}
+        />
       )}
-      <SelectWrap options={themeOptions} defaultValue="" placeholder="Choose theme" onValueChange={onSelectTheme} />
       {isShow && <Spinner />}
     </div>
   )

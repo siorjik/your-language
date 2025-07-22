@@ -97,6 +97,7 @@ export default function ChangeImageForm() {
   return (
     <>
       <div className="flex flex-col justify-center items-center">
+        <h3 className="sub-title-3">Update image:</h3>
         <div>
           <input className="absolute h-[200px] w-[200px] opacity-0 cursor-pointer rounded-full" type="file" onChange={onChange} />
           {image.url ? (

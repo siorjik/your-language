@@ -1,38 +1,24 @@
 'use client'
 
-import { ReactElement } from 'react'
+import { ReactElement, ReactNode } from 'react'
 
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 
-import { LANGUAGE_OPTIONS } from '@/utils/constants'
-import { Langs } from '@/types/speech'
-
 type DropdownMenu = {
-  soundMode: { term: boolean; definition: boolean }
-  setSoundMode: (soundMode: { term: boolean; definition: boolean }) => void
   isShowDropdownMenu: boolean
   setShowDropdownMenu: (isShow: boolean) => void
   trigger: ReactElement
-  dataSource: Langs
-  dataTarget: Langs
+  items: ReactNode[]
+  title: string
 }
 
-export default function DropdownMenuComp({
-  soundMode,
-  setSoundMode,
-  isShowDropdownMenu,
-  setShowDropdownMenu,
-  trigger,
-  dataSource,
-  dataTarget,
-}: DropdownMenu) {
+export default function DropdownMenuComp({ items, isShowDropdownMenu, setShowDropdownMenu, trigger, title }: DropdownMenu) {
   return (
     <>
       <DropdownMenu open={isShowDropdownMenu} onOpenChange={setShowDropdownMenu}>
@@ -48,20 +34,9 @@ export default function DropdownMenuComp({
           {trigger}
         </DropdownMenuTrigger>
         <DropdownMenuContent className="mt-2" onMouseLeave={() => setShowDropdownMenu(false)}>
-          <DropdownMenuLabel>Speech mode:</DropdownMenuLabel>
+          <DropdownMenuLabel>{title}</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuCheckboxItem
-            checked={soundMode.term}
-            onCheckedChange={() => setSoundMode({ ...soundMode, term: !soundMode.term })}
-          >
-            {`Term (${LANGUAGE_OPTIONS.find((item) => dataSource === item.value)?.label})`}
-          </DropdownMenuCheckboxItem>
-          <DropdownMenuCheckboxItem
-            checked={soundMode.definition}
-            onCheckedChange={() => setSoundMode({ ...soundMode, definition: !soundMode.definition })}
-          >
-            {`Definition (${LANGUAGE_OPTIONS.find((item) => dataTarget === item.value)?.label})`}
-          </DropdownMenuCheckboxItem>
+          {items}
         </DropdownMenuContent>
       </DropdownMenu>
     </>

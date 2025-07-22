@@ -7,7 +7,7 @@ import NavPanel from './_components/nav-panel'
 import { getSetById } from '@/actions/set'
 import { Err } from '@/types/errTypes'
 import { Set } from '@prisma/client'
-import { setsAppPath } from '@/utils/paths'
+import { libraryAppPath, setsAppPath } from '@/utils/paths'
 import { SetList } from '@/types/models/set'
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
@@ -27,7 +27,13 @@ export default async function SetData({ params }: { params: Promise<{ id: string
 
   if (set.error) notFound()
 
-  const breadcrumbData = { links: [{ href: setsAppPath, label: 'sets' }], current: set.title }
+  const breadcrumbData = {
+    links: [
+      { href: libraryAppPath, label: 'Library' },
+      { href: setsAppPath, label: 'Sets' },
+    ],
+    current: set.title,
+  }
 
   return (
     <>

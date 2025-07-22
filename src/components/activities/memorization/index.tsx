@@ -102,7 +102,7 @@ export default function Memorization({ data }: { data: Set }) {
     <>
       {!isFinish && (
         <div className="w-full mb-5 flex flex-col md:flex-row justify-evenly items-center">
-          <h2 className="title w-full md:w-fit !truncate md:mb-0 font-semibold text-center leading-tight">{data.title}</h2>
+          <h2 className="title w-full md:w-fit !truncate md:mb-0 font-semibold text-center">{data.title}</h2>
           <div className="w-fit">
             <SelectWrap
               options={[

@@ -23,6 +23,7 @@ import { Langs, Voices } from '@/types/speech'
 import useDisplayData from '@/hooks/useDisplayData'
 import { createActivity } from '@/actions/activity'
 import { ActivityTypesContext } from '@/contexts/activity-types-context'
+import { DropdownMenuCheckboxItem } from '@/components/ui/dropdown-menu'
 
 export default function Flashcards({ data }: { data: Set }) {
   const [mode, setMode] = useState<'term' | 'definition'>('term')
@@ -35,8 +36,11 @@ export default function Flashcards({ data }: { data: Set }) {
   const [isSelectOpen, setSelectOpen] = useState(false)
   const [voices, setVoices] = useState<Voices | null>(null)
   const [isShowDropdownMenu, setShowDropdownMenu] = useState(false)
+  const [isShowPlayDropdownMenu, setShowPlayDropdownMenu] = useState(false)
   const [soundMode, setSoundMode] = useState<{ term: boolean; definition: boolean }>({ term: false, definition: false })
   const [showTooltip, setShowTooltip] = useState(false)
+  const [isShuffled, setShuffled] = useState(false)
+  const [delay, setDelay] = useState(2000)
 
   const downPress = useKeyPress('ArrowDown')
   const upPress = useKeyPress('ArrowUp')
@@ -79,7 +83,7 @@ export default function Flashcards({ data }: { data: Set }) {
 
           setPlay(false)
         }
-      }, 2500)
+      }, delay)
     }
 
     return () => clearTimeout(timeout!)
@@ -142,10 +146,10 @@ export default function Flashcards({ data }: { data: Set }) {
     setMode(mode === 'term' ? 'definition' : 'term')
   }
 
-  const shuffle = () => {
-    const shuffledArr = getShuffledArr(setList)
+  const shuffle = (isShuffled: boolean) => {
+    setShuffled(isShuffled)
 
-    setSetList(shuffledArr as SetList)
+    setSetList((isShuffled ? getShuffledArr(setList) : data.list) as SetList)
     setIndex(0)
     setMode(selectedMode)
   }
@@ -169,6 +173,35 @@ export default function Flashcards({ data }: { data: Set }) {
     }
   }
 
+  const soundMenuItems = [
+    <DropdownMenuCheckboxItem
+      key="term"
+      checked={soundMode.term}
+      onCheckedChange={() => setSoundMode({ ...soundMode, term: !soundMode.term })}
+    >
+      {`Term (${LANGUAGE_OPTIONS.find((item) => data.source === item.value)?.label})`}
+    </DropdownMenuCheckboxItem>,
+    <DropdownMenuCheckboxItem
+      key="definition"
+      checked={soundMode.definition}
+      onCheckedChange={() => setSoundMode({ ...soundMode, definition: !soundMode.definition })}
+    >
+      {`Definition (${LANGUAGE_OPTIONS.find((item) => data.target === item.value)?.label})`}
+    </DropdownMenuCheckboxItem>,
+  ]
+
+  const playMenuItems = [
+    <DropdownMenuCheckboxItem key="1s" checked={delay === 1000} onCheckedChange={() => setDelay(1000)}>
+      1s
+    </DropdownMenuCheckboxItem>,
+    <DropdownMenuCheckboxItem key="2s" checked={delay === 2000} onCheckedChange={() => setDelay(2000)}>
+      2s
+    </DropdownMenuCheckboxItem>,
+    <DropdownMenuCheckboxItem key="3s" checked={delay === 3000} onCheckedChange={() => setDelay(3000)}>
+      3s
+    </DropdownMenuCheckboxItem>,
+  ]
+
   const tooltipMode = mode === 'definition' ? 'term' : 'definition'
 
   return (
@@ -176,7 +209,7 @@ export default function Flashcards({ data }: { data: Set }) {
       {index < setList.length ? (
         <>
           <div className="w-full mb-5 flex flex-col md:flex-row justify-evenly items-center">
-            <h2 className="title w-full md:w-fit !truncate md:mb-0 font-semibold text-center leading-tight">{data.title}</h2>
+            <h2 className="title w-full md:w-fit !truncate md:mb-0 font-semibold text-center">{data.title}</h2>
             <div className="w-fit">
               <SelectWrap
                 options={[
@@ -254,64 +287,82 @@ export default function Flashcards({ data }: { data: Set }) {
               </CardContent>
             </Card>
           </motion.div>
-          <div className="w-fit mx-auto mt-2 flex items-center gap-4 relative">
-            <span className="absolute left-[-90px] icon-hover" onClick={shuffle}>
-              <Shuffle size={20} />
-            </span>
-            <span
-              className={`
-            absolute left-[-60px] md:left-[-145px] border-2 rounded-full p-[5px] border-transparent
-            icon-hover ${isPlay ? '!border-primary' : ''}
-          `}
-              onClick={() => setPlay(!isPlay)}
-            >
-              <Play size={22} />
-            </span>
-            <CircleArrowLeft
-              className={`${index > 0 ? 'text-primary' : 'text-secondary'}`}
-              strokeWidth={1}
-              size={40}
-              onClick={() => paginate(-1)}
-            />
-            <span className="text-primary">{index + 1 + ' / ' + setList.length}</span>
-            <CircleArrowRight className="text-primary" strokeWidth={1} size={40} onClick={() => paginate(1)} />
-            <span
-              className="absolute right-[-90px] icon-hover"
-              onClick={() => {
-                setIndex(0)
-                setMode(selectedMode)
-              }}
-            >
-              <RotateCcw size={20} />
-            </span>
-            <span
-              className={`
-            absolute right-[-60px] md:right-[-150px] border-2 rounded-full p-[5px] border-transparent
-            icon-hover ${isSound ? '!border-primary' : ''}
-          `}
-              onMouseLeave={() => setShowDropdownMenu(false)}
-              onClick={(e) => {
-                if (!isShowDropdownMenu) setShowDropdownMenu(true)
+          <div className="w-fit mx-auto mt-2 flex items-center gap-5 md:gap-10">
+            <div className="flex md:gap-5">
+              <span
+                className={`border-2 rounded-full p-[5px] border-transparent icon-hover ${isPlay ? '!border-primary' : ''}`}
+                onMouseLeave={() => setShowPlayDropdownMenu(false)}
+                onClick={(e) => {
+                  if (!isShowPlayDropdownMenu) setShowPlayDropdownMenu(true)
 
-                const el = e.target as HTMLSpanElement
+                  const el = e.target as HTMLSpanElement
 
-                if (el.tagName !== 'DIV') setSound(!isSound)
-              }}
-            >
-              {isMobile ? (
-                <Volume2 size={25} />
-              ) : (
-                <DropdownMenu
-                  trigger={<Volume2 size={25} />}
-                  setShowDropdownMenu={setShowDropdownMenu}
-                  setSoundMode={setSoundMode}
-                  soundMode={soundMode}
-                  isShowDropdownMenu={isShowDropdownMenu}
-                  dataSource={data.source as Langs}
-                  dataTarget={data.target as Langs}
-                />
-              )}
-            </span>
+                  if (el.tagName !== 'DIV') setPlay(!isPlay)
+                }}
+              >
+                {isMobile ? (
+                  <Play size={22} />
+                ) : (
+                  <DropdownMenu
+                    title="Choose delay:"
+                    items={playMenuItems}
+                    trigger={<Play size={22} />}
+                    setShowDropdownMenu={setShowPlayDropdownMenu}
+                    isShowDropdownMenu={isShowPlayDropdownMenu}
+                  />
+                )}
+              </span>
+              <span
+                className={`p-[5px] icon-hover border-2 rounded-full border-transparent ${isShuffled ? '!border-primary' : ''}`}
+                onClick={() => shuffle(!isShuffled)}
+              >
+                <Shuffle size={20} />
+              </span>
+            </div>
+            <div className="flex gap-1 md:gap-5 items-center">
+              <CircleArrowLeft
+                className={`${index > 0 ? 'text-primary' : 'text-secondary'}`}
+                strokeWidth={1}
+                size={40}
+                onClick={() => paginate(-1)}
+              />
+              <span className="text-primary">{index + 1 + ' / ' + setList.length}</span>
+              <CircleArrowRight className="text-primary" strokeWidth={1} size={40} onClick={() => paginate(1)} />
+            </div>
+            <div className="flex md:gap-5">
+              <span
+                className="icon-hover"
+                onClick={() => {
+                  setIndex(0)
+                  setMode(selectedMode)
+                }}
+              >
+                <RotateCcw size={20} />
+              </span>
+              <span
+                className={`border-2 rounded-full p-[5px] border-transparent icon-hover ${isSound ? '!border-primary' : ''}`}
+                onMouseLeave={() => setShowDropdownMenu(false)}
+                onClick={(e) => {
+                  if (!isShowDropdownMenu) setShowDropdownMenu(true)
+
+                  const el = e.target as HTMLSpanElement
+
+                  if (el.tagName !== 'DIV') setSound(!isSound)
+                }}
+              >
+                {isMobile ? (
+                  <Volume2 size={25} />
+                ) : (
+                  <DropdownMenu
+                    title="Choose speech mode:"
+                    items={soundMenuItems}
+                    trigger={<Volume2 size={25} />}
+                    setShowDropdownMenu={setShowDropdownMenu}
+                    isShowDropdownMenu={isShowDropdownMenu}
+                  />
+                )}
+              </span>
+            </div>
           </div>
           <Progress className="max-w-4xl h-1 mx-auto mt-2" value={(100 / setList.length) * (index + 1)} />
         </>

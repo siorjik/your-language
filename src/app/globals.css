@@ -365,7 +365,7 @@ body {
   }
 
   body {
-    @apply bg-background text-foreground !font-ubuntu;
+    @apply bg-background text-foreground !font-playpenSans;
   }
 
   div,
@@ -385,15 +385,15 @@ body {
   }
 
   .title {
-    @apply mb-5 text-3xl font-medium leading-none text-primary;
+    @apply mb-5 text-3xl font-medium leading-normal text-primary;
   }
 
   .sub-title-1 {
-    @apply mb-5 text-2xl leading-none font-poppins text-primary/80;
+    @apply mb-5 text-2xl leading-none font-balsamiqSans text-primary/80;
   }
 
   .sub-title-3 {
-    @apply mb-5 text-lg leading-none font-poppins font-semibold text-primary/80;
+    @apply mb-5 text-lg leading-none font-balsamiqSans font-semibold text-primary/80;
   }
 
   .link {
