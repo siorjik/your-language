@@ -10,7 +10,7 @@ import { prisma } from '@/lib/prisma'
 import { setsAppPath } from '@/utils/paths'
 import { Set } from '@prisma/client'
 import { Err } from '@/types/errTypes'
-import { SelectedSet } from '@/types/models/set'
+import { SelectedSet, SetList } from '@/types/models/set'
 
 export const createSet = async (data: z.infer<typeof setFormTypeSchema>): Promise<(Set & { error: null }) | Err> => {
   try {
@@ -53,12 +53,12 @@ export const getSetList = async (
     return {
       sets: await prisma.set.findMany({
         where: { userId: session.id },
-        include: { user: { select: { name: true, image: true } } },
+        include: { user: { select: { name: true, image: true } }, owner: { select: { name: true, image: true } } },
       }),
       filtered: filter
         ? await prisma.set.findMany({
             where: { userId: session.id, title: { contains: filter?.title, mode: 'insensitive' } },
-            include: { user: { select: { name: true, image: true } } },
+            include: { user: { select: { name: true, image: true } }, owner: { select: { name: true, image: true } } },
           })
         : [],
       error: null,
@@ -68,11 +68,21 @@ export const getSetList = async (
   }
 }
 
-export const getSetById = async (id: string): Promise<(Set & { error: null }) | Err> => {
+export const getSetById = async (id: string, owner?: string): Promise<(Set & { error: null }) | Err> => {
+  let set: Set | null
+
   try {
     const session = await getServerSessionToken()
 
-    const set = await prisma.set.findFirst({ where: { id, userId: session.id } })
+    if (owner && owner !== session.email) {
+      const sharedSet = await prisma.set.findFirst({ where: { id }, omit: { id: true } })
+
+      if (sharedSet) {
+        set = await prisma.set.create({
+          data: { ...sharedSet, list: sharedSet.list as SetList, userId: session.id, ownerId: sharedSet.userId },
+        })
+      } else throw Error('Set sharing error')
+    } else set = await prisma.set.findFirst({ where: { id, userId: session.id } })
 
     if (set) return { ...set, error: null }
     else throw Error('Set not found')

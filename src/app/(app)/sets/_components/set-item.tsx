@@ -1,6 +1,6 @@
 'use client'
 
-import { TrashIcon } from 'lucide-react'
+import { Share, TrashIcon } from 'lucide-react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 
@@ -10,14 +10,17 @@ import { LANGUAGE_OPTIONS } from '@/utils/constants'
 import { deleteSet } from '@/actions/set'
 import { SelectedSet } from '@/types/models/set'
 import useFileStorage from '@/hooks/useFileStorage'
+import ShareBtn from '@/components/share-btn'
 
 export default function SetItem({ set, idx }: { set: SelectedSet; idx: number }) {
   const { getAuthUrl } = useFileStorage()
 
+  const isOwnerExist = !!set.ownerId
+
   return (
     <motion.div
       className="
-        px-5 pt-3 pb-2 mt-3 flex gap-5 items-center justify-between overflow-hidden w-full bg-primary/5 shadow-md
+        px-5 pt-3 pb-2 mt-3 flex gap-5 items-center justify-between w-full bg-primary/5 shadow-md
         border-b-4 border-b-transparent rounded-b-md hover:border-b-primary/70 transition-colors duration-500
       "
       initial={{ x: idx % 2 === 0 ? +200 : -200, y: 200, opacity: 0.5 }}
@@ -34,7 +37,7 @@ export default function SetItem({ set, idx }: { set: SelectedSet; idx: number })
           {set.user.image && (
             <>
               <Image
-                src={getAuthUrl(set.user.image)}
+                src={getAuthUrl(isOwnerExist ? set.owner!.image! : set.user.image)}
                 alt="user"
                 width={10}
                 height={10}
@@ -43,17 +46,29 @@ export default function SetItem({ set, idx }: { set: SelectedSet; idx: number })
               />{' '}
             </>
           )}
-          <span className="text-primary font-semibold">{set.user.name}</span>
+          <span className="text-primary font-semibold">{isOwnerExist ? set.owner!.name : set.user.name}</span>
         </p>
         <p className="truncate text-xl text-primary font-balsamiqSans leading-none">{set.title}</p>
       </div>
-      <span className="bg-primary/15 icon-hover hover:text-destructive" onClick={(e) => e.preventDefault()}>
-        <AlertDialogWrap
-          trigger={<TrashIcon />}
-          action={async () => await deleteSet(set.id)}
-          description="You are going to delete the set..."
-        />
-      </span>
+      <div className="flex gap-2">
+        {!isOwnerExist && (
+          <ShareBtn
+            trigger={
+              <span className="bg-primary/15 icon-hover">
+                <Share />
+              </span>
+            }
+            id={set.id}
+          />
+        )}
+        <span className="bg-primary/15 icon-hover hover:text-destructive" onClick={(e) => e.preventDefault()}>
+          <AlertDialogWrap
+            trigger={<TrashIcon />}
+            action={async () => await deleteSet(set.id)}
+            description="You are going to delete the set..."
+          />
+        </span>
+      </div>
     </motion.div>
   )
 }

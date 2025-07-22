@@ -1,12 +1,13 @@
 'use client'
 
 import Link from 'next/link'
-import { GalleryHorizontal, Brain, PanelRightOpen, Pen, FileCog, Trash2 } from 'lucide-react'
+import { GalleryHorizontal, Brain, PanelRightOpen, Pen, FileCog, Trash2, Share } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
 import { Button } from '@/components/ui/button'
 import SheetWrap from '@/components/sheet-wrap'
 import AlertDialogWrap from '@/components/alert-dialog-wrap'
+import ShareBtn from '@/components/share-btn'
 
 import { getFlashcardsAppPath, getMemorizationAppPath, getSpellingAppPath, getUpdateSetAppPath, setsAppPath } from '@/utils/paths'
 import useDisplayData from '@/hooks/useDisplayData'
@@ -14,8 +15,8 @@ import { deleteSet } from '@/actions/set'
 import { Err } from '@/types/errTypes'
 import { useToast } from '@/hooks/use-toast'
 
-export default function NavPanel({ id }: { id: string }) {
-  const { isMobile } = useDisplayData()
+export default function NavPanel({ id, isOwnerExist }: { id: string; isOwnerExist: boolean }) {
+  const { isLgDisplay, isMobile } = useDisplayData()
 
   const { push } = useRouter()
   const { toast } = useToast()
@@ -32,15 +33,15 @@ export default function NavPanel({ id }: { id: string }) {
 
   const navigation = (
     <div>
-      <Link className="py-3 flex gap-2 border-b-2 border-accent" href={getFlashcardsAppPath(id)}>
+      <Link className="py-3 flex items-center gap-2 border-b-2 border-accent" href={getFlashcardsAppPath(id)}>
         <GalleryHorizontal size={15} />
         Flashcards
       </Link>
-      <Link className="py-3 flex gap-2 border-b-2 border-accent" href={getMemorizationAppPath(id)}>
+      <Link className="py-3 flex items-center gap-2 border-b-2 border-accent" href={getMemorizationAppPath(id)}>
         <Brain size={15} />
         Memorization
       </Link>
-      <Link className="py-3 flex gap-2" href={getSpellingAppPath(id)}>
+      <Link className="py-3 flex items-center gap-2" href={getSpellingAppPath(id)}>
         <Pen size={15} />
         Spelling
       </Link>
@@ -50,18 +51,31 @@ export default function NavPanel({ id }: { id: string }) {
   return (
     <div className="flex justify-between">
       <div className="flex gap-2">
-        <Button asChild>
-          <Link href={getUpdateSetAppPath(id)}>
-            <FileCog />
-            Update
-          </Link>
-        </Button>
+        {!isOwnerExist && (
+          <Button asChild>
+            <Link href={getUpdateSetAppPath(id)}>
+              <FileCog />
+              {!isMobile && 'Update'}
+            </Link>
+          </Button>
+        )}
+        {!isOwnerExist && (
+          <ShareBtn
+            trigger={
+              <Button>
+                <Share />
+                {!isMobile && 'Share'}
+              </Button>
+            }
+            id={id}
+          />
+        )}
         <AlertDialogWrap
           trigger={
             <Button variant="destructive" asChild>
               <span>
                 <Trash2 />
-                Remove
+                {!isMobile && 'Remove'}
               </span>
             </Button>
           }
@@ -69,7 +83,7 @@ export default function NavPanel({ id }: { id: string }) {
           description="You are going to delete the set..."
         />
       </div>
-      {!isMobile ? (
+      {isLgDisplay ? (
         <div className="flex gap-2">
           <Button variant="outline" className="pushed-btn" asChild>
             <Link href={getFlashcardsAppPath(id)}>

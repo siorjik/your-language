@@ -11,6 +11,7 @@ import getTransformedDate from '@/helpers/getTransformedDate'
 import { LANGUAGE_OPTIONS } from '@/utils/constants'
 import { getSetAppPath, newSetAppPath } from '@/utils/paths'
 import { Set } from '@prisma/client'
+import ShareBtn from '../share-btn'
 
 export default function CardSection({ sets }: { sets: Set[] }) {
   const [isShowNav, setShowNav] = useState(false)
@@ -53,8 +54,9 @@ export default function CardSection({ sets }: { sets: Set[] }) {
             <CardContent>
               <p className="text-primary/80 font-semibold">{date}</p>
             </CardContent>
-            <CardFooter>
-              <span className="mx-auto link">Go To Set {'>>>'}</span>
+            <CardFooter className="flex justify-evenly">
+              {!set.ownerId && <ShareBtn trigger={<span className="mx-auto link">Share</span>} id={set.id} />}
+              <span className="link">Go To Set {'>>>'}</span>
             </CardFooter>
           </Card>
         </Link>
