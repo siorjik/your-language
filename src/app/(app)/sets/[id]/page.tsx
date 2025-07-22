@@ -1,4 +1,4 @@
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 
 import SetForm from '@/components/forms/set-form'
 import BreadcrumbWrap from '@/components/breadcrumb-wrap'
@@ -7,23 +7,42 @@ import NavPanel from './_components/nav-panel'
 import { getSetById } from '@/actions/set'
 import { Err } from '@/types/errTypes'
 import { Set } from '@prisma/client'
-import { libraryAppPath, setsAppPath } from '@/utils/paths'
+import { getSetAppPath, libraryAppPath, setsAppPath } from '@/utils/paths'
 import { SetList } from '@/types/models/set'
 
-export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+export async function generateMetadata({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ id: string }>
+  searchParams: Promise<{ owner?: string }>
+}) {
   const { id } = await params
+  const { owner } = await searchParams
 
-  const set: (Set & { error: null }) | Err = await getSetById(id)
+  if (!owner) {
+    const set: (Set & { error: null }) | Err = await getSetById(id)
 
-  if (set.error) notFound()
+    if (set.error) notFound()
 
-  return { title: `Set: ${set.title}`, description: `${set.title} page` }
+    return { title: `Set: ${set.title}`, description: `${set.title} page` }
+  }
+  return null
 }
 
-export default async function SetData({ params }: { params: Promise<{ id: string }> }) {
+export default async function SetData({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ id: string }>
+  searchParams: Promise<{ owner?: string }>
+}) {
   const { id } = await params
+  const { owner } = await searchParams
 
-  const set: (Set & { error: null }) | Err = await getSetById(id)
+  const set: (Set & { error: null }) | Err = await getSetById(id, owner)
+
+  if (set && owner && !set.error) redirect(getSetAppPath(set.id))
 
   if (set.error) notFound()
 
@@ -39,7 +58,7 @@ export default async function SetData({ params }: { params: Promise<{ id: string
     <>
       <BreadcrumbWrap data={breadcrumbData} />
       <div className="mb-8">
-        <NavPanel id={id} />
+        <NavPanel id={id} isOwnerExist={!!set.ownerId} />
       </div>
       <SetForm data={{ ...set, list: set.list as SetList }} />
     </>
