@@ -26,23 +26,21 @@ export default function ShareBtn({ trigger, id }: { trigger: ReactElement; id: s
   return (
     <>
       <TooltipProvider>
-        <Tooltip
-          open={showTooltip}
-          onOpenChange={() => {
-            if (isMobile) {
-              setShowTooltip(true)
-
-              setTimeout(() => setShowTooltip(false), 1000)
-            } else setShowTooltip(!showTooltip)
-          }}
-          delayDuration={0.5}
-        >
+        <Tooltip open={showTooltip} onOpenChange={setShowTooltip} delayDuration={0.5}>
           <TooltipTrigger asChild>
-            <div onTouchStart={() => setShowTooltip(true)} onClick={(e) => handleClick(e)}>
+            <div
+              onTouchStart={(e) => {
+                if (!isMobile) e.preventDefault()
+
+                setShowTooltip(true)
+                setTimeout(() => setShowTooltip(false), 1000)
+              }}
+              onClick={(e) => handleClick(e)}
+            >
               {trigger}
             </div>
           </TooltipTrigger>
-          <TooltipContent>Will be copied in clipboard</TooltipContent>
+          <TooltipContent>{isMobile ? 'Copied in clipboard' : 'Copy to clipboard'}</TooltipContent>
         </Tooltip>
       </TooltipProvider>
     </>

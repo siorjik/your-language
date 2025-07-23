@@ -46,7 +46,7 @@ export default function SetItem({ set, idx }: { set: SelectedSet; idx: number })
               />{' '}
             </>
           )}
-          <span className="text-primary font-semibold">{isOwnerExist ? set.owner!.name : set.user.name}</span>
+          <span className="text-primary font-balsamiqSans">{isOwnerExist ? set.owner!.name : set.user.name}</span>
         </p>
         <p className="truncate text-xl text-primary font-balsamiqSans leading-none">{set.title}</p>
       </div>
@@ -55,7 +55,7 @@ export default function SetItem({ set, idx }: { set: SelectedSet; idx: number })
           <ShareBtn
             trigger={
               <span className="bg-primary/15 icon-hover">
-                <Share />
+                <Share size={20} />
               </span>
             }
             id={set.id}
@@ -63,7 +63,7 @@ export default function SetItem({ set, idx }: { set: SelectedSet; idx: number })
         )}
         <span className="bg-primary/15 icon-hover hover:text-destructive" onClick={(e) => e.preventDefault()}>
           <AlertDialogWrap
-            trigger={<TrashIcon />}
+            trigger={<TrashIcon size={20} />}
             action={async () => await deleteSet(set.id)}
             description="You are going to delete the set..."
           />
