@@ -1,20 +1,26 @@
 'use client'
 
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
+import { Menu } from 'lucide-react'
 
 import UserMenu from './user-menu'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 
 import logo from '@/../public/logo.png'
 
 import { libraryAppPath, activitiesAppPath } from '@/utils/paths'
+import useDisplayData from '@/hooks/useDisplayData'
 
 export default function Navbar() {
+  const [showMenu, setShowMenu] = useState(false)
+
   const pathname = usePathname()
   const { data: session } = useSession()
+  const { isMobile } = useDisplayData()
 
   const isAuth = !!session
 
@@ -22,19 +28,27 @@ export default function Navbar() {
     let css: string = ''
 
     if (pathname === path || (pathname.startsWith(path) && path !== '/')) {
-      css = '!border-primary'
+      css = !isMobile ? '!border-primary' : '!text-primary'
     }
 
     return (
-      <Link
-        className={`
-          px-3 border-b-[3px] border-transparent relative top-[8px] pb-[10px] ${css}
-          font-balsamiqSans text-lg ${pathname !== path ? 'border-animated after:bottom-[-3px] after:left-0' : ''}
-        `}
-        href={path}
-      >
-        {title}
-      </Link>
+      <>
+        {!isMobile ? (
+          <Link
+            className={`
+              px-3 border-b-[3px] border-transparent relative top-[8px] pb-[10px] ${css}
+              font-balsamiqSans text-lg ${pathname !== path ? 'border-animated after:bottom-[-3px] after:left-0' : ''}
+            `}
+            href={path}
+          >
+            {title}
+          </Link>
+        ) : (
+          <Link href={path} className={`w-full font-balsamiqSans text-primary/50 text-lg ${css}`}>
+            {title}
+          </Link>
+        )}
+      </>
     )
   }
 
@@ -45,16 +59,37 @@ export default function Navbar() {
   ]
 
   return (
-    <nav className="flex justify-between">
-      <div className="flex gap-2 items-center">
-        <Link href="/">
-          <Image className="h-[43px] w-[43px] mr-10" src={logo} alt="logo" placeholder="blur" priority />
-        </Link>
-        {isAuth ? navData.map((item, idx) => <Fragment key={idx}>{getMenuItem(item)}</Fragment>) : getMenuItem(navData[0])}
-      </div>
-      <div className="flex items-center">
-        <UserMenu />
-      </div>
-    </nav>
+    <>
+      <nav className="flex justify-between">
+        <div className="flex gap-2 items-center">
+          <Link href="/">
+            <Image className="h-[43px] w-[43px] mr-10" src={logo} alt="logo" placeholder="blur" priority />
+          </Link>
+          {!isMobile && (
+            <>
+              {isAuth ? navData.map((item, idx) => <Fragment key={idx}>{getMenuItem(item)}</Fragment>) : getMenuItem(navData[0])}
+            </>
+          )}
+        </div>
+        {isMobile && (
+          <>
+            <DropdownMenu open={showMenu} onOpenChange={setShowMenu}>
+              <DropdownMenuTrigger>
+                <Menu onClick={() => setShowMenu(!showMenu)} />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="text-center">
+                {isAuth
+                  ? navData.map((item, idx) => <DropdownMenuItem key={idx}>{getMenuItem(item)}</DropdownMenuItem>)
+                  : getMenuItem(navData[0])}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </>
+        )}
+        <div className="flex items-center">
+          <UserMenu />
+        </div>
+      </nav>
+      {showMenu && <div className="fixed w-full h-full ml-[-20px] bg-primary/50"></div>}
+    </>
   )
 }
