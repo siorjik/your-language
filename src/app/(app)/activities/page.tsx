@@ -13,5 +13,10 @@ export default async function ActivitiesPage() {
 
   if (res.error) notFound()
 
-  return <Activities sets={res.sets} />
+  return (
+    <>
+      <h2 className="mx-auto w-fit title">Training with Sets</h2>
+      <Activities sets={res.sets} />
+    </>
+  )
 }

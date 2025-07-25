@@ -16,7 +16,7 @@ export default function Activities({ sets }: { sets: Set[] }) {
     <>
       {!!sets.length ? (
         <>
-          <div className="mb-10 flex justify-center items-center gap-3">
+          <div className="mb-10 flex items-center gap-3">
             <span className="sub-title-3 mb-0">Choose Set:</span>
             <div className="w-[200px]">
               <Combobox

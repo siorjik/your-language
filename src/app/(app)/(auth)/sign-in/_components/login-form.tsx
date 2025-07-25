@@ -68,6 +68,8 @@ export default function LoginForm() {
   }
 
   const recoverPass = async (values: z.infer<typeof recoverPassFormTypeSchema>): Promise<boolean> => {
+    if (isClosed) setClose(false)
+
     try {
       await apiRequestService({ url: emailRecoverPassApiPath, method: 'POST', body: { ...values } })
 

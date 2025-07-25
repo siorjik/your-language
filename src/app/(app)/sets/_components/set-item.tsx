@@ -25,11 +25,11 @@ export default function SetItem({ set, idx }: { set: SelectedSet; idx: number })
       "
       initial={{ x: idx % 2 === 0 ? +200 : -200, y: 200, opacity: 0.5 }}
       animate={{ x: 0, y: 0, opacity: 1 }}
-      transition={{ duration: 0.5, type: 'spring', stiffness: 100 }}
+      transition={{ duration: 0.5, type: 'spring', stiffness: 80 }}
       whileHover={{ scale: 1.01 }}
     >
       <div className="overflow-hidden">
-        <p className="mb-2 text-sm text-primary/60 truncate">
+        <p className="mb-1 text-sm text-primary/60 truncate">
           {(set.list as [])?.length} items <span className="font-semibold text-primary">|</span>{' '}
           {LANGUAGE_OPTIONS.find((item) => item.value === set.source)?.label + ' / '}
           {LANGUAGE_OPTIONS.find((item) => item.value === set.target)?.label}{' '}
@@ -46,7 +46,7 @@ export default function SetItem({ set, idx }: { set: SelectedSet; idx: number })
               />{' '}
             </>
           )}
-          <span className="text-primary font-balsamiqSans">{isOwnerExist ? set.owner!.name : set.user.name}</span>
+          <span className="text-primary font-balsamiqSans text-base">{isOwnerExist ? set.owner!.name : set.user.name}</span>
         </p>
         <p className="truncate text-xl text-primary font-balsamiqSans leading-none">{set.title}</p>
       </div>
@@ -59,6 +59,7 @@ export default function SetItem({ set, idx }: { set: SelectedSet; idx: number })
               </span>
             }
             id={set.id}
+            isDouble
           />
         )}
         <span className="bg-primary/15 icon-hover hover:text-destructive" onClick={(e) => e.preventDefault()}>

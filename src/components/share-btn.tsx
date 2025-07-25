@@ -6,19 +6,26 @@ import { getSession } from 'next-auth/react'
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/components/ui/tooltip'
 
 import { getSetAppPath } from '@/utils/paths'
-import useDisplayData from '@/hooks/useDisplayData'
 
-export default function ShareBtn({ trigger, id }: { trigger: ReactElement; id: string }) {
+export default function ShareBtn({ trigger, id, isDouble = false }: { trigger: ReactElement; id: string; isDouble?: boolean }) {
   const [showTooltip, setShowTooltip] = useState(false)
-
-  const { isMobile } = useDisplayData()
+  const [isClicked, setClicked] = useState(false)
 
   const handleClick = async (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault()
 
+    if (isDouble) setClicked(true)
+
+    setShowTooltip(true)
+
+    setTimeout(() => {
+      setShowTooltip(false)
+      if (isDouble) setClicked(false)
+    }, 3000)
+
     const session = await getSession()
 
-    const sharingStr = `${window.location.host}${getSetAppPath(id)}?owner=${session?.user.email}`
+    const sharingStr = `${window.location.host}${getSetAppPath(id)}?owner=${session?.user.id}`
 
     window.navigator.clipboard.writeText(sharingStr)
   }
@@ -26,21 +33,11 @@ export default function ShareBtn({ trigger, id }: { trigger: ReactElement; id: s
   return (
     <>
       <TooltipProvider>
-        <Tooltip open={showTooltip} onOpenChange={setShowTooltip} delayDuration={0.5}>
+        <Tooltip open={showTooltip} onOpenChange={setShowTooltip} delayDuration={!isDouble ? 10000 : 0.5}>
           <TooltipTrigger asChild>
-            <div
-              onTouchStart={(e) => {
-                if (!isMobile) e.preventDefault()
-
-                setShowTooltip(true)
-                setTimeout(() => setShowTooltip(false), 1000)
-              }}
-              onClick={(e) => handleClick(e)}
-            >
-              {trigger}
-            </div>
+            <div onClick={handleClick}>{trigger}</div>
           </TooltipTrigger>
-          <TooltipContent>{isMobile ? 'Copied in clipboard' : 'Copy to clipboard'}</TooltipContent>
+          <TooltipContent>{!isClicked && isDouble ? 'Share' : 'Copied to clipboard'}</TooltipContent>
         </Tooltip>
       </TooltipProvider>
     </>

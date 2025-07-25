@@ -36,7 +36,7 @@ export default function Navbar() {
         {!isMobile ? (
           <Link
             className={`
-              px-3 border-b-[3px] border-transparent relative top-[8px] pb-[10px] ${css}
+              px-3 border-b-[3px] border-transparent relative top-[8px] pb-[10px] text-primary ${css}
               font-balsamiqSans text-lg ${pathname !== path ? 'border-animated after:bottom-[-3px] after:left-0' : ''}
             `}
             href={path}
@@ -62,8 +62,9 @@ export default function Navbar() {
     <>
       <nav className="flex justify-between">
         <div className="flex gap-2 items-center">
-          <Link href="/">
-            <Image className="h-[43px] w-[43px] mr-10" src={logo} alt="logo" placeholder="blur" priority />
+          <Link className="relative" href="/">
+            <Image className="h-[43px] w-[43px] mr-10 z-0" src={logo} alt="logo" placeholder="blur" priority />
+            <div className="h-[43px] w-[43px] bg-primary/30 z-10 absolute top-0 rounded-sm" />
           </Link>
           {!isMobile && (
             <>
@@ -71,7 +72,7 @@ export default function Navbar() {
             </>
           )}
         </div>
-        {isMobile && (
+        {isMobile && isAuth && (
           <>
             <DropdownMenu open={showMenu} onOpenChange={setShowMenu}>
               <DropdownMenuTrigger>

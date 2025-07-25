@@ -193,7 +193,7 @@ export default function SetForm({ data = null, action = null }: SetFormProps) {
                   mt-3 p-3 flex flex-col md:flex-row items-center md:items-stretch gap-3 bg-secondary/20 shadow-md rounded-md
                 "
               >
-                {fields.length > 1 && <span className="md:mt-9 text-sm">{idx + 1}</span>}
+                {fields.length > 1 && <span className="md:mt-9 text-sm font-semibold text-primary">{idx + 1}</span>}
                 <FormField
                   control={form.control}
                   name={`list.${idx}.term`}
@@ -271,7 +271,7 @@ export default function SetForm({ data = null, action = null }: SetFormProps) {
                 {fields.length > 1 && action && (
                   <Button
                     type="button"
-                    className="md:mt-8 p-0 w-fit h-fit hover:bg-transparent hover:text-destructive"
+                    className="md:mt-8 p-0 w-fit h-fit hover:bg-transparent text-primary hover:text-destructive"
                     variant="ghost"
                     onClick={() => remove(idx)}
                   >
@@ -284,7 +284,7 @@ export default function SetForm({ data = null, action = null }: SetFormProps) {
           {!!form.getValues('source') && form.getValues('target') && action && (
             <Button
               type="button"
-              className="mt-3 mx-auto p-0 w-fit h-fit block hover:bg-transparent hover:text-success"
+              className="mt-3 mx-auto p-0 w-fit h-fit block hover:bg-transparent hover:text-success text-primary"
               variant="ghost"
               onClick={() => {
                 append({ term: '', definition: '' })

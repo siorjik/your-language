@@ -71,7 +71,7 @@ export default function GuestMode() {
       <HeroSection dialogContent={dialogContent} isClose={isClose} />
       <div className="min-h-[calc(100vh-50px)] pt-10 pb-5 flex justify-center items-center">
         <div className="flex flex-wrap gap-10 justify-center items-center">
-          <Card className="lg:min-h-[800px] flex flex-col justify-between bg-secondary/50 border-0 shadow-xl text-center">
+          <Card className="lg:min-h-[850px] flex flex-col justify-between bg-secondary/50 border-0 shadow-xl text-center">
             <div>
               <CardHeader>
                 <CardTitle className="font-balsamiqSans text-primary/50">Flashcards & Quizzes</CardTitle>
@@ -100,7 +100,7 @@ export default function GuestMode() {
             </CardFooter>
           </Card>
 
-          <Card className="lg:min-h-[800px] flex flex-col justify-between bg-secondary/50 border-0 shadow-xl text-center">
+          <Card className="lg:min-h-[850px] flex flex-col justify-between bg-secondary/50 border-0 shadow-xl text-center">
             <div>
               <CardHeader>
                 <CardTitle className="font-balsamiqSans text-primary/50">Your Activity Tracker</CardTitle>
@@ -128,7 +128,7 @@ export default function GuestMode() {
             </CardFooter>
           </Card>
 
-          <Card className="lg:min-h-[800px] flex flex-col justify-between bg-secondary/50 border-0 shadow-xl text-center">
+          <Card className="lg:min-h-[850px] flex flex-col justify-between bg-secondary/50 border-0 shadow-xl text-center">
             <div>
               <CardHeader>
                 <CardTitle className="font-balsamiqSans text-primary/50">Accessible Anywhere</CardTitle>
