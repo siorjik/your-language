@@ -2,11 +2,13 @@
 
 import { useEffect, useState } from 'react'
 
-export default function useKeyPress(targetKey: string) {
+export default function useKeyPress(targetKey: string, isPrevent?: boolean) {
   const [keyPressed, setKeyPressed] = useState(false)
 
   const downHandler = (e: KeyboardEvent) => {
     const { key } = e
+
+    if (isPrevent) e.preventDefault()
 
     if (key === targetKey) {
       setKeyPressed(true)

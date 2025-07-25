@@ -24,7 +24,7 @@ export default function ProfileTabs({ twoFaData }: { twoFaData: { data: string; 
     <>
       <Tabs value={activeTab!} onValueChange={setActiveTab}>
         <div className="overflow-auto">
-          <TabsList>
+          <TabsList className="mb-5">
             <TabsTrigger value="acc">Account</TabsTrigger>
             <TabsTrigger value="pass">Password</TabsTrigger>
             <TabsTrigger value="image">Image</TabsTrigger>
@@ -33,29 +33,19 @@ export default function ProfileTabs({ twoFaData }: { twoFaData: { data: string; 
           </TabsList>
         </div>
         <TabsContent value="acc">
-          <div className="mt-10">
-            <AccForm />
-          </div>
+          <AccForm />
         </TabsContent>
         <TabsContent value="pass">
-          <div className="mt-10">
-            <PassForm />
-          </div>
+          <PassForm />
         </TabsContent>
         <TabsContent value="image">
-          <div className="mt-10">
-            <ImageForm />
-          </div>
+          <ImageForm />
         </TabsContent>
         <TabsContent value="themes">
-          <div className="mt-10">
-            <Themes />
-          </div>
+          <Themes />
         </TabsContent>
         <TabsContent value="two-fa">
-          <div className="mt-10">
-            <TwoFa twoFaData={twoFaData} />
-          </div>
+          <TwoFa twoFaData={twoFaData} />
         </TabsContent>
       </Tabs>
     </>

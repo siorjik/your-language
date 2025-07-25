@@ -55,7 +55,7 @@ export default function CardSection({ sets }: { sets: Set[] }) {
               <p className="text-primary/80 font-semibold">{date}</p>
             </CardContent>
             <CardFooter className="flex justify-evenly">
-              {!set.ownerId && <ShareBtn trigger={<span className="mx-auto link">Share</span>} id={set.id} />}
+              <ShareBtn trigger={<span className="link inline-block">Share</span>} id={set.id} />
               <span className="link">Go To Set {'>>>'}</span>
             </CardFooter>
           </Card>
@@ -71,7 +71,7 @@ export default function CardSection({ sets }: { sets: Set[] }) {
       animate={{ rotateX: 0 }}
       transition={{ duration: 1, type: 'spring', stiffness: 500, delay: 0.5 }}
     >
-      <Link className="link text-xl" href={newSetAppPath}>
+      <Link href={newSetAppPath}>
         <Card
           className="
             w-[300px] h-[183px] flex justify-center items-center border-0 bg-secondary/10 shadow-lg

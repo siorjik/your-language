@@ -1,6 +1,6 @@
 'use client'
 
-import { ReactElement, ReactNode } from 'react'
+import { memo, ReactElement, ReactNode } from 'react'
 
 import {
   DropdownMenu,
@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 
-type DropdownMenu = {
+type DropdownMenuProps = {
   isShowDropdownMenu: boolean
   setShowDropdownMenu: (isShow: boolean) => void
   trigger: ReactElement
@@ -18,7 +18,13 @@ type DropdownMenu = {
   title: string
 }
 
-export default function DropdownMenuComp({ items, isShowDropdownMenu, setShowDropdownMenu, trigger, title }: DropdownMenu) {
+export default memo(function DropdownMenuComp({
+  items,
+  isShowDropdownMenu,
+  setShowDropdownMenu,
+  trigger,
+  title,
+}: DropdownMenuProps) {
   return (
     <>
       <DropdownMenu open={isShowDropdownMenu} onOpenChange={setShowDropdownMenu}>
@@ -41,4 +47,4 @@ export default function DropdownMenuComp({ items, isShowDropdownMenu, setShowDro
       </DropdownMenu>
     </>
   )
-}
+})

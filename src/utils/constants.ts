@@ -9,14 +9,14 @@ export const LANGUAGE_OPTIONS = [
 export const THEMES = [
   { label: 'Default', name: 'default', value: 'theme-default' },
   { label: 'Default Dark', name: 'defaultDark', value: 'theme-default-dark' },
-  { label: 'Blue', name: 'blue', value: 'theme-blue' },
-  { label: 'Blue Dark', name: 'blueDark', value: 'theme-blue-dark' },
-  { label: 'Red', name: 'red', value: 'theme-red' },
-  { label: 'Red Dark', name: 'redDark', value: 'theme-red-dark' },
-  { label: 'Green', name: 'green', value: 'theme-green' },
-  { label: 'Green Dark', name: 'greenDark', value: 'theme-green-dark' },
+  { label: 'Sky-Blue', name: 'blue', value: 'theme-blue' },
+  { label: 'Sky-Blue Dark', name: 'blueDark', value: 'theme-blue-dark' },
+  { label: 'Browny-Red', name: 'red', value: 'theme-red' },
+  { label: 'Browny-Red Dark', name: 'redDark', value: 'theme-red-dark' },
   { label: 'Purple', name: 'purple', value: 'theme-purple' },
   { label: 'Purple Dark', name: 'purpleDark', value: 'theme-purple-dark' },
+  { label: 'Green', name: 'green', value: 'theme-green' },
+  { label: 'Green Dark', name: 'greenDark', value: 'theme-green-dark' },
 ]
 
 export const MONTHS = [

@@ -9,15 +9,21 @@ import { newSetAppPath, setsAppPath } from '@/utils/paths'
 export default function Library() {
   return (
     <>
-      <div className="mx-auto w-fit sub-title-1 mb-10">Your powerful helpers:</div>
+      <h2 className="mx-auto w-fit title">Your powerful helpers</h2>
       <div className="flex justify-center">
         <div className="flex flex-col items-center">
           <Link className="w-full" href={setsAppPath}>
-            <Button variant="outline" className="w-full text-primary hover:border-primary hover:bg-initial bg-animated text-lg">
+            <Button
+              variant="outline"
+              className="
+                w-full text-primary hover:text-primary hover:bg-initial bg-animated text-lg
+                hover:border after:rounded-md hover:border-primary/20
+              "
+            >
               Go To Sets
             </Button>
           </Link>
-          <Card className="max-w-[500px] mt-5 flex flex-col justify-between bg-accent/30 border-0 shadow-xl">
+          <Card className="max-w-[500px] mt-3 flex flex-col justify-between bg-accent/30 border-0 shadow-xl">
             <CardHeader>
               <CardTitle className="text-primary text-center">🔥 Sets</CardTitle>
               <CardDescription className="text-center italic">

@@ -91,11 +91,14 @@ export default function SetList({ sets }: { sets: SelectedSet[] }) {
         )}
       </div>
       {!isLoader && !!sets.length ? (
-        sets.map((set, idx) => (
-          <Link key={set.id} href={getSetAppPath(set.id)}>
-            <SetItem set={set} idx={idx} />
-          </Link>
-        ))
+        <>
+          <h2 className="sub-title-1">Your Sets:</h2>
+          {sets.map((set, idx) => (
+            <Link key={set.id} href={getSetAppPath(set.id)}>
+              <SetItem set={set} idx={idx} />
+            </Link>
+          ))}
+        </>
       ) : isLoader ? null : (
         <p className="w-fit mx-auto text-lg font-semibold">There are no any sets 🤨</p>
       )}

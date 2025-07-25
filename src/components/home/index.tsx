@@ -29,10 +29,10 @@ export default function Main({ session, sets, chartData }: MainProps) {
         <>
           {!!sets.length ? (
             <>
-              <h3 className="title text-center">Your activity:</h3>
+              <h2 className="title text-center">Your activity</h2>
               <Chart data={chartData} config={chartConfig} />
               <Separator className="my-5 h-[2px]" />
-              <CardSection sets={sets} />
+              <CardSection sets={sets.filter((set) => !set.ownerId)} />
             </>
           ) : (
             <div className="h-[calc(100vh-160px)] flex flex-col justify-center items-center">

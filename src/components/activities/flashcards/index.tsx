@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, use } from 'react'
+import { useEffect, useState, use, useCallback, useMemo } from 'react'
 import { motion, Variants } from 'framer-motion'
 import { CircleArrowLeft, CircleArrowRight, Shuffle, Play, Volume2, RotateCcw, Lightbulb } from 'lucide-react'
 import Image from 'next/image'
@@ -42,8 +42,8 @@ export default function Flashcards({ data }: { data: Set }) {
   const [isShuffled, setShuffled] = useState(false)
   const [delay, setDelay] = useState(2000)
 
-  const downPress = useKeyPress('ArrowDown')
-  const upPress = useKeyPress('ArrowUp')
+  const downPress = useKeyPress('ArrowDown', true)
+  const upPress = useKeyPress('ArrowUp', true)
   const spacePress = useKeyPress(' ')
   const rightPress = useKeyPress('ArrowRight')
   const leftPress = useKeyPress('ArrowLeft')
@@ -121,14 +121,14 @@ export default function Flashcards({ data }: { data: Set }) {
 
       const xVariants = {
         hidden: {
-          x: newDirection > 0 ? 300 : -300,
+          x:
+            newDirection > 0 && !isMobile ? 300 : newDirection > 0 && isMobile ? 150 : newDirection < 0 && isMobile ? -150 : -300,
           y: -20,
           rotate: newDirection > 0 ? -10 : 10,
           rotateY: newDirection > 0 ? 90 : -90,
-          opacity: 0.5,
         },
-        visible: { x: 0, y: 0, rotate: 0, rotateY: 0, opacity: 1 },
-        exit: { x: newDirection > 0 ? -300 : 300, opacity: 0 },
+        visible: { x: 0, y: 0, rotate: 0, rotateY: 0 },
+        exit: { x: newDirection > 0 ? -300 : 300 },
       }
 
       setVariants(xVariants)
@@ -140,10 +140,10 @@ export default function Flashcards({ data }: { data: Set }) {
   const rotate = () => {
     cancelUtterance()
 
-    const yVariants = { hidden: { opacity: 0.5, rotateX: 90 }, visible: { rotateX: 0, opacity: 1 }, exit: { opacity: 0.5 } }
+    const yVariants = { hidden: { rotateX: 180 }, visible: { rotateX: 0 }, exit: { opacity: 0.5 } }
 
     setVariants(yVariants)
-    setMode(mode === 'term' ? 'definition' : 'term')
+    setTimeout(() => setMode(mode === 'term' ? 'definition' : 'term'))
   }
 
   const shuffle = (isShuffled: boolean) => {
@@ -173,34 +173,46 @@ export default function Flashcards({ data }: { data: Set }) {
     }
   }
 
-  const soundMenuItems = [
-    <DropdownMenuCheckboxItem
-      key="term"
-      checked={soundMode.term}
-      onCheckedChange={() => setSoundMode({ ...soundMode, term: !soundMode.term })}
-    >
-      {`Term (${LANGUAGE_OPTIONS.find((item) => data.source === item.value)?.label})`}
-    </DropdownMenuCheckboxItem>,
-    <DropdownMenuCheckboxItem
-      key="definition"
-      checked={soundMode.definition}
-      onCheckedChange={() => setSoundMode({ ...soundMode, definition: !soundMode.definition })}
-    >
-      {`Definition (${LANGUAGE_OPTIONS.find((item) => data.target === item.value)?.label})`}
-    </DropdownMenuCheckboxItem>,
-  ]
+  const soundMenuItems = useMemo(
+    () => [
+      <DropdownMenuCheckboxItem
+        key="term"
+        checked={soundMode.term}
+        onCheckedChange={() => setSoundMode({ ...soundMode, term: !soundMode.term })}
+      >
+        {`Term (${LANGUAGE_OPTIONS.find((item) => data.source === item.value)?.label})`}
+      </DropdownMenuCheckboxItem>,
+      <DropdownMenuCheckboxItem
+        key="definition"
+        checked={soundMode.definition}
+        onCheckedChange={() => setSoundMode({ ...soundMode, definition: !soundMode.definition })}
+      >
+        {`Definition (${LANGUAGE_OPTIONS.find((item) => data.target === item.value)?.label})`}
+      </DropdownMenuCheckboxItem>,
+    ],
+    [soundMode],
+  )
 
-  const playMenuItems = [
-    <DropdownMenuCheckboxItem key="1s" checked={delay === 1000} onCheckedChange={() => setDelay(1000)}>
-      1s
-    </DropdownMenuCheckboxItem>,
-    <DropdownMenuCheckboxItem key="2s" checked={delay === 2000} onCheckedChange={() => setDelay(2000)}>
-      2s
-    </DropdownMenuCheckboxItem>,
-    <DropdownMenuCheckboxItem key="3s" checked={delay === 3000} onCheckedChange={() => setDelay(3000)}>
-      3s
-    </DropdownMenuCheckboxItem>,
-  ]
+  const playMenuItems = useMemo(
+    () => [
+      <DropdownMenuCheckboxItem key="1s" checked={delay === 1000} onCheckedChange={() => setDelay(1000)}>
+        1s
+      </DropdownMenuCheckboxItem>,
+      <DropdownMenuCheckboxItem key="2s" checked={delay === 2000} onCheckedChange={() => setDelay(2000)}>
+        2s
+      </DropdownMenuCheckboxItem>,
+      <DropdownMenuCheckboxItem key="3s" checked={delay === 3000} onCheckedChange={() => setDelay(3000)}>
+        3s
+      </DropdownMenuCheckboxItem>,
+    ],
+    [delay],
+  )
+
+  const setShowDropdownMenuPlayCallback = useCallback(() => setShowPlayDropdownMenu((prev) => !prev), [])
+  const setShowDropdownMenuCallback = useCallback(() => setShowDropdownMenu((prev) => !prev), [])
+
+  const playTrigger = useMemo(() => <Play size={22} />, [])
+  const soundTrigger = useMemo(() => <Volume2 size={22} />, [])
 
   const tooltipMode = mode === 'definition' ? 'term' : 'definition'
 
@@ -209,7 +221,7 @@ export default function Flashcards({ data }: { data: Set }) {
       {index < setList.length ? (
         <>
           <div className="w-full mb-5 flex flex-col md:flex-row justify-evenly items-center">
-            <h2 className="title w-full md:w-fit !truncate md:mb-0 font-semibold text-center">{data.title}</h2>
+            <h2 className="title w-full md:w-fit !truncate md:mb-0 text-center">{data.title}</h2>
             <div className="w-fit">
               <SelectWrap
                 options={[
@@ -229,7 +241,7 @@ export default function Flashcards({ data }: { data: Set }) {
           </div>
           <motion.div
             key={index + ' / ' + mode}
-            className="max-w-4xl mx-auto p-1 cursor-pointer"
+            className="max-w-5xl mx-auto p-1 cursor-pointer"
             variants={variants!}
             initial="hidden"
             animate="visible"
@@ -251,22 +263,16 @@ export default function Flashcards({ data }: { data: Set }) {
                   </span>
                   {mode === selectedMode && (
                     <TooltipProvider>
-                      <Tooltip
-                        open={showTooltip}
-                        onOpenChange={() => {
-                          if (isMobile) {
-                            setShowTooltip(true)
-
-                            setTimeout(() => setShowTooltip(false), 1000)
-                          } else setShowTooltip(!showTooltip)
-                        }}
-                        delayDuration={0.5}
-                      >
+                      <Tooltip open={showTooltip} onOpenChange={setShowTooltip} delayDuration={10000}>
                         <TooltipTrigger asChild>
                           <span
                             className="icon-hover"
-                            onClick={(e) => e.stopPropagation()}
-                            onTouchStart={() => setShowTooltip(true)}
+                            onClick={(e) => {
+                              e.stopPropagation()
+
+                              setShowTooltip(true)
+                              setTimeout(() => setShowTooltip(false), 2000)
+                            }}
                           >
                             <Lightbulb size={16} />
                           </span>
@@ -282,8 +288,21 @@ export default function Flashcards({ data }: { data: Set }) {
                   )}
                 </CardDescription>
               </CardHeader>
-              <CardContent className="h-80 md:h-96 flex items-center justify-center p-6 overflow-auto text-center">
-                <span className="w-full text-3xl">{setList[index][mode]}</span>
+              <CardContent
+                className="
+                  h-80 md:h-[calc(100vh-450px)] md:min-h-[450px] md:max-h-[550px] flex items-center
+                  justify-center p-6 overflow-auto text-center
+                "
+              >
+                <motion.span
+                  key={mode}
+                  initial={{ opacity: !variants ? 1 : 0 }} // avoid flickering when first render
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.03 }}
+                  className="w-full text-primary/90 text-3xl md:text-4xl"
+                >
+                  {setList[index][mode]}
+                </motion.span>
               </CardContent>
             </Card>
           </motion.div>
@@ -306,8 +325,8 @@ export default function Flashcards({ data }: { data: Set }) {
                   <DropdownMenu
                     title="Choose delay:"
                     items={playMenuItems}
-                    trigger={<Play size={22} />}
-                    setShowDropdownMenu={setShowPlayDropdownMenu}
+                    trigger={playTrigger}
+                    setShowDropdownMenu={setShowDropdownMenuPlayCallback}
                     isShowDropdownMenu={isShowPlayDropdownMenu}
                   />
                 )}
@@ -356,15 +375,15 @@ export default function Flashcards({ data }: { data: Set }) {
                   <DropdownMenu
                     title="Choose speech mode:"
                     items={soundMenuItems}
-                    trigger={<Volume2 size={25} />}
-                    setShowDropdownMenu={setShowDropdownMenu}
+                    trigger={soundTrigger}
+                    setShowDropdownMenu={setShowDropdownMenuCallback}
                     isShowDropdownMenu={isShowDropdownMenu}
                   />
                 )}
               </span>
             </div>
           </div>
-          <Progress className="max-w-4xl h-1 mx-auto mt-2" value={(100 / setList.length) * (index + 1)} />
+          <Progress className="max-w-6xl h-1 mx-auto mt-2" value={(100 / setList.length) * (index + 1)} />
         </>
       ) : (
         <div className="w-fit mt-5 mx-auto text-xl font-semibold">

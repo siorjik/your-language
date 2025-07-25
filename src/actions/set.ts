@@ -68,19 +68,17 @@ export const getSetList = async (
   }
 }
 
-export const getSetById = async (id: string, owner?: string): Promise<(Set & { error: null }) | Err> => {
+export const getSetById = async (id: string, ownerId?: string): Promise<(Set & { error: null }) | Err> => {
   let set: Set | null
 
   try {
     const session = await getServerSessionToken()
 
-    if (owner && owner !== session.email) {
+    if (ownerId && ownerId !== session.id) {
       const sharedSet = await prisma.set.findFirst({ where: { id }, omit: { id: true } })
 
       if (sharedSet) {
-        set = await prisma.set.create({
-          data: { ...sharedSet, list: sharedSet.list as SetList, userId: session.id, ownerId: sharedSet.userId },
-        })
+        set = await prisma.set.create({ data: { ...sharedSet, list: sharedSet.list as SetList, userId: session.id, ownerId } })
       } else throw Error('Set sharing error')
     } else set = await prisma.set.findFirst({ where: { id, userId: session.id } })
 

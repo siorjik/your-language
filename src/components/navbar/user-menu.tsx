@@ -76,7 +76,11 @@ export default function UserMenu() {
         <DropdownMenuSeparator />
         <DropdownMenuRadioGroup value={theme?.replace('-dark', '')} onValueChange={(val) => changeTheme(val)}>
           {THEMES.filter((el) => !el.value.includes('-dark')).map((el, idx) => (
-            <DropdownMenuRadioItem value={el.value} key={idx}>
+            <DropdownMenuRadioItem
+              style={{ color: `${idx > 0 && 'hsl(var(--chart-' + idx + '))'}`, fontWeight: 'bold' }}
+              value={el.value}
+              key={idx}
+            >
               {el.label}
             </DropdownMenuRadioItem>
           ))}

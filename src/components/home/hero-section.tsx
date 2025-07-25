@@ -29,7 +29,7 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
   const y = useTransform(
     scrollYProgress,
     [0, 1],
-    ['0%', `${Number(ref.current?.clientHeight) / (isMobile ? 2.5 : isXlDisplay ? 1.75 : 2)}px`],
+    ['0%', `${Number(ref.current?.clientHeight) / (isMobile ? 3 : isXlDisplay ? 1.75 : 2)}px`],
   )
   const scale = useTransform(scrollYProgress, [0.1, 1], [1, 1.1])
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
