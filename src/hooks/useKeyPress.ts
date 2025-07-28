@@ -8,7 +8,7 @@ export default function useKeyPress(targetKey: string, isPrevent?: boolean) {
   const downHandler = (e: KeyboardEvent) => {
     const { key } = e
 
-    if (isPrevent) e.preventDefault()
+    if (isPrevent && key === targetKey) e.preventDefault()
 
     if (key === targetKey) {
       setKeyPressed(true)

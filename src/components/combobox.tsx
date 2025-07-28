@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Check, ChevronsUpDown } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
@@ -15,11 +15,24 @@ type ComboboxProps = {
   data: { value: string; label: string; id: string }[]
   getValue?: (val: string) => void
   value?: string
+  checkIsActive?: (isOpen: boolean) => void
 }
 
-export function Combobox({ placeholder, searchText, notFoundText, data, getValue, value: val = '' }: ComboboxProps) {
+export function Combobox({
+  placeholder,
+  searchText,
+  notFoundText,
+  data,
+  getValue,
+  value: val = '',
+  checkIsActive,
+}: ComboboxProps) {
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState(val)
+
+  useEffect(() => {
+    checkIsActive?.(open)
+  }, [open])
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

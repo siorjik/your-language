@@ -12,7 +12,7 @@ import Spelling from '@/components/activities/spelling'
 import { Set } from '@prisma/client'
 import { ActivityTypesProvider } from '@/contexts/activity-types-context'
 
-export default function TabsPage({ set }: { set: Set }) {
+export default function TabsPage({ set, isComboOpen }: { set: Set; isComboOpen: boolean }) {
   const [isLoader, setLoader] = useState(false)
 
   useEffect(() => {
@@ -46,7 +46,7 @@ export default function TabsPage({ set }: { set: Set }) {
           ) : (
             <>
               <TabsContent value="flashcards">
-                <Flashcards key={set.id} data={set} />
+                <Flashcards key={set.id} data={set} isComboOpen={isComboOpen} />
               </TabsContent>
               <TabsContent value="memorization">
                 <Memorization key={set.id} data={set} />
