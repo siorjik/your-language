@@ -11,6 +11,7 @@ import { libraryAppPath } from '@/utils/paths'
 
 export default function Activities({ sets }: { sets: Set[] }) {
   const [id, setId] = useState<string | null>(sets[0]?.id)
+  const [isComboOpen, setComboOpen] = useState(false)
 
   return (
     <>
@@ -26,10 +27,11 @@ export default function Activities({ sets }: { sets: Set[] }) {
                 data={sets.map((set) => ({ value: set.title, label: set.title, id: set.id }))}
                 getValue={(val) => setId(val)}
                 value={sets[0].title}
+                checkIsActive={(val) => setComboOpen(val)}
               />
             </div>
           </div>
-          <Tabs set={sets.find((set) => set.id === id)!} />
+          <Tabs set={sets.find((set) => set.id === id)!} isComboOpen={isComboOpen} />
         </>
       ) : (
         <div className="h-[calc(100vh-160px)] flex flex-col justify-center items-center">

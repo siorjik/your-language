@@ -3,15 +3,13 @@
 import { useEffect, useState, use, useCallback, useMemo } from 'react'
 import { motion, Variants } from 'framer-motion'
 import { CircleArrowLeft, CircleArrowRight, Shuffle, Play, Volume2, RotateCcw, Lightbulb } from 'lucide-react'
-import Image from 'next/image'
 
 import { Card, CardContent, CardDescription, CardHeader } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
 import SelectWrap from '@/components/select-wrap'
 import DropdownMenu from './dropdownMenu'
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/components/ui/tooltip'
-
-import partyPopperImg from '@/../public/party-popper.png'
+import FinishBlock from '../finish-block'
 
 import { SetList } from '@/types/models/set'
 import { ActivityType, Set } from '@prisma/client'
@@ -25,7 +23,7 @@ import { createActivity } from '@/actions/activity'
 import { ActivityTypesContext } from '@/contexts/activity-types-context'
 import { DropdownMenuCheckboxItem } from '@/components/ui/dropdown-menu'
 
-export default function Flashcards({ data }: { data: Set }) {
+export default function Flashcards({ data, isComboOpen }: { data: Set; isComboOpen?: boolean }) {
   const [mode, setMode] = useState<'term' | 'definition'>('term')
   const [setList, setSetList] = useState<SetList>(data.list as SetList)
   const [index, setIndex] = useState(0)
@@ -102,7 +100,7 @@ export default function Flashcards({ data }: { data: Set }) {
   }, [leftPress])
 
   useEffect(() => {
-    if ((spacePress || upPress || downPress) && !isSelectOpen) rotate()
+    if ((spacePress || upPress || downPress) && !isSelectOpen && !isComboOpen) rotate()
   }, [spacePress, upPress, downPress])
 
   const paginate = (newDirection: number) => {
@@ -148,7 +146,6 @@ export default function Flashcards({ data }: { data: Set }) {
 
   const shuffle = (isShuffled: boolean) => {
     setShuffled(isShuffled)
-
     setSetList((isShuffled ? getShuffledArr(setList) : data.list) as SetList)
     setIndex(0)
     setMode(selectedMode)
@@ -383,17 +380,10 @@ export default function Flashcards({ data }: { data: Set }) {
               </span>
             </div>
           </div>
-          <Progress className="max-w-6xl h-1 mx-auto mt-2" value={(100 / setList.length) * (index + 1)} />
+          <Progress className="max-w-5xl h-1 mx-auto mt-2" value={(100 / setList.length) * (index + 1)} />
         </>
       ) : (
-        <div className="w-fit mt-5 mx-auto text-xl font-semibold">
-          Nice job <span className="emoji">👍</span>
-          {'! '}
-          <span className="link" onClick={() => setIndex(0)}>
-            Refresh flashcards
-          </span>
-          <Image className="mt-20 mx-auto" src={partyPopperImg} alt="party" width={200} height={200} />
-        </div>
+        <FinishBlock start={() => setIndex(0)} isFlashcards />
       )}
     </>
   )

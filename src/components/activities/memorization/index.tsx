@@ -3,12 +3,11 @@
 import { useState, useEffect, use } from 'react'
 import { motion } from 'framer-motion'
 import { RotateCcw, Shuffle } from 'lucide-react'
-import Image from 'next/image'
 
 import { Progress } from '@/components/ui/progress'
 import SelectWrap from '@/components/select-wrap'
-
-import partyPopperImg from '@/../public/party-popper.png'
+import ProgressPanel from '../progress-panel'
+import FinishBlock from '../finish-block'
 
 import { ActivityType, Set } from '@prisma/client'
 import { SetList, SetListItem } from '@/types/models/set'
@@ -25,12 +24,13 @@ export default function Memorization({ data }: { data: Set }) {
   const [selectedAnswerStyle, setSelectedAnswerStyle] = useState<{ style: string; idx: number } | null>(null)
   const [result, setResult] = useState<{ failed: SetList; passed: SetList }>({ failed: [], passed: [] })
   const [isFinish, setFinish] = useState(false)
+  const [isShuffled, setShuffled] = useState(false)
 
   const response = use(ActivityTypesContext) as { activityTypes: ActivityType[] } | null
 
   useEffect(() => {
     // set activity for chart
-    if (index + 1 === setList.length) {
+    if (index + 1 === setList.length && !result.failed.length) {
       ;(async () => {
         const activityTypeId = response?.activityTypes.find((item) => item.name === 'memorization')?.id
 
@@ -90,10 +90,9 @@ export default function Memorization({ data }: { data: Set }) {
     setFinish(false)
   }
 
-  const shuffle = () => {
-    const shuffledArr = getShuffledArr(setList)
-
-    setSetList(shuffledArr as SetList)
+  const shuffle = (isShuffled: boolean) => {
+    setShuffled(isShuffled)
+    setSetList((isShuffled ? getShuffledArr(setList) : data.list) as SetList)
     setIndex(0)
     setResult({ passed: [], failed: [] })
   }
@@ -154,7 +153,10 @@ export default function Memorization({ data }: { data: Set }) {
       {!isFinish && (
         <>
           <div className="my-5 mx-auto flex items-center justify-center gap-10">
-            <span className="icon-hover" onClick={shuffle}>
+            <span
+              className={`icon-hover border-2 rounded-full border-transparent ${isShuffled ? '!border-primary' : ''}`}
+              onClick={() => shuffle(!isShuffled)}
+            >
               <Shuffle size={20} />
             </span>
             <span
@@ -184,53 +186,9 @@ export default function Memorization({ data }: { data: Set }) {
         </>
       )}
 
-      <div className="max-w-4xl mt-5 mx-auto flex justify-evenly">
-        <div className="text-success text-xl font-semibold">
-          Passed:{' '}
-          <motion.span
-            className="inline-block"
-            key={result.passed.length}
-            initial={{ scale: 10 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            {result.passed.length}
-          </motion.span>
-        </div>
-        <div className="text-destructive text-xl font-semibold">
-          Failed:{' '}
-          <motion.span
-            className="inline-block"
-            key={result.failed.length}
-            initial={{ scale: 10 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            {result.failed.length}
-          </motion.span>
-        </div>
-      </div>
+      <ProgressPanel result={result} />
 
-      {isFinish && (
-        <div className="w-fit mt-5 mx-auto text-xl font-semibold">
-          Nice job <span className="emoji">👍</span>! Do you want to{' '}
-          {!!result.failed.length && (
-            <>
-              <span className="link" onClick={() => onStartOver('repeat')}>
-                repeat failed
-              </span>{' '}
-              or{' '}
-            </>
-          )}
-          <>
-            <span className="link" onClick={() => onStartOver('start')}>
-              start over
-            </span>{' '}
-            ?
-          </>
-          {!result.failed.length && <Image className="mt-20 mx-auto" src={partyPopperImg} alt="party" width={200} height={200} />}
-        </div>
-      )}
+      {isFinish && <FinishBlock result={result} repeat={() => onStartOver('repeat')} start={() => onStartOver('start')} />}
     </>
   )
 }
