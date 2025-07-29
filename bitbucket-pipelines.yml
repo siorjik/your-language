@@ -12,6 +12,25 @@ definitions:
           - pnpm run prettier
           - pnpm build
 
+    - step: &docker-build-push-to-ecr
+        name: Docker Build & Push to ECR
+        image: atlassian/default-image:3
+        services:
+          - docker
+        caches:
+          - docker
+        script:
+          - apt-get update && apt-get install -y awscli
+          - aws --version
+          # Login to ECR
+          - aws ecr get-login-password --region $AWS_DEFAULT_REGION |
+            docker login --username AWS --password-stdin $ECR_REPOSITORY
+          # Build & tag Docker image
+          - docker build -t your-language .
+          - docker tag your-app:latest $ECR_REPOSITORY:latest
+          # Push to ECR
+          - docker push $ECR_REPOSITORY:latest
+
 pipelines:
   pull-requests:
     'feature/*':
@@ -22,12 +41,13 @@ pipelines:
 
   branches:
     development:
-      - step:
-          name: Merge in development
-          caches:
-            - node
-          script:
-            - echo "🧪 Runs only on merge into development!"
+      - step: *docker-build-push-to-ecr
+      # - step:
+      #     name: Merge in development
+      #     caches:
+      #       - node
+      #     script:
+      #       - echo "🧪 Runs only on merge into development!"
 
     main:
       - step:

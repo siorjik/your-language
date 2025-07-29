@@ -17,6 +17,7 @@ export default function Activities({ sets }: { sets: Set[] }) {
     <>
       {!!sets.length ? (
         <>
+          <h2 className="mx-auto w-fit title">Training with Sets</h2>
           <div className="mb-10 flex items-center gap-3">
             <span className="sub-title-3 mb-0">Choose Set:</span>
             <div className="w-[200px]">

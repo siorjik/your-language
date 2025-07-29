@@ -112,7 +112,7 @@ export default function Flashcards({ data, isComboOpen }: { data: Set; isComboOp
 
     setIndex((prev) => prev + newDirection)
 
-    if (!isEnd) {
+    if (!isEnd || (isEnd && newDirection < 0)) {
       setMode(selectedMode)
 
       if (isSound && selectedMode === mode) sound({ isSound: true, itemIndex: index + newDirection, itemMode: selectedMode })
@@ -131,6 +131,8 @@ export default function Flashcards({ data, isComboOpen }: { data: Set; isComboOp
 
       setVariants(xVariants)
     } else {
+      setMode(selectedMode)
+
       if (isSound) setSound(false)
     }
   }
@@ -296,7 +298,7 @@ export default function Flashcards({ data, isComboOpen }: { data: Set; isComboOp
                   initial={{ opacity: !variants ? 1 : 0 }} // avoid flickering when first render
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.03 }}
-                  className="w-full text-primary/90 text-3xl md:text-4xl"
+                  className="w-full text-primary/90 text-3xl md:text-4xl !leading-normal"
                 >
                   {setList[index][mode]}
                 </motion.span>

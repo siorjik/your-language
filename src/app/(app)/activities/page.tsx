@@ -15,7 +15,6 @@ export default async function ActivitiesPage() {
 
   return (
     <>
-      <h2 className="mx-auto w-fit title">Training with Sets</h2>
       <Activities sets={res.sets} />
     </>
   )
