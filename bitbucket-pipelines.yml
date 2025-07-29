@@ -26,8 +26,8 @@ definitions:
           - aws ecr get-login-password --region $AWS_DEFAULT_REGION |
             docker login --username AWS --password-stdin $ECR_REPOSITORY
           # Build & tag Docker image
-          - docker build -t your-language .
-          - docker tag your-app:latest $ECR_REPOSITORY:latest
+          - docker build -t your-language -f docker/Dockerfile.bitbucket .
+          - docker tag your-language:latest $ECR_REPOSITORY:latest
           # Push to ECR
           - docker push $ECR_REPOSITORY:latest
 
