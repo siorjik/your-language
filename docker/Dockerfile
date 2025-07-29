@@ -1,24 +1,23 @@
 FROM node:20-alpine AS builder
 
-ARG MODE
-
-RUN echo "build mode - $MODE"
-
 RUN npm install -g pnpm
 
 WORKDIR /app
 
 COPY package.json /app
-COPY pnpm-lock.yaml /app
-
-RUN pnpm install
+COPY pnpm-lock.yaml /app/
 
 COPY . .
 
+RUN pnpm install
+
+COPY docker/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 EXPOSE 3001
 
-RUN if [ "$MODE" = "migration" ]; then \
-      echo "migration mode"; \
-    else \
-      echo "start mode"; \
-    fi
+# RUN pnpm build
+
+# CMD [ "pnpm", "start" ]
+# CMD [ "pnpm", "dev" ]
+ENTRYPOINT ["/entrypoint.sh"]

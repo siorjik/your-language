@@ -10,7 +10,7 @@ services:
     image: next-image
     build:
       context: .
-      dockerfile: docker/Dockerfile.dev
+      dockerfile: docker/Dockerfile
     container_name: web
     ports:
       - '3001:3001'
