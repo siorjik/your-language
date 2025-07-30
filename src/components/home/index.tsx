@@ -6,13 +6,13 @@ import { Separator } from '../ui/separator'
 import Chart from '../chart'
 import CardSection from './cards-section'
 
-import { Set } from '@prisma/client'
 import { libraryAppPath } from '@/utils/paths'
 import GuestMode from './guest-mode'
+import { SelectedSet } from '@/types/models/set'
 
 type MainProps = {
   session: Session | null
-  sets: Set[] | []
+  sets: SelectedSet[] | []
   chartData: { month: string; sets: number; flashcards: number; memorization: number; spelling: number }[]
 }
 export default function Main({ session, sets, chartData }: MainProps) {

@@ -11,8 +11,8 @@ import DropdownMenu from './dropdownMenu'
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/components/ui/tooltip'
 import FinishBlock from '../finish-block'
 
-import { SetList } from '@/types/models/set'
-import { ActivityType, Set } from '@prisma/client'
+import { SelectedSet, SetList, SetListItem } from '@/types/models/set'
+import { ActivityType } from '@prisma/client'
 import { LANGUAGE_OPTIONS } from '@/utils/constants'
 import useKeyPress from '@/hooks/useKeyPress'
 import getShuffledArr from '@/helpers/getShuffledArr'
@@ -23,9 +23,9 @@ import { createActivity } from '@/actions/activity'
 import { ActivityTypesContext } from '@/contexts/activity-types-context'
 import { DropdownMenuCheckboxItem } from '@/components/ui/dropdown-menu'
 
-export default function Flashcards({ data, isComboOpen }: { data: Set; isComboOpen?: boolean }) {
+export default function Flashcards({ data, isComboOpen }: { data: SelectedSet; isComboOpen?: boolean }) {
   const [mode, setMode] = useState<'term' | 'definition'>('term')
-  const [setList, setSetList] = useState<SetList>(data.list as SetList)
+  const [setList, setSetList] = useState<SetList>(data.list)
   const [index, setIndex] = useState(0)
   const [variants, setVariants] = useState<Variants | null>(null)
   const [isPlay, setPlay] = useState(false)
@@ -148,7 +148,7 @@ export default function Flashcards({ data, isComboOpen }: { data: Set; isComboOp
 
   const shuffle = (isShuffled: boolean) => {
     setShuffled(isShuffled)
-    setSetList((isShuffled ? getShuffledArr(setList) : data.list) as SetList)
+    setSetList(isShuffled ? getShuffledArr<SetListItem>(setList) : data.list)
     setIndex(0)
     setMode(selectedMode)
   }

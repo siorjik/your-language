@@ -2,33 +2,76 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { FileCog, Share } from 'lucide-react'
 
 import Tabs from './tabs'
 import { Combobox } from '@/components/combobox'
+import { Button } from '@/components/ui/button'
+import DialogWrap from '@/components/dialog-wrap'
+import SetForm from '@/components/forms/set-form'
+import ShareBtn from '@/components/share-btn'
 
-import { Set } from '@prisma/client'
 import { libraryAppPath } from '@/utils/paths'
+import { SelectedSet } from '@/types/models/set'
 
-export default function Activities({ sets }: { sets: Set[] }) {
+export default function Activities({ sets }: { sets: SelectedSet[] }) {
   const [id, setId] = useState<string | null>(sets[0]?.id)
   const [isComboOpen, setComboOpen] = useState(false)
+  const [isAutoClose, setAutoClose] = useState(false)
 
   return (
     <>
       {!!sets.length ? (
         <>
           <h2 className="mx-auto w-fit title">Training with Sets</h2>
-          <div className="mb-10 flex items-center gap-3">
-            <span className="sub-title-3 mb-0">Choose Set:</span>
-            <div className="w-[200px]">
-              <Combobox
-                placeholder="Choose Set..."
-                searchText="Search Set..."
-                notFoundText="Set was not found..."
-                data={sets.map((set) => ({ value: set.title, label: set.title, id: set.id }))}
-                getValue={(val) => setId(val)}
-                value={sets[0].title}
-                checkIsActive={(val) => setComboOpen(val)}
+          <div className="mb-10 flex flex-col md:flex-row justify-between items-center gap-5">
+            <div className="flex items-center gap-3">
+              <span className="sub-title-3 mb-0">Choose Set:</span>
+              <div className="w-[200px]">
+                <Combobox
+                  key={Number(isAutoClose)}
+                  placeholder="Choose Set..."
+                  searchText="Search Set..."
+                  notFoundText="Set was not found..."
+                  data={sets.map((set) => ({ value: set.title, label: set.title, id: set.id }))}
+                  getValue={(val) => setId(val)}
+                  value={sets[sets.findIndex((set) => set.id === id)].title}
+                  checkIsActive={(val) => setComboOpen(val)}
+                />
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <DialogWrap
+                width="max-w-3xl"
+                title="Set Update"
+                isAutoClose={isAutoClose}
+                trigger={
+                  <Button>
+                    <FileCog />
+                    Update
+                  </Button>
+                }
+                content={
+                  <SetForm
+                    data={sets.find((set) => set.id === id) as SelectedSet}
+                    action="update"
+                    btnStyle="dialog-submit-btn"
+                    afterSubmitFn={() => {
+                      setAutoClose(true)
+
+                      setTimeout(() => setAutoClose(false), 1000)
+                    }}
+                  />
+                }
+              />
+              <ShareBtn
+                trigger={
+                  <Button>
+                    <Share />
+                    Share
+                  </Button>
+                }
+                id={id!}
               />
             </div>
           </div>

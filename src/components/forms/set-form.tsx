@@ -19,17 +19,22 @@ import apiRequestService from '@/services/apiRequestService'
 import { dictionaryApiPath, getSetAppPath, setsAppPath, translateApiPath } from '@/utils/paths'
 import { LANGUAGE_OPTIONS } from '@/utils/constants'
 import { createSet, updateSet } from '@/actions/set'
-import { Set } from '@prisma/client'
 import { Err } from '@/types/errTypes'
 import { toast } from '@/hooks/use-toast'
 import dictionaryService from '@/services/dictionaryService'
+import { SelectedSet } from '@/types/models/set'
 
 const defaultValues = { list: [{ term: '', definition: '' }], title: '', source: '', target: '' }
 
 type DataType = { name: string; words: string[] }
-type SetFormProps = { data?: (Set & z.infer<typeof setFormTypeSchema>) | null; action?: 'create' | 'update' | null }
+type SetFormProps = {
+  data?: (SelectedSet & z.infer<typeof setFormTypeSchema>) | null
+  action?: 'create' | 'update' | null
+  btnStyle?: string
+  afterSubmitFn?: () => void
+}
 
-export default function SetForm({ data = null, action = null }: SetFormProps) {
+export default function SetForm({ data = null, action = null, btnStyle = '', afterSubmitFn }: SetFormProps) {
   const [dictionary, setDictionary] = useState<DataType>({ name: '', words: [] })
   const [translate, setTranslate] = useState<DataType>({ name: '', words: [] })
 
@@ -51,11 +56,14 @@ export default function SetForm({ data = null, action = null }: SetFormProps) {
   const { fields, remove, append } = useFieldArray({ name: 'list', control: form.control })
 
   const onSubmit = async (values: z.infer<typeof setFormTypeSchema>): Promise<void> => {
-    const res: (Set & { error: null }) | Err = action === 'create' ? await createSet(values) : await updateSet(values)
+    const res: (SelectedSet & { error: null }) | Err = action === 'create' ? await createSet(values) : await updateSet(values)
 
     if (!res.error) {
       if (action === 'create') push(setsAppPath)
-      else push(getSetAppPath(res.id))
+      else {
+        if (!afterSubmitFn) push(getSetAppPath(res.id))
+        else afterSubmitFn()
+      }
     } else
       toast({
         title: action === 'create' ? 'Set Creation Error' : 'Set Updating Error',
@@ -247,6 +255,7 @@ export default function SetForm({ data = null, action = null }: SetFormProps) {
                               setTranslate({ name: '', words: [] })
                             }
                           }}
+                          handleChange={(val) => form.setValue(field.name, val)}
                           data={translate.words}
                           ref={(el) => {
                             field.ref(el)
@@ -296,7 +305,7 @@ export default function SetForm({ data = null, action = null }: SetFormProps) {
             </Button>
           )}
           {action && fields.length > 1 && (
-            <Button type="button" className="mt-3" onClick={form.handleSubmit(onSubmit)}>
+            <Button type="button" className={`mt-3 ${btnStyle}`} onClick={form.handleSubmit(onSubmit)}>
               {action === 'create' ? 'Create' : 'Update'}
             </Button>
           )}

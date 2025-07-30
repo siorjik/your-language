@@ -10,10 +10,10 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import getTransformedDate from '@/helpers/getTransformedDate'
 import { LANGUAGE_OPTIONS } from '@/utils/constants'
 import { getSetAppPath, newSetAppPath } from '@/utils/paths'
-import { Set } from '@prisma/client'
 import ShareBtn from '../share-btn'
+import { SelectedSet } from '@/types/models/set'
 
-export default function CardSection({ sets }: { sets: Set[] }) {
+export default function CardSection({ sets }: { sets: SelectedSet[] }) {
   const [isShowNav, setShowNav] = useState(false)
 
   const divRef = useRef<HTMLDivElement>(null)
@@ -29,7 +29,7 @@ export default function CardSection({ sets }: { sets: Set[] }) {
 
   const toggleShowArr = () => setShowNav(!isShowNav)
 
-  const getSetCard = (set: Set, date: string, idx: number) => {
+  const getSetCard = (set: SelectedSet, date: string, idx: number) => {
     return (
       <motion.div
         key={set.id}

@@ -6,9 +6,8 @@ import NavPanel from './_components/nav-panel'
 
 import { getSetById } from '@/actions/set'
 import { Err } from '@/types/errTypes'
-import { Set } from '@prisma/client'
 import { getSetAppPath, libraryAppPath, setsAppPath } from '@/utils/paths'
-import { SetList } from '@/types/models/set'
+import { SelectedSet } from '@/types/models/set'
 
 export async function generateMetadata({
   params,
@@ -21,7 +20,7 @@ export async function generateMetadata({
   const { owner } = await searchParams
 
   if (!owner) {
-    const set: (Set & { error: null }) | Err = await getSetById(id)
+    const set: (SelectedSet & { error: null }) | Err = await getSetById(id)
 
     if (set.error) notFound()
 
@@ -40,7 +39,7 @@ export default async function SetData({
   const { id } = await params
   const { owner } = await searchParams
 
-  const set: (Set & { error: null }) | Err = await getSetById(id, owner)
+  const set: (SelectedSet & { error: null }) | Err = await getSetById(id, owner)
 
   if (set && owner && !set.error) redirect(getSetAppPath(set.id))
 
@@ -60,7 +59,7 @@ export default async function SetData({
       <div className="mb-8">
         <NavPanel id={id} isOwnerExist={!!set.ownerId} />
       </div>
-      <SetForm data={{ ...set, list: set.list as SetList }} />
+      <SetForm data={{ ...set, list: set.list }} />
     </>
   )
 }

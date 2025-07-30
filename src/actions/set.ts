@@ -8,11 +8,10 @@ import { setFormTypeSchema } from '@/types/forms/set'
 import getServerSessionToken from '@/helpers/getServerSessionToken'
 import { prisma } from '@/lib/prisma'
 import { setsAppPath } from '@/utils/paths'
-import { Set } from '@prisma/client'
 import { Err } from '@/types/errTypes'
 import { SelectedSet, SetList } from '@/types/models/set'
 
-export const createSet = async (data: z.infer<typeof setFormTypeSchema>): Promise<(Set & { error: null }) | Err> => {
+export const createSet = async (data: z.infer<typeof setFormTypeSchema>): Promise<(SelectedSet & { error: null }) | Err> => {
   try {
     setFormTypeSchema.parse(data)
 
@@ -22,13 +21,16 @@ export const createSet = async (data: z.infer<typeof setFormTypeSchema>): Promis
 
     revalidatePath(setsAppPath)
 
-    return { ...(await prisma.set.create({ data: { title, source, target, list, userId: session.id } })), error: null }
+    return {
+      ...((await prisma.set.create({ data: { title, source, target, list, userId: session.id } })) as SelectedSet),
+      error: null,
+    }
   } catch (error) {
     return errHandlerService(error)
   }
 }
 
-export const updateSet = async (data: z.infer<typeof setFormTypeSchema>): Promise<(Set & { error: null }) | Err> => {
+export const updateSet = async (data: z.infer<typeof setFormTypeSchema>): Promise<(SelectedSet & { error: null }) | Err> => {
   try {
     setFormTypeSchema.parse(data)
 
@@ -38,7 +40,10 @@ export const updateSet = async (data: z.infer<typeof setFormTypeSchema>): Promis
 
     revalidatePath(setsAppPath)
 
-    return { ...(await prisma.set.update({ where: { id }, data: { title, source, target, list } })), error: null }
+    return {
+      ...((await prisma.set.update({ where: { id }, data: { title, source, target, list } })) as SelectedSet),
+      error: null,
+    }
   } catch (error) {
     return errHandlerService(error)
   }
@@ -51,15 +56,15 @@ export const getSetList = async (
     const session = await getServerSessionToken()
 
     return {
-      sets: await prisma.set.findMany({
+      sets: (await prisma.set.findMany({
         where: { userId: session.id },
         include: { user: { select: { name: true, image: true } }, owner: { select: { name: true, image: true } } },
-      }),
+      })) as SelectedSet[],
       filtered: filter
-        ? await prisma.set.findMany({
+        ? ((await prisma.set.findMany({
             where: { userId: session.id, title: { contains: filter?.title, mode: 'insensitive' } },
             include: { user: { select: { name: true, image: true } }, owner: { select: { name: true, image: true } } },
-          })
+          })) as SelectedSet[])
         : [],
       error: null,
     }
@@ -68,8 +73,8 @@ export const getSetList = async (
   }
 }
 
-export const getSetById = async (id: string, ownerId?: string): Promise<(Set & { error: null }) | Err> => {
-  let set: Set | null
+export const getSetById = async (id: string, ownerId?: string): Promise<(SelectedSet & { error: null }) | Err> => {
+  let set: SelectedSet | null
 
   try {
     const session = await getServerSessionToken()
@@ -78,11 +83,13 @@ export const getSetById = async (id: string, ownerId?: string): Promise<(Set & {
       const sharedSet = await prisma.set.findFirst({ where: { id }, omit: { id: true } })
 
       if (sharedSet) {
-        set = await prisma.set.create({ data: { ...sharedSet, list: sharedSet.list as SetList, userId: session.id, ownerId } })
+        set = (await prisma.set.create({
+          data: { ...sharedSet, list: sharedSet.list as SetList, userId: session.id, ownerId },
+        })) as SelectedSet
       } else throw Error('Set sharing error')
-    } else set = await prisma.set.findFirst({ where: { id, userId: session.id } })
+    } else set = (await prisma.set.findFirst({ where: { id, userId: session.id } })) as SelectedSet
 
-    if (set) return { ...set, error: null }
+    if (set) return { ...(set as SelectedSet), error: null }
     else throw Error('Set not found')
   } catch (error) {
     return errHandlerService(error)
