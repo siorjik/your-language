@@ -9,10 +9,10 @@ import Spinner from '@/components/spinner'
 import Memorization from '@/components/activities/memorization'
 import Spelling from '@/components/activities/spelling'
 
-import { Set } from '@prisma/client'
 import { ActivityTypesProvider } from '@/contexts/activity-types-context'
+import { SelectedSet } from '@/types/models/set'
 
-export default function TabsPage({ set, isComboOpen }: { set: Set; isComboOpen: boolean }) {
+export default function TabsPage({ set, isComboOpen }: { set: SelectedSet; isComboOpen: boolean }) {
   const [isLoader, setLoader] = useState(false)
 
   useEffect(() => {

@@ -9,15 +9,15 @@ import SelectWrap from '@/components/select-wrap'
 import ProgressPanel from '../progress-panel'
 import FinishBlock from '../finish-block'
 
-import { ActivityType, Set } from '@prisma/client'
-import { SetList, SetListItem } from '@/types/models/set'
+import { ActivityType } from '@prisma/client'
+import { SelectedSet, SetList, SetListItem } from '@/types/models/set'
 import { LANGUAGE_OPTIONS } from '@/utils/constants'
 import getShuffledArr from '@/helpers/getShuffledArr'
 import { ActivityTypesContext } from '@/contexts/activity-types-context'
 import { createActivity } from '@/actions/activity'
 
-export default function Memorization({ data }: { data: Set }) {
-  const [setList, setSetList] = useState<SetList>(data.list as SetList)
+export default function Memorization({ data }: { data: SelectedSet }) {
+  const [setList, setSetList] = useState<SetList>(data.list)
   const [shuffledList, setShuffledList] = useState<SetList>([])
   const [index, setIndex] = useState(0)
   const [selectedMode, setSelectedMode] = useState<'term' | 'definition'>('term')
@@ -39,12 +39,12 @@ export default function Memorization({ data }: { data: Set }) {
     }
 
     const shuffledArr = getShuffledArr([
-      ...(data.list as SetList)?.filter((item) => item[selectedMode] !== setList[index][selectedMode]),
+      ...data.list?.filter((item) => item[selectedMode] !== setList[index][selectedMode]),
     ]).splice(0, 3)
 
     shuffledArr.push(setList[index])
 
-    setShuffledList(getShuffledArr(shuffledArr) as SetList)
+    setShuffledList(getShuffledArr(shuffledArr))
   }, [index, setList])
 
   const onSetResult = (item: SetListItem, idx: number): void => {
@@ -84,7 +84,9 @@ export default function Memorization({ data }: { data: Set }) {
   }
 
   const onStartOver = (action: 'start' | 'repeat') => {
-    setSetList(action === 'repeat' ? result.failed : (data.list as SetList))
+    setSetList(
+      action === 'repeat' ? result.failed : action === 'start' && isShuffled ? getShuffledArr<SetListItem>(data.list) : data.list,
+    )
     setIndex(0)
     setResult({ passed: [], failed: [] })
     setFinish(false)
@@ -92,7 +94,11 @@ export default function Memorization({ data }: { data: Set }) {
 
   const shuffle = (isShuffled: boolean) => {
     setShuffled(isShuffled)
-    setSetList((isShuffled ? getShuffledArr(setList) : data.list) as SetList)
+    setSetList(
+      isShuffled
+        ? getShuffledArr<SetListItem>(setList)
+        : data.list?.filter((item) => setList.find((el) => el.term === item.term)),
+    )
     setIndex(0)
     setResult({ passed: [], failed: [] })
   }
@@ -185,9 +191,7 @@ export default function Memorization({ data }: { data: Set }) {
           </div>
         </>
       )}
-
       <ProgressPanel result={result} />
-
       {isFinish && <FinishBlock result={result} repeat={() => onStartOver('repeat')} start={() => onStartOver('start')} />}
     </>
   )

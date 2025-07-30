@@ -7,12 +7,12 @@ import { Button } from '@/components/ui/button'
 import { getSetAppPath } from '@/utils/paths'
 import { getSetById } from '@/actions/set'
 import { Err } from '@/types/errTypes'
-import { Set } from '@prisma/client'
+import { SelectedSet } from '@/types/models/set'
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
 
-  const set: (Set & { error: null }) | Err = await getSetById(id)
+  const set: (SelectedSet & { error: null }) | Err = await getSetById(id)
 
   if (set.error) notFound()
 
@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 export default async function SetUpdate({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
 
-  const set: (Set & { error: null }) | Err = await getSetById(id)
+  const set: (SelectedSet & { error: null }) | Err = await getSetById(id)
 
   if (set.error) notFound()
 

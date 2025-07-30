@@ -1,6 +1,4 @@
-import { ReactNode } from 'react'
-
-export default (data: ({ [k: string]: string | number } | ReactNode)[]) => {
+export default <T>(data: T[]) => {
   const arr = [...data]
 
   for (let i = arr.length - 1; i > 0; i--) {

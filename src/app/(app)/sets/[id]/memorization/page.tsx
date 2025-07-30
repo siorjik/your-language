@@ -5,13 +5,13 @@ import BreadcrumbWrap from '@/components/breadcrumb-wrap'
 
 import { getSetById } from '@/actions/set'
 import { Err } from '@/types/errTypes'
-import { Set } from '@prisma/client'
 import { getSetAppPath, libraryAppPath, setsAppPath } from '@/utils/paths'
+import { SelectedSet } from '@/types/models/set'
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
 
-  const set: (Set & { error: null }) | Err = await getSetById(id)
+  const set: (SelectedSet & { error: null }) | Err = await getSetById(id)
 
   if (set.error) notFound()
 
@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 export default async function TestPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
 
-  const set: (Set & { error: null }) | Err = await getSetById(id)
+  const set: (SelectedSet & { error: null }) | Err = await getSetById(id)
 
   if (set.error) notFound()
 

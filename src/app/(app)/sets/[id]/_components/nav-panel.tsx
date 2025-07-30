@@ -33,15 +33,15 @@ export default function NavPanel({ id, isOwnerExist }: { id: string; isOwnerExis
 
   const navigation = (
     <div>
-      <Link className="py-3 flex items-center gap-2 border-b-2 border-accent" href={getFlashcardsAppPath(id)}>
+      <Link className="py-3 flex items-center gap-2 border-b-2 border-accent font-semibold" href={getFlashcardsAppPath(id)}>
         <GalleryHorizontal size={15} />
         Flashcards
       </Link>
-      <Link className="py-3 flex items-center gap-2 border-b-2 border-accent" href={getMemorizationAppPath(id)}>
+      <Link className="py-3 flex items-center gap-2 border-b-2 border-accent font-semibold" href={getMemorizationAppPath(id)}>
         <Brain size={15} />
         Memorization
       </Link>
-      <Link className="py-3 flex items-center gap-2" href={getSpellingAppPath(id)}>
+      <Link className="py-3 flex items-center gap-2 font-semibold" href={getSpellingAppPath(id)}>
         <Pen size={15} />
         Spelling
       </Link>

@@ -8,16 +8,16 @@ import { Progress } from '@/components/ui/progress'
 import { Button } from '@/components/ui/button'
 import FinishBlock from '../finish-block'
 
-import { ActivityType, Set } from '@prisma/client'
-import { SetList } from '@/types/models/set'
+import { ActivityType } from '@prisma/client'
+import { SelectedSet, SetList, SetListItem } from '@/types/models/set'
 import getShuffledArr from '@/helpers/getShuffledArr'
 import useKeyPress from '@/hooks/useKeyPress'
 import { ActivityTypesContext } from '@/contexts/activity-types-context'
 import { createActivity } from '@/actions/activity'
 import ProgressPanel from '../progress-panel'
 
-export default function Memorization({ data }: { data: Set }) {
-  const [setList, setSetList] = useState<SetList>(data.list as SetList)
+export default function Memorization({ data }: { data: SelectedSet }) {
+  const [setList, setSetList] = useState<SetList>(data.list)
   const [index, setIndex] = useState(0)
   const [selectedMode] = useState<'definition'>('definition')
   const [selectedAnswerStyle, setSelectedAnswerStyle] = useState<{
@@ -120,7 +120,9 @@ export default function Memorization({ data }: { data: Set }) {
   }
 
   const onStartOver = (action: 'start' | 'repeat') => {
-    setSetList(action === 'repeat' ? result.failed : (data.list as SetList))
+    setSetList(
+      action === 'repeat' ? result.failed : action === 'start' && isShuffled ? getShuffledArr<SetListItem>(data.list) : data.list,
+    )
     setIndex(0)
     setResult({ passed: [], failed: [] })
     setFinish(false)
@@ -132,7 +134,11 @@ export default function Memorization({ data }: { data: Set }) {
 
   const shuffle = (isShuffled: boolean) => {
     setShuffled(isShuffled)
-    setSetList((isShuffled ? getShuffledArr(setList) : data.list) as SetList)
+    setSetList(
+      isShuffled
+        ? getShuffledArr<SetListItem>(setList)
+        : data.list?.filter((item) => setList.find((el) => el.term === item.term)),
+    )
     setIndex(0)
     setResult({ passed: [], failed: [] })
     setSelectedAnswerStyle(null)

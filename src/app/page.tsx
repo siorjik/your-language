@@ -5,12 +5,13 @@ import { getSetList } from '@/actions/set'
 import { getActivityList } from '@/actions/activity'
 import { auth } from '@/configs/auth'
 import { Err } from '@/types/errTypes'
-import { Activity, ActivityType, Set } from '@prisma/client'
+import { Activity, ActivityType } from '@prisma/client'
 import { getActivityTypes } from '@/actions/activityType'
 import { MONTHS } from '@/utils/constants'
+import { SelectedSet } from '@/types/models/set'
 
 export default async function HomePage() {
-  let resSets: { sets: Set[]; error: null } | Err | null = null
+  let resSets: { sets: SelectedSet[]; error: null } | Err | null = null
   let mappedChartData: { month: string; sets: number; flashcards: number; memorization: number; spelling: number }[] = []
 
   const session = await auth()

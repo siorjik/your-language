@@ -34,7 +34,7 @@ export default function SetItem({ set, idx }: { set: SelectedSet; idx: number })
           {LANGUAGE_OPTIONS.find((item) => item.value === set.source)?.label + ' / '}
           {LANGUAGE_OPTIONS.find((item) => item.value === set.target)?.label}{' '}
           <span className="font-semibold text-primary">|</span>{' '}
-          {set.user.image && (
+          {set.user?.image && (
             <>
               <Image
                 src={getAuthUrl(isOwnerExist ? set.owner!.image! : set.user.image)}
@@ -46,7 +46,7 @@ export default function SetItem({ set, idx }: { set: SelectedSet; idx: number })
               />{' '}
             </>
           )}
-          <span className="text-primary font-balsamiqSans text-base">{isOwnerExist ? set.owner!.name : set.user.name}</span>
+          <span className="text-primary font-balsamiqSans text-base">{isOwnerExist ? set.owner!.name : set.user?.name}</span>
         </p>
         <p className="truncate text-xl text-primary font-balsamiqSans leading-none">{set.title}</p>
       </div>

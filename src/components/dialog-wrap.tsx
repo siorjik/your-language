@@ -43,9 +43,9 @@ export default function DialogWrap({
         <DialogContent className={`${width} gap-8`}>
           <DialogHeader>
             <DialogTitle className="text-primary">{title}</DialogTitle>
-            <DialogDescription className="text-primary/70">{description}</DialogDescription>
+            <DialogDescription className={`text-primary/70 ${!description ? 'hidden' : ''}`}>{description}</DialogDescription>
           </DialogHeader>
-          <div>{content}</div>
+          <div className="max-h-[calc(100vh-250px)] p-1 overflow-y-auto">{content}</div>
           <DialogFooter className="sm:justify-start">
             <DialogClose asChild>
               <Button type="button" variant="secondary">
