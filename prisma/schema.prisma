@@ -21,11 +21,12 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  accounts Account[]
-  sessions Session[]
-  userSets Set[]      @relation("userSets")
-  ownerSet Set[]      @relation("ownerSets")
-  activity Activity[]
+  accounts     Account[]
+  sessions     Session[]
+  userSets     Set[]          @relation("userSets")
+  ownerSet     Set[]          @relation("ownerSets")
+  activity     Activity[]
+  notification Notification[]
 }
 
 model Account {
@@ -80,7 +81,8 @@ model Set {
   user  User  @relation("userSets", fields: [userId], references: [id], onDelete: Cascade)
   owner User? @relation("ownerSets", fields: [ownerId], references: [id], onDelete: Cascade)
 
-  activity Activity[]
+  activity     Activity[]
+  notification Notification[]
 }
 
 model ActivityType {
@@ -103,4 +105,17 @@ model Activity {
   activityType ActivityType @relation(fields: [activityTypeId], references: [id], onDelete: Cascade)
   set          Set          @relation(fields: [setId], references: [id], onDelete: Cascade)
   user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  type      String
+  status    String
+  setId     String?
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  set  Set? @relation(fields: [setId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

@@ -4,10 +4,10 @@ import { RefObject, useLayoutEffect, useRef, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { formatDistanceToNow } from 'date-fns'
 
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '../ui/card'
 
-import getTransformedDate from '@/helpers/getTransformedDate'
 import { LANGUAGE_OPTIONS } from '@/utils/constants'
 import { getSetAppPath, newSetAppPath } from '@/utils/paths'
 import ShareBtn from '../share-btn'
@@ -29,7 +29,7 @@ export default function CardSection({ sets }: { sets: SelectedSet[] }) {
 
   const toggleShowArr = () => setShowNav(!isShowNav)
 
-  const getSetCard = (set: SelectedSet, date: string, idx: number) => {
+  const getSetCard = (set: SelectedSet, idx: number) => {
     return (
       <motion.div
         key={set.id}
@@ -52,7 +52,7 @@ export default function CardSection({ sets }: { sets: SelectedSet[] }) {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-primary/80 font-semibold">{date}</p>
+              <p className="text-primary/80 font-balsamiqSans">{formatDistanceToNow(set.createdAt, { addSuffix: true })}</p>
             </CardContent>
             <CardFooter className="flex justify-evenly">
               <ShareBtn trigger={<span className="link inline-block">Share</span>} id={set.id} />
@@ -128,9 +128,7 @@ export default function CardSection({ sets }: { sets: SelectedSet[] }) {
             </span>
             {[
               ...arr.map((set, idx) => {
-                const date = getTransformedDate(new Date(set.createdAt))
-
-                return getSetCard(set, date, idx)
+                return getSetCard(set, idx)
               }),
               getSuggestSetCard(),
             ].slice(0, 4)}

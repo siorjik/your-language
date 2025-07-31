@@ -1,13 +1,13 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Settings, UserRoundCog, LogOut, UserRoundPlus, LogIn, Palette } from 'lucide-react'
+import { Settings, UserRoundCog, LogOut, UserRoundPlus, LogIn, Palette, Bell, Trash2, Check } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { signOut, useSession } from 'next-auth/react'
 import { useTheme } from 'next-themes'
+import { formatDistanceToNow } from 'date-fns'
 
-import { profileAppPath, signUpAppPath, signInAppPath } from '@/utils/paths'
 import {
   NavigationMenu,
   NavigationMenuList,
@@ -26,23 +26,34 @@ import {
   DropdownMenuTrigger,
   DropdownMenuRadioGroup,
 } from '@/components/ui/dropdown-menu'
-
-import useFileStorage from '@/hooks/useFileStorage'
-import { THEMES } from '@/utils/constants'
 import Spinner from '../spinner'
+
+import { profileAppPath, signUpAppPath, signInAppPath, getSetAppPath } from '@/utils/paths'
+import useFileStorage from '@/hooks/useFileStorage'
+import { NOTIFICATION_STATUSES, NOTIFICATION_TYPES, THEMES } from '@/utils/constants'
+import { Notification } from '@prisma/client'
+import { deleteNotification, getUserNotifications, readNotification } from '@/actions/notification'
 
 export default function UserMenu() {
   const [isShow, setShow] = useState(false)
   const [menuValue, setMenuValue] = useState<string | undefined>(undefined)
   const [showLoader, setShowLoader] = useState(false)
+  const [showNotifications, setShowNotifications] = useState(false)
+  const [notificationList, setNotificationList] = useState<Notification[]>([])
 
   const { data: session } = useSession()
   const { getAuthUrl } = useFileStorage()
   const { theme, setTheme } = useTheme()
 
   useEffect(() => {
-    if (isShow && !menuValue) setMenuValue('menu')
-  }, [isShow, menuValue])
+    ;(async () => {
+      await getNotifications()
+    })()
+  }, [])
+
+  useEffect(() => {
+    if ((isShow || showNotifications) && !menuValue) setMenuValue('menu')
+  }, [isShow, showNotifications, menuValue])
 
   const logOut = async () => {
     if (window.localStorage.getItem('tab')) window.localStorage.removeItem('tab')
@@ -63,7 +74,50 @@ export default function UserMenu() {
     }, 1000)
   }
 
-  const dropdownMenu = () => (
+  const getNotificationMessage = (notification: Notification) => {
+    switch (notification.type) {
+      case NOTIFICATION_TYPES.createdSet:
+        return (
+          <div>
+            <p className="mb-2 text-xs text-primary">{formatDistanceToNow(notification.createdAt, { addSuffix: true })}</p>
+            <p>
+              Hi there! Your new created{' '}
+              <Link className="link inline-block" href={getSetAppPath(notification.setId!)}>
+                Set
+              </Link>{' '}
+              are waiting for you <span className="font-emoji">😉</span>
+            </p>
+          </div>
+        )
+
+      default:
+        break
+    }
+  }
+
+  const getNotifications = async () => {
+    try {
+      const result = await getUserNotifications()
+
+      if (!result.error) setNotificationList(result.notifications)
+      else throw result.error
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleNotification = async (id: string, action: 'read' | 'delete') => {
+    try {
+      if (action === 'delete') await deleteNotification(id)
+      else await readNotification(id)
+
+      await getNotifications()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const colorsDropdownMenu = () => (
     <DropdownMenu open={isShow} onOpenChange={setShow}>
       <DropdownMenuTrigger asChild>
         <span className="flex items-center gap-3 h-10 px-2 hover:bg-accent cursor-pointer rounded-md font-semibold w-full">
@@ -89,18 +143,73 @@ export default function UserMenu() {
     </DropdownMenu>
   )
 
+  const notificationsStyle = notificationList.find((el) => el.status === NOTIFICATION_STATUSES.new) ? 'notification' : ''
+
+  const notificationsDropDownMenu = () => (
+    <DropdownMenu open={showNotifications} onOpenChange={setShowNotifications}>
+      <DropdownMenuTrigger asChild>
+        <span className="flex items-center gap-3 h-10 px-2 hover:bg-accent cursor-pointer rounded-md font-semibold w-full">
+          <span className={`${notificationsStyle}`}>
+            <Bell className="text-primary" />
+          </span>
+          <span className="text-primary">Notifications</span>
+        </span>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="right-0 w-fit" side="left" align="start">
+        <DropdownMenuLabel>Notifications Center</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <div className="min-h-20 max-h-72 md:max-h-fit px-2 flex flex-col overflow-y-auto">
+          {!notificationList.length ? (
+            <span className="max-w-[calc(100vw-250px)] w-fit my-1">
+              No any notifications yet <span className="font-emoji">😉</span>
+            </span>
+          ) : (
+            <>
+              {notificationList.map((item) => {
+                return (
+                  <div
+                    key={item.id}
+                    className={`
+                      max-w-[calc(100vw-250px)] w-full my-1 flex flex-col
+                      md:flex-row items-center justify-between rounded-md h-fit p-2
+                      ${item.status === NOTIFICATION_STATUSES.new ? 'notification-new bg-primary/25' : 'bg-primary/10'}
+                    `}
+                  >
+                    <div className="mt-3 md:ml-4 md:mt-0">{getNotificationMessage(item)}</div>
+                    <div className="mt-5 md:ml-5 md:mt-0 flex gap-1">
+                      {item.status === NOTIFICATION_STATUSES.new && (
+                        <span className="bg-primary/10 icon-hover" onClick={() => handleNotification(item.id, 'read')}>
+                          <Check size={15} />
+                        </span>
+                      )}
+                      <span className="bg-primary/10 icon-hover" onClick={() => handleNotification(item.id, 'delete')}>
+                        <Trash2 size={15} />
+                      </span>
+                    </div>
+                  </div>
+                )
+              })}
+            </>
+          )}
+        </div>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+
   return (
     <>
       {session?.user ? (
         <NavigationMenu className="profile-menu" value={menuValue} onValueChange={setMenuValue}>
           <NavigationMenuList>
             <NavigationMenuItem value="menu" className="h-[43px] mt-1">
-              <NavigationMenuTrigger className="px-0 bg-background">
+              <NavigationMenuTrigger
+                className={`px-0 bg-background ${notificationsStyle ? notificationsStyle + ' after:left-8' : ''}`}
+              >
                 {!session.user.image ? (
                   <Settings className="text-muted-foreground" />
                 ) : (
                   <Image
-                    className="h-[43px] w-[43px] rounded-full object-cover"
+                    className={`h-[43px] w-[43px] rounded-full object-cover ${notificationsStyle}`}
                     src={getAuthUrl(session.user.image)}
                     width={30}
                     height={30}
@@ -111,7 +220,7 @@ export default function UserMenu() {
               </NavigationMenuTrigger>
               <NavigationMenuContent
                 className="p-1 pr-[6px] pb-[6px] flex flex-col"
-                onPointerLeave={(e) => isShow && e.preventDefault()}
+                onPointerLeave={(e) => (isShow || showNotifications) && e.preventDefault()}
               >
                 {session.user.isCredentials && (
                   <NavigationMenuLink asChild>
@@ -124,6 +233,7 @@ export default function UserMenu() {
                     </Link>
                   </NavigationMenuLink>
                 )}
+                <NavigationMenuLink asChild>{notificationsDropDownMenu()}</NavigationMenuLink>
                 <NavigationMenuLink onSelect={(e) => e.preventDefault()} asChild>
                   <span
                     onClick={() => setMenuValue('menu')}
@@ -132,7 +242,7 @@ export default function UserMenu() {
                     <ThemeBtn text="Mode" />
                   </span>
                 </NavigationMenuLink>
-                <NavigationMenuLink asChild>{dropdownMenu()}</NavigationMenuLink>
+                <NavigationMenuLink asChild>{colorsDropdownMenu()}</NavigationMenuLink>
                 <NavigationMenuLink asChild>
                   <span
                     className="h-10 px-2 hover:bg-accent flex items-center gap-3 cursor-pointer rounded-md font-semibold"

@@ -17,12 +17,13 @@ import Spinner from '../spinner'
 import { setFormTypeSchema } from '@/types/forms/set'
 import apiRequestService from '@/services/apiRequestService'
 import { dictionaryApiPath, getSetAppPath, setsAppPath, translateApiPath } from '@/utils/paths'
-import { LANGUAGE_OPTIONS } from '@/utils/constants'
+import { LANGUAGE_OPTIONS, NOTIFICATION_STATUSES, NOTIFICATION_TYPES } from '@/utils/constants'
 import { createSet, updateSet } from '@/actions/set'
 import { Err } from '@/types/errTypes'
 import { toast } from '@/hooks/use-toast'
 import dictionaryService from '@/services/dictionaryService'
 import { SelectedSet } from '@/types/models/set'
+import { createNotification } from '@/actions/notification'
 
 const defaultValues = { list: [{ term: '', definition: '' }], title: '', source: '', target: '' }
 
@@ -59,8 +60,11 @@ export default function SetForm({ data = null, action = null, btnStyle = '', aft
     const res: (SelectedSet & { error: null }) | Err = action === 'create' ? await createSet(values) : await updateSet(values)
 
     if (!res.error) {
-      if (action === 'create') push(setsAppPath)
-      else {
+      if (action === 'create') {
+        await createNotification({ setId: res.id, status: NOTIFICATION_STATUSES.new, type: NOTIFICATION_TYPES.createdSet })
+
+        push(setsAppPath)
+      } else {
         if (!afterSubmitFn) push(getSetAppPath(res.id))
         else afterSubmitFn()
       }
