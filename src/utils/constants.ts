@@ -33,3 +33,7 @@ export const MONTHS = [
   'November',
   'December',
 ]
+
+export const NOTIFICATION_TYPES = { createdSet: 'createdSet' }
+
+export const NOTIFICATION_STATUSES = { new: 'new', read: 'read' }

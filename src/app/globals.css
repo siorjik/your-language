@@ -399,4 +399,12 @@ body {
   .emoji {
     @apply text-[20px];
   }
+
+  .notification {
+    @apply relative after:w-3 after:h-3 after:bg-warn after:absolute after:top-0 after:left-3 after:rounded-full after:border-2;
+  }
+
+  .notification-new {
+    @apply relative before:w-2 before:h-2 before:bg-primary before:absolute before:top-[translate-50%] before:rounded-full;
+  }
 }

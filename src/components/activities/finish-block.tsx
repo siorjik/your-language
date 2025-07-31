@@ -21,7 +21,7 @@ export default function FinishBlock({
     <div className="w-fit mt-5 mx-auto text-xl font-semibold">
       {!isFlashcards ? (
         <>
-          Nice job <span className="emoji">👍</span>! Do you want to{' '}
+          Nice job <span className="font-emoji">👍</span>! Do you want to{' '}
           {!!result?.failed.length && (
             <>
               <span className="link" onClick={repeat}>
@@ -42,7 +42,7 @@ export default function FinishBlock({
         </>
       ) : (
         <>
-          Nice job <span className="emoji">👍</span>
+          Nice job <span className="font-emoji">👍</span>
           {'! '}
           <span className="link" onClick={start}>
             Refresh flashcards
