@@ -38,8 +38,8 @@ definitions:
           - aws --version
           # Update ECS service to force new deployment
           - aws ecs update-service \
-              --cluster $ECS_CLUSTER \
-              --service $ECS_SERVICE \
+              --cluster your-language \
+              --service your-language-service \
               --force-new-deployment \
               --region $AWS_DEFAULT_REGION
 
