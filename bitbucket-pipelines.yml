@@ -31,6 +31,19 @@ definitions:
           # Push to ECR
           - docker push $ECR_REPOSITORY:latest
 
+    - step: &deploy-ecs
+      name: Deploy to ECS
+      image: atlassian/default-image:3
+      script:
+        - apt-get update && apt-get install -y awscli
+        - aws --version
+        # Update ECS service to force new deployment
+        - aws ecs update-service \
+          --cluster $ECS_CLUSTER \
+          --service $ECS_SERVICE \
+          --force-new-deployment \
+          --region $AWS_DEFAULT_REGION
+
 pipelines:
   pull-requests:
     'feature/*':
@@ -42,6 +55,7 @@ pipelines:
   branches:
     development:
       - step: *docker-build-push-to-ecr
+      - step: *deploy-ecs
       # - step:
       #     name: Merge in development
       #     caches:
