@@ -55,6 +55,7 @@ pipelines:
   branches:
     development:
       - step: *docker-build-push-to-ecr
+      - step: *deploy-ecs
       # - step:
       #     name: Merge in development
       #     caches:
