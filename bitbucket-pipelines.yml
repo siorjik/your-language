@@ -37,11 +37,7 @@ definitions:
           - apt-get update && apt-get install -y awscli
           - aws --version
           # Update ECS service to force new deployment
-          - aws ecs update-service \
-              --cluster your-language \
-              --service your-language-service \
-              --force-new-deployment \
-              --region $AWS_DEFAULT_REGION
+          - aws ecs update-service --cluster your-language --service your-language-service --force-new-deployment --region $AWS_DEFAULT_REGION
 
 pipelines:
   pull-requests:
