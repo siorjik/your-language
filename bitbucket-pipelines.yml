@@ -39,10 +39,10 @@ definitions:
         - aws --version
         # Update ECS service to force new deployment
         - aws ecs update-service \
-          --cluster $ECS_CLUSTER \
-          --service $ECS_SERVICE \
-          --force-new-deployment \
-          --region $AWS_DEFAULT_REGION
+            --cluster $ECS_CLUSTER \
+            --service $ECS_SERVICE \
+            --force-new-deployment \
+            --region $AWS_DEFAULT_REGION
 
 pipelines:
   pull-requests:
@@ -56,12 +56,6 @@ pipelines:
     development:
       - step: *docker-build-push-to-ecr
       - step: *deploy-ecs
-      # - step:
-      #     name: Merge in development
-      #     caches:
-      #       - node
-      #     script:
-      #       - echo "🧪 Runs only on merge into development!"
 
     main:
       - step:
