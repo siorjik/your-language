@@ -46,7 +46,7 @@ export default function UserMenu() {
   const { theme, setTheme } = useTheme()
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       await getNotifications()
     })()
   }, [])
@@ -85,7 +85,7 @@ export default function UserMenu() {
               <Link className="link inline-block" href={getSetAppPath(notification.setId!)}>
                 Set
               </Link>{' '}
-              are waiting for you <span className="font-emoji">😉</span>
+              are waiting for you <span className="font-emoji">🙄</span>
             </p>
           </div>
         )
