@@ -20,8 +20,6 @@ definitions:
         caches:
           - docker
         script:
-          - echo "Deploying to ECS Cluster: $ECS_CLUSTER"
-          - echo "ECS Service: $ECS_SERVICE"
           - apt-get update && apt-get install -y awscli
           - aws --version
           # Login to ECR
