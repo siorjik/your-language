@@ -34,8 +34,6 @@ definitions:
         name: Deploy to ECS
         image: atlassian/default-image:3
         script:
-          - echo "Deploying to ECS Cluster: $ECS_CLUSTER"
-          - echo "ECS Service: $ECS_SERVICE"
           - apt-get update && apt-get install -y awscli
           - aws --version
           # Update ECS service to force new deployment
