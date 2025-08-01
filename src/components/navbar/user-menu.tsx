@@ -46,7 +46,7 @@ export default function UserMenu() {
   const { theme, setTheme } = useTheme()
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       await getNotifications()
     })()
   }, [])
