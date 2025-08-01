@@ -32,17 +32,17 @@ definitions:
           - docker push $ECR_REPOSITORY:latest
 
     - step: &deploy-ecs
-      name: Deploy to ECS
-      image: atlassian/default-image:3
-      script:
-        - apt-get update && apt-get install -y awscli
-        - aws --version
-        # Update ECS service to force new deployment
-        - aws ecs update-service \
-            --cluster $ECS_CLUSTER \
-            --service $ECS_SERVICE \
-            --force-new-deployment \
-            --region $AWS_DEFAULT_REGION
+        name: Deploy to ECS
+        image: atlassian/default-image:3
+        script:
+          - apt-get update && apt-get install -y awscli
+          - aws --version
+          # Update ECS service to force new deployment
+          - aws ecs update-service \
+              --cluster $ECS_CLUSTER \
+              --service $ECS_SERVICE \
+              --force-new-deployment \
+              --region $AWS_DEFAULT_REGION
 
 pipelines:
   pull-requests:
