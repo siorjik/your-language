@@ -53,7 +53,7 @@ pipelines:
 
   branches:
     development:
-      - step: *docker-build-push-to-ecr
+      # - step: *docker-build-push-to-ecr
       - step: *deploy-ecs
 
     main:
