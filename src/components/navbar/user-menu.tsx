@@ -46,10 +46,12 @@ export default function UserMenu() {
   const { theme, setTheme } = useTheme()
 
   useEffect(() => {
-    ;(async () => {
-      await getNotifications()
-    })()
-  }, [])
+    if (session?.user) {
+      ;(async () => {
+        await getNotifications()
+      })()
+    }
+  }, [session])
 
   useEffect(() => {
     if ((isShow || showNotifications) && !menuValue) setMenuValue('menu')
@@ -85,7 +87,7 @@ export default function UserMenu() {
               <Link className="link inline-block" href={getSetAppPath(notification.setId!)}>
                 Set
               </Link>{' '}
-              are waiting for you <span className="font-emoji">🙄</span>
+              is waiting for you <span className="font-emoji">😉</span>
             </p>
           </div>
         )
@@ -149,7 +151,10 @@ export default function UserMenu() {
     <DropdownMenu open={showNotifications} onOpenChange={setShowNotifications}>
       <DropdownMenuTrigger asChild>
         <span className="flex items-center gap-3 h-10 px-2 hover:bg-accent cursor-pointer rounded-md font-semibold w-full">
-          <span className={`${notificationsStyle}`}>
+          <span
+            className={`${notificationsStyle} after:content-[attr(data-after)] after:w-5 after:h-5 after:left-3 after:text-xs`}
+            data-after={notificationList.filter((el) => el.status === NOTIFICATION_STATUSES.new).length || ''}
+          >
             <Bell className="text-primary" />
           </span>
           <span className="text-primary">Notifications</span>
@@ -161,7 +166,7 @@ export default function UserMenu() {
         <div className="min-h-20 max-h-72 md:max-h-fit px-2 flex flex-col overflow-y-auto">
           {!notificationList.length ? (
             <span className="max-w-[calc(100vw-250px)] w-fit my-1">
-              No any notifications yet <span className="font-emoji">😉</span>
+              No any notifications yet <span className="font-emoji">🙄</span>
             </span>
           ) : (
             <>
@@ -202,9 +207,7 @@ export default function UserMenu() {
         <NavigationMenu className="profile-menu" value={menuValue} onValueChange={setMenuValue}>
           <NavigationMenuList>
             <NavigationMenuItem value="menu" className="h-[43px] mt-1">
-              <NavigationMenuTrigger
-                className={`px-0 bg-background ${notificationsStyle ? notificationsStyle + ' after:left-8' : ''}`}
-              >
+              <NavigationMenuTrigger className={`px-0 bg-background ${notificationsStyle ? notificationsStyle : ''}`}>
                 {!session.user.image ? (
                   <Settings className="text-muted-foreground" />
                 ) : (

@@ -31,6 +31,7 @@ export default async function SetUpdate({ params }: { params: Promise<{ id: stri
       <Button className="mb-8" asChild>
         <Link href={getSetAppPath(id)}>Cancel</Link>
       </Button>
+      <h2 className="sub-title-1">Set Update:</h2>
       <SetForm data={{ ...set, list: set.list as { term: string; definition: string }[] }} action="update" />
     </>
   )

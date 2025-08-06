@@ -34,15 +34,15 @@ export default function NavPanel({ id, isOwnerExist }: { id: string; isOwnerExis
   const navigation = (
     <div>
       <Link className="py-3 flex items-center gap-2 border-b-2 border-accent font-semibold" href={getFlashcardsAppPath(id)}>
-        <GalleryHorizontal size={15} />
+        <GalleryHorizontal className="text-primary" size={15} />
         Flashcards
       </Link>
       <Link className="py-3 flex items-center gap-2 border-b-2 border-accent font-semibold" href={getMemorizationAppPath(id)}>
-        <Brain size={15} />
+        <Brain className="text-primary" size={15} />
         Memorization
       </Link>
       <Link className="py-3 flex items-center gap-2 font-semibold" href={getSpellingAppPath(id)}>
-        <Pen size={15} />
+        <Pen className="text-primary" size={15} />
         Spelling
       </Link>
     </div>
@@ -80,7 +80,7 @@ export default function NavPanel({ id, isOwnerExist }: { id: string; isOwnerExis
             </Button>
           }
           action={onDelete}
-          description="You are going to delete the set..."
+          description="You are going to delete the Set..."
         />
       </div>
       {isLgDisplay ? (

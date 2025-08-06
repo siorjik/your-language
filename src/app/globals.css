@@ -401,7 +401,7 @@ body {
   }
 
   .notification {
-    @apply relative after:w-3 after:h-3 after:bg-warn after:absolute after:top-0 after:left-3 after:rounded-full after:border-2;
+    @apply relative after:pt-[1px] text-center after:w-3 after:h-3 after:bg-warn after:absolute after:top-0 after:left-8 after:rounded-full after:border-2 font-balsamiqSans;
   }
 
   .notification-new {

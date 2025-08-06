@@ -79,7 +79,7 @@ export default function Activities({ sets }: { sets: SelectedSet[] }) {
         </>
       ) : (
         <div className="h-[calc(100vh-160px)] flex flex-col justify-center items-center">
-          <p className="mb-1 text-lg font-semibold">No created sets yet 🤨</p>
+          <p className="mb-1 text-lg font-semibold">No created Sets yet 🤨</p>
           <Link href={libraryAppPath} className="link text-xl">
             Visit library and create a new one {'>>>'}
           </Link>

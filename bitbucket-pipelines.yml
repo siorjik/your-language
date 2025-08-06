@@ -12,6 +12,16 @@ definitions:
           - pnpm run prettier
           - pnpm build
 
+    - step: &migrate-seed
+        name: Migrate & Seed DB
+        caches:
+          - node
+        script:
+          - npm install -g pnpm
+          - pnpm install
+          - pnpm migrate
+          - pnpm seed
+
     - step: &docker-build-push-to-ecr
         name: Docker Build & Push to ECR
         image: atlassian/default-image:3
@@ -49,7 +59,8 @@ pipelines:
 
   branches:
     development:
-      # - step: *docker-build-push-to-ecr
+      - step: *migrate-seed
+      - step: *docker-build-push-to-ecr
       - step: *deploy-ecs
 
     main:
