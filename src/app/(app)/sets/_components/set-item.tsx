@@ -66,7 +66,7 @@ export default function SetItem({ set, idx }: { set: SelectedSet; idx: number })
           <AlertDialogWrap
             trigger={<TrashIcon size={20} />}
             action={async () => await deleteSet(set.id)}
-            description="You are going to delete the set..."
+            description="You are going to delete the Set..."
           />
         </span>
       </div>

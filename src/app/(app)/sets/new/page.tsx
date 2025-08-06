@@ -14,6 +14,7 @@ export default function NewSet() {
       <Button className="mb-8" asChild>
         <Link href={setsAppPath}>Cancel</Link>
       </Button>
+      <h2 className="sub-title-1">Set Creation:</h2>
       <SetForm action="create" />
     </>
   )

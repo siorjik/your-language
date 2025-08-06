@@ -5,15 +5,14 @@ RUN npm install -g pnpm
 WORKDIR /app
 
 COPY package.json /app
-COPY pnpm-lock.yaml /app/
+COPY pnpm-lock.yaml /app
 
 COPY . .
 
 RUN pnpm install
 
-COPY docker/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+RUN pnpm build
 
 EXPOSE 3000
 
-ENTRYPOINT ["/entrypoint.sh"]
+CMD [ "pnpm", "start" ]

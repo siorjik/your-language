@@ -37,7 +37,7 @@ export default function Main({ session, sets, chartData }: MainProps) {
           ) : (
             <div className="h-[calc(100vh-160px)] flex flex-col justify-center items-center">
               <Link href={libraryAppPath} className="link text-xl">
-                Visit library and create your first set 🤓 {'>>>'}
+                Visit library and create your first Set 🤓 {'>>>'}
               </Link>
             </div>
           )}

@@ -74,7 +74,7 @@ export default function SetList({ sets }: { sets: SelectedSet[] }) {
             </span>
             <Input
               className="w-full px-12 border-0 bg-secondary/30 !text-lg"
-              placeholder="Search by set title..."
+              placeholder="Search by Set title..."
               onChange={(e) => onChange(e.target.value)}
               value={value}
               ref={inputRef}
@@ -100,7 +100,7 @@ export default function SetList({ sets }: { sets: SelectedSet[] }) {
           ))}
         </>
       ) : isLoader ? null : (
-        <p className="w-fit mx-auto text-lg font-semibold">There are no any sets 🤨</p>
+        <p className="w-fit mx-auto text-lg font-semibold">There are no any Sets 🤨</p>
       )}
       {isLoader && <Spinner />}
     </>
