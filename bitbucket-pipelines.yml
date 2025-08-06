@@ -19,8 +19,12 @@ definitions:
         script:
           - npm install -g pnpm
           - pnpm install
+          - pnpm generate
           - pnpm migrate
           - pnpm seed
+        variables:
+          - name: DATABASE_URL
+            value: $DATABASE_URL
 
     - step: &docker-build-push-to-ecr
         name: Docker Build & Push to ECR
