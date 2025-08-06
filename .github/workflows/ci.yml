@@ -2,9 +2,7 @@ name: CI
 
 on:
   pull_request:
-    branches:
-      - feature/*
-      - fix/*
+    branches: development
   workflow_dispatch:
 
 jobs:
