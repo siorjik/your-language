@@ -39,6 +39,7 @@ jobs:
     needs: migrate_and_seed
     if: github.ref == 'refs/heads/development'
     runs-on: ubuntu-latest
+    environment: prod
 
     steps:
       - name: Checkout code
@@ -68,6 +69,7 @@ jobs:
     needs: docker_build_and_push
     if: github.ref == 'refs/heads/development'
     runs-on: ubuntu-latest
+    environment: prod
 
     steps:
       - name: Configure AWS credentials
