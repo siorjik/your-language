@@ -19,6 +19,7 @@ definitions:
         script:
           - npm install -g pnpm
           - pnpm install
+          - echo "DATABASE_URL=$DATABASE_URL" > .env
           - pnpm generate
           - pnpm migrate
           - pnpm seed
