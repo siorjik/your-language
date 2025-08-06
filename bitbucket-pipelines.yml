@@ -1,6 +1,10 @@
 image: node:20
 
 definitions:
+  services:
+    docker:
+      memory: 7168
+
   steps:
     - step: &build
         name: Build checking
@@ -34,6 +38,7 @@ definitions:
           - docker
         caches:
           - docker
+        size: 2x
         script:
           - apt-get update && apt-get install -y awscli
           - aws --version
