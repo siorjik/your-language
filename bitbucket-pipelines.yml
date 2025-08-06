@@ -19,6 +19,7 @@ definitions:
         script:
           - npm install -g pnpm
           - pnpm install
+          - export DATABASE_URL=$DATABASE_URL
           - pnpm migrate
           - pnpm seed
 
