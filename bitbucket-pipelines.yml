@@ -19,7 +19,7 @@ definitions:
         script:
           - npm install -g pnpm
           - pnpm install
-          - export DATABASE_URL=$DATABASE_URL
+          - export DATABASE_URL="postgresql://postgres:your-language_db@your-language.c1au4gqcq1i7.eu-north-1.rds.amazonaws.com:5432/your-language?schema=public"
           - pnpm migrate
           - pnpm seed
 
