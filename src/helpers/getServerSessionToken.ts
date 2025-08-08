@@ -5,6 +5,9 @@ import { headers } from 'next/headers'
 import { SelectedUser } from '@/types/models/user'
 
 export default async (req?: null | NextRequest) => {
+  console.log('req - ', req)
+  console.log('header - ', Object.fromEntries(await headers()))
+
   try {
     const session = (await getToken({
       req: req || { headers: Object.fromEntries(await headers()) },
