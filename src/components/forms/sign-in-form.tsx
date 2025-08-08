@@ -52,7 +52,7 @@ export default function SignInForm() {
     const res = await signIn('credentials', { ...data, redirect: false })
 
     if (res && !res?.error) {
-      window.location.href = '/'
+      // window.location.href = '/'
 
       return true
     } else {
