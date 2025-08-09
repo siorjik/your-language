@@ -12,10 +12,7 @@ export const ActivityTypesProvider = ({ children }: { children: React.ReactNode 
   const [activityTypes, setActivityTypes] = useState<ActivityType[] | null>(null)
 
   useEffect(() => {
-    console.log(
-      'process.env.NEXT_PUBLIC_APP_HOST in activity types - ',
-      `${process.env.NEXT_PUBLIC_APP_HOST}${activityTypesListApiPath}`,
-    )
+    console.log('activityTypesListApiPath - ', activityTypesListApiPath)
     ;(async () => {
       try {
         const res: { activityTypes: ActivityType[]; error: null } = await apiRequestService({

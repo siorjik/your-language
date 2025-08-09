@@ -7,7 +7,7 @@ export default class FileStorageService {
 
   async authorize() {
     console.log('process.env.NEXT_PUBLIC_APP_HOST in file service - ', process.env.NEXT_PUBLIC_APP_HOST)
-    console.log('fileAuthApiPath in file service - ', `${process.env.NEXT_PUBLIC_APP_HOST}${fileAuthApiPath}`)
+    console.log('fileAuthApiPath - ', fileAuthApiPath)
     try {
       if (!this.storageAuth.authToken) {
         const { authorizationToken, downloadUrl }: { authorizationToken: string; downloadUrl: string } = await apiRequestService({
