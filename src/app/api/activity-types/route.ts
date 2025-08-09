@@ -7,8 +7,6 @@ import { getActivityTypes } from '@/actions/activityType'
 
 export async function GET(req: NextRequest): Promise<NextResponse<{ activityTypes: ActivityType[]; error: null } | Err>> {
   try {
-    await getServerSessionToken(req)
-
     const activityTypes = await getActivityTypes()
 
     if (activityTypes.error) throw activityTypes.error

@@ -16,8 +16,8 @@ export const ActivityTypesProvider = ({ children }: { children: React.ReactNode 
     ;(async () => {
       try {
         const res: { activityTypes: ActivityType[]; error: null } = await apiRequestService({
-          // url: `${process.env.NEXT_PUBLIC_APP_HOST}${activityTypesListApiPath}`,
-          url: 'https://language-bro.online/api/activity-types',
+          url: activityTypesListApiPath,
+          // url: 'https://language-bro.online/api/activity-types',
         })
 
         setActivityTypes(res.activityTypes)

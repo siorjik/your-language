@@ -60,6 +60,8 @@ jobs:
         run: |
           docker build \
             --build-arg NEXT_PUBLIC_APP_HOST=${{ secrets.NEXT_PUBLIC_APP_HOST }} \
+            --build-arg NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }} \
+            --build-arg NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }} \
             -t your-language -f docker/Dockerfile.github .
 
       - name: Tag Docker image
