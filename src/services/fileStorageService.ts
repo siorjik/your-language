@@ -10,7 +10,7 @@ export default class FileStorageService {
     try {
       if (!this.storageAuth.authToken) {
         const { authorizationToken, downloadUrl }: { authorizationToken: string; downloadUrl: string } = await apiRequestService({
-          url: `${fileAuthApiPath}`,
+          url: `${process.env.NEXT_PUBLIC_APP_HOST}${fileAuthApiPath}`,
         })
 
         this.storageAuth = { authToken: authorizationToken, downloadUrl: downloadUrl }
