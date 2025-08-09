@@ -7,11 +7,12 @@ export default class FileStorageService {
 
   async authorize() {
     console.log('process.env.NEXT_PUBLIC_APP_HOST in file service - ', process.env.NEXT_PUBLIC_APP_HOST)
-    console.log('fileAuthApiPath in file service - ', fileAuthApiPath)
+    console.log('fileAuthApiPath in file service - ', `${process.env.NEXT_PUBLIC_APP_HOST}${fileAuthApiPath}`)
     try {
       if (!this.storageAuth.authToken) {
         const { authorizationToken, downloadUrl }: { authorizationToken: string; downloadUrl: string } = await apiRequestService({
-          url: `${process.env.NEXT_PUBLIC_APP_HOST}${fileAuthApiPath}`,
+          // url: `${process.env.NEXT_PUBLIC_APP_HOST}${fileAuthApiPath}`,
+          url: 'https://language-bro.online/api/files/authorize',
         })
 
         this.storageAuth = { authToken: authorizationToken, downloadUrl: downloadUrl }

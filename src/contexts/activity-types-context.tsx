@@ -12,11 +12,15 @@ export const ActivityTypesProvider = ({ children }: { children: React.ReactNode 
   const [activityTypes, setActivityTypes] = useState<ActivityType[] | null>(null)
 
   useEffect(() => {
-    console.log('process.env.NEXT_PUBLIC_APP_HOST in activity types - ', process.env.NEXT_PUBLIC_APP_HOST)
+    console.log(
+      'process.env.NEXT_PUBLIC_APP_HOST in activity types - ',
+      `${process.env.NEXT_PUBLIC_APP_HOST}${activityTypesListApiPath}`,
+    )
     ;(async () => {
       try {
         const res: { activityTypes: ActivityType[]; error: null } = await apiRequestService({
-          url: `${process.env.NEXT_PUBLIC_APP_HOST}${activityTypesListApiPath}`,
+          // url: `${process.env.NEXT_PUBLIC_APP_HOST}${activityTypesListApiPath}`,
+          url: 'https://language-bro.online/api/activity-types',
         })
 
         setActivityTypes(res.activityTypes)
