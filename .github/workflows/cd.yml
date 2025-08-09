@@ -59,7 +59,7 @@ jobs:
       - name: Build Docker image
         run: |
           docker build \
-            --build-arg NEXT_PUBLIC_APP_HOST=https://language-bro.online \
+            --build-arg NEXT_PUBLIC_APP_HOST=${{ secrets.NEXT_PUBLIC_APP_HOST }} \
             -t your-language -f docker/Dockerfile.github .
 
       - name: Tag Docker image
