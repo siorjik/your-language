@@ -21,6 +21,8 @@ export const getSpellingAppPath = (id: string) => `${setsAppPath}/${id}/spelling
 
 export const appHost = process.env.NEXT_PUBLIC_APP_HOST
 console.log('appHost - ', appHost)
+console.log('NEXTAUTH_URL - ', process.env.NEXTAUTH_URL)
+console.log('NEXTAUTH_SECRET - ', process.env.NEXTAUTH_SECRET)
 
 /***** api *****/
 export const dictionaryApiPath = '/api/dictionary'
