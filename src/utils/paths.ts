@@ -20,7 +20,6 @@ export const getMemorizationAppPath = (id: string) => `${setsAppPath}/${id}/memo
 export const getSpellingAppPath = (id: string) => `${setsAppPath}/${id}/spelling`
 
 export const appHost = process.env.NEXT_PUBLIC_APP_HOST
-console.log('process.env.NEXT_PUBLIC_APP_HOST - ', process.env.NEXT_PUBLIC_APP_HOST)
 console.log('appHost - ', appHost)
 
 /***** api *****/
@@ -28,8 +27,7 @@ export const dictionaryApiPath = '/api/dictionary'
 export const translateApiPath = '/api/translate'
 
 export const fileUploadApiPath = '/api/files/upload'
-// export const fileAuthApiPath = `${appHost}/api/files/authorize`
-export const fileAuthApiPath = '/api/files/authorize'
+export const fileAuthApiPath = `${appHost}/api/files/authorize`
 
 export const twoFaApiPath = `${appHost}/api/two-fa`
 export const twoFaVerifyApiPath = '/api/two-fa/verify'
@@ -37,5 +35,4 @@ export const twoFaVerifyApiPath = '/api/two-fa/verify'
 export const emailCreatePassApiPath = '/api/emails/create-pass'
 export const emailRecoverPassApiPath = '/api/emails/recover-pass'
 
-// export const activityTypesListApiPath = `${appHost}/api/activity-types`
-export const activityTypesListApiPath = '/api/activity-types'
+export const activityTypesListApiPath = `${appHost}/api/activity-types`
