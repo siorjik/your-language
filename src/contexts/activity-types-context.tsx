@@ -12,17 +12,18 @@ export const ActivityTypesProvider = ({ children }: { children: React.ReactNode 
   const [activityTypes, setActivityTypes] = useState<ActivityType[] | null>(null)
 
   useEffect(() => {
-    ;(async () => {
-      try {
-        const res: { activityTypes: ActivityType[]; error: null } = await apiRequestService({
-          url: `${process.env.NEXT_PUBLIC_APP_HOST}${activityTypesListApiPath}`,
-        })
+    console.log('process.env.NEXT_PUBLIC_APP_HOST in activity types - ', process.env.NEXT_PUBLIC_APP_HOST)
+      ; (async () => {
+        try {
+          const res: { activityTypes: ActivityType[]; error: null } = await apiRequestService({
+            url: `${process.env.NEXT_PUBLIC_APP_HOST}${activityTypesListApiPath}`,
+          })
 
-        setActivityTypes(res.activityTypes)
-      } catch (error) {
-        console.log(error)
-      }
-    })()
+          setActivityTypes(res.activityTypes)
+        } catch (error) {
+          console.log(error)
+        }
+      })()
   }, [])
 
   return <ActivityTypesContext value={{ activityTypes }}>{children}</ActivityTypesContext>
