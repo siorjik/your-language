@@ -6,11 +6,12 @@ export default class FileStorageService {
   private authTime = 1000 * 60 * 60 * 8 // 8 hours
 
   async authorize() {
+    console.log('process.env.NEXT_PUBLIC_APP_HOST in file service - ', process.env.NEXT_PUBLIC_APP_HOST)
     console.log('fileAuthApiPath in file service - ', fileAuthApiPath)
     try {
       if (!this.storageAuth.authToken) {
         const { authorizationToken, downloadUrl }: { authorizationToken: string; downloadUrl: string } = await apiRequestService({
-          url: `${fileAuthApiPath}`,
+          url: `${process.env.NEXT_PUBLIC_APP_HOST}${fileAuthApiPath}`,
         })
 
         this.storageAuth = { authToken: authorizationToken, downloadUrl: downloadUrl }
