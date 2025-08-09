@@ -14,6 +14,8 @@ export default async (req?: null | NextRequest) => {
       secret: process.env.NEXTAUTH_SECRET,
     })) as JWT & SelectedUser
 
+    console.log('session - ', session)
+
     if (session?.id) return session
     else throw Error('You are not authorized!')
   } catch (error) {

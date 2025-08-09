@@ -8,7 +8,7 @@ type RequestParams = {
 
 export default async <T>({ url, method = 'GET', body, headers }: RequestParams): Promise<T> => {
   const heads = headers ? { ...Object.fromEntries(headers) } : {}
-
+  console.log('url in apiRequestService - ', url)
   if (Object.keys(heads).length) delete heads['content-length']
 
   try {
