@@ -4,10 +4,6 @@ RUN npm install -g pnpm
 
 WORKDIR /app
 
-ARG NEXT_PUBLIC_APP_HOST
-
-ENV NEXT_PUBLIC_APP_HOST=https://language-bro.online/
-
 COPY package.json /app
 COPY pnpm-lock.yaml /app
 
