@@ -56,12 +56,11 @@ jobs:
         run: |
           aws ecr get-login-password | docker login --username AWS --password-stdin ${{ secrets.ECR_REPOSITORY }}
 
-      - name: Create .env file
-        run: |
-          echo "NEXT_PUBLIC_APP_HOST=${{ secrets.NEXT_PUBLIC_APP_HOST }}" >> .env
-
       - name: Build Docker image
-        run: docker build -t your-language -f docker/Dockerfile.github .
+        run: |
+          docker build \
+            --build-arg NEXT_PUBLIC_APP_HOST=https://language-bro.online \
+            -t your-language -f docker/Dockerfile.github .
 
       - name: Tag Docker image
         run: docker tag your-language:latest ${{ secrets.ECR_REPOSITORY }}:latest

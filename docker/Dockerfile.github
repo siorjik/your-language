@@ -4,12 +4,14 @@ RUN npm install -g pnpm
 
 WORKDIR /app
 
+ARG NEXT_PUBLIC_APP_HOST
+
+ENV NEXT_PUBLIC_APP_HOST=$NEXT_PUBLIC_APP_HOST
+
 COPY package.json /app
 COPY pnpm-lock.yaml /app
 
 COPY . .
-
-COPY .env .env
 
 RUN pnpm install
 
