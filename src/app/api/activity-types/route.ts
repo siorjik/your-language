@@ -1,12 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-import getServerSessionToken from '@/helpers/getServerSessionToken'
+// import getServerSessionToken from '@/helpers/getServerSessionToken'
 import { Err, ErrObj } from '@/types/errTypes'
 import { ActivityType } from '@prisma/client'
 import { getActivityTypes } from '@/actions/activityType'
 
-export async function GET(req: NextRequest): Promise<NextResponse<{ activityTypes: ActivityType[]; error: null } | Err>> {
+export async function GET(/*req: NextRequest*/): Promise<NextResponse<{ activityTypes: ActivityType[]; error: null } | Err>> {
   try {
+    // await getServerSessionToken(req)
+
     const activityTypes = await getActivityTypes()
 
     if (activityTypes.error) throw activityTypes.error
