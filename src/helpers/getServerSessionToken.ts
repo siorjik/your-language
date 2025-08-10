@@ -34,9 +34,7 @@ export default async (req?: null | NextRequest) => {
   try {
     const newHeaders = await getOriginalHeaders(req ?? undefined)
 
-    const tokenReq = {
-      headers: newHeaders,
-    } as Request
+    const tokenReq = { headers: newHeaders } as Request
 
     const session = (await getToken({
       // req: req || { headers: Object.fromEntries(await headers()) },
