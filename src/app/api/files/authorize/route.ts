@@ -10,7 +10,6 @@ const storageKey = process.env.STORAGE_ACCESS_KEY!
 const b2 = new B2({ applicationKeyId: storageKeyId, applicationKey: storageKey })
 
 export async function GET(req: NextRequest): Promise<NextResponse<{ authToken: string; downloadUrl: string } | Err>> {
-  console.log('req in route - ', req)
   try {
     await getServerSessionToken(req)
 

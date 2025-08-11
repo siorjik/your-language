@@ -12,13 +12,9 @@ export const ActivityTypesProvider = ({ children }: { children: React.ReactNode 
   const [activityTypes, setActivityTypes] = useState<ActivityType[] | null>(null)
 
   useEffect(() => {
-    console.log('activityTypesListApiPath - ', activityTypesListApiPath)
     ;(async () => {
       try {
-        const res: { activityTypes: ActivityType[]; error: null } = await apiRequestService({
-          url: activityTypesListApiPath,
-          // url: 'https://language-bro.online/api/activity-types',
-        })
+        const res: { activityTypes: ActivityType[]; error: null } = await apiRequestService({ url: activityTypesListApiPath })
 
         setActivityTypes(res.activityTypes)
       } catch (error) {

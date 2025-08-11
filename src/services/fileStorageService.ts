@@ -6,12 +6,10 @@ export default class FileStorageService {
   private authTime = 1000 * 60 * 60 * 8 // 8 hours
 
   async authorize() {
-    console.log('fileAuthApiPath - ', fileAuthApiPath)
     try {
       if (!this.storageAuth.authToken) {
         const { authorizationToken, downloadUrl }: { authorizationToken: string; downloadUrl: string } = await apiRequestService({
           url: fileAuthApiPath,
-          // url: 'https://language-bro.online/api/files/authorize',
         })
 
         this.storageAuth = { authToken: authorizationToken, downloadUrl: downloadUrl }

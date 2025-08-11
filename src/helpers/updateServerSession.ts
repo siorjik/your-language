@@ -29,10 +29,12 @@ export default async (data: { [k: string]: string | number | boolean }): Promise
 
     const sessionCookie = updatedSession.headers.get('set-cookie') as string
 
-    const parsedCookie = getParsedCookie(sessionCookie, 'authjs.session-token')
+    const cookieName = process.env.NEXT_PUBLIC_APP_ENV === 'production' ? '__Secure-authjs.session-token' : 'authjs.session-token'
+
+    const parsedCookie = getParsedCookie(sessionCookie, cookieName)
 
     const cookieStore = await cookies()
-    cookieStore.set('authjs.session-token', parsedCookie)
+    cookieStore.set(cookieName, parsedCookie)
   } catch (error) {
     console.log('error in updateServerSession - ', error)
 
