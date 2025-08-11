@@ -20,7 +20,6 @@ export const getMemorizationAppPath = (id: string) => `${setsAppPath}/${id}/memo
 export const getSpellingAppPath = (id: string) => `${setsAppPath}/${id}/spelling`
 
 export const appHost = process.env.NEXT_PUBLIC_APP_HOST
-console.log('appHost - ', appHost)
 
 /***** api *****/
 export const dictionaryApiPath = '/api/dictionary'

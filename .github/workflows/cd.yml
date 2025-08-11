@@ -62,6 +62,9 @@ jobs:
             --build-arg NEXT_PUBLIC_APP_HOST=${{ secrets.NEXT_PUBLIC_APP_HOST }} \
             --build-arg NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }} \
             --build-arg NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }} \
+            --build-arg NEXT_PUBLIC_APP_ENV=${{ secrets.NEXT_PUBLIC_APP_ENV }} \
+            --build-arg NEXT_PUBLIC_DICTIONARY_API_URL=${{ secrets.NEXT_PUBLIC_DICTIONARY_API_URL }} \
+            --build-arg OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} \
             -t your-language -f docker/Dockerfile.github .
 
       - name: Tag Docker image
