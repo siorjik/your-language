@@ -41,7 +41,7 @@ export default function TwoFa({ twoFaData }: { twoFaData: { data: string; secret
 
         if (res.error) getErrToast(res.error.message)
 
-        push(profileAppPath)
+        setTimeout(() => push(profileAppPath), 1000)
       } else getErrToast('Invalid code, please repeat...')
 
       setShow(false)
@@ -59,7 +59,7 @@ export default function TwoFa({ twoFaData }: { twoFaData: { data: string; secret
 
     setShow(false)
 
-    push(profileAppPath)
+    setTimeout(() => push(profileAppPath), 1000)
   }
 
   return (

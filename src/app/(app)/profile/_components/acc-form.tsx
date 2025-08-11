@@ -28,7 +28,7 @@ export default function EditAccountForm() {
         description: 'Your account was updated successfully!',
       })
 
-      update({ ...data })
+      await update({ ...data })
 
       return true
     } else {

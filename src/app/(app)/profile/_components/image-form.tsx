@@ -75,7 +75,7 @@ export default function ChangeImageForm() {
       const updatedUser = await updateAccImage({ image: url })
       if (updatedUser.error) throw Error('Updated user error')
 
-      update({ image: url })
+      await update({ image: url })
 
       setImage({ file: null, url: getAuthUrl(url) })
       setLoading(false)
