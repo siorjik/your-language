@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
 export const sendCreatePassMail = async ({ to, token, name }: { to: string; token: string; name: string }): Promise<void> => {
   try {
     const result = await transporter.sendMail({
-      from: { name: 'noreply@language-for-you.online', address: process.env.MAILER_USER! },
+      from: { name: `noreply@${appHost}`, address: process.env.MAILER_USER! },
       to,
       subject: 'Password creation.',
       html: `
@@ -35,7 +35,7 @@ export const sendCreatePassMail = async ({ to, token, name }: { to: string; toke
 export const sendRecoverPassMail = async ({ to, token }: { to: string; token: string }): Promise<void> => {
   try {
     const result = await transporter.sendMail({
-      from: { name: 'noreply@language-for-you.online', address: process.env.MAILER_USER! },
+      from: { name: `noreply@${appHost}`, address: process.env.MAILER_USER! },
       to,
       subject: 'Password recovery.',
       html: `

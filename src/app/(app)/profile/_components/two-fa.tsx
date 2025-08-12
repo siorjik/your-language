@@ -20,7 +20,7 @@ export default function TwoFa({ twoFaData }: { twoFaData: { data: string; secret
   const { toast } = useToast()
   const { push } = useRouter()
   const { update } = useSession()
-  console.log(twoFaData)
+
   const getErrToast = (description: string) =>
     toast({ title: 'Two-Factor Authentication Error', variant: 'destructive', description })
 

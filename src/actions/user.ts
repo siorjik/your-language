@@ -14,7 +14,7 @@ import {
 } from '@/types/forms/user'
 import { SelectedUser } from '@/types/models/user'
 import { encode, isVerifiedStr } from '@/services/cryptoService'
-import updateServerSession from '@/helpers/updateServerSession'
+// import updateServerSession from '@/helpers/updateServerSession'
 
 export const updateAcc = async (data: z.infer<typeof updateAccFormTypeSchema>): Promise<SelectedUser | Err> => {
   const { email, name } = data

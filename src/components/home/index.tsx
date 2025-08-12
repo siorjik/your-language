@@ -15,7 +15,7 @@ type MainProps = {
   sets: SelectedSet[] | []
   chartData: { month: string; sets: number; flashcards: number; memorization: number; spelling: number }[]
 }
-export default function Main({ session, sets, chartData }: MainProps) {
+export default function Home({ session, sets, chartData }: MainProps) {
   const chartConfig = {
     sets: { label: 'Created Sets', color: 'hsl(var(--chart-1))' },
     flashcards: { label: 'Passed Flashcards', color: 'hsl(var(--chart-2))' },
