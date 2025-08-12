@@ -88,7 +88,7 @@ export const updateAccTwoFaHash = async (data: z.infer<typeof updateAccTwoFaType
       omit: { password: true },
     })
 
-    await updateServerSession({ isTwoFa: !!twoFaHash })
+    // await updateServerSession({ isTwoFa: !!twoFaHash })
 
     return { ...updatedUser, error: null }
   } catch (error) {

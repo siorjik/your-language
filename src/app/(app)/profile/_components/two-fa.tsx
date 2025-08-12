@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 
 import { Button } from '@/components/ui/button'
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp'
@@ -18,7 +19,8 @@ export default function TwoFa({ twoFaData }: { twoFaData: { data: string; secret
 
   const { toast } = useToast()
   const { push } = useRouter()
-
+  const { update } = useSession()
+  console.log(twoFaData)
   const getErrToast = (description: string) =>
     toast({ title: 'Two-Factor Authentication Error', variant: 'destructive', description })
 
@@ -41,7 +43,9 @@ export default function TwoFa({ twoFaData }: { twoFaData: { data: string; secret
 
         if (res.error) getErrToast(res.error.message)
 
-        push(profileAppPath)
+        update({ isTwoFa: true })
+
+        setTimeout(() => push(profileAppPath), 100)
       } else getErrToast('Invalid code, please repeat...')
 
       setShow(false)
@@ -57,9 +61,9 @@ export default function TwoFa({ twoFaData }: { twoFaData: { data: string; secret
 
     if (res.error) getErrToast(res.error.message)
 
-    setShow(false)
+    update({ isTwoFa: false })
 
-    push(profileAppPath)
+    setTimeout(() => push(profileAppPath), 100)
   }
 
   return (
