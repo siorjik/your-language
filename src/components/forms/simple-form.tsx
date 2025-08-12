@@ -73,6 +73,7 @@ export default function SimpleForm(props: SimpleFormPropsType) {
       const res = await submit(values)
 
       if (!res) setErr(() => true)
+      else reset(undefined, { keepValues: true, keepDirty: false, keepDefaultValues: false })
 
       if (isReset && res) {
         reset()

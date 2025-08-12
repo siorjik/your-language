@@ -34,8 +34,6 @@ export default async (data: { [k: string]: string | number | boolean }): Promise
     const parsedCookie = getParsedCookie(sessionCookie, cookieName)
 
     const cookieStore = await cookies()
-
-    cookieStore.delete(cookieName)
     cookieStore.set(cookieName, parsedCookie)
   } catch (error) {
     console.log('error in updateServerSession - ', error)

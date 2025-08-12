@@ -1,5 +1,6 @@
 'use client'
 
+// import { useState, useEffect } from 'react'
 import z from 'zod'
 import { useSession, getSession } from 'next-auth/react'
 
@@ -12,8 +13,16 @@ import { SelectedUser } from '@/types/models/user'
 import { Err } from '@/types/errTypes'
 
 export default function EditAccountForm() {
+  // const [acc, setAcc] = useState<{ name: string, email: string }>({ name: '', email: '' })
+
   const { toast } = useToast()
   const { data: session, update } = useSession()
+
+  // useEffect(() => {
+  //   return () => {
+  //     if (Object.values(acc).filter(val => !!val).length) update({ ...acc })
+  //   }
+  // }, [acc])
 
   const submit = async (data: z.infer<typeof updateAccFormTypeSchema>): Promise<boolean> => {
     await getSession()
@@ -28,7 +37,8 @@ export default function EditAccountForm() {
         description: 'Your account was updated successfully!',
       })
 
-      await update({ ...data })
+      // setAcc({ ...data })
+      update({ ...data })
 
       return true
     } else {
@@ -51,6 +61,7 @@ export default function EditAccountForm() {
         schema={updateAccFormTypeSchema}
         fieldsData={fieldData}
         btn={{ text: 'Update', css: 'w-auto' }}
+        // data={{ email: acc.email || session?.user?.email, name: acc.name || session?.user?.name }}
         data={{ email: session?.user?.email, name: session?.user?.name }}
         showLoader
       />
