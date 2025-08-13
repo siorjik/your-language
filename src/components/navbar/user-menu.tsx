@@ -145,18 +145,24 @@ export default function UserMenu() {
     </DropdownMenu>
   )
 
-  const notificationsStyle = notificationList.find((el) => el.status === NOTIFICATION_STATUSES.new) ? 'notification' : ''
+  const isNewNotification = notificationList.find((el) => el.status === NOTIFICATION_STATUSES.new)
+  const notificationsStyle = isNewNotification ? 'notification' : ''
 
   const notificationsDropDownMenu = () => (
     <DropdownMenu open={showNotifications} onOpenChange={setShowNotifications}>
       <DropdownMenuTrigger asChild>
-        <span className="flex items-center gap-3 h-10 px-2 hover:bg-accent cursor-pointer rounded-md font-semibold w-full">
-          <span
-            className={`${notificationsStyle} after:content-[attr(data-after)] after:w-5 after:h-5 after:left-3 after:text-xs`}
-            data-after={notificationList.filter((el) => el.status === NOTIFICATION_STATUSES.new).length || ''}
-          >
-            <Bell className="text-primary" />
-          </span>
+        <span className="relative flex items-center gap-3 h-10 px-2 hover:bg-accent cursor-pointer rounded-md font-semibold w-full">
+          {isNewNotification && (
+            <span
+              className="
+              w-4 h-4 absolute top-1 left-5 bg-warn rounded-full text-xs
+              flex items-center justify-center font-balsamiqSans text-white
+            "
+            >
+              {notificationList.filter((el) => el.status === NOTIFICATION_STATUSES.new).length || ''}
+            </span>
+          )}
+          <Bell className="text-primary" />
           <span className="text-primary">Notifications</span>
         </span>
       </DropdownMenuTrigger>
@@ -212,7 +218,7 @@ export default function UserMenu() {
                   <Settings className="text-muted-foreground" />
                 ) : (
                   <Image
-                    className={`h-[43px] w-[43px] rounded-full object-cover ${notificationsStyle}`}
+                    className="h-[43px] w-[43px] rounded-full object-cover"
                     src={getAuthUrl(session.user.image)}
                     width={30}
                     height={30}
