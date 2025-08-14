@@ -151,15 +151,19 @@ export default function UserMenu() {
   const notificationsDropDownMenu = () => (
     <DropdownMenu open={showNotifications} onOpenChange={setShowNotifications}>
       <DropdownMenuTrigger asChild>
-        <span className="relative flex items-center gap-3 h-10 px-2 hover:bg-accent cursor-pointer rounded-md font-semibold w-full">
+        <span
+          className="
+            relative flex items-center gap-3 h-10 px-2 hover:bg-accent cursor-pointer rounded-md font-semibold w-full
+          "
+        >
           {isNewNotification && (
             <span
               className="
-              w-4 h-4 absolute top-1 left-5 bg-warn rounded-full text-xs
+              w-4 h-4 absolute top-1 left-5 bg-warn rounded-full text-xs pt-[1px]
               flex items-center justify-center font-balsamiqSans text-white
             "
             >
-              {notificationList.filter((el) => el.status === NOTIFICATION_STATUSES.new).length || ''}
+              {notificationList.filter((el) => el.status === NOTIFICATION_STATUSES.new).length}
             </span>
           )}
           <Bell className="text-primary" />
