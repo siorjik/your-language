@@ -11,7 +11,10 @@ import { THEMES } from '@/utils/constants'
 const playpenSans = Playpen_Sans({ variable: '--font-playpen-sans', subsets: ['latin'] })
 const balsamiqSans = Balsamiq_Sans({ variable: '--font-balsamiq-sans', subsets: ['latin'], weight: '700' })
 
-export const metadata: Metadata = { title: 'Home', description: 'Home page' }
+export const metadata: Metadata = {
+  title: 'Home | Language Bro',
+  description: 'Learn languages faster with Language Bro. Flashcards, quizzes, and progress tracking — all in one simple app.',
+}
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (

@@ -15,7 +15,13 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
   if (set.error) notFound()
 
-  return { title: `${set.title} (flashcards)`, description: `${set.title} (flashcards) page` }
+  return {
+    title: `${set.title} | Flashcards`,
+    description: `
+      Practice your custom flashcards with terms and definitions.
+      Strengthen your vocabulary through interactive study cards and spaced repetition.
+    `,
+  }
 }
 
 export default async function FlashcardsPage({ params }: { params: Promise<{ id: string }> }) {

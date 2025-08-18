@@ -16,7 +16,13 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
   if (set.error) notFound()
 
-  return { title: `${set.title}`, description: `${set.title} update page` }
+  return {
+    title: `${set.title} | Language Bro`,
+    description: `
+      Update your Set with new terms and definitions.
+      Edit and refine your study materials to keep your learning progress on track.
+    `,
+  }
 }
 
 export default async function SetUpdate({ params }: { params: Promise<{ id: string }> }) {

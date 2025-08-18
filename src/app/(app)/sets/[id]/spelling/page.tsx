@@ -15,7 +15,13 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
   if (set.error) notFound()
 
-  return { title: `${set.title} (spelling)`, description: `${set.title} (spelling) page` }
+  return {
+    title: `${set.title} | Spelling`,
+    description: `
+      Improve spelling and vocabulary accuracy with interactive practice.
+      Type answers, test recall, and reinforce correct language usage.
+    `,
+  }
 }
 
 export default async function SpellingPage({ params }: { params: Promise<{ id: string }> }) {

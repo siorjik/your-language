@@ -15,7 +15,13 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
   if (set.error) notFound()
 
-  return { title: `${set.title} (memorization)`, description: `${set.title} (memorization) page` }
+  return {
+    title: `${set.title} | Memorization`,
+    description: `
+      Train your memory with quizzes.
+      Review terms, test recall, and track progress to boost long-term language retention.
+    `,
+  }
 }
 
 export default async function TestPage({ params }: { params: Promise<{ id: string }> }) {

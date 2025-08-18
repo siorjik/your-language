@@ -3,7 +3,11 @@ import type { Metadata } from 'next'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import RecoverPassword from './_components/recover-password-form'
 
-export const metadata: Metadata = { title: 'Password Recovery', description: 'Password Recovery page' }
+export const metadata: Metadata = {
+  title: 'Password Recovery | Language Bro',
+  description: 'Recover access to your Language Bro account by resetting your password.',
+  robots: { index: false, follow: false },
+}
 
 export default async function RecoverPasswordPage({ searchParams }: { searchParams: Promise<{ token: string }> }) {
   const { token } = await searchParams
