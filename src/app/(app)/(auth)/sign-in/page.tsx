@@ -3,7 +3,10 @@ import type { Metadata } from 'next'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import LoginForm from './_components/login-form'
 
-export const metadata: Metadata = { title: 'Sign In', description: 'Sign In page' }
+export const metadata: Metadata = {
+  title: 'Sign In | Language Bro',
+  description: 'Access your Language Bro account to continue learning with flashcards, quizzes, and progress tracking.',
+}
 
 export default function SignIn() {
   return (

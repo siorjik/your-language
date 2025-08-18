@@ -6,7 +6,11 @@ import { Button } from '@/components/ui/button'
 
 import { setsAppPath } from '@/utils/paths'
 
-export const metadata: Metadata = { title: 'New Set Creation', description: 'New Set Creation page' }
+export const metadata: Metadata = {
+  title: 'New Set Creation | Language Bro',
+  description: `Create new sets to expand your vocabulary with new words and
+    improve your memorization with flashcards, quizzes and spelling.`,
+}
 
 export default function NewSet() {
   return (

@@ -24,7 +24,7 @@ export async function generateMetadata({
 
     if (set.error) notFound()
 
-    return { title: `Set: ${set.title}`, description: `${set.title} page` }
+    return { title: `${set.title} | Language Bro`, description: 'Review your current Set and make some changes if it needed.' }
   }
   return null
 }
