@@ -9,12 +9,9 @@ import AlertDialogWrap from '@/components/alert-dialog-wrap'
 import { LANGUAGE_OPTIONS } from '@/utils/constants'
 import { deleteSet } from '@/actions/set'
 import { SelectedSet } from '@/types/models/set'
-import useFileStorage from '@/hooks/useFileStorage'
 import ShareBtn from '@/components/share-btn'
 
 export default function SetItem({ set, idx }: { set: SelectedSet; idx: number }) {
-  const { getAuthUrl } = useFileStorage()
-
   const isOwnerExist = !!set.ownerId
 
   return (
@@ -37,7 +34,7 @@ export default function SetItem({ set, idx }: { set: SelectedSet; idx: number })
           {set.user?.image && (
             <>
               <Image
-                src={getAuthUrl(isOwnerExist ? set.owner!.image! : set.user.image)}
+                src={isOwnerExist ? set.owner!.image! : set.user.image}
                 alt="user"
                 width={10}
                 height={10}
