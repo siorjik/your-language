@@ -10,7 +10,7 @@ export const changePassFormTypeSchema = z.object({
   newPass: z.string().min(5, { message: 'New password length must be at least 5' }),
 })
 
-export const updateAccImageFormTypeSchema = z.object({ image: z.string().min(1, { message: 'Image is required' }) })
+export const updateAccImageFormTypeSchema = z.object({ image: z.string().nullable() })
 
 export const updateAccTwoFaTypeSchema = z.object({
   secret: z.string().length(52, { message: 'Invalid two-fa secret' }).nullable(),

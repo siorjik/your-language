@@ -69,35 +69,25 @@ export default async function HomePage() {
         [] as { month: string; flashcards: number; memorization: number; spelling: number }[],
       )
 
-      mappedChartData = [...setsMappedData, ...activityMappedData]
-        .reduce(
-          (acc, current) => {
-            if (!acc.find((el) => el.month === current.month)) {
-              if (
-                setsMappedData.find((el) => el.month === current.month) &&
-                activityMappedData.find((el) => el.month === current.month)
-              ) {
-                acc.push({
-                  ...setsMappedData.find((el) => el.month === current.month)!,
-                  ...activityMappedData.find((el) => el.month === current.month)!,
-                })
-              } else if (!setsMappedData.find((el) => el.month === current.month)) {
-                acc.push({ ...activityMappedData.find((el) => el.month === current.month)!, sets: 0 })
-              } else {
-                acc.push({
-                  ...setsMappedData.find((el) => el.month === current.month)!,
-                  flashcards: 0,
-                  memorization: 0,
-                  spelling: 0,
-                })
-              }
+      mappedChartData = MONTHS.reduce(
+        (acc, current) => {
+          if (!acc.find((el) => el.month === current)) {
+            if (setsMappedData.find((el) => el.month === current) && activityMappedData.find((el) => el.month === current)) {
+              acc.push({
+                ...setsMappedData.find((el) => el.month === current)!,
+                ...activityMappedData.find((el) => el.month === current)!,
+              })
+            } else if (!setsMappedData.find((el) => el.month === current)) {
+              acc.push({ ...activityMappedData.find((el) => el.month === current)!, sets: 0 })
+            } else {
+              acc.push({ ...setsMappedData.find((el) => el.month === current)!, flashcards: 0, memorization: 0, spelling: 0 })
             }
+          }
 
-            return acc
-          },
-          [] as { month: string; sets: number; flashcards: number; memorization: number; spelling: number }[],
-        )
-        .sort((a, b) => MONTHS.indexOf(a.month) - MONTHS.indexOf(b.month))
+          return acc
+        },
+        [] as { month: string; sets: number; flashcards: number; memorization: number; spelling: number }[],
+      ).filter((el) => !!el.month)
     }
   }
 

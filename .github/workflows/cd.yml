@@ -84,6 +84,10 @@ jobs:
             --build-arg STORAGE_ACCESS_KEY_ID=${{ secrets.STORAGE_ACCESS_KEY_ID }} \
             --build-arg STORAGE_ID=${{ secrets.STORAGE_ID }} \
             --build-arg STORAGE_NAME=${{ secrets.STORAGE_NAME }} \
+            --build-arg AWS_BUCKET_NAME=${{ secrets.AWS_BUCKET_NAME }} \
+            --build-arg AWS_DEFAULT_REGION=${{ secrets.AWS_DEFAULT_REGION }} \
+            --build-arg AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
+            --build-arg AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
             -t your-language -f docker/Dockerfile.github .
 
       - name: Tag Docker image

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { getSession, useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { User2 } from 'lucide-react'
@@ -10,10 +10,8 @@ import { Button } from '@/components/ui/button'
 
 import useFileStorage from '@/hooks/useFileStorage'
 import { useToast } from '@/hooks/use-toast'
-import FileStorageService from '@/services/fileStorageService'
 import { updateAccImage } from '@/actions/user'
-
-const fileStorage = new FileStorageService()
+import { deleteFile, uploadFile } from '@/actions/fileStorage'
 
 export default function ChangeImageForm() {
   const [image, setImage] = useState<{ file: File | null; url: string | ArrayBuffer | null }>({ file: null, url: null })
@@ -23,11 +21,11 @@ export default function ChangeImageForm() {
   const { toast } = useToast()
   const { getAuthUrl } = useFileStorage()
 
-  const getAuthUrlCallback = useCallback(() => getAuthUrl(session?.user?.image as string), [])
+  const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
-    if (session?.user?.image && !image.url) setImage({ ...image, url: getAuthUrlCallback() })
-  }, [getAuthUrlCallback, session?.user?.image, image.url])
+    if (session?.user?.image && !image.url) setImage({ ...image, url: session?.user?.image })
+  }, [session?.user?.image, image.url])
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileMb = 1024 * 1024 * 10 // 10Mb
@@ -69,15 +67,18 @@ export default function ChangeImageForm() {
     setLoading(true)
 
     try {
-      const url = await fileStorage.uploadFile(image?.url as string, image.file?.name as string)
-      if (!url) throw Error('Uploaded image url not found')
+      if (session?.user.image) await deleteFile(session?.user.image)
 
-      const updatedUser = await updateAccImage({ image: url })
+      const res = await uploadFile(image.file!)
+
+      if (res.error) throw Error('Uploaded image url not found')
+
+      const updatedUser = await updateAccImage({ image: res.url })
       if (updatedUser.error) throw Error('Updated user error')
 
-      await update({ image: url })
+      await update({ image: res.url })
 
-      setImage({ file: null, url: getAuthUrl(url) })
+      setImage({ file: null, url: getAuthUrl(res.url) })
       setLoading(false)
 
       toast({ title: 'Image Uploading', description: 'Image was uploaded successfully!', variant: 'success' })
@@ -92,14 +93,29 @@ export default function ChangeImageForm() {
     }
   }
 
-  const showControlBlock = image.url && !String(image.url).includes('https')
+  const onDelete = async () => {
+    try {
+      await deleteFile(session?.user.image)
+
+      await updateAccImage({ image: null })
+
+      await update({ image: null })
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <>
       <div className="flex flex-col justify-center items-center">
         <h3 className="sub-title-3">Update image:</h3>
         <div>
-          <input className="absolute h-[200px] w-[200px] opacity-0 cursor-pointer rounded-full" type="file" onChange={onChange} />
+          <input
+            ref={inputRef}
+            className="absolute h-[200px] w-[200px] opacity-0 cursor-pointer rounded-full"
+            type="file"
+            onChange={onChange}
+          />
           {image.url ? (
             <Image
               className="rounded-full border-4 border-secondary object-cover w-[200px] h-[200px]"
@@ -107,16 +123,26 @@ export default function ChangeImageForm() {
               width={200}
               height={200}
               alt="user"
+              priority
             />
           ) : (
             <div className="flex justify-center items-center rounded-full border-4 border-secondary w-[200px] h-[200px]">
               <User2 size={100} />
             </div>
           )}
-          {showControlBlock && (
+          {!image.url && !session?.user.image ? (
+            <Button className="mt-5 mx-auto block" onClick={() => inputRef.current?.click()}>
+              Choose file
+            </Button>
+          ) : image.url !== session?.user.image ? (
             <div className="mt-5 gap-5 flex justify-center">
-              <Button onClick={() => setImage({ file: null, url: null })}>Cancel</Button>
+              <Button onClick={() => setImage({ file: null, url: session?.user.image })}>Cancel</Button>
               <Button onClick={upload}>Save</Button>
+            </div>
+          ) : (
+            <div className="mt-5 gap-5 flex justify-center">
+              <Button onClick={() => inputRef.current?.click()}>Update</Button>
+              <Button onClick={onDelete}>Delete</Button>
             </div>
           )}
         </div>
