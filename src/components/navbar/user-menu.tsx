@@ -29,7 +29,6 @@ import {
 import Spinner from '../spinner'
 
 import { profileAppPath, signUpAppPath, signInAppPath, getSetAppPath } from '@/utils/paths'
-import useFileStorage from '@/hooks/useFileStorage'
 import { NOTIFICATION_STATUSES, NOTIFICATION_TYPES, THEMES } from '@/utils/constants'
 import { Notification } from '@prisma/client'
 import { deleteNotification, getUserNotifications, readNotification } from '@/actions/notification'
@@ -42,7 +41,6 @@ export default function UserMenu() {
   const [notificationList, setNotificationList] = useState<Notification[]>([])
 
   const { data: session } = useSession()
-  const { getAuthUrl } = useFileStorage()
   const { theme, setTheme } = useTheme()
 
   useEffect(() => {
@@ -223,7 +221,7 @@ export default function UserMenu() {
                 ) : (
                   <Image
                     className="h-[43px] w-[43px] rounded-full object-cover"
-                    src={getAuthUrl(session.user.image)}
+                    src={session.user.image}
                     width={30}
                     height={30}
                     alt="image"

@@ -8,15 +8,12 @@ import { ChevronUp } from 'lucide-react'
 import ThemeBtn from './theme-btn'
 import Navbar from './navbar'
 import Spinner from './spinner'
-import FileStorageService from '@/services/fileStorageService'
-
-const fileStorage = new FileStorageService()
 
 export default function Layout({ children }: { children: ReactNode }) {
   const [isHide, setHide] = useState(false)
   const [isShowBtn, setShowBtn] = useState(false)
 
-  const { status, data: session, update } = useSession()
+  const { status, data: session } = useSession()
   const pathname = usePathname()
 
   const mainRef = useRef<HTMLDivElement>(null)
@@ -25,15 +22,6 @@ export default function Layout({ children }: { children: ReactNode }) {
   const isSession = !!session
 
   useEffect(() => {
-    // file storage authorization
-    if (session && !session.fileStorageAuth) {
-      ;(async () => {
-        const fileStorageAuthData = await fileStorage.authorize()
-
-        update({ fileStorageAuth: fileStorageAuthData.authToken })
-      })()
-    }
-
     if (isSession && +new Date() > +new Date(session?.expires)) signOut({ redirectTo: '/' }) // log out if session expired
 
     // redirect after reloading if session expired
@@ -79,7 +67,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 
   return (
     <div className="main-wrap">
-      {isLoadingSession || (!session?.fileStorageAuth && isSession) ? (
+      {isLoadingSession ? (
         <Spinner />
       ) : (
         <>
