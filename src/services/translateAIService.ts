@@ -9,7 +9,9 @@ const getMappedTranslates = (data: string[]): string[] => {
   let res: string[] = []
 
   data.forEach((word, index) => {
-    if (!res.find((item) => item.includes(word))) res = res.length > 0 ? [...res, res[index - 1] + ', ' + word] : [word]
+    if (!res.find((item) => item.split(', ').includes(word))) {
+      res = res.length > 0 ? [...res, res[index - 1] + ', ' + word] : [word]
+    }
   })
 
   return res
@@ -25,7 +27,7 @@ export default async (word: string, inputLanguage: string, outputLanguage: strin
     Return data in JSON format according following format: { translates: string[] }.
   `
 
-  const model = new ChatOpenAI({ temperature: 0, modelName: 'gpt-3.5-turbo' })
+  const model = new ChatOpenAI({ temperature: 0, modelName: 'gpt-4' })
 
   const parser = StructuredOutputParser.fromZodSchema(
     z.object({ translates: z.array(z.string()).describe('The list of translated texts') }),
