@@ -89,7 +89,7 @@ export default function Layout({ children }: { children: ReactNode }) {
               "
             >
               <div className="w-full mx-auto max-w-7xl flex justify-between items-center text-sm text-primary">
-                <span>&copy; {new Date().getFullYear()}</span>
+                <span className="font-semibold">&copy; {new Date().getFullYear()} Language Bro</span>
                 <span className="icon-hover mr-[-8px] cursor-pointer">
                   <ThemeBtn />
                 </span>

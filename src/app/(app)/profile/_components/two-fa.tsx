@@ -84,6 +84,7 @@ export default function TwoFa({ twoFaData }: { twoFaData: { data: string; secret
               <InputOTPSlot index={5} />
             </InputOTPGroup>
           </InputOTP>
+          <div className="mt-10 font-semibold text-primary">Next time, you`ll sign in with 2FA.</div>
         </div>
       ) : (
         <>

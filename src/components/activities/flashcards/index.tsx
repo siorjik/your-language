@@ -91,6 +91,11 @@ export default function Flashcards({ data, isComboOpen }: { data: SelectedSet; i
     if (isSound) sound({})
   }, [setList, mode, isSound])
 
+  // after reset if isSound
+  useEffect(() => {
+    if (isSound && index === 0) sound({})
+  }, [index])
+
   useEffect(() => {
     if (rightPress) paginate(1)
   }, [rightPress])
@@ -130,11 +135,7 @@ export default function Flashcards({ data, isComboOpen }: { data: SelectedSet; i
       }
 
       setVariants(xVariants)
-    } else {
-      setMode(selectedMode)
-
-      if (isSound) setSound(false)
-    }
+    } else setMode(selectedMode)
   }
 
   const rotate = () => {

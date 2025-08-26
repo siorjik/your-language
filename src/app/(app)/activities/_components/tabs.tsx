@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Fragment } from 'react'
 import { GalleryHorizontal, Brain, Pen } from 'lucide-react'
 
 import Flashcards from '@/components/activities/flashcards'
@@ -14,14 +14,18 @@ import { SelectedSet } from '@/types/models/set'
 
 export default function TabsPage({ set, isComboOpen }: { set: SelectedSet; isComboOpen: boolean }) {
   const [isLoader, setLoader] = useState(false)
+  const [setId, setSetId] = useState('')
 
   useEffect(() => {
-    if (set?.id) {
+    if (set?.id !== setId) {
       setLoader(true)
 
-      setTimeout(() => setLoader(false), 500)
+      setTimeout(() => {
+        setLoader(false)
+        setSetId(set?.id)
+      }, 500)
     }
-  }, [set])
+  }, [setId, set])
 
   return (
     <ActivityTypesProvider>
@@ -44,17 +48,17 @@ export default function TabsPage({ set, isComboOpen }: { set: SelectedSet; isCom
           {isLoader ? (
             <Spinner />
           ) : (
-            <>
+            <Fragment key={set?.id}>
               <TabsContent value="flashcards">
-                <Flashcards key={set.id} data={set} isComboOpen={isComboOpen} />
+                <Flashcards data={set} isComboOpen={isComboOpen} />
               </TabsContent>
               <TabsContent value="memorization">
-                <Memorization key={set.id} data={set} />
+                <Memorization data={set} />
               </TabsContent>
               <TabsContent value="spelling">
-                <Spelling key={set.id} data={set} />
+                <Spelling data={set} />
               </TabsContent>
-            </>
+            </Fragment>
           )}
         </Tabs>
       ) : (

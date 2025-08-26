@@ -8,7 +8,6 @@ import { User2 } from 'lucide-react'
 import Spinner from '@/components/spinner'
 import { Button } from '@/components/ui/button'
 
-import useFileStorage from '@/hooks/useFileStorage'
 import { useToast } from '@/hooks/use-toast'
 import { updateAccImage } from '@/actions/user'
 import { deleteFile, uploadFile } from '@/actions/fileStorage'
@@ -19,7 +18,6 @@ export default function ChangeImageForm() {
 
   const { data: session, update } = useSession()
   const { toast } = useToast()
-  const { getAuthUrl } = useFileStorage()
 
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -78,7 +76,7 @@ export default function ChangeImageForm() {
 
       await update({ image: res.url })
 
-      setImage({ file: null, url: getAuthUrl(res.url) })
+      setImage({ file: null, url: res.url })
       setLoading(false)
 
       toast({ title: 'Image Uploading', description: 'Image was uploaded successfully!', variant: 'success' })
@@ -132,7 +130,7 @@ export default function ChangeImageForm() {
           )}
           {!image.url && !session?.user.image ? (
             <Button className="mt-5 mx-auto block" onClick={() => inputRef.current?.click()}>
-              Choose file
+              Choose File
             </Button>
           ) : image.url !== session?.user.image ? (
             <div className="mt-5 gap-5 flex justify-center">
