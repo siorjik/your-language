@@ -15,7 +15,7 @@ export default async (word: string, language: string) => {
     Return data in JSON format according following format: { words: string[] }.
   `
 
-  const model = new ChatOpenAI({ temperature: 0, modelName: 'gpt-3.5-turbo' })
+  const model = new ChatOpenAI({ temperature: 0, modelName: 'gpt-4' })
 
   const parser = StructuredOutputParser.fromZodSchema(z.object({ words: z.array(z.string()).describe('The list of words') }))
 
