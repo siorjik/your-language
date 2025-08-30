@@ -21,6 +21,7 @@ export const createNotification = async (
     const count = await prisma.notification.count({ where: { userId: session.id } })
     if (count > 3) {
       const toDelete = await prisma.notification.findMany({
+        where: { userId: session.id },
         orderBy: { createdAt: 'asc' },
         take: count - 3,
         select: { id: true },
