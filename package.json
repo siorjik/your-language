@@ -4,10 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "node --loader ts-node/esm ./server.ts",
-    "dev:turbo": "node --loader ts-node/esm ./server.ts --turbopack",
+    "dev": "tsx watch server.ts",
+    "dev:turbo": "tsx watch server.ts --turbopack",
     "build": "pnpm generate && next build",
-    "start": "NODE_ENV=production node --loader ts-node/esm ./server.ts",
+    "start": "NODE_ENV=production tsx server.ts",
     "launch": "pnpm build && pnpm start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
