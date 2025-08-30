@@ -332,10 +332,10 @@ export default function Flashcards({ data, isComboOpen }: { data: SelectedSet; i
                 )}
               </span>
               <span
-                className={`p-[5px] icon-hover border-2 rounded-full border-transparent ${isShuffled ? '!border-primary' : ''}`}
+                className={`p-[6px] icon-hover border-2 rounded-full border-transparent ${isShuffled ? '!border-primary' : ''}`}
                 onClick={() => shuffle(!isShuffled)}
               >
-                <Shuffle size={20} />
+                <Shuffle size={19} />
               </span>
             </div>
             <div className="flex gap-1 md:gap-5 items-center">
