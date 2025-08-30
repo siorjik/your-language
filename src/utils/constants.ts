@@ -37,3 +37,5 @@ export const MONTHS = [
 export const NOTIFICATION_TYPES = { createdSet: 'createdSet' }
 
 export const NOTIFICATION_STATUSES = { new: 'new', read: 'read' }
+
+export const SOCKET_EVENTS = { notification: 'notification', message: 'message' }

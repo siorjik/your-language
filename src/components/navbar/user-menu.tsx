@@ -29,9 +29,10 @@ import {
 import Spinner from '../spinner'
 
 import { profileAppPath, signUpAppPath, signInAppPath, getSetAppPath } from '@/utils/paths'
-import { NOTIFICATION_STATUSES, NOTIFICATION_TYPES, THEMES } from '@/utils/constants'
+import { NOTIFICATION_STATUSES, NOTIFICATION_TYPES, SOCKET_EVENTS, THEMES } from '@/utils/constants'
 import { Notification } from '@prisma/client'
 import { deleteNotification, getUserNotifications, readNotification } from '@/actions/notification'
+import useSocket from '@/hooks/useSocket'
 
 export default function UserMenu() {
   const [isShow, setShow] = useState(false)
@@ -42,6 +43,11 @@ export default function UserMenu() {
 
   const { data: session } = useSession()
   const { theme, setTheme } = useTheme()
+  useSocket(SOCKET_EVENTS.notification, async () => {
+    setTimeout(async () => {
+      await getNotifications()
+    }, 1000)
+  })
 
   useEffect(() => {
     if (session?.user) {

@@ -17,13 +17,14 @@ import Spinner from '../spinner'
 import { setFormTypeSchema } from '@/types/forms/set'
 import apiRequestService from '@/services/apiRequestService'
 import { dictionaryApiPath, getSetAppPath, setsAppPath, translateApiPath } from '@/utils/paths'
-import { LANGUAGE_OPTIONS, NOTIFICATION_STATUSES, NOTIFICATION_TYPES } from '@/utils/constants'
+import { LANGUAGE_OPTIONS, NOTIFICATION_STATUSES, NOTIFICATION_TYPES, SOCKET_EVENTS } from '@/utils/constants'
 import { createSet, updateSet } from '@/actions/set'
 import { Err } from '@/types/errTypes'
 import { toast } from '@/hooks/use-toast'
 import dictionaryService from '@/services/dictionaryService'
 import { SelectedSet } from '@/types/models/set'
 import { createNotification } from '@/actions/notification'
+import useSocket from '@/hooks/useSocket'
 
 const defaultValues = { list: [{ term: '', definition: '' }], title: '', source: '', target: '' }
 
@@ -40,6 +41,7 @@ export default function SetForm({ data = null, action = null, btnStyle = '', aft
   const [translate, setTranslate] = useState<DataType>({ name: '', words: [] })
 
   const { push } = useRouter()
+  const { eventEmit } = useSocket(SOCKET_EVENTS.notification)
 
   const timeoutRef: { current: NodeJS.Timeout | null } = useRef(null)
   const translateRef = useRef<(HTMLInputElement | null)[]>([])
@@ -62,6 +64,8 @@ export default function SetForm({ data = null, action = null, btnStyle = '', aft
     if (!res.error) {
       if (action === 'create') {
         await createNotification({ setId: res.id, status: NOTIFICATION_STATUSES.new, type: NOTIFICATION_TYPES.createdSet })
+
+        eventEmit()
 
         push(setsAppPath)
       } else {
