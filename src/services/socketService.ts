@@ -1,8 +1,9 @@
-import { SOCKET_EVENTS } from '../utils/constants.ts'
+import { SOCKET_EVENTS } from '@/utils/constants'
 import { Server } from 'http'
 import { Server as ServerIO } from 'socket.io'
 
 let io: ServerIO | null = null
+const event = SOCKET_EVENTS.notification || SOCKET_EVENTS.message
 
 export const setConnection = (server: Server) => {
   if (!io) {
@@ -11,8 +12,9 @@ export const setConnection = (server: Server) => {
     io.on('connection', (socket) => {
       console.log('🟢 User connected:', socket.id)
 
-      socket.on(SOCKET_EVENTS.notification, (data?: Record<string, string | number | boolean>) => {
-        emitEvent(SOCKET_EVENTS.notification, data)
+      socket.on(event, (data?: Record<string, string | number | boolean>) => {
+        console.log('☄️ event:', event)
+        emitEvent(event, data)
       })
 
       socket.on('disconnect', () => {

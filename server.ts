@@ -1,6 +1,6 @@
 import { createServer } from 'http'
 import next from 'next'
-import { setConnection } from './src/services/socketService.ts'
+import { setConnection } from '@/services/socketService'
 
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })

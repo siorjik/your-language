@@ -5,14 +5,17 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 
 import AlertDialogWrap from '@/components/alert-dialog-wrap'
+import ShareBtn from '@/components/share-btn'
 
-import { LANGUAGE_OPTIONS } from '@/utils/constants'
+import { LANGUAGE_OPTIONS, SOCKET_EVENTS } from '@/utils/constants'
 import { deleteSet } from '@/actions/set'
 import { SelectedSet } from '@/types/models/set'
-import ShareBtn from '@/components/share-btn'
+import useSocket from '@/hooks/useSocket'
 
 export default function SetItem({ set, idx }: { set: SelectedSet; idx: number }) {
   const isOwnerExist = !!set.ownerId
+
+  const { eventEmit } = useSocket(SOCKET_EVENTS.notification)
 
   return (
     <motion.div
@@ -62,7 +65,11 @@ export default function SetItem({ set, idx }: { set: SelectedSet; idx: number })
         <span className="bg-primary/15 icon-hover hover:text-destructive" onClick={(e) => e.preventDefault()}>
           <AlertDialogWrap
             trigger={<TrashIcon size={20} />}
-            action={async () => await deleteSet(set.id)}
+            action={async () => {
+              await deleteSet(set.id)
+
+              eventEmit()
+            }}
             description="You are going to delete the Set..."
           />
         </span>

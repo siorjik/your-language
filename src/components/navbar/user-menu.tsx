@@ -43,10 +43,8 @@ export default function UserMenu() {
 
   const { data: session } = useSession()
   const { theme, setTheme } = useTheme()
-  useSocket(SOCKET_EVENTS.notification, async () => {
-    setTimeout(async () => {
-      await getNotifications()
-    }, 1000)
+  useSocket(SOCKET_EVENTS.notification, () => {
+    setTimeout(async () => await getNotifications(), 500)
   })
 
   useEffect(() => {
