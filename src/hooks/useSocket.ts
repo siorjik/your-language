@@ -1,32 +1,43 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { io, Socket } from 'socket.io-client'
 
 let socket: Socket | null = null
 
-export default function useSocket(ev: string, cb?: (data?: Record<string, string | number | boolean>) => void) {
+type Obj = Record<string, string | number | boolean>
+
+export default function useSocket(ev: string, cb?: (data?: Obj) => void) {
   const [isConnected, setConnected] = useState(false)
+  const savedCb = useRef(cb)
+
+  useEffect(() => {
+    savedCb.current = cb
+  }, [cb])
 
   useEffect(() => {
     if (!socket) {
       socket = io()
-
-      socket.on('connect', () => {
-        setConnected(true)
-      })
-
-      socket.on('disconnect', () => {
-        setConnected(false)
-      })
-
-      socket.on(ev, (data?: Record<string, string | number | boolean>) => {
-        cb?.(data)
-      })
     }
-  }, [])
 
-  const eventEmit = (data?: Record<string, string | number | boolean>) => {
+    const s = socket
+
+    const onConnect = () => setConnected(true)
+    const onDisconnect = () => setConnected(false)
+    const onEvent = (data?: Obj) => savedCb.current?.(data)
+
+    s.on('connect', onConnect)
+    s.on('disconnect', onDisconnect)
+    s.on(ev, onEvent)
+
+    return () => {
+      s.off('connect', onConnect)
+      s.off('disconnect', onDisconnect)
+      s.off(ev, onEvent)
+    }
+  }, [ev])
+
+  const eventEmit = (data?: Obj) => {
     socket?.emit(ev, data || null)
   }
 

@@ -131,7 +131,10 @@ export default memo(function Autocomplete({
       {suggestions.length > 0 && !isLoading && isFocused && (
         <ul
           id="suggestions-list"
-          className={`py-1 bg-background border rounded-md shadow-sm absolute ${isOver ? 'bottom-12' : 'top-12'} z-10`}
+          className={`
+            !max-h-60 overflow-y-auto py-1 bg-background border rounded-md
+            shadow-sm absolute ${isOver ? 'bottom-12' : 'top-12'} z-10
+          `}
           role="listbox"
         >
           {suggestions.map((suggestion, index) => (
