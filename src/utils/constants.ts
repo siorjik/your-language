@@ -38,4 +38,5 @@ export const NOTIFICATION_TYPES = { createdSet: 'createdSet' }
 
 export const NOTIFICATION_STATUSES = { new: 'new', read: 'read' }
 
-export const SOCKET_EVENTS = { notification: 'notification', message: 'message' }
+export const SOCKET_EVENTS = { notification: 'notification', message: 'message', signOut: 'sign out' }
+export const SOCKET_EVENT_LIST = SOCKET_EVENTS.notification || SOCKET_EVENTS.message

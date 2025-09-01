@@ -6,6 +6,8 @@ import { signInAppPath } from '@/utils/paths'
 import { prisma } from '@/lib/prisma'
 import authConfig from './nextAuth'
 import { SelectedUser } from '@/types/models/user'
+import { emitEvent } from '@/services/socketService'
+import { SOCKET_EVENTS } from '@/utils/constants'
 
 export const nextAuthConfig = authConfig
 
@@ -31,6 +33,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         // check token expiration
         if (Date.now() / 1000 > token.exp!) {
           await prisma.session.delete({ where: { sessionToken: token.sessionToken as string } })
+
+          emitEvent(SOCKET_EVENTS.signOut) // log out from session
 
           return null
         }

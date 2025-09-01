@@ -91,7 +91,7 @@ export default function Flashcards({ data, isComboOpen }: { data: SelectedSet; i
     if (isSound) sound({})
   }, [setList, mode, isSound])
 
-  // after reset if isSound
+  // sound for first element
   useEffect(() => {
     if (isSound && index === 0) sound({})
   }, [index])
@@ -120,7 +120,9 @@ export default function Flashcards({ data, isComboOpen }: { data: SelectedSet; i
     if (!isEnd || (isEnd && newDirection < 0)) {
       setMode(selectedMode)
 
-      if (isSound && selectedMode === mode) sound({ isSound: true, itemIndex: index + newDirection, itemMode: selectedMode })
+      if (isSound && selectedMode === mode && index + newDirection !== 0) {
+        sound({ isSound: true, itemIndex: index + newDirection, itemMode: selectedMode })
+      }
 
       const xVariants = {
         hidden: {
