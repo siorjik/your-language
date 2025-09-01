@@ -1,20 +1,22 @@
-import { SOCKET_EVENTS } from '@/utils/constants'
+import { SOCKET_EVENT_LIST } from '@/utils/constants'
 import { Server } from 'http'
 import { Server as ServerIO } from 'socket.io'
 
-let io: ServerIO | null = null
-const event = SOCKET_EVENTS.notification || SOCKET_EVENTS.message
+declare global {
+  // eslint-disable-next-line no-var
+  var io: ServerIO | undefined
+}
 
 export const setConnection = (server: Server) => {
-  if (!io) {
-    io = new ServerIO(server)
+  if (!globalThis.io) {
+    globalThis.io = new ServerIO(server)
 
-    io.on('connection', (socket) => {
+    globalThis.io.on('connection', (socket) => {
       console.log('🟢 User connected:', socket.id)
 
-      socket.on(event, (data?: Record<string, string | number | boolean>) => {
-        console.log('☄️ event:', event)
-        emitEvent(event, data)
+      socket.on(SOCKET_EVENT_LIST, (data?: Record<string, string | number | boolean>) => {
+        console.log('☄️ Event:', SOCKET_EVENT_LIST)
+        emitEvent(SOCKET_EVENT_LIST, data)
       })
 
       socket.on('disconnect', () => {
@@ -22,13 +24,11 @@ export const setConnection = (server: Server) => {
       })
     })
   }
-
-  return io
 }
 
 export const getIO = (): ServerIO => {
-  if (!io) throw new Error('❌ Socket.IO not initialized!')
-  return io
+  if (!globalThis.io) throw new Error('❌ Socket.IO not initialized!')
+  return globalThis.io
 }
 
 export const emitEvent = (ev: string, data?: Record<string, string | number | boolean>) => {
