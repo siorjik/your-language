@@ -51,14 +51,12 @@ export default function NavPanel({ id, isOwnerExist }: { id: string; isOwnerExis
   return (
     <div className="flex justify-between">
       <div className="flex gap-2">
-        {!isOwnerExist && (
-          <Button asChild>
-            <Link href={getUpdateSetAppPath(id)}>
-              <FileCog />
-              {!isMobile && 'Update'}
-            </Link>
-          </Button>
-        )}
+        <Button asChild>
+          <Link href={getUpdateSetAppPath(id)}>
+            <FileCog />
+            {!isMobile && 'Update'}
+          </Link>
+        </Button>
         {!isOwnerExist && (
           <ShareBtn
             trigger={

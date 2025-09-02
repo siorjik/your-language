@@ -19,9 +19,7 @@ export default function useSocket(ev: string, cb?: (data?: Obj) => void) {
   }, [cb])
 
   useEffect(() => {
-    if (!socket) {
-      socket = io()
-    }
+    if (!socket) socket = io()
 
     const s = socket
 
@@ -38,6 +36,7 @@ export default function useSocket(ev: string, cb?: (data?: Obj) => void) {
     return () => {
       s.off('connect', onConnect)
       s.off('disconnect', onDisconnect)
+      s.on(SOCKET_EVENTS.signOut, onSignOut)
       s.off(ev, onEvent)
     }
   }, [ev])

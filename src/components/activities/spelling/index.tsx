@@ -235,7 +235,7 @@ export default function Memorization({ data }: { data: SelectedSet }) {
               className={`icon-hover border-2 rounded-full border-transparent ${isShuffled ? '!border-primary' : ''}`}
               onClick={() => shuffle(!isShuffled)}
             >
-              <Shuffle size={20} />
+              <Shuffle size={18} />
             </span>
             <span
               className="

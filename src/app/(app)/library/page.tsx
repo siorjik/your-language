@@ -10,7 +10,7 @@ export default function Library() {
   return (
     <>
       <h2 className="mx-auto w-fit title">Your powerful helpers</h2>
-      <div className="flex justify-center">
+      <div className="flex flex-col md:flex-row justify-center gap-8">
         <div className="flex flex-col items-center">
           <Link className="w-full" href={setsAppPath}>
             <Button
@@ -23,11 +23,11 @@ export default function Library() {
               Go To Sets
             </Button>
           </Link>
-          <Card className="max-w-[500px] mt-3 flex flex-col justify-between bg-accent/30 border-0 shadow-xl">
+          <Card className="max-w-[500px] h-full mt-3 flex flex-col bg-accent/30 border-0 shadow-xl">
             <CardHeader>
               <CardTitle className="text-primary text-center">🔥 Sets</CardTitle>
               <CardDescription className="text-center italic">
-                One of the most powerful features to expend your vocabulary
+                One of the most powerful features to expend your vocabulary.
               </CardDescription>
             </CardHeader>
             <CardContent className="italic font-semibold text-muted-foreground">
@@ -67,6 +67,54 @@ export default function Library() {
                 </Button>
               </div>
             </CardFooter>
+          </Card>
+        </div>
+
+        <div className="flex flex-col items-center">
+          <Link className="w-full" href={setsAppPath}>
+            <Button
+              variant="outline"
+              className="
+                w-full text-primary hover:text-primary hover:bg-initial bg-animated text-lg
+                hover:border after:rounded-md hover:border-primary/20
+              "
+            >
+              Go To Activities
+            </Button>
+          </Link>
+          <Card className="max-w-[500px] h-full mt-3 flex flex-col bg-accent/30 border-0 shadow-xl">
+            <CardHeader>
+              <CardTitle className="text-primary text-center">🧠 Activities</CardTitle>
+              <CardDescription className="text-center italic">
+                Training with exercises that cover learning aspects.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="italic font-semibold text-muted-foreground">
+              <p>
+                The Activity page is where you actively engage with the vocabulary sets you`ve created. Each set contains pairs of
+                terms and definitions, and you can choose how to practice them through three interactive modes:
+              </p>
+              <p className="my-3 text-foreground">☝️ How It Works:</p>
+              <p>
+                <span className="not-italic">1️⃣</span> Choose a Set - select a vocabulary set that contains your terms and
+                definitions
+              </p>
+              <p className="my-3">
+                <span className="not-italic">2️⃣</span> Pick an Activity Mode - switch between Flashcards, Memorization, or
+                Spelling depending on your learning goal
+              </p>
+              <p>
+                <span className="not-italic">3️⃣</span> Track Your Learning - each mode reinforces memory in a unique way, giving
+                you a balanced approach to mastering your vocabulary.
+              </p>
+              <p className="my-5">
+                <span className="not-italic">📊</span> Each passed activity will be tracked by your Progress Activity Chart.
+              </p>
+              <p className="mt-5 text-foreground">
+                It`s the fastest access to your exercises and this makes the Activity page a flexible practice hub - you decide
+                whether to review, test, or drill spelling for any of your sets.
+              </p>
+            </CardContent>
           </Card>
         </div>
       </div>
