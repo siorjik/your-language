@@ -9,6 +9,7 @@ export const recoverPasswordAppPath = '/recover-password'
 export const profileAppPath = '/profile'
 export const libraryAppPath = '/library'
 export const activitiesAppPath = '/activities'
+export const classesAppPath = '/classes'
 
 // set
 export const setsAppPath = '/sets'

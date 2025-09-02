@@ -12,7 +12,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 
 import logo from '@/../public/logo.png'
 
-import { libraryAppPath, activitiesAppPath, setsAppPath } from '@/utils/paths'
+import { libraryAppPath, activitiesAppPath, setsAppPath, classesAppPath } from '@/utils/paths'
 import useDisplayData from '@/hooks/useDisplayData'
 
 export default function Navbar() {
@@ -57,6 +57,7 @@ export default function Navbar() {
     { title: 'Library', path: libraryAppPath },
     { title: 'Sets', path: setsAppPath },
     { title: 'Activities', path: activitiesAppPath },
+    { title: 'Classes', path: classesAppPath },
   ]
 
   return (
