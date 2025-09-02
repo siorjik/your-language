@@ -97,11 +97,11 @@ export default function Library() {
               <p className="my-3 text-foreground">☝️ How It Works:</p>
               <p>
                 <span className="not-italic">1️⃣</span> Choose a Set - select a vocabulary set that contains your terms and
-                definitions
+                definitions.
               </p>
               <p className="my-3">
                 <span className="not-italic">2️⃣</span> Pick an Activity Mode - switch between Flashcards, Memorization, or
-                Spelling depending on your learning goal
+                Spelling depending on your learning goal.
               </p>
               <p>
                 <span className="not-italic">3️⃣</span> Track Your Learning - each mode reinforces memory in a unique way, giving
