@@ -214,7 +214,7 @@ export default function Flashcards({ data, isComboOpen }: { data: SelectedSet; i
   const setShowDropdownMenuCallback = useCallback(() => setShowDropdownMenu((prev) => !prev), [])
 
   const playTrigger = useMemo(() => <Play size={22} />, [])
-  const soundTrigger = useMemo(() => <Volume2 size={22} />, [])
+  const soundTrigger = useMemo(() => <Volume2 size={23} />, [])
 
   const tooltipMode = mode === 'definition' ? 'term' : 'definition'
 
@@ -337,7 +337,7 @@ export default function Flashcards({ data, isComboOpen }: { data: SelectedSet; i
                 className={`p-[6px] icon-hover border-2 rounded-full border-transparent ${isShuffled ? '!border-primary' : ''}`}
                 onClick={() => shuffle(!isShuffled)}
               >
-                <Shuffle size={19} />
+                <Shuffle size={18} />
               </span>
             </div>
             <div className="flex gap-1 md:gap-5 items-center">
