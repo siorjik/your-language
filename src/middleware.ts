@@ -5,7 +5,17 @@ import { nextAuthConfig } from './configs/auth'
 import { signInAppPath, createPasswordAppPath, signUpAppPath, recoverPasswordAppPath } from './utils/paths'
 
 export const config = {
-  matcher: ['/', '/profile', '/create-password', '/sign-up', '/sign-in', '/sets/:path*', '/library', '/activities'],
+  matcher: [
+    '/',
+    '/profile',
+    '/create-password',
+    '/sign-up',
+    '/sign-in',
+    '/sets/:path*',
+    '/library',
+    '/activities',
+    '/classes/:path*',
+  ],
 }
 // export const config = { matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'] }
 
