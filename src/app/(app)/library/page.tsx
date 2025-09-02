@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardContent, CardDescription, CardFooter } from '@/components/ui/card'
 import { GlowEffect } from '@/components/ui/glow-effect'
 
-import { newSetAppPath, setsAppPath } from '@/utils/paths'
+import { activitiesAppPath, newSetAppPath, setsAppPath } from '@/utils/paths'
 
 export default function Library() {
   return (
@@ -71,7 +71,7 @@ export default function Library() {
         </div>
 
         <div className="flex flex-col items-center">
-          <Link className="w-full" href={setsAppPath}>
+          <Link className="w-full" href={activitiesAppPath}>
             <Button
               variant="outline"
               className="
