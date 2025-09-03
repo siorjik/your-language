@@ -9,7 +9,7 @@ import { activitiesAppPath, newSetAppPath, setsAppPath } from '@/utils/paths'
 export default function Library() {
   return (
     <>
-      <h2 className="mx-auto w-fit title">Your powerful helpers</h2>
+      <h2 className="mx-auto w-fit title">Your helpers</h2>
       <div className="flex flex-col md:flex-row justify-center gap-8">
         <div className="flex flex-col items-center">
           <Link className="w-full" href={setsAppPath}>

@@ -7,6 +7,8 @@ import { RotateCcw, Shuffle } from 'lucide-react'
 import { Progress } from '@/components/ui/progress'
 import { Button } from '@/components/ui/button'
 import FinishBlock from '../finish-block'
+import { Separator } from '@/components/ui/separator'
+import SetCreator from '@/components/set-creator'
 
 import { ActivityType } from '@prisma/client'
 import { SelectedSet, SetList, SetListItem } from '@/types/models/set'
@@ -267,9 +269,13 @@ export default function Memorization({ data }: { data: SelectedSet }) {
           </div>
         </>
       )}
-
       <ProgressPanel result={result} />
-
+      {!isFinish && (
+        <div>
+          <Separator className="my-5" />
+          <SetCreator setId={data.id} />
+        </div>
+      )}
       {isFinish && <FinishBlock result={result} repeat={() => onStartOver('repeat')} start={() => onStartOver('start')} />}
     </>
   )

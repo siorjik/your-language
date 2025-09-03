@@ -20,6 +20,10 @@ export const getFlashcardsAppPath = (id: string) => `${setsAppPath}/${id}/flashc
 export const getMemorizationAppPath = (id: string) => `${setsAppPath}/${id}/memorization`
 export const getSpellingAppPath = (id: string) => `${setsAppPath}/${id}/spelling`
 
+// users
+export const usersAppPath = '/users'
+export const getUserAppPath = (name: string) => `${usersAppPath}/${name}`
+
 export const appHost = process.env.NEXT_PUBLIC_APP_HOST
 
 /***** api *****/

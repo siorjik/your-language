@@ -13,7 +13,7 @@ import { getSetAppPath, newSetAppPath, setsAppPath } from '@/utils/paths'
 import Spinner from '@/components/spinner'
 import { SelectedSet } from '@/types/models/set'
 
-export default function SetList({ sets }: { sets: SelectedSet[] }) {
+export default function SetList({ sets, isOwner = true }: { sets: SelectedSet[]; isOwner?: boolean }) {
   const [isLoader, setLoader] = useState(false)
   const [value, setValue] = useState('')
 
@@ -61,13 +61,15 @@ export default function SetList({ sets }: { sets: SelectedSet[] }) {
   return (
     <>
       <div className="mb-8 flex flex-col md:flex-row gap-5 md:gap-10 justify-between">
-        <Button asChild>
-          <Link href={newSetAppPath}>
-            <CirclePlus />
-            Create New
-          </Link>
-        </Button>
-        {(!!sets.length || titleParam) && (
+        {isOwner && (
+          <Button asChild>
+            <Link href={newSetAppPath}>
+              <CirclePlus />
+              Create New
+            </Link>
+          </Button>
+        )}
+        {(!!sets.length || titleParam) && isOwner && (
           <div className="w-full max-w-[700px] relative">
             <span className="h-10 w-10 bg-secondary/40 absolute top-0 left-0 flex justify-center items-center rounded-l-md">
               <Search />
@@ -92,10 +94,10 @@ export default function SetList({ sets }: { sets: SelectedSet[] }) {
       </div>
       {!isLoader && !!sets.length ? (
         <>
-          <h2 className="sub-title-1">Your Sets:</h2>
+          {isOwner && <h2 className="sub-title-1">Your Sets:</h2>}
           {sets.map((set, idx) => (
             <Link key={set.id} href={getSetAppPath(set.id)}>
-              <SetItem set={set} idx={idx} />
+              <SetItem set={set} idx={idx} isSetCreator={!set.ownerId} isOwner={isOwner} />
             </Link>
           ))}
         </>

@@ -3,6 +3,7 @@
 import { Share, TrashIcon } from 'lucide-react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
 import AlertDialogWrap from '@/components/alert-dialog-wrap'
 import ShareBtn from '@/components/share-btn'
@@ -11,11 +12,23 @@ import { LANGUAGE_OPTIONS, SOCKET_EVENTS } from '@/utils/constants'
 import { deleteSet } from '@/actions/set'
 import { SelectedSet } from '@/types/models/set'
 import useSocket from '@/hooks/useSocket'
+import { getUserAppPath } from '@/utils/paths'
 
-export default function SetItem({ set, idx }: { set: SelectedSet; idx: number }) {
-  const isOwnerExist = !!set.ownerId
+export default function SetItem({
+  set,
+  idx,
+  isOwner = true,
+  isSetCreator = true,
+}: {
+  set: SelectedSet
+  idx: number
+  isOwner?: boolean
+  isSetCreator?: boolean
+}) {
+  const owner = !!set.ownerId ? set.owner : set.user
 
   const { eventEmit } = useSocket(SOCKET_EVENTS.notification)
+  const { push } = useRouter()
 
   return (
     <motion.div
@@ -29,29 +42,38 @@ export default function SetItem({ set, idx }: { set: SelectedSet; idx: number })
       whileHover={{ scale: 1.01 }}
     >
       <div className="overflow-hidden">
-        <p className="mb-1 text-sm text-primary/60 truncate">
+        <div className="mb-1 text-sm text-primary/60 truncate">
           {(set.list as [])?.length} items <span className="font-semibold text-primary">|</span>{' '}
           {LANGUAGE_OPTIONS.find((item) => item.value === set.source)?.label + ' / '}
           {LANGUAGE_OPTIONS.find((item) => item.value === set.target)?.label}{' '}
           <span className="font-semibold text-primary">|</span>{' '}
-          {set.user?.image && (
-            <>
-              <Image
-                src={isOwnerExist ? set.owner!.image! : set.user.image}
-                alt="user"
-                width={10}
-                height={10}
-                className="w-5 h-5 rounded-full relative bottom-[1px] inline object-cover"
-                priority
-              />{' '}
-            </>
-          )}
-          <span className="text-primary font-balsamiqSans text-base">{isOwnerExist ? set.owner!.name : set.user?.name}</span>
-        </p>
+          <div
+            className="pr-1 hover:bg-primary/30 rounded-lg duration-300 inline-block"
+            onClick={(e) => {
+              e.preventDefault()
+
+              push(getUserAppPath(owner!.id))
+            }}
+          >
+            {owner?.image && (
+              <>
+                <Image
+                  src={owner.image}
+                  alt="user"
+                  width={10}
+                  height={10}
+                  className="w-5 h-5 rounded-full relative bottom-[1px] inline object-cover"
+                  priority
+                />{' '}
+              </>
+            )}
+            <span className="text-primary font-balsamiqSans text-base">{owner?.name}</span>
+          </div>
+        </div>
         <p className="truncate text-xl text-primary font-balsamiqSans leading-none">{set.title}</p>
       </div>
       <div className="flex gap-2">
-        {!isOwnerExist && (
+        {isSetCreator && isOwner && (
           <ShareBtn
             trigger={
               <span className="bg-primary/15 icon-hover">
@@ -62,17 +84,19 @@ export default function SetItem({ set, idx }: { set: SelectedSet; idx: number })
             isDouble
           />
         )}
-        <span className="bg-primary/15 icon-hover hover:text-destructive" onClick={(e) => e.preventDefault()}>
-          <AlertDialogWrap
-            trigger={<TrashIcon size={20} />}
-            action={async () => {
-              await deleteSet(set.id)
+        {isOwner && (
+          <span className="bg-primary/15 icon-hover hover:text-destructive" onClick={(e) => e.preventDefault()}>
+            <AlertDialogWrap
+              trigger={<TrashIcon size={20} />}
+              action={async () => {
+                await deleteSet(set.id)
 
-              eventEmit()
-            }}
-            description="You are going to delete the Set..."
-          />
-        </span>
+                eventEmit()
+              }}
+              description="You are going to delete the Set..."
+            />
+          </span>
+        )}
       </div>
     </motion.div>
   )
