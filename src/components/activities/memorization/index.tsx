@@ -8,6 +8,8 @@ import { Progress } from '@/components/ui/progress'
 import SelectWrap from '@/components/select-wrap'
 import ProgressPanel from '../progress-panel'
 import FinishBlock from '../finish-block'
+import SetCreator from '@/components/set-creator'
+import { Separator } from '@/components/ui/separator'
 
 import { ActivityType } from '@prisma/client'
 import { SelectedSet, SetList, SetListItem } from '@/types/models/set'
@@ -192,6 +194,12 @@ export default function Memorization({ data }: { data: SelectedSet }) {
         </>
       )}
       <ProgressPanel result={result} />
+      {!isFinish && (
+        <div>
+          <Separator className="my-5" />
+          <SetCreator setId={data.id} />
+        </div>
+      )}
       {isFinish && <FinishBlock result={result} repeat={() => onStartOver('repeat')} start={() => onStartOver('start')} />}
     </>
   )

@@ -8,6 +8,7 @@ import { getSetById } from '@/actions/set'
 import { Err } from '@/types/errTypes'
 import { getSetAppPath, libraryAppPath, setsAppPath } from '@/utils/paths'
 import { SelectedSet } from '@/types/models/set'
+import getServerSessionToken from '@/helpers/getServerSessionToken'
 
 export async function generateMetadata({
   params,
@@ -38,12 +39,15 @@ export default async function SetData({
 }) {
   const { id } = await params
   const { owner } = await searchParams
+  const session = await getServerSessionToken()
 
   const set: (SelectedSet & { error: null }) | Err = await getSetById(id, owner)
 
   if (set && owner && !set.error) redirect(getSetAppPath(set.id))
 
   if (set.error) notFound()
+
+  const isSetCreator = session?.id === set.user?.id
 
   const breadcrumbData = {
     links: [
@@ -57,7 +61,7 @@ export default async function SetData({
     <>
       <BreadcrumbWrap data={breadcrumbData} />
       <div className="mb-8">
-        <NavPanel id={id} isOwnerExist={!!set.ownerId} />
+        <NavPanel id={id} isOwner={!set.ownerId} isSetCreator={isSetCreator} />
       </div>
       <SetForm data={{ ...set, list: set.list }} />
     </>

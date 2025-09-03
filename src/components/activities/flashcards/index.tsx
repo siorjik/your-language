@@ -10,6 +10,8 @@ import SelectWrap from '@/components/select-wrap'
 import DropdownMenu from './dropdownMenu'
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/components/ui/tooltip'
 import FinishBlock from '../finish-block'
+import SetCreator from '@/components/set-creator'
+import { Separator } from '@/components/ui/separator'
 
 import { SelectedSet, SetList, SetListItem } from '@/types/models/set'
 import { ActivityType } from '@prisma/client'
@@ -241,6 +243,7 @@ export default function Flashcards({ data, isComboOpen }: { data: SelectedSet; i
               />
             </div>
           </div>
+          <Progress className="max-w-5xl h-1 mx-auto my-2" value={(100 / setList.length) * (index + 1)} />
           <motion.div
             key={index + ' / ' + mode}
             className="max-w-5xl mx-auto p-1 cursor-pointer"
@@ -385,7 +388,10 @@ export default function Flashcards({ data, isComboOpen }: { data: SelectedSet; i
               </span>
             </div>
           </div>
-          <Progress className="max-w-5xl h-1 mx-auto mt-2" value={(100 / setList.length) * (index + 1)} />
+          <div>
+            <Separator className="my-5" />
+            <SetCreator setId={data.id} />
+          </div>
         </>
       ) : (
         <FinishBlock start={() => setIndex(0)} isFlashcards />

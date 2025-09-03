@@ -51,19 +51,26 @@ export const updateSet = async (data: z.infer<typeof setFormTypeSchema>): Promis
 
 export const getSetList = async (
   filter: { title: string } | null = null,
+  id: string | null = null,
 ): Promise<{ sets: SelectedSet[]; filtered: SelectedSet[]; error: null } | Err> => {
   try {
     const session = await getServerSessionToken()
 
     return {
       sets: (await prisma.set.findMany({
-        where: { userId: session.id },
-        include: { user: { select: { name: true, image: true } }, owner: { select: { name: true, image: true } } },
+        where: { userId: id || session.id },
+        include: {
+          user: { select: { name: true, image: true, id: true } },
+          owner: { select: { name: true, image: true, id: true } },
+        },
       })) as SelectedSet[],
       filtered: filter
         ? ((await prisma.set.findMany({
-            where: { userId: session.id, title: { contains: filter?.title, mode: 'insensitive' } },
-            include: { user: { select: { name: true, image: true } }, owner: { select: { name: true, image: true } } },
+            where: { userId: id || session.id, title: { contains: filter?.title, mode: 'insensitive' } },
+            include: {
+              user: { select: { name: true, image: true, id: true } },
+              owner: { select: { name: true, image: true, id: true } },
+            },
           })) as SelectedSet[])
         : [],
       error: null,
@@ -87,7 +94,14 @@ export const getSetById = async (id: string, ownerId?: string): Promise<(Selecte
           data: { ...sharedSet, list: sharedSet.list as SetList, userId: session.id, ownerId },
         })) as SelectedSet
       } else throw Error('Set sharing error')
-    } else set = (await prisma.set.findFirst({ where: { id, userId: session.id } })) as SelectedSet
+    } else
+      set = (await prisma.set.findFirst({
+        where: { id },
+        include: {
+          user: { select: { name: true, image: true, id: true } },
+          owner: { select: { name: true, image: true, id: true } },
+        },
+      })) as SelectedSet
 
     if (set) return { ...(set as SelectedSet), error: null }
     else throw Error('Set not found')

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 
 import SetForm from '@/components/forms/set-form'
 import { Button } from '@/components/ui/button'
@@ -8,6 +8,7 @@ import { getSetAppPath } from '@/utils/paths'
 import { getSetById } from '@/actions/set'
 import { Err } from '@/types/errTypes'
 import { SelectedSet } from '@/types/models/set'
+import getServerSessionToken from '@/helpers/getServerSessionToken'
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -28,9 +29,15 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 export default async function SetUpdate({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
 
+  const session = await getServerSessionToken()
+
   const set: (SelectedSet & { error: null }) | Err = await getSetById(id)
 
   if (set.error) notFound()
+
+  const isSetCreator = session?.id === set.user?.id
+
+  if (!isSetCreator) redirect(getSetAppPath(id))
 
   return (
     <>

@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 
-import SetList from './_components/set-list'
+import SetList from '@/components/set-list'
 
 import { getSetList } from '@/actions/set'
 import { Err } from '@/types/errTypes'

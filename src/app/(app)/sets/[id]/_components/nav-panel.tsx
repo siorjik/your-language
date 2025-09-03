@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import SheetWrap from '@/components/sheet-wrap'
 import AlertDialogWrap from '@/components/alert-dialog-wrap'
 import ShareBtn from '@/components/share-btn'
+import SetCreatorComp from '@/components/set-creator'
 
 import { getFlashcardsAppPath, getMemorizationAppPath, getSpellingAppPath, getUpdateSetAppPath, setsAppPath } from '@/utils/paths'
 import useDisplayData from '@/hooks/useDisplayData'
@@ -15,8 +16,10 @@ import { deleteSet } from '@/actions/set'
 import { Err } from '@/types/errTypes'
 import { useToast } from '@/hooks/use-toast'
 
-export default function NavPanel({ id, isOwnerExist }: { id: string; isOwnerExist: boolean }) {
-  const { isLgDisplay, isMobile } = useDisplayData()
+type NavPanelProps = { id: string; isOwner: boolean; isSetCreator: boolean }
+
+export default function NavPanel({ id, isOwner, isSetCreator }: NavPanelProps) {
+  const { isLgDisplay, isXlDisplay } = useDisplayData()
 
   const { push } = useRouter()
   const { toast } = useToast()
@@ -49,40 +52,43 @@ export default function NavPanel({ id, isOwnerExist }: { id: string; isOwnerExis
   )
 
   return (
-    <div className="flex justify-between">
-      <div className="flex gap-2">
-        <Button asChild>
-          <Link href={getUpdateSetAppPath(id)}>
-            <FileCog />
-            {!isMobile && 'Update'}
-          </Link>
-        </Button>
-        {!isOwnerExist && (
-          <ShareBtn
+    <div className="flex flex-col md:flex-row gap-5 justify-between">
+      <SetCreatorComp setId={id} />
+      {isSetCreator && (
+        <div className="flex gap-2">
+          <Button asChild>
+            <Link href={getUpdateSetAppPath(id)}>
+              <FileCog />
+              {isXlDisplay && 'Update'}
+            </Link>
+          </Button>
+          {isOwner && (
+            <ShareBtn
+              trigger={
+                <Button>
+                  <Share />
+                  {isXlDisplay && 'Share'}
+                </Button>
+              }
+              id={id}
+            />
+          )}
+          <AlertDialogWrap
             trigger={
-              <Button>
-                <Share />
-                {!isMobile && 'Share'}
+              <Button variant="destructive" asChild>
+                <span>
+                  <Trash2 />
+                  {isXlDisplay && 'Remove'}
+                </span>
               </Button>
             }
-            id={id}
+            action={onDelete}
+            description="You are going to delete the Set..."
           />
-        )}
-        <AlertDialogWrap
-          trigger={
-            <Button variant="destructive" asChild>
-              <span>
-                <Trash2 />
-                {!isMobile && 'Remove'}
-              </span>
-            </Button>
-          }
-          action={onDelete}
-          description="You are going to delete the Set..."
-        />
-      </div>
-      {isLgDisplay ? (
-        <div className="flex gap-2">
+        </div>
+      )}
+      {isLgDisplay || !isSetCreator ? (
+        <div className="flex flex-wrap justify-center md:justify-normal gap-2">
           <Button variant="outline" className="pushed-btn" asChild>
             <Link href={getFlashcardsAppPath(id)}>
               <GalleryHorizontal />
