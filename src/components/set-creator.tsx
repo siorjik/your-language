@@ -43,9 +43,9 @@ export default function SetCreator({ setId }: { setId: string }) {
             ) : (
               <User2 className="w-10 h-10 pt-1 pb-2 border-2 rounded-full" />
             )}
-            <div className="ml-2 flex flex-col text-xs gap-1 text-primary/80 overflow-hidden">
-              <span className="truncate">created by: {creatorData.createdBy}</span>
-              <span className="truncate">created at: {formatDistanceToNow(creatorData.createdAt, { addSuffix: true })}</span>
+            <div className="ml-2 flex flex-col text-xs text-primary/80 overflow-hidden">
+              <span className="truncate leading-normal">Created by {creatorData.createdBy},</span>
+              <span className="truncate leading-normal">{formatDistanceToNow(creatorData.createdAt, { addSuffix: true })}</span>
             </div>
           </div>
         </Link>
