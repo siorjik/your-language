@@ -36,25 +36,31 @@ export default function SetCreator({ setId }: { setId: string }) {
   return (
     <>
       {creatorData?.id ? (
-        <Link className="w-fit max-w-52 inline-block" href={getUserAppPath(creatorData.id)}>
-          <div className="flex items-center">
+        <Link className="w-fit max-w-48 inline-block" href={getUserAppPath(creatorData.id)}>
+          <div className="flex items-center gap-2">
             {creatorData.img ? (
-              <Image className="w-10 h-10 rounded-full object-cover" src={creatorData.img} width={100} height={100} alt="user" />
+              <Image
+                className="min-w-10 max-w-10 h-10 rounded-full object-cover"
+                src={creatorData.img}
+                width={50}
+                height={50}
+                alt="user"
+              />
             ) : (
               <User2 className="w-10 h-10 pt-1 pb-2 border-2 rounded-full" />
             )}
-            <div className="ml-2 flex flex-col text-xs text-primary/80 overflow-hidden hover:text-foreground">
+            <div className="flex flex-col text-xs text-primary/80 overflow-hidden hover:text-foreground">
               <span className="truncate leading-normal">Created by {creatorData.createdBy},</span>
               <span className="truncate leading-normal">{formatDistanceToNow(creatorData.createdAt, { addSuffix: true })}</span>
             </div>
           </div>
         </Link>
       ) : (
-        <div className="flex w-56 items-center gap-4 animate-pulse">
+        <div className="flex items-center gap-4 animate-pulse">
           <div className="bg-primary/50 h-10 w-10 shrink-0 rounded-full"></div>
           <div className="flex flex-col gap-4">
-            <div className="bg-primary/50 h-2 w-20 rounded-lg"></div>
             <div className="bg-primary/50 h-2 w-28 rounded-lg"></div>
+            <div className="bg-primary/50 h-2 w-24 rounded-lg"></div>
           </div>
         </div>
       )}

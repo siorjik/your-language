@@ -53,7 +53,6 @@ export default function NavPanel({ id, isOwner, isSetCreator }: NavPanelProps) {
 
   return (
     <div className={`flex ${!isSetCreator ? 'flex-col md:flex-row' : ''} gap-5 justify-between`}>
-      <SetCreatorComp setId={id} />
       {isSetCreator && (
         <div className="flex gap-2">
           <Button asChild>
@@ -87,6 +86,7 @@ export default function NavPanel({ id, isOwner, isSetCreator }: NavPanelProps) {
           />
         </div>
       )}
+      <SetCreatorComp setId={id} />
       {isLgDisplay || !isSetCreator ? (
         <div className="flex flex-wrap justify-center md:justify-normal gap-2">
           <Button variant="outline" className="pushed-btn" asChild>
