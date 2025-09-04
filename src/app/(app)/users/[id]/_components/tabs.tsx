@@ -9,7 +9,7 @@ export default function UserTabs({ sets, isOwner = true }: { sets: SelectedSet[]
   return (
     <>
       <Tabs defaultValue="sets" className="w-full">
-        <TabsList className="w-full mb-5 flex justify-between overflow-x-auto">
+        <TabsList className="w-full mb-5 flex justify-between overflow-x-auto sticky top-0 z-10">
           <TabsTrigger className="w-full" value="sets">
             Sets
           </TabsTrigger>
@@ -18,8 +18,8 @@ export default function UserTabs({ sets, isOwner = true }: { sets: SelectedSet[]
           </TabsTrigger>
         </TabsList>
         <TabsContent value="sets">
-          <div className={`${!isOwner ? 'mt-[-25px]' : ''}`}>
-            <SetList sets={sets} isOwner={isOwner} />
+          <div className="mt-[-25px]">
+            <SetList sets={sets} isOwner={isOwner} isSimple />
           </div>
         </TabsContent>
         <TabsContent value="classes">
