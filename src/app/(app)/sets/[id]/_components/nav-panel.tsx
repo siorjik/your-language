@@ -52,7 +52,7 @@ export default function NavPanel({ id, isOwner, isSetCreator }: NavPanelProps) {
   )
 
   return (
-    <div className="flex flex-col md:flex-row gap-5 justify-between">
+    <div className={`flex ${!isSetCreator ? 'flex-col md:flex-row' : ''} gap-5 justify-between`}>
       <SetCreatorComp setId={id} />
       {isSetCreator && (
         <div className="flex gap-2">
