@@ -7,11 +7,11 @@ import { Err } from '@/types/errTypes'
 import { SelectedSet } from '@/types/models/set'
 
 export default async function Sets({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
-  const { title = '' } = await searchParams
+  const params = await searchParams
 
-  const res: { sets: SelectedSet[]; filtered: SelectedSet[]; error: null } | Err = await getSetList({ title })
+  const res: { sets: SelectedSet[]; error: null } | Err = await getSetList(params)
 
   if (res.error) notFound()
 
-  return <SetList sets={!!title ? res.filtered : res.sets} />
+  return <SetList sets={res.sets} />
 }

@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Settings, UserRoundCog, LogOut, UserRoundPlus, LogIn, Palette, Bell, Trash2, Check } from 'lucide-react'
+import { Settings, UserRoundCog, LogOut, UserRoundPlus, LogIn, Palette, Bell, BellDot, Trash2, Check } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { signOut, useSession } from 'next-auth/react'
@@ -168,7 +168,7 @@ export default function UserMenu() {
               {notificationList.filter((el) => el.status === NOTIFICATION_STATUSES.new).length}
             </span>
           )}
-          <Bell className="text-primary" />
+          {!!notificationList.length ? <BellDot className="text-primary" /> : <Bell className="text-primary" />}
           <span className="text-primary">Notifications</span>
         </span>
       </DropdownMenuTrigger>

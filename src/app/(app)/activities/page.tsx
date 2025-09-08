@@ -8,8 +8,10 @@ import { SelectedSet } from '@/types/models/set'
 
 export const dynamic = 'force-dynamic'
 
-export default async function ActivitiesPage() {
-  const res: { sets: SelectedSet[]; error: null } | Err = await getSetList()
+export default async function ActivitiesPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
+  const params = await searchParams
+
+  const res: { sets: SelectedSet[]; error: null } | Err = await getSetList(params)
 
   if (res.error) notFound()
 

@@ -8,10 +8,12 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import SetItem from './set-item'
 import { Input } from '@/components/ui/input'
+import Filter from '../filter'
 
 import { getSetAppPath, newSetAppPath, setsAppPath } from '@/utils/paths'
 import Spinner from '@/components/spinner'
 import { SelectedSet } from '@/types/models/set'
+import getQueryString from '@/helpers/getQueryString'
 
 export default function SetList({
   sets,
@@ -29,6 +31,8 @@ export default function SetList({
   const params = useSearchParams()
 
   const titleParam = params.get('title')
+  const fromParam = params.get('from')
+  const toParam = params.get('to')
 
   const inputRef = useRef<HTMLInputElement>(null)
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
@@ -49,7 +53,13 @@ export default function SetList({
     timeoutRef.current = setTimeout(() => {
       setLoader(true)
 
-      push(`${setsAppPath}?title=${val.trim()}`)
+      const q = getQueryString({
+        currentParams: params,
+        newParams: { title: val.trim() },
+        toDeleteParams: !val ? ['title'] : null,
+      })
+
+      push(`${setsAppPath}?${q}`)
 
       setTimeout(() => setLoader(false), 500)
     }, 1000)
@@ -63,7 +73,9 @@ export default function SetList({
 
     setTimeout(() => setLoader(false), 1000)
 
-    push(setsAppPath)
+    const q = getQueryString({ currentParams: params, toDeleteParams: ['title'] })
+
+    push(`${setsAppPath}?${q}`)
   }
 
   return (
@@ -77,27 +89,32 @@ export default function SetList({
             </Link>
           </Button>
         )}
-        {(!!sets.length || titleParam) && !isSimple && (
-          <div className="w-full max-w-[700px] relative">
-            <span className="h-10 w-10 bg-secondary/40 absolute top-0 left-0 flex justify-center items-center rounded-l-md">
-              <Search />
-            </span>
-            <Input
-              className="w-full px-12 border-0 bg-secondary/30 !text-lg"
-              placeholder="Search by Set title..."
-              onChange={(e) => onChange(e.target.value)}
-              value={value}
-              ref={inputRef}
-            />
-            {value && (
-              <span
-                className="h-10 w-10 bg-secondary/40 absolute top-0 right-0 flex justify-center items-center rounded-r-md"
-                onClick={onReset}
-              >
-                <X />
-              </span>
+        {!isSimple && (
+          <>
+            {(!!sets.length || titleParam) && (
+              <div className="w-full max-w-[700px] relative">
+                <span className="h-10 w-10 bg-secondary/40 absolute top-0 left-0 flex justify-center items-center rounded-l-md">
+                  <Search />
+                </span>
+                <Input
+                  className="w-full px-12 border-0 bg-secondary/30 !text-lg"
+                  placeholder="Search by Set title..."
+                  onChange={(e) => onChange(e.target.value)}
+                  value={value}
+                  ref={inputRef}
+                />
+                {value && (
+                  <span
+                    className="h-10 w-10 bg-secondary/40 absolute top-0 right-0 flex justify-center items-center rounded-r-md"
+                    onClick={onReset}
+                  >
+                    <X />
+                  </span>
+                )}
+              </div>
             )}
-          </div>
+            {(!!sets.length || fromParam || toParam) && <Filter />}
+          </>
         )}
       </div>
       {!isLoader && !!sets.length ? (
