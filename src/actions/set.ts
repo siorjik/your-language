@@ -50,29 +50,42 @@ export const updateSet = async (data: z.infer<typeof setFormTypeSchema>): Promis
 }
 
 export const getSetList = async (
-  filter: { title: string } | null = null,
+  filter: { title?: string; from?: string; to?: string } | null = null,
   id: string | null = null,
-): Promise<{ sets: SelectedSet[]; filtered: SelectedSet[]; error: null } | Err> => {
+): Promise<{ sets: SelectedSet[]; error: null } | Err> => {
   try {
     const session = await getServerSessionToken()
 
+    const filterParams: { [key: string]: Record<string, string | Date> } | null =
+      filter &&
+      Object.keys(filter).reduce(
+        (acc, cur) => {
+          switch (cur) {
+            case 'title':
+              acc.title = { contains: filter.title!, mode: 'insensitive' }
+              break
+            case 'from':
+              acc.createdAt = { gte: new Date(filter.from!), lte: new Date(filter.to!) }
+
+            default:
+              break
+          }
+
+          return acc
+        },
+        { title: {}, createdAt: {} } as { title: Record<string, string>; createdAt: Record<string, Date> },
+      )
+
+    if (filterParams) Object.keys(filterParams).forEach((k) => !Object.keys(filterParams[k]).length && delete filterParams[k])
+
     return {
       sets: (await prisma.set.findMany({
-        where: { userId: id || session.id },
+        where: { userId: id || session.id, ...filterParams },
         include: {
           user: { select: { name: true, image: true, id: true } },
           owner: { select: { name: true, image: true, id: true } },
         },
       })) as SelectedSet[],
-      filtered: filter
-        ? ((await prisma.set.findMany({
-            where: { userId: id || session.id, title: { contains: filter?.title, mode: 'insensitive' } },
-            include: {
-              user: { select: { name: true, image: true, id: true } },
-              owner: { select: { name: true, image: true, id: true } },
-            },
-          })) as SelectedSet[])
-        : [],
       error: null,
     }
   } catch (error) {

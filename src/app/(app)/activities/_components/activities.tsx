@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { FileCog, Share } from 'lucide-react'
 
@@ -10,14 +11,21 @@ import { Button } from '@/components/ui/button'
 import DialogWrap from '@/components/dialog-wrap'
 import SetForm from '@/components/forms/set-form'
 import ShareBtn from '@/components/share-btn'
+import Filter from '@/components/filter'
 
 import { libraryAppPath } from '@/utils/paths'
 import { SelectedSet } from '@/types/models/set'
 
 export default function Activities({ sets }: { sets: SelectedSet[] }) {
-  const [id, setId] = useState<string | null>(sets[0]?.id)
+  const [id, setId] = useState<string | null>(() => sets[0].id)
   const [isComboOpen, setComboOpen] = useState(false)
   const [isAutoClose, setAutoClose] = useState(false)
+
+  const searchParams = useSearchParams()
+
+  useEffect(() => {
+    setId(sets[0].id)
+  }, [searchParams.toString()])
 
   return (
     <>
@@ -29,13 +37,13 @@ export default function Activities({ sets }: { sets: SelectedSet[] }) {
               <span className="sub-title-3 mb-0">Choose Set:</span>
               <div className="w-[200px]">
                 <Combobox
-                  key={Number(isAutoClose)}
+                  key={Number(isAutoClose) || searchParams.toString()}
                   placeholder="Choose Set..."
                   searchText="Search Set..."
                   notFoundText="Set was not found..."
                   data={sets.map((set) => ({ value: set.title, label: set.title, id: set.id }))}
                   getValue={(val) => setId(val)}
-                  value={sets[sets.findIndex((set) => set.id === id)].title}
+                  value={sets[sets.findIndex((set) => set.id === id || sets[0].id)].title}
                   checkIsActive={(val) => setComboOpen(val)}
                 />
               </div>
@@ -74,6 +82,7 @@ export default function Activities({ sets }: { sets: SelectedSet[] }) {
                 id={id!}
               />
             </div>
+            <Filter />
           </div>
           <Tabs set={sets.find((set) => set.id === id)!} isComboOpen={isComboOpen} />
         </>

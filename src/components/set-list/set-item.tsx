@@ -4,6 +4,7 @@ import { Share, TrashIcon } from 'lucide-react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import { format } from 'date-fns'
 
 import AlertDialogWrap from '@/components/alert-dialog-wrap'
 import ShareBtn from '@/components/share-btn'
@@ -44,6 +45,7 @@ export default function SetItem({
       <div className="overflow-hidden">
         <div className="mb-1 text-sm text-primary/60 truncate">
           {(set.list as [])?.length} items <span className="font-semibold text-primary">|</span>{' '}
+          {format(set.createdAt, 'MM/dd/yyyy')} <span className="font-semibold text-primary">|</span>{' '}
           {LANGUAGE_OPTIONS.find((item) => item.value === set.source)?.label + ' / '}
           {LANGUAGE_OPTIONS.find((item) => item.value === set.target)?.label}{' '}
           <span className="font-semibold text-primary">|</span>{' '}
