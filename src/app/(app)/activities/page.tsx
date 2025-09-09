@@ -2,9 +2,9 @@ import { notFound } from 'next/navigation'
 
 import Activities from './_components/activities'
 
-import { getSetList } from '@/actions/set'
+import { getSetList, getSetsCreators } from '@/actions/set'
 import { Err } from '@/types/errTypes'
-import { SelectedSet } from '@/types/models/set'
+import { SelectedSet, SetCreator } from '@/types/models/set'
 
 export const dynamic = 'force-dynamic'
 
@@ -12,12 +12,13 @@ export default async function ActivitiesPage({ searchParams }: { searchParams: P
   const params = await searchParams
 
   const res: { sets: SelectedSet[]; error: null } | Err = await getSetList(params)
+  const setsCreatorsRes: { creatorList: SetCreator[] | null; error: null } | Err = await getSetsCreators()
 
-  if (res.error) notFound()
+  if (res.error || setsCreatorsRes.error) notFound()
 
   return (
     <>
-      <Activities sets={res.sets} />
+      <Activities sets={res.sets} creatorList={setsCreatorsRes.creatorList!} />
     </>
   )
 }

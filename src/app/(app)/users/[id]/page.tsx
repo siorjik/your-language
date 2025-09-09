@@ -33,7 +33,7 @@ export default async function User({ params }: { params: Promise<{ id: string }>
           <User2 className="w-40 h-40 pb-5 border-2 rounded-full" />
         )}
       </div>
-      <Tabs sets={setRes.sets} isOwner={session?.user.email === user.email} />
+      <Tabs sets={setRes.sets} isCreator={session?.user.email === user.email} />
     </>
   )
 }

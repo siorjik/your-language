@@ -18,15 +18,15 @@ import { getUserAppPath } from '@/utils/paths'
 export default function SetItem({
   set,
   idx,
-  isOwner = true,
+  isCreator = true,
   isSetCreator = true,
 }: {
   set: SelectedSet
   idx: number
-  isOwner?: boolean
+  isCreator?: boolean
   isSetCreator?: boolean
 }) {
-  const owner = !!set.ownerId ? set.owner : set.user
+  const creator = !!set.creatorId ? set.creator : set.user
 
   const { eventEmit } = useSocket(SOCKET_EVENTS.notification)
   const { push } = useRouter()
@@ -45,7 +45,7 @@ export default function SetItem({
       <div className="overflow-hidden">
         <div className="mb-1 text-sm text-primary/60 truncate">
           {(set.list as [])?.length} items <span className="font-semibold text-primary">|</span>{' '}
-          {format(set.createdAt, 'MM/dd/yyyy')} <span className="font-semibold text-primary">|</span>{' '}
+          {format(set.createdAt, 'MM/yyyy')} <span className="font-semibold text-primary">|</span>{' '}
           {LANGUAGE_OPTIONS.find((item) => item.value === set.source)?.label + ' / '}
           {LANGUAGE_OPTIONS.find((item) => item.value === set.target)?.label}{' '}
           <span className="font-semibold text-primary">|</span>{' '}
@@ -54,13 +54,13 @@ export default function SetItem({
             onClick={(e) => {
               e.preventDefault()
 
-              push(getUserAppPath(owner!.id))
+              push(getUserAppPath(creator!.id))
             }}
           >
-            {owner?.image && (
+            {creator?.image && (
               <>
                 <Image
-                  src={owner.image}
+                  src={creator.image}
                   alt="user"
                   width={10}
                   height={10}
@@ -69,13 +69,13 @@ export default function SetItem({
                 />{' '}
               </>
             )}
-            <span className="text-primary font-balsamiqSans text-base">{owner?.name}</span>
+            <span className="text-primary font-balsamiqSans text-base">{creator?.name}</span>
           </div>
         </div>
         <p className="truncate text-xl text-primary font-balsamiqSans leading-none">{set.title}</p>
       </div>
       <div className="flex gap-2">
-        {isSetCreator && isOwner && (
+        {isSetCreator && isCreator && (
           <ShareBtn
             trigger={
               <span className="bg-primary/15 icon-hover">
@@ -86,7 +86,7 @@ export default function SetItem({
             isDouble
           />
         )}
-        {isOwner && (
+        {isCreator && (
           <span className="bg-primary/15 icon-hover hover:text-destructive" onClick={(e) => e.preventDefault()}>
             <AlertDialogWrap
               trigger={<TrashIcon size={20} />}

@@ -9,7 +9,7 @@ import getServerSessionToken from '@/helpers/getServerSessionToken'
 import { prisma } from '@/lib/prisma'
 import { setsAppPath } from '@/utils/paths'
 import { Err } from '@/types/errTypes'
-import { SelectedSet, SetList } from '@/types/models/set'
+import { SelectedSet, SetList, SetCreator } from '@/types/models/set'
 
 export const createSet = async (data: z.infer<typeof setFormTypeSchema>): Promise<(SelectedSet & { error: null }) | Err> => {
   try {
@@ -22,7 +22,9 @@ export const createSet = async (data: z.infer<typeof setFormTypeSchema>): Promis
     revalidatePath(setsAppPath)
 
     return {
-      ...((await prisma.set.create({ data: { title, source, target, list, userId: session.id } })) as SelectedSet),
+      ...((await prisma.set.create({
+        data: { title, source, target, list, userId: session.id, creatorId: session.id },
+      })) as SelectedSet),
       error: null,
     }
   } catch (error) {
@@ -50,13 +52,13 @@ export const updateSet = async (data: z.infer<typeof setFormTypeSchema>): Promis
 }
 
 export const getSetList = async (
-  filter: { title?: string; from?: string; to?: string } | null = null,
+  filter: { title?: string; from?: string; to?: string; creators?: string } | null = null,
   id: string | null = null,
 ): Promise<{ sets: SelectedSet[]; error: null } | Err> => {
   try {
     const session = await getServerSessionToken()
 
-    const filterParams: { [key: string]: Record<string, string | Date> } | null =
+    const filterParams: { [key: string]: Record<string, string | Date | string[]> } | null =
       filter &&
       Object.keys(filter).reduce(
         (acc, cur) => {
@@ -66,6 +68,10 @@ export const getSetList = async (
               break
             case 'from':
               acc.createdAt = { gte: new Date(filter.from!), lte: new Date(filter.to!) }
+              break
+            case 'creators':
+              acc.creatorId = { in: filter?.creators!.split(',') }
+              break
 
             default:
               break
@@ -73,7 +79,11 @@ export const getSetList = async (
 
           return acc
         },
-        { title: {}, createdAt: {} } as { title: Record<string, string>; createdAt: Record<string, Date> },
+        { title: {}, createdAt: {}, creatorId: {} } as {
+          title: Record<string, string>
+          createdAt: Record<string, Date>
+          creatorId: Record<string, string[]>
+        },
       )
 
     if (filterParams) Object.keys(filterParams).forEach((k) => !Object.keys(filterParams[k]).length && delete filterParams[k])
@@ -83,7 +93,7 @@ export const getSetList = async (
         where: { userId: id || session.id, ...filterParams },
         include: {
           user: { select: { name: true, image: true, id: true } },
-          owner: { select: { name: true, image: true, id: true } },
+          creator: { select: { name: true, image: true, id: true } },
         },
       })) as SelectedSet[],
       error: null,
@@ -93,18 +103,18 @@ export const getSetList = async (
   }
 }
 
-export const getSetById = async (id: string, ownerId?: string): Promise<(SelectedSet & { error: null }) | Err> => {
+export const getSetById = async (id: string, creatorId?: string): Promise<(SelectedSet & { error: null }) | Err> => {
   let set: SelectedSet | null
 
   try {
     const session = await getServerSessionToken()
 
-    if (ownerId && ownerId !== session.id) {
+    if (creatorId && creatorId !== session.id) {
       const sharedSet = await prisma.set.findFirst({ where: { id }, omit: { id: true } })
 
       if (sharedSet) {
         set = (await prisma.set.create({
-          data: { ...sharedSet, list: sharedSet.list as SetList, userId: session.id, ownerId },
+          data: { ...sharedSet, list: sharedSet.list as SetList, userId: session.id, creatorId },
         })) as SelectedSet
       } else throw Error('Set sharing error')
     } else
@@ -112,7 +122,7 @@ export const getSetById = async (id: string, ownerId?: string): Promise<(Selecte
         where: { id },
         include: {
           user: { select: { name: true, image: true, id: true } },
-          owner: { select: { name: true, image: true, id: true } },
+          creator: { select: { name: true, image: true, id: true } },
         },
       })) as SelectedSet
 
@@ -132,6 +142,23 @@ export const deleteSet = async (id: string, isRevalidate: boolean = true): Promi
     if (isRevalidate) revalidatePath(setsAppPath)
 
     return { success: true, error: null }
+  } catch (error) {
+    return errHandlerService(error)
+  }
+}
+
+export const getSetsCreators = async (): Promise<{ creatorList: SetCreator[]; error: null } | Err> => {
+  try {
+    const session = await getServerSessionToken()
+
+    return {
+      creatorList: await prisma.set.findMany({
+        where: { userId: session.id },
+        select: { creator: { select: { name: true, id: true } } },
+        distinct: ['creatorId'],
+      }),
+      error: null,
+    }
   } catch (error) {
     return errHandlerService(error)
   }

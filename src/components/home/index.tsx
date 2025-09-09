@@ -32,7 +32,7 @@ export default function Home({ session, sets, chartData }: MainProps) {
               <h2 className="title text-center">Your activity</h2>
               <Chart data={chartData} config={chartConfig} />
               <Separator className="my-5 h-[2px]" />
-              <CardSection sets={sets.filter((set) => !set.ownerId)} />
+              <CardSection sets={sets.filter((set) => set.creator?.name === session.user.name)} />
             </>
           ) : (
             <div className="h-[calc(100vh-160px)] flex flex-col justify-center items-center">

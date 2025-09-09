@@ -15,12 +15,12 @@ export async function generateMetadata({
   searchParams,
 }: {
   params: Promise<{ id: string }>
-  searchParams: Promise<{ owner?: string }>
+  searchParams: Promise<{ creator?: string }>
 }) {
   const { id } = await params
-  const { owner } = await searchParams
+  const { creator } = await searchParams
 
-  if (!owner) {
+  if (!creator) {
     const set: (SelectedSet & { error: null }) | Err = await getSetById(id)
 
     if (set.error) notFound()
@@ -35,15 +35,15 @@ export default async function SetData({
   searchParams,
 }: {
   params: Promise<{ id: string }>
-  searchParams: Promise<{ owner?: string }>
+  searchParams: Promise<{ creator?: string }>
 }) {
   const { id } = await params
-  const { owner } = await searchParams
+  const { creator } = await searchParams
   const session = await getServerSessionToken()
 
-  const set: (SelectedSet & { error: null }) | Err = await getSetById(id, owner)
+  const set: (SelectedSet & { error: null }) | Err = await getSetById(id, creator)
 
-  if (set && owner && !set.error) redirect(getSetAppPath(set.id))
+  if (set && creator && !set.error) redirect(getSetAppPath(set.id))
 
   if (set.error) notFound()
 
@@ -61,7 +61,7 @@ export default async function SetData({
     <>
       <BreadcrumbWrap data={breadcrumbData} />
       <div className="mb-8">
-        <NavPanel id={id} isOwner={!set.ownerId} isSetCreator={isSetCreator} />
+        <NavPanel id={id} isCreator={!set.creatorId} isSetCreator={isSetCreator} />
       </div>
       <SetForm data={{ ...set, list: set.list }} />
     </>

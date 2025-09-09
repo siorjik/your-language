@@ -4,7 +4,7 @@ import { User2 } from 'lucide-react'
 import Image from 'next/image'
 import { formatDistanceToNow } from 'date-fns'
 
-import { SelectedSet, SetCreator as SetCreatorType } from '@/types/models/set'
+import { SelectedSet, SetCreatorInfo } from '@/types/models/set'
 import Link from 'next/link'
 import { getUserAppPath } from '@/utils/paths'
 import { useEffect, useState } from 'react'
@@ -13,7 +13,7 @@ import { Err } from '@/types/errTypes'
 import useDisplayData from '@/hooks/useDisplayData'
 
 export default function SetCreator({ setId }: { setId: string }) {
-  const [creatorData, setCreatorData] = useState<SetCreatorType | null>(null)
+  const [creatorData, setCreatorData] = useState<SetCreatorInfo | null>(null)
 
   const { isMobile } = useDisplayData()
 
@@ -25,10 +25,10 @@ export default function SetCreator({ setId }: { setId: string }) {
         if (set.error) throw set.error
         else
           setCreatorData({
-            img: set.owner?.image || set.user!.image,
-            createdBy: set.owner?.name || set.user!.name,
+            img: set.creator?.image || set.user!.image,
+            createdBy: set.creator?.name || set.user!.name,
             createdAt: set.createdAt,
-            id: set.owner?.id || set.user!.id,
+            id: set.creator?.id || set.user!.id,
           })
       } catch (error) {
         console.log(error)
