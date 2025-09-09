@@ -29,7 +29,7 @@ export default function Activities({ sets, creatorList }: { sets: SelectedSet[];
 
   useEffect(() => {
     if (!!sets.length) setId(sets[0].id)
-  }, [searchParams.toString(), sets])
+  }, [searchParams.toString()])
 
   return (
     <>
