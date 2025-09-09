@@ -16,9 +16,9 @@ import { deleteSet } from '@/actions/set'
 import { Err } from '@/types/errTypes'
 import { useToast } from '@/hooks/use-toast'
 
-type NavPanelProps = { id: string; isOwner: boolean; isSetCreator: boolean }
+type NavPanelProps = { id: string; isCreator: boolean; isSetCreator: boolean }
 
-export default function NavPanel({ id, isOwner, isSetCreator }: NavPanelProps) {
+export default function NavPanel({ id, isCreator, isSetCreator }: NavPanelProps) {
   const { isLgDisplay, isXlDisplay } = useDisplayData()
 
   const { push } = useRouter()
@@ -61,7 +61,7 @@ export default function NavPanel({ id, isOwner, isSetCreator }: NavPanelProps) {
               {isXlDisplay && 'Update'}
             </Link>
           </Button>
-          {isOwner && (
+          {isCreator && (
             <ShareBtn
               trigger={
                 <Button>

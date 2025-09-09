@@ -5,7 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 import { SelectedSet } from '@/types/models/set'
 
-export default function UserTabs({ sets, isOwner = true }: { sets: SelectedSet[]; isOwner?: boolean }) {
+export default function UserTabs({ sets, isCreator = true }: { sets: SelectedSet[]; isCreator?: boolean }) {
   return (
     <>
       <Tabs defaultValue="sets" className="w-full">
@@ -19,7 +19,7 @@ export default function UserTabs({ sets, isOwner = true }: { sets: SelectedSet[]
         </TabsList>
         <TabsContent value="sets">
           <div className="mt-[-25px]">
-            <SetList sets={sets} isOwner={isOwner} isSimple />
+            <SetList sets={sets} isCreator={isCreator} isSimple />
           </div>
         </TabsContent>
         <TabsContent value="classes">

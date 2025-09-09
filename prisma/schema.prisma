@@ -24,7 +24,7 @@ model User {
   accounts     Account[]
   sessions     Session[]
   userSets     Set[]          @relation("userSets")
-  ownerSet     Set[]          @relation("ownerSets")
+  creatorSets  Set[]          @relation("creatorSets")
   activity     Activity[]
   notification Notification[]
 }
@@ -70,7 +70,7 @@ model VerificationToken {
 model Set {
   id        String   @id @default(uuid())
   userId    String
-  ownerId   String?
+  creatorId String
   title     String
   source    String
   target    String
@@ -78,8 +78,8 @@ model Set {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user  User  @relation("userSets", fields: [userId], references: [id], onDelete: Cascade)
-  owner User? @relation("ownerSets", fields: [ownerId], references: [id], onDelete: Cascade)
+  user    User @relation("userSets", fields: [userId], references: [id], onDelete: Cascade)
+  creator User @relation("creatorSets", fields: [creatorId], references: [id], onDelete: Cascade)
 
   activity     Activity[]
   notification Notification[]

@@ -25,7 +25,7 @@ export default function ShareBtn({ trigger, id, isDouble = false }: { trigger: R
 
     const session = await getSession()
 
-    const sharingStr = `${window.location.host}${getSetAppPath(id)}?owner=${session?.user.id}`
+    const sharingStr = `${window.location.host}${getSetAppPath(id)}?creator=${session?.user.id}`
 
     window.navigator.clipboard.writeText(sharingStr)
   }

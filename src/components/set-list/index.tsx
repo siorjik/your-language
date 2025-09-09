@@ -12,16 +12,18 @@ import Filter from '../filter'
 
 import { getSetAppPath, newSetAppPath, setsAppPath } from '@/utils/paths'
 import Spinner from '@/components/spinner'
-import { SelectedSet } from '@/types/models/set'
+import { SelectedSet, SetCreator } from '@/types/models/set'
 import getQueryString from '@/helpers/getQueryString'
 
 export default function SetList({
   sets,
-  isOwner = true,
+  creatorList,
+  isCreator = true,
   isSimple = false,
 }: {
   sets: SelectedSet[]
-  isOwner?: boolean
+  creatorList?: SetCreator[]
+  isCreator?: boolean
   isSimple?: boolean
 }) {
   const [isLoader, setLoader] = useState(false)
@@ -113,7 +115,7 @@ export default function SetList({
                 )}
               </div>
             )}
-            {(!!sets.length || fromParam || toParam) && <Filter />}
+            {(!!sets.length || fromParam || toParam) && <Filter creatorList={creatorList!} />}
           </>
         )}
       </div>
@@ -122,7 +124,7 @@ export default function SetList({
           {!isSimple && <h2 className="sub-title-1">Your Sets:</h2>}
           {sets.map((set, idx) => (
             <Link key={set.id} href={getSetAppPath(set.id)}>
-              <SetItem set={set} idx={idx} isSetCreator={!set.ownerId} isOwner={isOwner} />
+              <SetItem set={set} idx={idx} isSetCreator={!set.creatorId} isCreator={isCreator} />
             </Link>
           ))}
         </>

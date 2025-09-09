@@ -14,25 +14,29 @@ import ShareBtn from '@/components/share-btn'
 import Filter from '@/components/filter'
 
 import { libraryAppPath } from '@/utils/paths'
-import { SelectedSet } from '@/types/models/set'
+import { SelectedSet, SetCreator } from '@/types/models/set'
 
-export default function Activities({ sets }: { sets: SelectedSet[] }) {
-  const [id, setId] = useState<string | null>(() => sets[0].id)
+export default function Activities({ sets, creatorList }: { sets: SelectedSet[]; creatorList: SetCreator[] }) {
+  const [id, setId] = useState<string | null>(null)
   const [isComboOpen, setComboOpen] = useState(false)
   const [isAutoClose, setAutoClose] = useState(false)
 
   const searchParams = useSearchParams()
 
+  const fromParam = searchParams.get('from')
+  const toParam = searchParams.get('to')
+  const isParams = fromParam || toParam
+
   useEffect(() => {
-    setId(sets[0].id)
-  }, [searchParams.toString()])
+    if (!!sets.length) setId(sets[0].id)
+  }, [searchParams.toString(), sets])
 
   return (
     <>
       {!!sets.length ? (
         <>
           <h2 className="mx-auto w-fit title">Training with Sets</h2>
-          <div className="mb-10 flex flex-col md:flex-row justify-between items-center gap-5">
+          <div className="mb-10 flex flex-col lg:flex-row justify-between items-center gap-5">
             <div className="flex items-center gap-3">
               <span className="sub-title-3 mb-0">Choose Set:</span>
               <div className="w-[200px]">
@@ -82,16 +86,27 @@ export default function Activities({ sets }: { sets: SelectedSet[] }) {
                 id={id!}
               />
             </div>
-            <Filter />
+            <Filter creatorList={creatorList} />
           </div>
           <Tabs set={sets.find((set) => set.id === id)!} isComboOpen={isComboOpen} />
         </>
       ) : (
         <div className="h-[calc(100vh-160px)] flex flex-col justify-center items-center">
-          <p className="mb-1 text-lg font-semibold">No created Sets yet 🤨</p>
-          <Link href={libraryAppPath} className="link text-xl">
-            Visit Library and create a new one {'>>>'}
-          </Link>
+          {!isParams ? (
+            <>
+              <p className="mb-1 text-lg font-semibold">No created Sets yet 🤨</p>
+              <Link href={libraryAppPath} className="link text-xl">
+                Visit Library and create a new one {'>>>'}
+              </Link>
+            </>
+          ) : (
+            <>
+              <div className="mb-5">
+                <Filter creatorList={creatorList} />
+              </div>
+              <p className="mb-1 text-lg font-semibold">No any Sets 🤨</p>
+            </>
+          )}
         </div>
       )}
     </>
