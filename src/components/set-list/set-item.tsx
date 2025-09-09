@@ -15,18 +15,10 @@ import { SelectedSet } from '@/types/models/set'
 import useSocket from '@/hooks/useSocket'
 import { getUserAppPath } from '@/utils/paths'
 
-export default function SetItem({
-  set,
-  idx,
-  isCreator = true,
-  isSetCreator = true,
-}: {
-  set: SelectedSet
-  idx: number
-  isCreator?: boolean
-  isSetCreator?: boolean
-}) {
-  const creator = !!set.creatorId ? set.creator : set.user
+export default function SetItem({ set, idx, isSimple }: { set: SelectedSet; idx: number; isSimple: boolean }) {
+  const creator = set.creator
+  const isCreator = set.creatorId === set.userId
+  const isOwner = set.creatorId !== set.userId
 
   const { eventEmit } = useSocket(SOCKET_EVENTS.notification)
   const { push } = useRouter()
@@ -75,7 +67,7 @@ export default function SetItem({
         <p className="truncate text-xl text-primary font-balsamiqSans leading-none">{set.title}</p>
       </div>
       <div className="flex gap-2">
-        {isSetCreator && isCreator && (
+        {isCreator && !isSimple && (
           <ShareBtn
             trigger={
               <span className="bg-primary/15 icon-hover">
@@ -86,7 +78,7 @@ export default function SetItem({
             isDouble
           />
         )}
-        {isCreator && (
+        {(isOwner || isCreator) && !isSimple && (
           <span className="bg-primary/15 icon-hover hover:text-destructive" onClick={(e) => e.preventDefault()}>
             <AlertDialogWrap
               trigger={<TrashIcon size={20} />}

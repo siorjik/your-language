@@ -9,11 +9,9 @@ import { getUserById } from '@/actions/user'
 import { Err } from '@/types/errTypes'
 import { SelectedUser } from '@/types/models/user'
 import { SelectedSet } from '@/types/models/set'
-import { auth } from '@/configs/auth'
 
 export default async function User({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  const session = await auth()
 
   const user: SelectedUser | null | Err = await getUserById(id)
 
@@ -33,7 +31,7 @@ export default async function User({ params }: { params: Promise<{ id: string }>
           <User2 className="w-40 h-40 pb-5 border-2 rounded-full" />
         )}
       </div>
-      <Tabs sets={setRes.sets} isCreator={session?.user.email === user.email} />
+      <Tabs sets={setRes.sets} />
     </>
   )
 }
