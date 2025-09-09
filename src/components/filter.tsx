@@ -120,7 +120,7 @@ export default function Filter({ creatorList }: { creatorList: SetCreator[] }) {
         </SheetTrigger>
         <SheetContent className="flex flex-col justify-between">
           <div>
-            <SheetHeader>
+            <SheetHeader className="mb-5">
               <SheetTitle>Choose filters:</SheetTitle>
               <SheetDescription></SheetDescription>
             </SheetHeader>
