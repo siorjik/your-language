@@ -47,8 +47,6 @@ export default async function SetData({
 
   if (set.error) notFound()
 
-  const isSetCreator = session?.id === set.user?.id
-
   const breadcrumbData = {
     links: [
       { href: libraryAppPath, label: 'Library' },
@@ -61,7 +59,7 @@ export default async function SetData({
     <>
       <BreadcrumbWrap data={breadcrumbData} />
       <div className="mb-8">
-        <NavPanel id={id} isCreator={!set.creatorId} isSetCreator={isSetCreator} />
+        <NavPanel id={id} isCreator={set.creatorId === session.id} isOwner={session.id === set.userId} />
       </div>
       <SetForm data={{ ...set, list: set.list }} />
     </>

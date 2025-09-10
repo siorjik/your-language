@@ -16,9 +16,9 @@ import { deleteSet } from '@/actions/set'
 import { Err } from '@/types/errTypes'
 import { useToast } from '@/hooks/use-toast'
 
-type NavPanelProps = { id: string; isCreator: boolean; isSetCreator: boolean }
+type NavPanelProps = { id: string; isCreator: boolean; isOwner: boolean }
 
-export default function NavPanel({ id, isCreator, isSetCreator }: NavPanelProps) {
+export default function NavPanel({ id, isCreator, isOwner }: NavPanelProps) {
   const { isLgDisplay, isXlDisplay } = useDisplayData()
 
   const { push } = useRouter()
@@ -53,7 +53,7 @@ export default function NavPanel({ id, isCreator, isSetCreator }: NavPanelProps)
 
   return (
     <div className="flex gap-5 justify-between">
-      {isSetCreator && (
+      {isOwner && (
         <div className="flex gap-2">
           <Button asChild>
             <Link href={getUpdateSetAppPath(id)}>

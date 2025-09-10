@@ -2,6 +2,7 @@
 
 import { MouseEvent, useCallback, useEffect, useState } from 'react'
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
+import { Filter as FilterIcon, FilterX } from 'lucide-react'
 
 import {
   Sheet,
@@ -110,9 +111,13 @@ export default function Filter({ creatorList }: { creatorList: SetCreator[] }) {
       <Sheet open={show} onOpenChange={setShow}>
         <SheetTrigger asChild>
           <div className="flex gap-3">
-            <Button onClick={() => setShow(!show)}>Filters</Button>
+            <Button onClick={() => setShow(!show)}>
+              <FilterIcon />
+              Filters
+            </Button>
             {(filter?.from || filter?.creators) && (
               <Button variant="warn" onClick={onClear}>
+                <FilterX />
                 Clear Filters
               </Button>
             )}
