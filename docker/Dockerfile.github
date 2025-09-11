@@ -69,7 +69,7 @@ COPY pnpm-lock.yaml /app
 
 COPY . .
 
-RUN pnpm install
+RUN pnpm install --frozen-lockfile
 
 RUN pnpm build
 
