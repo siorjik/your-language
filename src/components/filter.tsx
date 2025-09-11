@@ -16,7 +16,6 @@ import {
 } from '@/components/ui/sheet'
 import { Button } from './ui/button'
 import DatePicker from './date-picker'
-import Spinner from './spinner'
 import MultipleSelector from './multi-select'
 
 import getQueryString from '@/helpers/getQueryString'
@@ -27,7 +26,6 @@ type FilterType = { from?: Date | undefined; to?: Date | undefined; creators?: {
 export default function Filter({ creatorList }: { creatorList: SetCreator[] }) {
   const [show, setShow] = useState(false)
   const [filter, setFilter] = useState<FilterType | null>(null)
-  const [showLoader, setShowLoader] = useState(false)
 
   const { push } = useRouter()
   const pathname = usePathname()
@@ -41,32 +39,58 @@ export default function Filter({ creatorList }: { creatorList: SetCreator[] }) {
         if (k === 'from' || k === 'to') {
           params = { ...params, [k]: new Date(v) }
         } else if (k === 'creators') params = { ...params, [k]: getValues(v.split(',')) }
-        else params = { ...params, [k]: v }
       }
 
-      if (Object.keys(params).length) setFilter((prev) => ({ ...prev, ...params }))
+      if (Object.keys(params).length) setFilter({ ...params })
     }
-  }, [searchParams.toString()])
+  }, [searchParams])
 
   const onDate = useCallback(
-    (name: 'from' | 'to', date: Date) =>
-      setFilter(filter ? { ...filter, [name]: date! } : ({ [name]: date! } as Pick<FilterType, 'from' | 'to'>)),
+    (name: 'from' | 'to', date: Date | undefined) => {
+      if (name === 'from' && !date && filter?.to) {
+        const filterCopy = { ...filter }
+
+        delete filterCopy.from
+        delete filterCopy.to
+
+        setFilter(!Object.keys(filterCopy).length ? null : { ...filterCopy })
+      } else setFilter(filter ? { ...filter, [name]: date! } : ({ [name]: date! } as Pick<FilterType, 'from' | 'to'>))
+    },
     [filter],
   )
 
   const onApply = () => {
     const creators = filter?.creators?.map((el) => el.value)
     const filterCopy = { ...filter, creators }
+    const toDeleteParams = []
 
     if (filterCopy.from && !filterCopy.to) filterCopy.to = new Date()
-    if (!filterCopy.creators) delete filterCopy.creators
 
-    const q = getQueryString({ currentParams: searchParams, newParams: { ...filterCopy } as Omit<FilterType, 'creators'> })
+    if (!filterCopy.from && searchParams.get('from')) {
+      delete filterCopy.from
+
+      toDeleteParams.push('from')
+    }
+
+    if (!filterCopy.to && searchParams.get('to')) {
+      delete filterCopy.to
+
+      toDeleteParams.push('to')
+    }
+
+    if (!filterCopy.creators) {
+      delete filterCopy.creators
+
+      toDeleteParams.push('creators')
+    }
+
+    const q = getQueryString({
+      currentParams: searchParams,
+      newParams: { ...filterCopy } as Omit<FilterType, 'creators'>,
+      toDeleteParams,
+    })
 
     setShow(false)
-    setShowLoader(true)
-
-    setTimeout(() => setShowLoader(false), 1000)
 
     push(`${pathname}?${q}`)
   }
@@ -77,11 +101,7 @@ export default function Filter({ creatorList }: { creatorList: SetCreator[] }) {
     setFilter(null)
     setShow(false)
 
-    setTimeout(() => setShowLoader(false), 1000)
-
-    const q = getQueryString({ currentParams: searchParams, toDeleteParams: ['from', 'to', 'creators'] })
-
-    push(`${pathname}?${q}`)
+    push(`${pathname}`)
   }
 
   const getOptions = () => {
@@ -106,9 +126,25 @@ export default function Filter({ creatorList }: { creatorList: SetCreator[] }) {
     return val
   }
 
+  const onSelect = (val: { label: string; value: string }[]) => {
+    const filterCopy = { ...filter }
+
+    if (!val.length && filter?.creators) delete filterCopy.creators
+    else filterCopy.creators = val
+
+    setFilter(!Object.keys(filterCopy).length ? null : { ...filterCopy })
+  }
+
   return (
     <>
-      <Sheet open={show} onOpenChange={setShow}>
+      <Sheet
+        open={show}
+        onOpenChange={() => {
+          if (show && !filter && !!searchParams.toString()) push(`${pathname}`)
+
+          setShow(!show)
+        }}
+      >
         <SheetTrigger asChild>
           <div className="flex gap-3">
             <Button onClick={() => setShow(!show)}>
@@ -138,6 +174,7 @@ export default function Filter({ creatorList }: { creatorList: SetCreator[] }) {
                   disabledDate={{ lessMore: 'more', value: new Date() }}
                 />
                 <DatePicker
+                  key={+!!filter?.from}
                   label="Date To"
                   cb={(to) => onDate('to', to)}
                   date={filter?.to}
@@ -151,7 +188,7 @@ export default function Filter({ creatorList }: { creatorList: SetCreator[] }) {
                 label="Creators"
                 placeholder="Choose Creators"
                 options={getOptions()}
-                onChange={(val: { label: string; value: string }[]) => setFilter({ ...filter, creators: val })}
+                onChange={onSelect}
               />
             </div>
           </div>
@@ -169,7 +206,6 @@ export default function Filter({ creatorList }: { creatorList: SetCreator[] }) {
           )}
         </SheetContent>
       </Sheet>
-      {showLoader && <Spinner />}
     </>
   )
 }

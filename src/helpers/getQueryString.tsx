@@ -1,12 +1,12 @@
 type Params = Record<string, string | Date | number | boolean | string[]>
-type GetQueryParams = { currentParams: URLSearchParams; newParams?: Params; toDeleteParams?: string[] | null }
+type GetQueryParams = { currentParams?: URLSearchParams; newParams?: Params; toDeleteParams?: string[] | null }
 
 export default ({ currentParams, newParams, toDeleteParams = null }: GetQueryParams) => {
   let q = ''
   const oldParams: Record<string, string> = {}
   let params: Params = {}
 
-  if (!!currentParams.size) {
+  if (!!currentParams?.size) {
     for (const [k, v] of currentParams.entries()) {
       oldParams[k] = v
     }
