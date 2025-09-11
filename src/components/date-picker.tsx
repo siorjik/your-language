@@ -17,7 +17,7 @@ export default memo(function DatePicker({
 }: {
   label: string
   date: Date | undefined
-  cb: (date: Date) => void
+  cb: (date: Date | undefined) => void
   disabledDate?: { value: Date; lessMore: 'less' | 'more' }
   disabled?: boolean
 }) {
@@ -34,13 +34,30 @@ export default memo(function DatePicker({
           <PopoverTrigger asChild>
             <Button variant="outline" id="date" className="w-48 justify-between font-normal" disabled={disabled}>
               {date ? date.toLocaleDateString() : 'Select date'}
-              <ChevronDownIcon />
+              <div className="flex items-center gap-2">
+                <ChevronDownIcon />
+                {date && (
+                  <span
+                    className="pb-1"
+                    onClick={(e) => {
+                      e.preventDefault()
+
+                      setDate(undefined)
+
+                      cb(undefined)
+                    }}
+                  >
+                    x
+                  </span>
+                )}
+              </div>
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto overflow-hidden p-0" align="start">
             <Calendar
               mode="single"
               selected={date}
+              defaultMonth={date}
               captionLayout="dropdown"
               disabled={(date) => {
                 return disabledDate?.lessMore === 'less' ? date < disabledDate.value : date > disabledDate!.value

@@ -12,6 +12,7 @@ import DialogWrap from '@/components/dialog-wrap'
 import SetForm from '@/components/forms/set-form'
 import ShareBtn from '@/components/share-btn'
 import Filter from '@/components/filter'
+import Spinner from '@/components/spinner'
 
 import { libraryAppPath } from '@/utils/paths'
 import { SelectedSet, SetCreator } from '@/types/models/set'
@@ -20,6 +21,7 @@ export default function Activities({ sets, creatorList }: { sets: SelectedSet[];
   const [id, setId] = useState<string | null>(null)
   const [isComboOpen, setComboOpen] = useState(false)
   const [isAutoClose, setAutoClose] = useState(false)
+  const [isLoader, setLoader] = useState(false)
 
   const searchParams = useSearchParams()
 
@@ -29,7 +31,15 @@ export default function Activities({ sets, creatorList }: { sets: SelectedSet[];
 
   useEffect(() => {
     if (!!sets.length) setId(sets[0].id)
-  }, [searchParams.toString()])
+
+    setLoader(true)
+    setTimeout(() => setLoader(false), 500)
+  }, [searchParams])
+
+  useEffect(() => {
+    setLoader(true)
+    setTimeout(() => setLoader(false), 500)
+  }, [id])
 
   return (
     <>
@@ -89,6 +99,7 @@ export default function Activities({ sets, creatorList }: { sets: SelectedSet[];
             <Filter creatorList={creatorList} />
           </div>
           <Tabs set={sets.find((set) => set.id === id)!} isComboOpen={isComboOpen} />
+          {isLoader && <Spinner />}
         </>
       ) : (
         <div className="h-[calc(100vh-160px)] flex flex-col justify-center items-center">

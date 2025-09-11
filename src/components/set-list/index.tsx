@@ -43,6 +43,9 @@ export default function SetList({
 
       setTimeout(() => inputRef.current?.focus(), 500)
     }
+
+    setLoader(true)
+    setTimeout(() => setLoader(false), 500)
   }, [params])
 
   const onChange = (val: string) => {
@@ -51,8 +54,6 @@ export default function SetList({
     clearTimeout(timeoutRef.current as NodeJS.Timeout)
 
     timeoutRef.current = setTimeout(() => {
-      setLoader(true)
-
       const q = getQueryString({
         currentParams: params,
         newParams: { title: val.trim() },
@@ -60,18 +61,13 @@ export default function SetList({
       })
 
       push(`${setsAppPath}?${q}`)
-
-      setTimeout(() => setLoader(false), 500)
     }, 1000)
   }
 
   const onReset = () => {
     if (!value) return
 
-    setLoader(true)
     setValue('')
-
-    setTimeout(() => setLoader(false), 1000)
 
     const q = getQueryString({ currentParams: params, toDeleteParams: ['title'] })
 
