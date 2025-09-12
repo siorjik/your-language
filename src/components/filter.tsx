@@ -47,7 +47,7 @@ export default function Filter({ creatorList }: { creatorList: SetCreator[] }) {
 
   const onDate = useCallback(
     (name: 'from' | 'to', date: Date | undefined) => {
-      if (name === 'from' && !date && filter?.to) {
+      if (name === 'from' && !date) {
         const filterCopy = { ...filter }
 
         delete filterCopy.from

@@ -17,6 +17,7 @@ import useKeyPress from '@/hooks/useKeyPress'
 import { ActivityTypesContext } from '@/contexts/activity-types-context'
 import { createActivity } from '@/actions/activity'
 import ProgressPanel from '../progress-panel'
+import { ACTIVITIES_NAMES } from '@/utils/constants'
 
 export default function Memorization({ data }: { data: SelectedSet }) {
   const [setList, setSetList] = useState<SetList>(data.list)
@@ -38,15 +39,6 @@ export default function Memorization({ data }: { data: SelectedSet }) {
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
-    // set activity for chart
-    if (index + 1 === setList.length && !result.failed.length) {
-      ;(async () => {
-        const activityTypeId = response?.activityTypes.find((item) => item.name === 'spelling')?.id
-
-        await createActivity(activityTypeId!, data.id)
-      })()
-    }
-
     if (value) setValue('')
     if (selectedAnswerStyle) setSelectedAnswerStyle(null)
 
@@ -54,6 +46,17 @@ export default function Memorization({ data }: { data: SelectedSet }) {
 
     return () => clearTimeout(timer)
   }, [index])
+
+  useEffect(() => {
+    // set activity for chart
+    if (isFinish && !result.failed.length) {
+      ;(async () => {
+        const activityTypeId = response?.activityTypes.find((item) => item.name === ACTIVITIES_NAMES.spelling)?.id
+
+        await createActivity(activityTypeId!, data.id)
+      })()
+    }
+  }, [isFinish])
 
   useEffect(() => {
     if (pressEnter) onSetResult()
