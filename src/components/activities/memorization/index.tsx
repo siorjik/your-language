@@ -13,7 +13,7 @@ import { Separator } from '@/components/ui/separator'
 
 import { ActivityType } from '@prisma/client'
 import { SelectedSet, SetList, SetListItem } from '@/types/models/set'
-import { LANGUAGE_OPTIONS } from '@/utils/constants'
+import { ACTIVITIES_NAMES, LANGUAGE_OPTIONS } from '@/utils/constants'
 import getShuffledArr from '@/helpers/getShuffledArr'
 import { ActivityTypesContext } from '@/contexts/activity-types-context'
 import { createActivity } from '@/actions/activity'
@@ -31,15 +31,6 @@ export default function Memorization({ data }: { data: SelectedSet }) {
   const response = use(ActivityTypesContext) as { activityTypes: ActivityType[] } | null
 
   useEffect(() => {
-    // set activity for chart
-    if (index + 1 === setList.length && !result.failed.length) {
-      ;(async () => {
-        const activityTypeId = response?.activityTypes.find((item) => item.name === 'memorization')?.id
-
-        await createActivity(activityTypeId!, data.id)
-      })()
-    }
-
     const shuffledArr = getShuffledArr([
       ...data.list?.filter((item) => item[selectedMode] !== setList[index][selectedMode]),
     ]).splice(0, 3)
@@ -48,6 +39,17 @@ export default function Memorization({ data }: { data: SelectedSet }) {
 
     setShuffledList(getShuffledArr(shuffledArr))
   }, [index, setList])
+
+  useEffect(() => {
+    // set activity for chart
+    if (isFinish && !result.failed.length) {
+      ;(async () => {
+        const activityTypeId = response?.activityTypes.find((item) => item.name === ACTIVITIES_NAMES.memorization)?.id
+
+        await createActivity(activityTypeId!, data.id)
+      })()
+    }
+  }, [isFinish])
 
   const onSetResult = (item: SetListItem, idx: number): void => {
     // prevent double click the same item

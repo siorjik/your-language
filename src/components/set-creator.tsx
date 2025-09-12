@@ -54,7 +54,9 @@ export default function SetCreator({ setId }: { setId: string }) {
             )}
             {!isMobile && (
               <div className="flex flex-col text-xs text-primary/80 overflow-hidden hover:text-foreground">
-                <span className="truncate leading-normal">Created by {creatorData.createdBy},</span>
+                <span className="truncate leading-normal">
+                  Created by <span className="text-primary font-balsamiqSans">{creatorData.createdBy}</span>,
+                </span>
                 <span className="truncate leading-normal">{formatDistanceToNow(creatorData.createdAt, { addSuffix: true })}</span>
               </div>
             )}

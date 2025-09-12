@@ -15,7 +15,7 @@ import { Separator } from '@/components/ui/separator'
 
 import { SelectedSet, SetList, SetListItem } from '@/types/models/set'
 import { ActivityType } from '@prisma/client'
-import { LANGUAGE_OPTIONS } from '@/utils/constants'
+import { ACTIVITIES_NAMES, LANGUAGE_OPTIONS } from '@/utils/constants'
 import useKeyPress from '@/hooks/useKeyPress'
 import getShuffledArr from '@/helpers/getShuffledArr'
 import { cancelUtterance, getUtterance, getVoices } from '@/services/speechService'
@@ -40,6 +40,7 @@ export default function Flashcards({ data, isComboOpen }: { data: SelectedSet; i
   const [soundMode, setSoundMode] = useState<{ term: boolean; definition: boolean }>({ term: false, definition: false })
   const [showTooltip, setShowTooltip] = useState(false)
   const [isShuffled, setShuffled] = useState(false)
+  const [isFinish, setFinish] = useState(false)
   const [delay, setDelay] = useState(2000)
 
   const downPress = useKeyPress('ArrowDown', true)
@@ -65,15 +66,6 @@ export default function Flashcards({ data, isComboOpen }: { data: SelectedSet; i
   useEffect(() => {
     let timeout = null
 
-    // set activity for chart
-    if (index + 1 === setList.length) {
-      ;(async () => {
-        const activityTypeId = response?.activityTypes.find((item) => item.name === 'flashcards')?.id
-
-        await createActivity(activityTypeId!, data.id)
-      })()
-    }
-
     if (isPlay) {
       timeout = setTimeout(() => {
         if (index < setList.length) {
@@ -90,21 +82,32 @@ export default function Flashcards({ data, isComboOpen }: { data: SelectedSet; i
   }, [isPlay, index])
 
   useEffect(() => {
-    if (isSound) sound({})
+    // set activity for chart
+    if (isFinish) {
+      ;(async () => {
+        const activityTypeId = response?.activityTypes.find((item) => item.name === ACTIVITIES_NAMES.flashcards)?.id
+
+        await createActivity(activityTypeId!, data.id)
+      })()
+    }
+  }, [isFinish])
+
+  useEffect(() => {
+    if (isSound && index > 0) sound({})
   }, [setList, mode, isSound])
 
   // sound for first element
   useEffect(() => {
     if (isSound && index === 0) sound({})
-  }, [index])
+  }, [index, mode, isSound])
 
   useEffect(() => {
-    if (rightPress) paginate(1)
-  }, [rightPress])
+    if (rightPress && !isFinish) paginate(1)
+  }, [rightPress, isFinish])
 
   useEffect(() => {
-    if (leftPress) paginate(-1)
-  }, [leftPress])
+    if (leftPress && !isFinish) paginate(-1)
+  }, [leftPress, isFinish])
 
   useEffect(() => {
     if ((spacePress || upPress || downPress) && !isSelectOpen && !isComboOpen) rotate()
@@ -114,6 +117,8 @@ export default function Flashcards({ data, isComboOpen }: { data: SelectedSet; i
     cancelUtterance()
 
     const isEnd = index + 1 === setList.length
+
+    setFinish(isEnd && newDirection > 0)
 
     if (index === 0 && newDirection < 0) return
 
@@ -222,7 +227,7 @@ export default function Flashcards({ data, isComboOpen }: { data: SelectedSet; i
 
   return (
     <>
-      {index < setList.length ? (
+      {!isFinish ? (
         <>
           <div className="w-full mb-5 flex flex-col md:flex-row justify-evenly items-center">
             <h2 className="title w-full md:w-fit !truncate md:mb-0 text-center">{data.title}</h2>
@@ -394,7 +399,13 @@ export default function Flashcards({ data, isComboOpen }: { data: SelectedSet; i
           </div>
         </>
       ) : (
-        <FinishBlock start={() => setIndex(0)} isFlashcards />
+        <FinishBlock
+          start={() => {
+            setIndex(0)
+            setFinish(false)
+          }}
+          isFlashcards
+        />
       )}
     </>
   )
