@@ -237,17 +237,15 @@ export default function UserMenu() {
                 className="p-1 pr-[6px] pb-[6px] flex flex-col"
                 onPointerLeave={(e) => (isShow || showNotifications) && e.preventDefault()}
               >
-                {session.user.isCredentials && (
-                  <NavigationMenuLink asChild>
-                    <Link
-                      className="px-2 h-10 hover:bg-accent flex items-center gap-3 cursor-pointer rounded-md font-semibold"
-                      href={profileAppPath}
-                    >
-                      <UserRoundCog className="text-primary" />
-                      <span className="text-primary">Settings</span>
-                    </Link>
-                  </NavigationMenuLink>
-                )}
+                <NavigationMenuLink asChild>
+                  <Link
+                    className="px-2 h-10 hover:bg-accent flex items-center gap-3 cursor-pointer rounded-md font-semibold"
+                    href={profileAppPath}
+                  >
+                    <UserRoundCog className="text-primary" />
+                    <span className="text-primary">Settings</span>
+                  </Link>
+                </NavigationMenuLink>
                 <NavigationMenuLink asChild>{notificationsDropDownMenu()}</NavigationMenuLink>
                 <NavigationMenuLink onSelect={(e) => e.preventDefault()} asChild>
                   <span

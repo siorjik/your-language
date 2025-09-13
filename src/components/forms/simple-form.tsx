@@ -11,7 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input'
 import Spinner from '../spinner'
 
-type FieldsDataType = { name: string; label: string; type?: string }[]
+type FieldsDataType = { name: string; label: string; type?: string; disabled?: boolean }[]
 type SimpleFormPropsType = {
   submit: (data: z.infer<ZodSchema>) => Promise<boolean>
   fieldsData: FieldsDataType
@@ -106,7 +106,7 @@ export default function SimpleForm(props: SimpleFormPropsType) {
                       <FormItem>
                         <FormLabel>{item.label}</FormLabel>
                         <FormControl>
-                          <Input type={item.type} disabled={isDisabled} {...field} />
+                          <Input type={item.type} disabled={isDisabled || item.disabled} {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { getSession, useSession } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { User2 } from 'lucide-react'
 
@@ -60,12 +60,12 @@ export default function ChangeImageForm() {
   }
 
   const upload = async (): Promise<void> => {
-    await getSession()
-
     setLoading(true)
 
+    const isBucketImage = session?.user.image?.includes('amazonaws.com')
+
     try {
-      if (session?.user.image) await deleteFile(session?.user.image)
+      if (isBucketImage) await deleteFile(session?.user.image)
 
       const res = await uploadFile(image.file!)
 
@@ -92,8 +92,10 @@ export default function ChangeImageForm() {
   }
 
   const onDelete = async () => {
+    const isBucketImage = session?.user.image.includes('amazonaws.com')
+
     try {
-      await deleteFile(session?.user.image)
+      if (isBucketImage) await deleteFile(session?.user.image)
 
       await updateAccImage({ image: null })
 

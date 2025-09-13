@@ -93,8 +93,8 @@ export default function Flashcards({ data, isComboOpen }: { data: SelectedSet; i
   }, [isFinish])
 
   useEffect(() => {
-    if (isSound && index > 0) sound({})
-  }, [setList, mode, isSound])
+    if (isSound && index > 0 && !isFinish) sound({})
+  }, [setList, mode, isSound, isFinish])
 
   // sound for first element
   useEffect(() => {
@@ -110,8 +110,8 @@ export default function Flashcards({ data, isComboOpen }: { data: SelectedSet; i
   }, [leftPress, isFinish])
 
   useEffect(() => {
-    if ((spacePress || upPress || downPress) && !isSelectOpen && !isComboOpen) rotate()
-  }, [spacePress, upPress, downPress])
+    if ((spacePress || upPress || downPress) && !isSelectOpen && !isComboOpen && !isFinish) rotate()
+  }, [spacePress, upPress, downPress, isFinish])
 
   const paginate = (newDirection: number) => {
     cancelUtterance()
