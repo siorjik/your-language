@@ -7,6 +7,7 @@ import './globals.css'
 
 import { Toaster } from '@/components/ui/toaster'
 import { THEMES } from '@/utils/constants'
+import QueryProvider from '@/providers/query-provider'
 
 const playpenSans = Playpen_Sans({ variable: '--font-playpen-sans', subsets: ['latin'] })
 const balsamiqSans = Balsamiq_Sans({ variable: '--font-balsamiq-sans', subsets: ['latin'], weight: '700' })
@@ -27,7 +28,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
             themes={THEMES.map((theme) => theme.value)}
             enableSystem={false}
           >
-            {children}
+            <QueryProvider>{children}</QueryProvider>
           </ThemeProvider>
         </SessionProvider>
         <Toaster />

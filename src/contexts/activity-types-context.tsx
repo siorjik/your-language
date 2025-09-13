@@ -1,6 +1,7 @@
 'use client'
 
 import { createContext, useEffect, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
 
 import { ActivityType } from '@prisma/client'
 import apiRequestService from '@/services/apiRequestService'
@@ -11,17 +12,14 @@ export const ActivityTypesContext = createContext<{ activityTypes: ActivityType[
 export const ActivityTypesProvider = ({ children }: { children: React.ReactNode }) => {
   const [activityTypes, setActivityTypes] = useState<ActivityType[] | null>(null)
 
-  useEffect(() => {
-    ;(async () => {
-      try {
-        const res: { activityTypes: ActivityType[]; error: null } = await apiRequestService({ url: activityTypesListApiPath })
+  const { data } = useQuery<{ activityTypes: ActivityType[]; error: null }>({
+    queryKey: ['activity-types'],
+    queryFn: async () => await apiRequestService({ url: activityTypesListApiPath }),
+  })
 
-        setActivityTypes(res.activityTypes)
-      } catch (error) {
-        console.log(error)
-      }
-    })()
-  }, [])
+  useEffect(() => {
+    if (data) setActivityTypes(data.activityTypes)
+  }, [data])
 
   return <ActivityTypesContext value={{ activityTypes }}>{children}</ActivityTypesContext>
 }

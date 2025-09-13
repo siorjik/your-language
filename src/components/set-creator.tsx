@@ -4,37 +4,31 @@ import { User2 } from 'lucide-react'
 import Image from 'next/image'
 import { formatDistanceToNow } from 'date-fns'
 
-import { SelectedSet, SetCreatorInfo } from '@/types/models/set'
+import { SetCreatorInfo } from '@/types/models/set'
 import Link from 'next/link'
 import { getUserAppPath } from '@/utils/paths'
 import { useEffect, useState } from 'react'
 import { getSetById } from '@/actions/set'
-import { Err } from '@/types/errTypes'
 import useDisplayData from '@/hooks/useDisplayData'
+import { useQuery } from '@tanstack/react-query'
 
 export default function SetCreator({ setId }: { setId: string }) {
   const [creatorData, setCreatorData] = useState<SetCreatorInfo | null>(null)
 
+  const { data } = useQuery({ queryKey: ['set', setId], queryFn: async () => await getSetById(setId) })
+
   const { isMobile } = useDisplayData()
 
   useEffect(() => {
-    ;(async () => {
-      try {
-        const set: (SelectedSet & { error: null }) | Err = await getSetById(setId)
-
-        if (set.error) throw set.error
-        else
-          setCreatorData({
-            img: set.creator?.image || set.user!.image,
-            createdBy: set.creator?.name || set.user!.name,
-            createdAt: set.createdAt,
-            id: set.creator?.id || set.user!.id,
-          })
-      } catch (error) {
-        console.log(error)
-      }
-    })()
-  }, [setId])
+    if (data && !data.error) {
+      setCreatorData({
+        img: data.creator?.image || data.user!.image,
+        createdBy: data.creator?.name || data.user!.name,
+        createdAt: data.createdAt,
+        id: data.creator?.id || data.user!.id,
+      })
+    }
+  }, [setId, data])
 
   return (
     <>

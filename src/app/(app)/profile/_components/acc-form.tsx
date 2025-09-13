@@ -12,7 +12,7 @@ import { useToast } from '@/hooks/use-toast'
 import { SelectedUser } from '@/types/models/user'
 import { Err } from '@/types/errTypes'
 
-export default function EditAccountForm() {
+export default function EditAccountForm({ isCredentials }: { isCredentials: boolean }) {
   const [acc, setAcc] = useState<{ name: string; email: string }>({ name: '', email: '' })
 
   const { toast } = useToast()
@@ -48,7 +48,7 @@ export default function EditAccountForm() {
   }
 
   const fieldData = [
-    { name: 'email', label: 'Email*' },
+    { name: 'email', label: 'Email*', disabled: !isCredentials },
     { name: 'name', label: 'Name*' },
   ]
 

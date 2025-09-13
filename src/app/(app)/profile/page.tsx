@@ -1,5 +1,4 @@
 import { headers } from 'next/headers'
-import { redirect } from 'next/navigation'
 
 import ProfileTabs from './_components/tabs'
 
@@ -11,10 +10,9 @@ export default async function Profile() {
   let twoFaData: { data: string; secret: string } | null = null
 
   const session = await auth()
-
-  if (!session?.user.isCredentials) redirect('/') // hidden for oauth acc
+  const isCredentials = session?.user.isCredentials
 
   if (!session?.user.isTwoFa) twoFaData = await apiRequestService({ url: `${twoFaApiPath}`, headers: await headers() })
 
-  return <ProfileTabs twoFaData={twoFaData} />
+  return <ProfileTabs twoFaData={twoFaData} isCredentials={isCredentials} />
 }

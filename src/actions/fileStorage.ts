@@ -16,7 +16,10 @@ export const uploadFile = async (file: File): Promise<{ url: string; error: null
   try {
     await getServerSessionToken()
 
-    const putObjectCommand = new PutObjectCommand({ Key: file.name, Bucket: process.env.AWS_BUCKET_NAME })
+    const putObjectCommand = new PutObjectCommand({
+      Key: `${file.name}_${crypto.randomUUID()}`,
+      Bucket: process.env.AWS_BUCKET_NAME,
+    })
 
     const signedUrl = await getSignedUrl(s3, putObjectCommand, { expiresIn: 60 })
 
