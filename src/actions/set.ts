@@ -10,6 +10,7 @@ import { prisma } from '@/lib/prisma'
 import { setsAppPath } from '@/utils/paths'
 import { Err } from '@/types/errTypes'
 import { SelectedSet, SetList, SetCreator } from '@/types/models/set'
+import { INFINITY_SCROLL_LIMIT } from '@/utils/constants'
 
 export const createSet = async (data: z.infer<typeof setFormTypeSchema>): Promise<(SelectedSet & { error: null }) | Err> => {
   try {
@@ -51,26 +52,32 @@ export const updateSet = async (data: z.infer<typeof setFormTypeSchema>): Promis
   }
 }
 
+type SetListParams = {
+  filter?: { title?: string; from?: string; to?: string; creators?: string }
+  id?: string
+  limit?: number
+  cursor?: string
+}
+
 export const getSetList = async (
-  filter: { title?: string; from?: string; to?: string; creators?: string } | null = null,
-  id: string | null = null,
-): Promise<{ sets: SelectedSet[]; error: null } | Err> => {
+  params: SetListParams | undefined = undefined,
+): Promise<{ sets: SelectedSet[]; error: null; nextCursor?: string | null } | Err> => {
   try {
     const session = await getServerSessionToken()
 
-    const filterParams: { [key: string]: Record<string, string | Date | string[]> } | null =
-      filter &&
-      Object.keys(filter).reduce(
+    const filterParams: { [key: string]: Record<string, string | Date | string[]> } | null | undefined =
+      params?.filter &&
+      Object.keys(params.filter).reduce(
         (acc, cur) => {
           switch (cur) {
             case 'title':
-              acc.title = { contains: filter.title!, mode: 'insensitive' }
+              acc.title = { contains: params.filter!.title!, mode: 'insensitive' }
               break
             case 'from':
-              acc.createdAt = { gte: new Date(filter.from!), lte: new Date(filter.to!) }
+              acc.createdAt = { gte: new Date(params.filter!.from!), lte: new Date(params.filter!.to!) }
               break
             case 'creators':
-              acc.creatorId = { in: filter?.creators!.split(',') }
+              acc.creatorId = { in: params.filter!.creators!.split(',') }
               break
 
             default:
@@ -88,16 +95,26 @@ export const getSetList = async (
 
     if (filterParams) Object.keys(filterParams).forEach((k) => !Object.keys(filterParams[k]).length && delete filterParams[k])
 
-    return {
-      sets: (await prisma.set.findMany({
-        where: { userId: id || session.id, ...filterParams },
-        include: {
-          user: { select: { name: true, image: true, id: true } },
-          creator: { select: { name: true, image: true, id: true } },
-        },
-      })) as SelectedSet[],
-      error: null,
+    const sets = (await prisma.set.findMany({
+      take: params?.limit ? params.limit + 1 : undefined,
+      skip: params?.cursor ? 1 : 0,
+      cursor: params?.cursor ? { id: params.cursor } : undefined,
+      where: { userId: params?.id || session.id, ...filterParams },
+      include: {
+        user: { select: { name: true, image: true, id: true } },
+        creator: { select: { name: true, image: true, id: true } },
+      },
+    })) as SelectedSet[]
+
+    if (params?.cursor || params?.limit) {
+      const limit = params?.limit || INFINITY_SCROLL_LIMIT
+      const hasNextPage = sets.length > limit
+      const items = hasNextPage ? sets.slice(0, -1) : sets
+
+      return { sets: items, nextCursor: hasNextPage ? items[items.length - 1].id : null, error: null }
     }
+
+    return { sets, error: null }
   } catch (error) {
     return errHandlerService(error)
   }

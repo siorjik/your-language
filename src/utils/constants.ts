@@ -42,3 +42,5 @@ export const SOCKET_EVENTS = { notification: 'notification', message: 'message',
 export const SOCKET_EVENT_LIST = SOCKET_EVENTS.notification || SOCKET_EVENTS.message
 
 export const ACTIVITIES_NAMES = { flashcards: 'flashcards', memorization: 'memorization', spelling: 'spelling' }
+
+export const INFINITY_SCROLL_LIMIT = 10

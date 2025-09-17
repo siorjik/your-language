@@ -159,7 +159,7 @@ export default function Filter({ creatorList }: { creatorList: SetCreator[] }) {
             )}
           </div>
         </SheetTrigger>
-        <SheetContent className="flex flex-col justify-between">
+        <SheetContent className="flex flex-col justify-between overflow-y-auto">
           <div>
             <SheetHeader className="mb-5">
               <SheetTitle>Choose filters:</SheetTitle>

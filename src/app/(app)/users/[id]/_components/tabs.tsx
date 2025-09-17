@@ -3,9 +3,7 @@
 import SetList from '@/components/set-list'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
-import { SelectedSet } from '@/types/models/set'
-
-export default function UserTabs({ sets }: { sets: SelectedSet[] }) {
+export default function UserTabs({ userId }: { userId: string }) {
   return (
     <>
       <Tabs defaultValue="sets" className="w-full">
@@ -19,7 +17,7 @@ export default function UserTabs({ sets }: { sets: SelectedSet[] }) {
         </TabsList>
         <TabsContent value="sets">
           <div className="mt-[-25px]">
-            <SetList sets={sets} isSimple />
+            <SetList userId={userId} queryKey={['sets', userId]} isSimple />
           </div>
         </TabsContent>
         <TabsContent value="classes">
