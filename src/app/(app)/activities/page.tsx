@@ -11,7 +11,7 @@ export const dynamic = 'force-dynamic'
 export default async function ActivitiesPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
   const params = await searchParams
 
-  const res: { sets: SelectedSet[]; error: null } | Err = await getSetList(params)
+  const res: { sets: SelectedSet[]; error: null } | Err = await getSetList({ filter: params })
   const setsCreatorsRes: { creatorList: SetCreator[] | null; error: null } | Err = await getSetsCreators()
 
   if (res.error || setsCreatorsRes.error) notFound()

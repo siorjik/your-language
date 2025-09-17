@@ -14,15 +14,25 @@ import { getSetAppPath, newSetAppPath, setsAppPath } from '@/utils/paths'
 import Spinner from '@/components/spinner'
 import { SelectedSet, SetCreator } from '@/types/models/set'
 import getQueryString from '@/helpers/getQueryString'
+import { useInfiniteScroll } from '@/hooks/use-infinity-scroll'
+import { getSetList } from '@/actions/set'
+import { Err } from '@/types/errTypes'
+import { INFINITY_SCROLL_LIMIT } from '@/utils/constants'
+
+type ReturnType = { sets: SelectedSet[]; error: null; nextCursor?: string | null } | Err
 
 export default function SetList({
-  sets,
+  setList,
   creatorList,
   isSimple = false,
+  queryKey = [],
+  userId = undefined,
 }: {
-  sets: SelectedSet[]
+  setList?: SelectedSet[]
   creatorList?: SetCreator[]
   isSimple?: boolean
+  queryKey?: string[]
+  userId?: string | undefined
 }) {
   const [isLoader, setLoader] = useState(false)
   const [value, setValue] = useState('')
@@ -33,6 +43,27 @@ export default function SetList({
   const titleParam = params.get('title')
   const fromParam = params.get('from')
   const toParam = params.get('to')
+  const creatorsParam = params.get('creators')
+
+  const { result, hasNextPage, isFetchingNextPage, ref } = useInfiniteScroll<ReturnType>({
+    queryKey,
+    fetchFn: (cursor: string) =>
+      !!setList?.length
+        ? undefined
+        : getSetList({
+            cursor,
+            filter: {
+              title: titleParam ?? undefined,
+              from: fromParam ?? undefined,
+              to: toParam ?? undefined,
+              creators: creatorsParam ?? undefined,
+            },
+            limit: INFINITY_SCROLL_LIMIT,
+            id: userId,
+          }),
+  })
+
+  const sets = result && result[0] !== undefined ? result.map((el) => (!el?.error ? el?.sets : [])).flat() : setList
 
   const inputRef = useRef<HTMLInputElement>(null)
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
@@ -87,7 +118,7 @@ export default function SetList({
         )}
         {!isSimple && (
           <>
-            {(!!sets.length || titleParam) && (
+            {(!!sets?.length || titleParam) && (
               <div className="w-full max-w-[700px] relative">
                 <span className="h-10 w-10 bg-secondary/40 absolute top-0 left-0 flex justify-center items-center rounded-l-md">
                   <Search />
@@ -109,11 +140,11 @@ export default function SetList({
                 )}
               </div>
             )}
-            {(!!sets.length || fromParam || toParam) && <Filter creatorList={creatorList!} />}
+            {(!!sets?.length || fromParam || toParam) && <Filter creatorList={creatorList!} />}
           </>
         )}
       </div>
-      {!isLoader && !!sets.length ? (
+      {!isLoader && !!sets?.length ? (
         <>
           {!isSimple && <h2 className="sub-title-1">Your Sets:</h2>}
           {sets.map((set, idx) => (
@@ -125,7 +156,8 @@ export default function SetList({
       ) : isLoader ? null : (
         <p className="w-fit mx-auto text-lg font-semibold">There are no any Sets 🤨</p>
       )}
-      {isLoader && <Spinner />}
+      {((isFetchingNextPage && hasNextPage) || isLoader) && <Spinner />}
+      <div ref={ref} />
     </>
   )
 }

@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { User2 } from 'lucide-react'
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query'
 
 import Tabs from './_components/tabs'
 
@@ -8,7 +9,7 @@ import { getSetList } from '@/actions/set'
 import { getUserById } from '@/actions/user'
 import { Err } from '@/types/errTypes'
 import { SelectedUser } from '@/types/models/user'
-import { SelectedSet } from '@/types/models/set'
+import { INFINITY_SCROLL_LIMIT } from '@/utils/constants'
 
 export default async function User({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -17,9 +18,13 @@ export default async function User({ params }: { params: Promise<{ id: string }>
 
   if (!user || user.error) notFound()
 
-  const setRes: { sets: SelectedSet[]; error: null } | Err = await getSetList(null, user.id)
+  const queryClient = new QueryClient()
 
-  if (setRes.error) notFound()
+  await queryClient.prefetchInfiniteQuery({
+    queryKey: ['sets', user.id],
+    queryFn: () => getSetList({ id: user.id, limit: INFINITY_SCROLL_LIMIT }),
+    initialPageParam: 1,
+  })
 
   return (
     <>
@@ -31,7 +36,9 @@ export default async function User({ params }: { params: Promise<{ id: string }>
           <User2 className="w-40 h-40 pb-5 border-2 rounded-full" />
         )}
       </div>
-      <Tabs sets={setRes.sets} />
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <Tabs userId={user.id} />
+      </HydrationBoundary>
     </>
   )
 }
