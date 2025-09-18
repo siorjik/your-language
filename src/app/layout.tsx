@@ -32,6 +32,13 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
           </ThemeProvider>
         </SessionProvider>
         <Toaster />
+
+        {/* prevention of css styles */}
+        <style>{`
+          body[data-scroll-locked] {
+            margin-right: 0 !important;
+          }
+        `}</style>
       </body>
     </html>
   )
