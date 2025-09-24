@@ -21,12 +21,14 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  accounts     Account[]
-  sessions     Session[]
-  userSets     Set[]          @relation("userSets")
-  creatorSets  Set[]          @relation("creatorSets")
-  activity     Activity[]
-  notification Notification[]
+  accounts               Account[]
+  sessions               Session[]
+  userSets               Set[]          @relation("userSets")
+  creatorSets            Set[]          @relation("creatorSets")
+  creatorClasses         Class[]
+  activity               Activity[]
+  userNotifications      Notification[] @relation("userNotifications")
+  recipientNotifications Notification[] @relation("recipientNotifications")
 }
 
 model Account {
@@ -108,14 +110,32 @@ model Activity {
 }
 
 model Notification {
+  id          String   @id @default(uuid())
+  type        String
+  status      String
+  setId       String?
+  classId     String?
+  userId      String
+  recipientId String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  set       Set?   @relation(fields: [setId], references: [id], onDelete: Cascade)
+  class     Class? @relation(fields: [classId], references: [id], onDelete: Cascade)
+  user      User   @relation("userNotifications", fields: [userId], references: [id], onDelete: Cascade)
+  recipient User   @relation("recipientNotifications", fields: [recipientId], references: [id], onDelete: Cascade)
+}
+
+model Class {
   id        String   @id @default(uuid())
-  type      String
-  status    String
-  setId     String?
-  userId    String
+  title     String
+  image     String?
+  sets      Json
+  users     Json?
+  creatorId String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  set  Set? @relation(fields: [setId], references: [id], onDelete: Cascade)
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  creator      User           @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  notification Notification[]
 }

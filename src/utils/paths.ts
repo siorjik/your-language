@@ -9,7 +9,6 @@ export const recoverPasswordAppPath = '/recover-password'
 export const profileAppPath = '/profile'
 export const libraryAppPath = '/library'
 export const activitiesAppPath = '/activities'
-export const classesAppPath = '/classes'
 
 // set
 export const setsAppPath = '/sets'
@@ -19,6 +18,10 @@ export const getUpdateSetAppPath = (id: string) => `${setsAppPath}/${id}/update`
 export const getFlashcardsAppPath = (id: string) => `${setsAppPath}/${id}/flashcards`
 export const getMemorizationAppPath = (id: string) => `${setsAppPath}/${id}/memorization`
 export const getSpellingAppPath = (id: string) => `${setsAppPath}/${id}/spelling`
+
+// class
+export const classesAppPath = '/classes'
+export const getClassAppPath = (id: string) => `${classesAppPath}/${id}`
 
 // users
 export const usersAppPath = '/users'

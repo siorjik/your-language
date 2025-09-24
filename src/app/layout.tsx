@@ -33,7 +33,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         </SessionProvider>
         <Toaster />
 
-        {/* prevention of css styles */}
+        {/* overriding of css styles */}
         <style>{`
           body[data-scroll-locked] {
             margin-right: 0 !important;

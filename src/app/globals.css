@@ -411,4 +411,8 @@ body {
   .notification-new {
     @apply relative before:w-2 before:h-2 before:bg-primary before:absolute before:top-[translate-50%] before:rounded-full;
   }
+
+  .btn-bg-animated {
+    @apply hover:!bg-transparent bg-animated text-lg hover:border after:rounded-md hover:!border-primary/20;
+  }
 }

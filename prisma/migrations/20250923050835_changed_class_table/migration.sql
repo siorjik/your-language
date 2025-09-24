@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Class" ALTER COLUMN "image" DROP NOT NULL,
+ALTER COLUMN "users" DROP NOT NULL;

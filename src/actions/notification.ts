@@ -8,6 +8,7 @@ import errHandlerService from '@/services/errHandlerService'
 import { Err } from '@/types/errTypes'
 import getServerSessionToken from '@/helpers/getServerSessionToken'
 import { prisma } from '@/lib/prisma'
+import { NOTIFICATION_STATUSES } from '@/utils/constants'
 
 export const createNotification = async (
   data: z.infer<typeof NotificationTypeSchema>,
@@ -30,7 +31,17 @@ export const createNotification = async (
       await prisma.notification.deleteMany({ where: { id: { in: toDelete.map((el) => el.id) } } })
     }
 
-    return { ...(await prisma.notification.create({ data: { ...data, userId: session.id } })), error: null }
+    return {
+      ...(await prisma.notification.create({
+        data: {
+          ...data,
+          userId: session.id,
+          recipientId: data.recipientId || session.id,
+          status: data.status || NOTIFICATION_STATUSES.new,
+        },
+      })),
+      error: null,
+    }
   } catch (error) {
     return errHandlerService(error)
   }
@@ -41,7 +52,10 @@ export const getUserNotifications = async (): Promise<{ notifications: Notificat
     const session = await getServerSessionToken()
 
     return {
-      notifications: await prisma.notification.findMany({ where: { userId: session.id }, orderBy: { createdAt: 'desc' } }),
+      notifications: await prisma.notification.findMany({
+        where: { OR: [{ userId: session.id, recipientId: session.id }, { recipientId: session.id }] },
+        orderBy: { createdAt: 'desc' },
+      }),
       error: null,
     }
   } catch (error) {
