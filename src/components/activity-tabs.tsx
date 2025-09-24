@@ -3,10 +3,10 @@
 import { Fragment } from 'react'
 import { GalleryHorizontal, Brain, Pen } from 'lucide-react'
 
-import Flashcards from '@/components/activities/flashcards'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import Memorization from '@/components/activities/memorization'
-import Spelling from '@/components/activities/spelling'
+import Flashcards from './activities/flashcards'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
+import Memorization from './activities/memorization'
+import Spelling from './activities/spelling'
 
 import { ActivityTypesProvider } from '@/contexts/activity-types-context'
 import { SelectedSet } from '@/types/models/set'

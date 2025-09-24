@@ -7,7 +7,17 @@ import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/comp
 
 import { getSetAppPath } from '@/utils/paths'
 
-export default function ShareBtn({ trigger, id, isDouble = false }: { trigger: ReactElement; id: string; isDouble?: boolean }) {
+export default function ShareBtn({
+  trigger,
+  id,
+  isDouble = false,
+  url,
+}: {
+  trigger: ReactElement
+  id: string
+  isDouble?: boolean
+  url?: string
+}) {
   const [showTooltip, setShowTooltip] = useState(false)
   const [isClicked, setClicked] = useState(false)
 
@@ -25,7 +35,7 @@ export default function ShareBtn({ trigger, id, isDouble = false }: { trigger: R
 
     const session = await getSession()
 
-    const sharingStr = `${window.location.host}${getSetAppPath(id)}?creator=${session?.user.id}`
+    const sharingStr = `${window.location.host}${url ? url : getSetAppPath(id)}?creator=${session?.user.id}`
 
     window.navigator.clipboard.writeText(sharingStr)
   }

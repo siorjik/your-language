@@ -14,9 +14,9 @@ import { INFINITY_SCROLL_LIMIT } from '@/utils/constants'
 
 export const createSet = async (data: z.infer<typeof setFormTypeSchema>): Promise<(SelectedSet & { error: null }) | Err> => {
   try {
-    setFormTypeSchema.parse(data)
-
     const session = await getServerSessionToken()
+
+    setFormTypeSchema.parse(data)
 
     const { title, source, target, list } = data
 
@@ -35,9 +35,9 @@ export const createSet = async (data: z.infer<typeof setFormTypeSchema>): Promis
 
 export const updateSet = async (data: z.infer<typeof setFormTypeSchema>): Promise<(SelectedSet & { error: null }) | Err> => {
   try {
-    setFormTypeSchema.parse(data)
-
     await getServerSessionToken()
+
+    setFormTypeSchema.parse(data)
 
     const { title, source, target, list, id } = data
 
@@ -127,7 +127,7 @@ export const getSetById = async (id: string, creatorId?: string): Promise<(Selec
     const session = await getServerSessionToken()
 
     if (creatorId && creatorId !== session.id) {
-      const sharedSet = await prisma.set.findFirst({ where: { id }, omit: { id: true } })
+      const sharedSet = await prisma.set.findFirst({ where: { id, creatorId }, omit: { id: true } })
 
       if (sharedSet) {
         set = (await prisma.set.create({

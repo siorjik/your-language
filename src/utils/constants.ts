@@ -34,7 +34,12 @@ export const MONTHS = [
   'December',
 ]
 
-export const NOTIFICATION_TYPES = { createdSet: 'createdSet' }
+export const NOTIFICATION_TYPES = {
+  createdSet: 'createdSet',
+  createdClass: 'createdClass',
+  sentClassJoinRequest: 'sentClassJoinRequest',
+  approvedClassJoinRequest: 'approvedClassJoinRequest',
+}
 
 export const NOTIFICATION_STATUSES = { new: 'new', read: 'read' }
 

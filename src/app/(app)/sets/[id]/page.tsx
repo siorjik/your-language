@@ -2,7 +2,7 @@ import { notFound, redirect } from 'next/navigation'
 
 import SetForm from '@/components/forms/set-form'
 import BreadcrumbWrap from '@/components/breadcrumb-wrap'
-import NavPanel from './_components/nav-panel'
+import BtnPanel from './_components/btn-panel'
 
 import { getSetById } from '@/actions/set'
 import { Err } from '@/types/errTypes'
@@ -27,6 +27,7 @@ export async function generateMetadata({
 
     return { title: `${set.title} | Language Bro`, description: 'Review your current Set and make some changes if it needed.' }
   }
+
   return null
 }
 
@@ -59,7 +60,7 @@ export default async function SetData({
     <>
       <BreadcrumbWrap data={breadcrumbData} />
       <div className="mb-8">
-        <NavPanel id={id} isCreator={set.creatorId === session.id} isOwner={session.id === set.userId} />
+        <BtnPanel id={id} isCreator={set.creatorId === session.id} isOwner={session.id === set.userId} />
       </div>
       <SetForm data={{ ...set, list: set.list }} />
     </>

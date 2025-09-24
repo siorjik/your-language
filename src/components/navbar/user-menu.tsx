@@ -28,11 +28,15 @@ import {
 } from '@/components/ui/dropdown-menu'
 import Spinner from '../spinner'
 
-import { profileAppPath, signUpAppPath, signInAppPath, getSetAppPath } from '@/utils/paths'
+import { profileAppPath, signUpAppPath, signInAppPath, getSetAppPath, getClassAppPath } from '@/utils/paths'
 import { NOTIFICATION_STATUSES, NOTIFICATION_TYPES, SOCKET_EVENTS, THEMES } from '@/utils/constants'
 import { Notification } from '@prisma/client'
-import { deleteNotification, getUserNotifications, readNotification } from '@/actions/notification'
+import { createNotification, deleteNotification, getUserNotifications, readNotification } from '@/actions/notification'
 import useSocket from '@/hooks/useSocket'
+import { Button } from '../ui/button'
+import { getClassById, updateClass } from '@/actions/class'
+import { SelectedClass } from '@/types/models/class'
+import { Err } from '@/types/errTypes'
 
 export default function UserMenu() {
   const [isShow, setShow] = useState(false)
@@ -78,18 +82,96 @@ export default function UserMenu() {
     }, 1000)
   }
 
+  const onRequestAnswer = async (action: 'approve' | 'reject', notification: Notification) => {
+    try {
+      if (action === 'approve') {
+        const res: (SelectedClass & { error: null }) | Err = await getClassById(notification.classId!)
+
+        if (!res.error) {
+          const { id, title, users, sets } = res
+
+          await updateClass({ id, title, sets, users: [...users, notification.userId!] })
+        } else throw res.error
+
+        await createNotification({
+          userId: notification.recipientId,
+          recipientId: notification.userId,
+          type: NOTIFICATION_TYPES.approvedClassJoinRequest,
+          classId: notification.classId!,
+        })
+
+        await handleNotification(notification.id, 'read')
+      } else await handleNotification(notification.id, 'read')
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   const getNotificationMessage = (notification: Notification) => {
+    const time = <p className="mb-2 text-xs text-primary">{formatDistanceToNow(notification.createdAt, { addSuffix: true })}</p>
     switch (notification.type) {
       case NOTIFICATION_TYPES.createdSet:
         return (
           <div>
-            <p className="mb-2 text-xs text-primary">{formatDistanceToNow(notification.createdAt, { addSuffix: true })}</p>
+            {time}
             <p>
               Hi there! Your new created{' '}
               <Link className="link inline-block" href={getSetAppPath(notification.setId!)}>
                 Set
               </Link>{' '}
               is waiting for you <span className="font-emoji">😉</span>
+            </p>
+          </div>
+        )
+
+      case NOTIFICATION_TYPES.createdClass:
+        return (
+          <div>
+            {time}
+            <p>
+              Invite friends in your created{' '}
+              <Link className="link inline-block" href={getClassAppPath(notification.classId!)}>
+                Class
+              </Link>{' '}
+              and have fun <span className="font-emoji">🤗</span>
+            </p>
+          </div>
+        )
+
+      case NOTIFICATION_TYPES.sentClassJoinRequest:
+        return (
+          <div>
+            {time}
+            <p>
+              You got the request to join to your{' '}
+              <Link className="link inline-block" href={getClassAppPath(notification.classId!)}>
+                Class
+              </Link>{' '}
+              <span className="font-emoji">🔥</span>
+            </p>
+            {notification.status === NOTIFICATION_STATUSES.new && (
+              <div className="mt-2 flex gap-5 justify-center">
+                <Button onClick={() => onRequestAnswer('approve', notification)} size="sm">
+                  Approve
+                </Button>
+                <Button onClick={() => onRequestAnswer('reject', notification)} size="sm">
+                  Reject
+                </Button>
+              </div>
+            )}
+          </div>
+        )
+
+      case NOTIFICATION_TYPES.approvedClassJoinRequest:
+        return (
+          <div>
+            {time}
+            <p>
+              You were joined to the{' '}
+              <Link className="link inline-block" href={getClassAppPath(notification.classId!)}>
+                Class
+              </Link>{' '}
+              <span className="font-emoji">🥳</span>
             </p>
           </div>
         )

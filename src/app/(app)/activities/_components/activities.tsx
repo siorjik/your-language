@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { FileCog, Share } from 'lucide-react'
 
-import Tabs from './tabs'
+import Tabs from '@/components/activity-tabs'
 import { Combobox } from '@/components/combobox'
 import { Button } from '@/components/ui/button'
 import DialogWrap from '@/components/dialog-wrap'
