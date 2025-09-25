@@ -138,9 +138,9 @@ export default function ClassList({ isSimple = false, sets, classes }: ClassList
         <>
           {!isSimple && <h2 className="sub-title-1">Your Classes:</h2>}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-            {classes.map((el) => (
+            {classes.map((el, idx) => (
               <Link key={el.id} href={getClassAppPath(el.id)}>
-                <ClassItem data={el} />
+                <ClassItem data={el} idx={idx} />
               </Link>
             ))}
           </div>

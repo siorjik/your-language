@@ -1,9 +1,9 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import Image from 'next/image'
 import { useTheme } from 'next-themes'
-import { easeInOut, motion, useScroll, useTransform } from 'framer-motion'
+import { motion } from 'framer-motion'
 
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '../ui/tabs'
 import DialogWrap from '../dialog-wrap'
@@ -17,25 +17,13 @@ import { GlowEffect } from '../ui/glow-effect'
 import flashcardsImg from '@/../public/flashcards.png'
 import deviceImg from '@/../public/devices.png'
 import chartImg from '@/../public/chart.png'
-import useDisplayData from '@/hooks/useDisplayData'
 
 export default function GuestMode() {
   const [isClose, setClose] = useState(false)
 
-  const { isXlDisplay } = useDisplayData()
-
   const { theme } = useTheme()
 
   const isDark = theme?.includes('-dark')
-
-  const ref = useRef<HTMLDivElement>(null)
-
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['end start', 'start end'] })
-
-  const opacity = useTransform(scrollYProgress, [0.5, 1], [1, 0], { ease: [easeInOut] })
-  const y1 = useTransform(scrollYProgress, [0.6, 1], ['0px', '30%'])
-  const y2 = useTransform(scrollYProgress, [0.6, 1], ['0px', '50%'])
-  const y3 = useTransform(scrollYProgress, [0.6, 1], ['0px', '70%'])
 
   const dialogContent = (
     <Tabs>
@@ -83,8 +71,12 @@ export default function GuestMode() {
     <>
       <HeroSection dialogContent={dialogContent} isClose={isClose} />
       <div className="min-h-[calc(100vh-50px)] pt-10 pb-5 flex justify-center items-center">
-        <div className="flex flex-wrap gap-10 justify-center items-center" ref={ref}>
-          <motion.div style={{ y: isXlDisplay ? y1 : '', opacity: isXlDisplay ? opacity : 1 }}>
+        <div className="flex flex-wrap gap-10 justify-center items-center">
+          <motion.div
+            initial={{ opacity: 0, y: 200 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 1 * 0.1 }}
+          >
             <Card className="lg:min-h-[850px] flex flex-col justify-between bg-secondary/50 border-0 shadow-xl text-center">
               <div>
                 <CardHeader>
@@ -115,7 +107,11 @@ export default function GuestMode() {
             </Card>
           </motion.div>
 
-          <motion.div style={{ y: isXlDisplay ? y2 : '', opacity: isXlDisplay ? opacity : 1 }}>
+          <motion.div
+            initial={{ opacity: 0, y: 250 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 1.5 * 0.1 }}
+          >
             <Card className="lg:min-h-[850px] flex flex-col justify-between bg-secondary/50 border-0 shadow-xl text-center">
               <div>
                 <CardHeader>
@@ -145,7 +141,11 @@ export default function GuestMode() {
             </Card>
           </motion.div>
 
-          <motion.div style={{ y: isXlDisplay ? y3 : '', opacity: isXlDisplay ? opacity : 1 }}>
+          <motion.div
+            initial={{ opacity: 0, y: 300 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 2 * 0.1 }}
+          >
             <Card className="lg:min-h-[850px] flex flex-col justify-between bg-secondary/50 border-0 shadow-xl text-center">
               <div>
                 <CardHeader>

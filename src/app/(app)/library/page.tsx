@@ -1,4 +1,7 @@
+'use client'
+
 import Link from 'next/link'
+import { motion } from 'framer-motion'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardContent, CardDescription, CardFooter } from '@/components/ui/card'
@@ -11,7 +14,13 @@ export default function Library() {
     <>
       <h2 className="mx-auto w-fit title">Your helpers</h2>
       <div className="flex flex-col md:flex-row flex-wrap xl:flex-nowrap justify-center gap-8">
-        <div className="flex flex-col items-center">
+        <motion.div
+          className="flex flex-col items-center"
+          initial={{ opacity: 0, y: 100 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 1 * 0.1 }}
+        >
           <Link className="w-full" href={setsAppPath}>
             <Button variant="outline" className="w-full btn-bg-animated">
               Go To Sets
@@ -62,9 +71,15 @@ export default function Library() {
               </div>
             </CardFooter>
           </Card>
-        </div>
+        </motion.div>
 
-        <div className="flex flex-col items-center">
+        <motion.div
+          className="flex flex-col items-center"
+          initial={{ opacity: 0, y: 200 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 1.5 * 0.1 }}
+        >
           <Link className="w-full" href={activitiesAppPath}>
             <Button variant="outline" className="w-full btn-bg-animated">
               Go To Activities
@@ -104,9 +119,15 @@ export default function Library() {
               </p>
             </CardContent>
           </Card>
-        </div>
+        </motion.div>
 
-        <div className="flex flex-col items-center">
+        <motion.div
+          className="flex flex-col items-center"
+          initial={{ opacity: 0, y: 300 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 2 * 0.1 }}
+        >
           <Link className="w-full" href={classesAppPath}>
             <Button variant="outline" className="w-full btn-bg-animated">
               Go To Classes
@@ -191,7 +212,7 @@ export default function Library() {
               </CardFooter>
             </div>
           </Card>
-        </div>
+        </motion.div>
       </div>
     </>
   )

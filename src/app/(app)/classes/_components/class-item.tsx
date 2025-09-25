@@ -3,14 +3,20 @@
 import { format } from 'date-fns'
 import Image from 'next/image'
 import { ImageIcon } from 'lucide-react'
+import { motion } from 'framer-motion'
 
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card'
 
 import { SelectedClass } from '@/types/models/class'
 
-export default function ClassItem({ data }: { data: SelectedClass }) {
+export default function ClassItem({ data, idx }: { data: SelectedClass; idx: number }) {
   return (
-    <>
+    <motion.div
+      initial={{ opacity: 0, y: 100, x: idx % 2 === 0 ? -100 : 100 }}
+      whileInView={{ opacity: 1, y: 0, x: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: idx * 0.1 }}
+    >
       <Card className="h-full flex shadow-xl hover:bg-primary/30 hover:scale-[1.03] duration-500">
         <div className="flex items-center">
           {data.image ? (
@@ -46,6 +52,6 @@ export default function ClassItem({ data }: { data: SelectedClass }) {
           </CardContent>
         </div>
       </Card>
-    </>
+    </motion.div>
   )
 }

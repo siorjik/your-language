@@ -50,29 +50,42 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
         style={{ width: `${viewSize}px` }}
       />
       <div className="xl:w-1/2 text-muted-foreground text-center z-20 relative">
-        <motion.div className="relative z-20" style={{ y, scale }}>
-          <h3 className="sub-title-1 mb-5 text-background/70">Welcome to Language Bro!</h3>
-          <p className="max-w-[500px] mx-auto p-3 bg-muted rounded-lg italic font-semibold">
-            Discover a smarter, more engaging way to learn language. Whether you`re just starting out or sharpening advanced
-            skills, our powerful tools help you build vocabulary, master grammar, and grow your confidence - step by step
-            <span className="emoji">👌</span>
-          </p>
-        </motion.div>
-        <motion.div className="w-fit hidden xl:block relative mx-auto mt-20 z-0" style={{ opacity }}>
-          <Image
-            src={tutorImg}
-            alt="classmates"
-            className={`${isDark ? 'brightness-50' : ''}`}
-            width={300}
-            height={300}
-            priority
-          />
+        {viewSize && (
+          <motion.div
+            className="relative z-20"
+            style={{ y, scale }}
+            initial={{ opacity: 0, x: isMobile ? -200 : -500 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.3 }}
+          >
+            <h3 className="sub-title-1 mb-5 text-background/70">Welcome to Language Bro!</h3>
+            <p className="max-w-[500px] mx-auto p-3 bg-muted rounded-lg italic font-semibold">
+              Discover a smarter, more engaging way to learn language. Whether you`re just starting out or sharpening advanced
+              skills, our powerful tools help you build vocabulary, master grammar, and grow your confidence - step by step
+              <span className="emoji">👌</span>
+            </p>
+          </motion.div>
+        )}
+        <motion.div
+          className="w-fit hidden xl:block relative mx-auto mt-20 z-0"
+          style={{ opacity }}
+          initial={{ opacity: 0, x: -500 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.3, delay: 0.1 }}
+        >
+          <Image src={tutorImg} alt="tutor" className={`${isDark ? 'brightness-50' : ''}`} width={300} height={300} priority />
         </motion.div>
       </div>
       <div className="w-full xl:w-1/2 text-center">
         <motion.div
           className="relative z-10"
           style={{ opacity: isXlDisplay ? 1 : opacity, y: isXlDisplay ? y : '', scale: isXlDisplay ? scale : 1 }}
+          initial={{ x: 500, y: 0 }}
+          whileInView={{ x: 0, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.3 }}
         >
           <TextLoop className="w-full mb-10 xl:mb-14 text-center hidden md:block" interval={3} transition={{ duration: 0.5 }}>
             <span className="sub-title-1 text-background text-3xl">Improve your language skills!</span>
@@ -99,7 +112,14 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
             />
           </div>
         </motion.div>
-        <motion.div className="w-fit hidden xl:block relative mx-auto mt-20 z-0" style={{ opacity }}>
+        <motion.div
+          className="w-fit hidden xl:block relative mx-auto mt-20 z-0"
+          style={{ opacity }}
+          initial={{ opacity: 0, x: 500 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.3, delay: 0.1 }}
+        >
           <Image
             src={classmatesImg}
             alt="classmates"

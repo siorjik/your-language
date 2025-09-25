@@ -31,9 +31,9 @@ export default function useDisplayData() {
     setWindowData({
       ...windowData,
       viewSize: window.document.documentElement.clientWidth,
-      isXlDisplay: window.innerWidth >= 1280,
-      isLgDisplay: window.innerWidth >= 1024,
-      isMobile: window.innerWidth < 768,
+      isXlDisplay: window.document.documentElement.clientWidth >= 1280,
+      isLgDisplay: window.document.documentElement.clientWidth >= 1024,
+      isMobile: window.document.documentElement.clientWidth < 768,
     })
 
   return { ...windowData }
