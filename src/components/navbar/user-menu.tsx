@@ -115,11 +115,11 @@ export default function UserMenu() {
           <div>
             {time}
             <p>
-              Hi there! Your new created{' '}
+              <span className="font-emoji">😉</span> Hi there! Your new created{' '}
               <Link className="link inline-block" href={getSetAppPath(notification.setId!)}>
                 Set
               </Link>{' '}
-              is waiting for you <span className="font-emoji">😉</span>
+              is waiting for you!
             </p>
           </div>
         )
@@ -129,11 +129,11 @@ export default function UserMenu() {
           <div>
             {time}
             <p>
-              Invite friends in your created{' '}
+              <span className="font-emoji">🤗</span> Invite friends in your created{' '}
               <Link className="link inline-block" href={getClassAppPath(notification.classId!)}>
                 Class
               </Link>{' '}
-              and have fun <span className="font-emoji">🤗</span>
+              and have fun!
             </p>
           </div>
         )
@@ -143,18 +143,18 @@ export default function UserMenu() {
           <div>
             {time}
             <p>
-              You got the request to join to your{' '}
+              <span className="font-emoji">🔥</span> You got the request to join to your{' '}
               <Link className="link inline-block" href={getClassAppPath(notification.classId!)}>
                 Class
-              </Link>{' '}
-              <span className="font-emoji">🔥</span>
+              </Link>
+              !
             </p>
             {notification.status === NOTIFICATION_STATUSES.new && (
               <div className="mt-2 flex gap-5 justify-center">
-                <Button onClick={() => onRequestAnswer('approve', notification)} size="sm">
+                <Button className="h-7 text-xs p-2" onClick={() => onRequestAnswer('approve', notification)} size="sm">
                   Approve
                 </Button>
-                <Button onClick={() => onRequestAnswer('reject', notification)} size="sm">
+                <Button className="h-7 text-xs p-2" onClick={() => onRequestAnswer('reject', notification)} size="sm">
                   Reject
                 </Button>
               </div>
@@ -167,11 +167,11 @@ export default function UserMenu() {
           <div>
             {time}
             <p>
-              You were joined to the{' '}
+              <span className="font-emoji">🥳</span> You were joined to the{' '}
               <Link className="link inline-block" href={getClassAppPath(notification.classId!)}>
                 Class
-              </Link>{' '}
-              <span className="font-emoji">🥳</span>
+              </Link>
+              !
             </p>
           </div>
         )

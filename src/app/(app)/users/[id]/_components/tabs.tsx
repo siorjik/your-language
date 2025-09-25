@@ -55,7 +55,7 @@ export default function UserTabs({ userId, classes }: { userId: string; classes:
                       <p className="mb-3 text-primary font-semibold text-sm">
                         {formatDistanceToNow(item.createdAt, { addSuffix: true })}
                       </p>
-                      <p className="text-sm font-semibold">Created by: {item.creator.name}</p>
+                      <p className="text-sm font-semibold truncate">Created by: {item.creator.name}</p>
                     </div>
                   </div>
                 </Link>
