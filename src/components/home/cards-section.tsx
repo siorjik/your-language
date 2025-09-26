@@ -34,7 +34,7 @@ export default function CardSection({ sets }: { sets: SelectedSet[] }) {
       <motion.div
         key={set.id}
         initial={{ rotateX: 90 }}
-        animate={{ rotateX: 0 }}
+        whileInView={{ rotateX: 0 }}
         transition={{ duration: 1, type: 'spring', stiffness: 500, delay: (idx + 1) / 5 }}
       >
         <Link href={getSetAppPath(set.id)}>

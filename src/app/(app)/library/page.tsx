@@ -75,7 +75,7 @@ export default function Library() {
 
         <motion.div
           className="flex flex-col items-center"
-          initial={{ opacity: 0, y: 200 }}
+          initial={{ opacity: 0, y: 300 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 1.5 * 0.1 }}
@@ -123,7 +123,7 @@ export default function Library() {
 
         <motion.div
           className="flex flex-col items-center"
-          initial={{ opacity: 0, y: 300 }}
+          initial={{ opacity: 0, y: 400 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 2 * 0.1 }}
