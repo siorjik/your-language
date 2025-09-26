@@ -155,7 +155,7 @@ export default function ClassForm({ data = null, action = null, sets, users, onS
               />
             </div>
           )}
-          <div className="w-fit mx-auto mt-10">
+          <div className="w-fit mx-auto my-10 md:mb-0">
             <ImageUploading
               imageUrl={form.getValues('image')}
               placeholder={<ImageIcon size={150} />}

@@ -146,7 +146,7 @@ export default function Filter({ creatorList }: { creatorList: SetCreator[] }) {
         }}
       >
         <SheetTrigger asChild>
-          <div className="flex gap-3">
+          <div className="w-fit flex gap-3">
             <Button onClick={() => setShow(!show)}>
               <FilterIcon />
               Filters

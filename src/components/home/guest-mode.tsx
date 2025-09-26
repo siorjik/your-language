@@ -127,7 +127,11 @@ export default function GuestMode() {
                     <CardTitle className="font-balsamiqSans text-primary/50">Your Activity Tracker</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="max-w-[350px] mx-auto mb-4 p-3 bg-muted/50 rounded-lg italic font-semibold text-muted-foreground">
+                    <p
+                      className="
+                        max-w-[350px] mx-auto mb-4 p-3 bg-muted/50 rounded-lg italic font-semibold text-muted-foreground
+                      "
+                    >
                       Stay on top of your progress with <span className="text-primary">Your Activity Tracker</span>. See how much
                       you`ve learned, track your daily practice, and celebrate every milestone. From completed flashcards to quiz
                       scores and study streaks, your tracker keeps everything organized in one place. It`s the easiest way to stay
@@ -164,7 +168,11 @@ export default function GuestMode() {
                     <CardTitle className="font-balsamiqSans text-primary/50">Accessible Anywhere</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="max-w-[350px] mx-auto mb-3 p-3 bg-muted/50 rounded-lg italic font-semibold text-muted-foreground">
+                    <p
+                      className="
+                        max-w-[350px] mx-auto mb-3 p-3 bg-muted/50 rounded-lg italic font-semibold text-muted-foreground
+                      "
+                    >
                       With <span className="text-primary font-semibold">Accessible Anywhere</span>, your language learning goes
                       wherever you go. Whether you`re on your phone, tablet, or computer, all your flashcards, quizzes, and
                       progress are always synced and ready. Practice on the bus, at the café, or from the comfort of home - your

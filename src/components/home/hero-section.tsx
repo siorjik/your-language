@@ -42,7 +42,10 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
       ref={ref}
     >
       <div
-        className={`h-full bg-[url('/board.webp')] ${isDark ? 'brightness-50' : ''} bg-cover bg-center bg-fixed absolute z-0`}
+        className={`
+          h-full bg-[url('/board.webp')] ${isDark ? 'brightness-50' : ''}
+          ${isMobile ? 'bg-contain' : 'bg-cover'} bg-center bg-fixed absolute z-0
+        `}
         style={{ width: `${viewSize}px` }}
       />
       <div

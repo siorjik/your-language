@@ -46,14 +46,13 @@ export default function SetCreator({ setId }: { setId: string }) {
             ) : (
               <User2 className="w-10 h-10 pt-1 pb-2 border-2 rounded-full" />
             )}
-            {!isMobile && (
-              <div className="flex flex-col text-xs text-primary/80 overflow-hidden hover:text-foreground">
-                <span className="truncate leading-normal">
-                  Created by <span className="text-primary font-balsamiqSans">{creatorData.createdBy}</span>,
-                </span>
-                <span className="truncate leading-normal">{formatDistanceToNow(creatorData.createdAt, { addSuffix: true })}</span>
-              </div>
-            )}
+
+            <div className="flex flex-col text-xs text-primary/80 overflow-hidden hover:text-foreground">
+              <span className="truncate leading-normal">
+                {!isMobile && 'Created by'} <span className="text-primary font-balsamiqSans">{creatorData.createdBy}</span>,
+              </span>
+              <span className="truncate leading-normal">{formatDistanceToNow(creatorData.createdAt, { addSuffix: true })}</span>
+            </div>
           </div>
         </Link>
       ) : (
