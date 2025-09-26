@@ -12,9 +12,12 @@ import { LANGUAGE_OPTIONS } from '@/utils/constants'
 import { getSetAppPath, newSetAppPath } from '@/utils/paths'
 import ShareBtn from '../share-btn'
 import { SelectedSet } from '@/types/models/set'
+import useDisplayData from '@/hooks/useDisplayData'
 
 export default function CardSection({ sets }: { sets: SelectedSet[] }) {
   const [isShowNav, setShowNav] = useState(false)
+
+  const { isLgDisplay } = useDisplayData()
 
   const divRef = useRef<HTMLDivElement>(null)
 
@@ -30,11 +33,13 @@ export default function CardSection({ sets }: { sets: SelectedSet[] }) {
   const toggleShowArr = () => setShowNav(!isShowNav)
 
   const getSetCard = (set: SelectedSet, idx: number) => {
+    const animated = isLgDisplay ? { whileInView: { rotateX: 0 } } : { animate: { rotateX: 0 } }
+
     return (
       <motion.div
         key={set.id}
         initial={{ rotateX: 90 }}
-        whileInView={{ rotateX: 0 }}
+        {...animated}
         transition={{ duration: 1, type: 'spring', stiffness: 500, delay: (idx + 1) / 5 }}
       >
         <Link href={getSetAppPath(set.id)}>

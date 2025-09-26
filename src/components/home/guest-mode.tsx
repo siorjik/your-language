@@ -24,10 +24,9 @@ export default function GuestMode() {
   const [isClose, setClose] = useState(false)
 
   const { theme } = useTheme()
-  const { isMobile, viewSize } = useDisplayData()
+  const { isLgDisplay, viewSize } = useDisplayData()
 
   const isDark = theme?.includes('-dark')
-  const isTablet = viewSize === 768
 
   const dialogContent = (
     <Tabs>
@@ -80,7 +79,7 @@ export default function GuestMode() {
             <motion.div
               initial={{ opacity: 0, y: 200, scaleY: 0.5, rotateY: 150 }}
               whileInView={{ opacity: 1, y: 0, scaleY: 1, rotateY: 0 }}
-              viewport={{ once: isMobile || isTablet }}
+              viewport={{ once: !isLgDisplay }}
               transition={{ duration: 0.5 }}
             >
               <Card className="lg:min-h-[850px] flex flex-col justify-between bg-secondary/50 border-0 shadow-xl text-center">
@@ -122,8 +121,8 @@ export default function GuestMode() {
             <motion.div
               initial={{ opacity: 0, y: 250, scaleY: 0.5, rotateY: 150 }}
               whileInView={{ opacity: 1, y: 0, scaleY: 1, rotateY: 0 }}
-              viewport={{ once: isMobile || isTablet }}
-              transition={{ duration: 0.5, delay: isMobile || isTablet ? 0 : 1.5 * 0.1 }}
+              viewport={{ once: !isLgDisplay }}
+              transition={{ duration: 0.5, delay: 1.5 * 0.1 }}
             >
               <Card className="lg:min-h-[850px] flex flex-col justify-between bg-secondary/50 border-0 shadow-xl text-center">
                 <div>
@@ -163,8 +162,8 @@ export default function GuestMode() {
             <motion.div
               initial={{ opacity: 0, y: 300, scaleY: 0.5, rotateY: 150 }}
               whileInView={{ opacity: 1, y: 0, scaleY: 1, rotateY: 0 }}
-              viewport={{ once: isMobile || isTablet }}
-              transition={{ duration: 0.5, delay: isMobile || isTablet ? 0 : 2 * 0.1 }}
+              viewport={{ once: !isLgDisplay }}
+              transition={{ duration: 0.5, delay: 2 * 0.1 }}
             >
               <Card className="lg:min-h-[850px] flex flex-col justify-between bg-secondary/50 border-0 shadow-xl text-center">
                 <div>
