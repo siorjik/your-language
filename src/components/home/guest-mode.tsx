@@ -78,10 +78,10 @@ export default function GuestMode() {
         <div className="flex flex-wrap gap-10 justify-center items-center">
           {viewSize && (
             <motion.div
-              initial={{ opacity: 0, y: 200 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 200, scaleY: 0.5, rotateY: 150 }}
+              whileInView={{ opacity: 1, y: 0, scaleY: 1, rotateY: 0 }}
               viewport={{ once: isMobile || isTablet }}
-              transition={{ duration: 0.5, delay: isMobile || isTablet ? 0 : 1 * 0.1 }}
+              transition={{ duration: 0.5 }}
             >
               <Card className="lg:min-h-[850px] flex flex-col justify-between bg-secondary/50 border-0 shadow-xl text-center">
                 <div>
@@ -89,7 +89,11 @@ export default function GuestMode() {
                     <CardTitle className="font-balsamiqSans text-primary/50">Flashcards & Quizzes</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="max-w-[350px] mx-auto mb-8 p-3 bg-muted/50 rounded-lg italic font-semibold text-muted-foreground">
+                    <p
+                      className="
+                        max-w-[350px] mx-auto mb-8 p-3 bg-muted/50 rounded-lg italic font-semibold text-muted-foreground
+                      "
+                    >
                       Master new words and phrases faster than ever with our{' '}
                       <span className="text-primary">Flashcards & Quizzes</span>. Effortlessly review vocabulary in bite-sized
                       sessions, then challenge yourself with quick quizzes that keep your memory sharp. Flashcards help you
@@ -116,8 +120,8 @@ export default function GuestMode() {
 
           {viewSize && (
             <motion.div
-              initial={{ opacity: 0, y: 250 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 250, scaleY: 0.5, rotateY: 150 }}
+              whileInView={{ opacity: 1, y: 0, scaleY: 1, rotateY: 0 }}
               viewport={{ once: isMobile || isTablet }}
               transition={{ duration: 0.5, delay: isMobile || isTablet ? 0 : 1.5 * 0.1 }}
             >
@@ -157,8 +161,8 @@ export default function GuestMode() {
 
           {viewSize && (
             <motion.div
-              initial={{ opacity: 0, y: 300 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 300, scaleY: 0.5, rotateY: 150 }}
+              whileInView={{ opacity: 1, y: 0, scaleY: 1, rotateY: 0 }}
               viewport={{ once: isMobile || isTablet }}
               transition={{ duration: 0.5, delay: isMobile || isTablet ? 0 : 2 * 0.1 }}
             >
