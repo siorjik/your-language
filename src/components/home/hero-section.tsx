@@ -37,7 +37,7 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
   return (
     <div
       className={`
-        min-h-[calc(100vh-50px)] mt-[-20px] flex flex-col xl:flex-row gap-10 justify-center items-center relative
+        min-h-[calc(100dvh-50px)] mt-[-20px] flex flex-col xl:flex-row gap-10 justify-center items-center relative
       `}
       ref={ref}
     >
@@ -55,7 +55,7 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
             className="relative z-20"
             style={{ y, scale }}
             initial={{ opacity: 0, x: isMobile ? -200 : -500 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            animate={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.3 }}
           >
@@ -71,7 +71,7 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
           className="w-fit hidden xl:block relative mx-auto mt-20 z-0"
           style={{ opacity }}
           initial={{ opacity: 0, x: -500 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          animate={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.3, delay: 0.1 }}
         >
@@ -79,44 +79,46 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
         </motion.div>
       </div>
       <div className="w-full xl:w-1/2 text-center">
-        <motion.div
-          className="relative z-10"
-          style={{ opacity: isXlDisplay ? 1 : opacity, y: isXlDisplay ? y : '', scale: isXlDisplay ? scale : 1 }}
-          initial={{ x: 500, y: 0 }}
-          whileInView={{ x: 0, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.3 }}
-        >
-          <TextLoop className="w-full mb-10 xl:mb-14 text-center hidden md:block" interval={3} transition={{ duration: 0.5 }}>
-            <span className="sub-title-1 text-background text-3xl">Improve your language skills!</span>
-            <span className="sub-title-1 text-background text-3xl">Increase your conversation confidence!</span>
-            <span className="sub-title-1 text-background text-3xl ">Expend your vocabulary!</span>
-            <span className="sub-title-1 text-background text-3xl">Enjoy your learning process!</span>
-          </TextLoop>
-          <div className="w-fit mx-auto relative">
-            <GlowEffect className="rounded-lg" mode="colorShift" blur="softest" duration={5} scale={1} />
-            <DialogWrap
-              width="max-w-[400px]"
-              title={
-                <p>
-                  Welcome! <span className="emoji mr-1">👋</span>
-                </p>
-              }
-              trigger={
-                <Button className="relative hover:bg-initial p-8 text-xl" variant="ghost">
-                  Start Your Journey 😎
-                </Button>
-              }
-              content={dialogContent}
-              isAutoClose={isClose}
-            />
-          </div>
-        </motion.div>
+        {viewSize && (
+          <motion.div
+            className="relative z-10"
+            style={{ opacity: isXlDisplay ? 1 : opacity, y: isXlDisplay ? y : 0, scale: isXlDisplay ? scale : 1 }}
+            initial={{ x: 500, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.3 }}
+          >
+            <TextLoop className="w-full mb-10 xl:mb-14 text-center hidden md:block" interval={3} transition={{ duration: 0.5 }}>
+              <span className="sub-title-1 text-background text-3xl">Improve your language skills!</span>
+              <span className="sub-title-1 text-background text-3xl">Increase your conversation confidence!</span>
+              <span className="sub-title-1 text-background text-3xl ">Expend your vocabulary!</span>
+              <span className="sub-title-1 text-background text-3xl">Enjoy your learning process!</span>
+            </TextLoop>
+            <div className="w-fit mx-auto relative">
+              <GlowEffect className="rounded-lg" mode="colorShift" blur="softest" duration={5} scale={1} />
+              <DialogWrap
+                width="max-w-[400px]"
+                title={
+                  <p>
+                    Welcome! <span className="emoji mr-1">👋</span>
+                  </p>
+                }
+                trigger={
+                  <Button className="relative hover:bg-initial p-8 text-xl" variant="ghost">
+                    Start Your Journey 😎
+                  </Button>
+                }
+                content={dialogContent}
+                isAutoClose={isClose}
+              />
+            </div>
+          </motion.div>
+        )}
         <motion.div
           className="w-fit hidden xl:block relative mx-auto mt-20 z-0"
           style={{ opacity }}
           initial={{ opacity: 0, x: 500 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          animate={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.3, delay: 0.1 }}
         >
