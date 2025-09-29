@@ -11,7 +11,7 @@ import Spelling from './activities/spelling'
 import { ActivityTypesProvider } from '@/contexts/activity-types-context'
 import { SelectedSet } from '@/types/models/set'
 
-export default function TabsPage({ set, isComboOpen }: { set: SelectedSet; isComboOpen: boolean }) {
+export default function TabsPage({ set }: { set: SelectedSet }) {
   return (
     <ActivityTypesProvider>
       {!!set ? (
@@ -32,7 +32,7 @@ export default function TabsPage({ set, isComboOpen }: { set: SelectedSet; isCom
           </TabsList>
           <Fragment key={set?.id}>
             <TabsContent value="flashcards">
-              <Flashcards data={set} isComboOpen={isComboOpen} />
+              <Flashcards data={set} />
             </TabsContent>
             <TabsContent value="memorization">
               <Memorization data={set} />
