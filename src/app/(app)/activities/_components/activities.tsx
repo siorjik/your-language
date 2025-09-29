@@ -16,10 +16,10 @@ import Spinner from '@/components/spinner'
 
 import { libraryAppPath } from '@/utils/paths'
 import { SelectedSet, SetCreator } from '@/types/models/set'
+import { ModalContextProvider } from '@/contexts/modal-context'
 
 export default function Activities({ sets, creatorList }: { sets: SelectedSet[]; creatorList: SetCreator[] }) {
   const [id, setId] = useState<string | null>(null)
-  const [isComboOpen, setComboOpen] = useState(false)
   const [isAutoClose, setAutoClose] = useState(false)
   const [isLoader, setLoader] = useState(false)
 
@@ -42,7 +42,7 @@ export default function Activities({ sets, creatorList }: { sets: SelectedSet[];
   }, [id])
 
   return (
-    <>
+    <ModalContextProvider>
       {!!sets.length ? (
         <>
           <h2 className="mx-auto w-fit title">Training with Sets</h2>
@@ -58,7 +58,6 @@ export default function Activities({ sets, creatorList }: { sets: SelectedSet[];
                   data={sets.map((set) => ({ value: set.title, label: set.title, id: set.id }))}
                   getValue={(val) => setId(val)}
                   value={sets[sets.findIndex((set) => set.id === id || sets[0].id)].title}
-                  checkIsActive={(val) => setComboOpen(val)}
                 />
               </div>
             </div>
@@ -98,7 +97,7 @@ export default function Activities({ sets, creatorList }: { sets: SelectedSet[];
             </div>
             <Filter creatorList={creatorList} />
           </div>
-          <Tabs set={sets.find((set) => set.id === id)!} isComboOpen={isComboOpen} />
+          <Tabs set={sets.find((set) => set.id === id)!} />
           {isLoader && <Spinner />}
         </>
       ) : (
@@ -120,6 +119,6 @@ export default function Activities({ sets, creatorList }: { sets: SelectedSet[];
           )}
         </div>
       )}
-    </>
+    </ModalContextProvider>
   )
 }

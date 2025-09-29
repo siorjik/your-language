@@ -1,6 +1,6 @@
 'use client'
 
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, use, useEffect, useState } from 'react'
 import {
   Dialog,
   DialogClose,
@@ -12,6 +12,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Button } from './ui/button'
+import { ModalContext } from '@/contexts/modal-context'
 
 type DialogProps = {
   trigger: ReactElement
@@ -32,9 +33,13 @@ export default function DialogWrap({
 }: DialogProps) {
   const [isOpen, setOpen] = useState(false)
 
+  const { setModalVisibility } = use(ModalContext)
+
   useEffect(() => {
     if (isAutoClose && isOpen) setOpen(false)
-  }, [isAutoClose])
+
+    setModalVisibility(isOpen)
+  }, [isAutoClose, isOpen])
 
   return (
     <>

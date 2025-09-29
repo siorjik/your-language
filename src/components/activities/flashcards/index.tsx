@@ -24,8 +24,9 @@ import useDisplayData from '@/hooks/useDisplayData'
 import { createActivity } from '@/actions/activity'
 import { ActivityTypesContext } from '@/contexts/activity-types-context'
 import { DropdownMenuCheckboxItem } from '@/components/ui/dropdown-menu'
+import { ModalContext } from '@/contexts/modal-context'
 
-export default function Flashcards({ data, isComboOpen }: { data: SelectedSet; isComboOpen?: boolean }) {
+export default function Flashcards({ data }: { data: SelectedSet }) {
   const [mode, setMode] = useState<'term' | 'definition'>('term')
   const [setList, setSetList] = useState<SetList>(data.list)
   const [index, setIndex] = useState(0)
@@ -52,6 +53,7 @@ export default function Flashcards({ data, isComboOpen }: { data: SelectedSet; i
   const { isMobile } = useDisplayData()
 
   const response = use(ActivityTypesContext) as { activityTypes: ActivityType[] } | null
+  const { isModalOpen } = use(ModalContext)
 
   useEffect(() => {
     ;(async () => {
@@ -110,7 +112,7 @@ export default function Flashcards({ data, isComboOpen }: { data: SelectedSet; i
   }, [leftPress, isFinish])
 
   useEffect(() => {
-    if ((spacePress || upPress || downPress) && !isSelectOpen && !isComboOpen && !isFinish) rotate()
+    if ((spacePress || upPress || downPress) && !isSelectOpen && !isModalOpen && !isFinish) rotate()
   }, [spacePress, upPress, downPress, isFinish])
 
   const paginate = (newDirection: number) => {

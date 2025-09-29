@@ -32,7 +32,7 @@ export default function NavPanel({
 }) {
   const [isClosed, setClosed] = useState(false)
   const [isLoader, setLoader] = useState(false)
-  // console.log(data)
+
   const { push } = useRouter()
   const { toast } = useToast()
   const onDelete = async () => {

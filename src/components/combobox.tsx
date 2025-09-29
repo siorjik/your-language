@@ -1,12 +1,13 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, use } from 'react'
 import { Check, ChevronsUpDown } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { ModalContext } from '@/contexts/modal-context'
 
 type ComboboxProps = {
   placeholder: string
@@ -15,23 +16,16 @@ type ComboboxProps = {
   data: { value: string; label: string; id: string }[]
   getValue?: (val: string) => void
   value?: string
-  checkIsActive?: (isOpen: boolean) => void
 }
 
-export function Combobox({
-  placeholder,
-  searchText,
-  notFoundText,
-  data,
-  getValue,
-  value: val = '',
-  checkIsActive,
-}: ComboboxProps) {
+export function Combobox({ placeholder, searchText, notFoundText, data, getValue, value: val = '' }: ComboboxProps) {
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState(val)
 
+  const { setModalVisibility } = use(ModalContext)
+
   useEffect(() => {
-    checkIsActive?.(open)
+    setModalVisibility(open)
   }, [open])
 
   return (

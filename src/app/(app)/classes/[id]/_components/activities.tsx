@@ -7,10 +7,10 @@ import Tabs from '@/components/activity-tabs'
 import Spinner from '@/components/spinner'
 
 import { SelectedSet } from '@/types/models/set'
+import { ModalContextProvider } from '@/contexts/modal-context'
 
 export default function Activities({ sets }: { sets: SelectedSet[] }) {
   const [id, setId] = useState<string | null>(null)
-  const [isComboOpen, setComboOpen] = useState(false)
   const [isLoading, setLoading] = useState(false)
 
   useEffect(() => {
@@ -21,7 +21,7 @@ export default function Activities({ sets }: { sets: SelectedSet[] }) {
   }, [sets, id])
 
   return (
-    <>
+    <ModalContextProvider>
       <div className="w-fit mx-auto mb-10 flex items-center gap-3">
         <span className="sub-title-3 mb-0">Choose Set:</span>
         <div className="w-[200px]">
@@ -32,12 +32,11 @@ export default function Activities({ sets }: { sets: SelectedSet[] }) {
             data={sets.map((set) => ({ value: set.title, label: set.title, id: set.id }))}
             getValue={(val) => setId(val)}
             value={sets.find((set) => set.id === id)?.title || sets[0].title}
-            checkIsActive={(val) => setComboOpen(val)}
           />
         </div>
       </div>
-      {id && <Tabs set={sets.find((set) => set.id === id)!} isComboOpen={isComboOpen} />}
+      {id && <Tabs set={sets.find((set) => set.id === id)!} />}
       {isLoading && <Spinner />}
-    </>
+    </ModalContextProvider>
   )
 }
