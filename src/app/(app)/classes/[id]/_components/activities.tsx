@@ -15,10 +15,12 @@ export default function Activities({ sets }: { sets: SelectedSet[] }) {
 
   useEffect(() => {
     if (!sets.find((set) => set.id === id)) setId(sets[0].id)
+  }, [sets, id])
 
+  useEffect(() => {
     setLoading(true)
     setTimeout(() => setLoading(false), 500)
-  }, [sets, id])
+  }, [id])
 
   return (
     <ModalContextProvider>
