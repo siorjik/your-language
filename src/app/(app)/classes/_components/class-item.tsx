@@ -41,13 +41,13 @@ export default function ClassItem({ data, idx }: { data: SelectedClass; idx: num
           </CardHeader>
           <CardContent className="flex flex-col gap-2 md:flex-row lg:flex-wrap justify-center">
             <p className="max-w-36 md:max-w-52 truncate">
-              <span className="font-semibold">Creator:</span> {data.creator.name}
+              <span className="font-semibold text-muted-foreground/50">Creator:</span> {data.creator.name}
             </p>
             <p className="whitespace-nowrap">
-              <span className="font-semibold">Sets:</span> {data.sets.length}
+              <span className="font-semibold text-muted-foreground/50">Sets:</span> {data.sets.length}
             </p>
             <p className="whitespace-nowrap">
-              <span className="font-semibold">Members:</span> {data.users.length}
+              <span className="font-semibold text-muted-foreground/50">Members:</span> {data.users.length}
             </p>
           </CardContent>
         </div>
