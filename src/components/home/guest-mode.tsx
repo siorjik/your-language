@@ -77,7 +77,7 @@ export default function GuestMode() {
         <div className="flex flex-wrap gap-10 justify-center items-center">
           {viewSize && (
             <motion.div
-              initial={{ opacity: 0, y: 200, scaleY: 0.5, rotateY: 150 }}
+              initial={{ opacity: 0, y: isLgDisplay ? 200 : 0, scaleY: 0.5, rotateY: 150 }}
               whileInView={{ opacity: 1, y: 0, scaleY: 1, rotateY: 0 }}
               viewport={{ once: !isLgDisplay }}
               transition={{ duration: 0.5 }}
@@ -119,7 +119,7 @@ export default function GuestMode() {
 
           {viewSize && (
             <motion.div
-              initial={{ opacity: 0, y: 250, scaleY: 0.5, rotateY: 150 }}
+              initial={{ opacity: 0, y: isLgDisplay ? 250 : 0, scaleY: 0.5, rotateY: 150 }}
               whileInView={{ opacity: 1, y: 0, scaleY: 1, rotateY: 0 }}
               viewport={{ once: !isLgDisplay }}
               transition={{ duration: 0.5, delay: 1.5 * 0.1 }}
@@ -160,7 +160,7 @@ export default function GuestMode() {
 
           {viewSize && (
             <motion.div
-              initial={{ opacity: 0, y: 300, scaleY: 0.5, rotateY: 150 }}
+              initial={{ opacity: 0, y: isLgDisplay ? 300 : 0, scaleY: 0.5, rotateY: 150 }}
               whileInView={{ opacity: 1, y: 0, scaleY: 1, rotateY: 0 }}
               viewport={{ once: !isLgDisplay }}
               transition={{ duration: 0.5, delay: 2 * 0.1 }}

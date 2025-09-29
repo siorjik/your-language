@@ -34,7 +34,7 @@ export default function ProfileTabs({
             <TabsTrigger value="acc">Account</TabsTrigger>
             {isCredentials && <TabsTrigger value="pass">Password</TabsTrigger>}
             <TabsTrigger value="image">Image</TabsTrigger>
-            <TabsTrigger value="themes">Themes</TabsTrigger>
+            <TabsTrigger value="colors">Colors</TabsTrigger>
             {isCredentials && <TabsTrigger value="two-fa">Two-Factor Authentication</TabsTrigger>}
           </TabsList>
         </div>
@@ -49,7 +49,7 @@ export default function ProfileTabs({
         <TabsContent value="image">
           <ImageForm />
         </TabsContent>
-        <TabsContent value="themes">
+        <TabsContent value="colors">
           <Themes />
         </TabsContent>
         {isCredentials && (

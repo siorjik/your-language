@@ -16,7 +16,7 @@ import tutorImg from '@/../public/tutor.png'
 import useDisplayData from '@/hooks/useDisplayData'
 
 export default function HeroSection({ dialogContent, isClose }: { dialogContent: ReactElement; isClose: boolean }) {
-  const { viewSize, isMobile, isXlDisplay } = useDisplayData()
+  const { viewSize, isMobile, isXlDisplay, is2XlDisplay } = useDisplayData()
   const { theme } = useTheme()
 
   const isDark = theme?.includes('-dark')
@@ -56,7 +56,7 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
         <motion.div
           className="relative z-20"
           style={{ y, scale }}
-          initial={{ opacity: 0, x: isMobile ? -200 : -500 }}
+          initial={{ opacity: 0, x: is2XlDisplay ? -1000 : -500 }}
           animate={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.3 }}
@@ -71,7 +71,7 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
         <motion.div
           className="w-fit hidden xl:block relative mx-auto mt-20 z-0"
           style={{ opacity }}
-          initial={{ opacity: 0, x: -500 }}
+          initial={{ opacity: 0, x: is2XlDisplay ? -1000 : -500 }}
           animate={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.3, delay: 0.1 }}
@@ -79,11 +79,11 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
           <Image src={tutorImg} alt="tutor" className={`${isDark ? 'brightness-50' : ''}`} width={300} height={300} priority />
         </motion.div>
       </div>
-      <div className="w-full xl:w-1/2 text-center overflow-hidden">
+      <div className={`w-full xl:w-1/2 text-center ${!isXlDisplay ? 'overflow-hidden' : ''}`}>
         <motion.div
           className="relative z-10"
           style={{ opacity: isXlDisplay ? 1 : opacity, y: isXlDisplay ? y : 0, scale: isXlDisplay ? scale : 1 }}
-          initial={{ x: 500, opacity: 0 }}
+          initial={{ x: is2XlDisplay ? 1000 : 500, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.3 }}
@@ -116,7 +116,7 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
         <motion.div
           className="w-fit hidden xl:block relative mx-auto mt-20 z-0"
           style={{ opacity }}
-          initial={{ opacity: 0, x: 500 }}
+          initial={{ opacity: 0, x: is2XlDisplay ? 1000 : 500 }}
           animate={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.3, delay: 0.1 }}

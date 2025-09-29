@@ -129,7 +129,7 @@ export default function UserMenu() {
           <div>
             {time}
             <p>
-              <span className="font-emoji">🤗</span> Invite friends in your created{' '}
+              <span className="font-emoji">👨‍🏫</span> Invite friends in your created{' '}
               <Link className="link inline-block" href={getClassAppPath(notification.classId!)}>
                 Class
               </Link>{' '}
@@ -143,7 +143,7 @@ export default function UserMenu() {
           <div>
             {time}
             <p>
-              <span className="font-emoji">🔥</span> You got the request to join to your{' '}
+              <span className="font-emoji">👩‍🎓</span> You got the request to join your{' '}
               <Link className="link inline-block" href={getClassAppPath(notification.classId!)}>
                 Class
               </Link>
@@ -167,7 +167,7 @@ export default function UserMenu() {
           <div>
             {time}
             <p>
-              <span className="font-emoji">🥳</span> You were joined to the{' '}
+              <span className="font-emoji">🥳</span> You were joined the{' '}
               <Link className="link inline-block" href={getClassAppPath(notification.classId!)}>
                 Class
               </Link>

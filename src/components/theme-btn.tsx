@@ -21,16 +21,17 @@ export default function ThemeBtn({ text }: { text?: string }) {
     <>
       {mode && (
         <button
+          className="w-full"
           onClick={() => setTheme(theme?.includes('-dark') ? theme.replace('-dark', '') : theme + '-dark')}
           onKeyDown={(e) => e.preventDefault()}
         >
           {!mode.includes('-dark') ? (
-            <p className="text-primary flex gap-3 justify-between items-center">
+            <p className="text-primary flex gap-3 justify-start items-center">
               <Moon />
               {text}
             </p>
           ) : (
-            <p className="text-primary flex gap-3 justify-between items-center">
+            <p className="text-primary flex gap-3 justify-start items-center">
               <Sun />
               {text}
             </p>

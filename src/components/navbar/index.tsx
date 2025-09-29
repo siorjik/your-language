@@ -66,7 +66,7 @@ export default function Navbar() {
         <div className="flex gap-2 items-center">
           <Link className="relative" href="/">
             <Image className="h-[43px] w-[43px] mr-10 z-0" src={logo} alt="logo" placeholder="blur" priority />
-            <div className="h-[43px] w-[43px] bg-primary/30 z-10 absolute top-0 rounded-sm" />
+            <div className="h-[43px] w-[43px] bg-primary/50 z-10 absolute top-0 rounded-sm" />
           </Link>
           {!isMobile && (
             <>
@@ -78,9 +78,9 @@ export default function Navbar() {
           <>
             <DropdownMenu open={showMenu} onOpenChange={setShowMenu}>
               <DropdownMenuTrigger>
-                <Menu onClick={() => setShowMenu(!showMenu)} />
+                <Menu className="mr-8" onClick={() => setShowMenu(!showMenu)} />
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="text-center">
+              <DropdownMenuContent className="mr-8 text-center">
                 {isAuth
                   ? navData.map((item, idx) => <DropdownMenuItem key={idx}>{getMenuItem(item)}</DropdownMenuItem>)
                   : getMenuItem(navData[0])}

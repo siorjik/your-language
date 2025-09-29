@@ -7,6 +7,7 @@ type WindowDataType = {
   isMobile: boolean | undefined
   isXlDisplay: boolean | undefined
   isLgDisplay: boolean | undefined
+  is2XlDisplay: boolean | undefined
 }
 
 export default function useDisplayData() {
@@ -15,6 +16,7 @@ export default function useDisplayData() {
     isMobile: undefined,
     isXlDisplay: undefined,
     isLgDisplay: undefined,
+    is2XlDisplay: undefined,
   })
 
   useEffect(() => {
@@ -31,6 +33,7 @@ export default function useDisplayData() {
     setWindowData({
       ...windowData,
       viewSize: window.document.documentElement.clientWidth,
+      is2XlDisplay: window.document.documentElement.clientWidth >= 1536,
       isXlDisplay: window.document.documentElement.clientWidth >= 1280,
       isLgDisplay: window.document.documentElement.clientWidth >= 1024,
       isMobile: window.document.documentElement.clientWidth < 768,

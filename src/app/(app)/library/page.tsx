@@ -180,8 +180,8 @@ export default function Library() {
                   <span className="not-italic font-emoji">📚</span> Shared Study Sets
                 </p>
                 <p className="mb-1">
-                  <span className="not-italic font-emoji">📎</span> Upload your flashcards, quizzes, and spelling activities and
-                  share them with the class.
+                  <span className="not-italic font-emoji">📎</span> Create Sets with flashcards, quizzes, and spelling activities
+                  and share them with the class.
                 </p>
                 <p className="mb-1">
                   <span className="not-italic font-emoji">📎</span> Everyone learns from the same content, making it easier to
