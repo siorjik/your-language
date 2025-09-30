@@ -37,7 +37,7 @@ export default function FinishBlock({
             ?
           </>
           {!result?.failed.length && (
-            <Image className="mt-20 mx-auto" src={partyPopperImg} alt="party" width={200} height={200} />
+            <Image className="my-20 mx-auto" src={partyPopperImg} alt="party" width={200} height={200} />
           )}
         </>
       ) : (
@@ -47,7 +47,7 @@ export default function FinishBlock({
           <span className="link" onClick={start}>
             Refresh flashcards
           </span>
-          <Image className="mt-20 mx-auto" src={partyPopperImg} alt="party" width={200} height={200} />
+          <Image className="my-20 mx-auto" src={partyPopperImg} alt="party" width={200} height={200} />
         </>
       )}
     </div>
