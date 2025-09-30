@@ -102,23 +102,24 @@ export default async function ClassInfo({
             )}
           </div>
           <div className="flex flex-col gap-2 font-semibold">
-            <h2 className="sub-title-1">{res.title}</h2>
+            <h2 className="title">{res.title}</h2>
             <p className="block md:hidden">
               <Link href={getUserAppPath(res.creatorId)}>
-                <span className="text-primary text-lg">Creator:</span> <span className="link">{res.creator.name}</span>
+                <span className="text-muted-foreground/50 text-lg">Creator:</span>{' '}
+                <span className="link">{res.creator.name}</span>
               </Link>
             </p>
             <p>
-              <span className="text-primary text-lg">Sets:</span> {res.sets.length}
+              <span className="text-muted-foreground/50 text-lg">Sets:</span> {res.sets.length}
             </p>
             <p>
-              <span className="text-primary text-lg">Members:</span> {res.users.length}
+              <span className="text-muted-foreground/50 text-lg">Members:</span> {res.users.length}
             </p>
           </div>
         </div>
         <Link
           href={getUserAppPath(res.creatorId)}
-          className="w-28 sub-title-3 hidden md:block text-center hover:!text-secondary truncate"
+          className="w-28 sub-title-1 hidden md:block text-center hover:!text-secondary truncate"
         >
           {res.creator.image ? (
             <Image

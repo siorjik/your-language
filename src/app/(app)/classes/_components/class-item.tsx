@@ -4,12 +4,16 @@ import { format } from 'date-fns'
 import Image from 'next/image'
 import { ImageIcon } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { useRouter } from 'next/navigation'
 
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card'
 
 import { SelectedClass } from '@/types/models/class'
+import { getUserAppPath } from '@/utils/paths'
 
 export default function ClassItem({ data, idx }: { data: SelectedClass; idx: number }) {
+  const { push } = useRouter()
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 100, x: idx % 2 === 0 ? -100 : 100 }}
@@ -41,7 +45,17 @@ export default function ClassItem({ data, idx }: { data: SelectedClass; idx: num
           </CardHeader>
           <CardContent className="flex flex-col gap-2 md:flex-row lg:flex-wrap justify-center">
             <p className="max-w-36 md:max-w-52 truncate">
-              <span className="font-semibold text-muted-foreground/50">Creator:</span> {data.creator.name}
+              <span className="font-semibold text-muted-foreground/50">Creator:</span>{' '}
+              <p
+                className="link inline-block"
+                onClick={(e) => {
+                  e.preventDefault()
+
+                  push(getUserAppPath(data.creatorId))
+                }}
+              >
+                {data.creator.name}
+              </p>
             </p>
             <p className="whitespace-nowrap">
               <span className="font-semibold text-muted-foreground/50">Sets:</span> {data.sets.length}
