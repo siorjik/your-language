@@ -18,18 +18,18 @@ export default function ClassItem({ data, idx }: { data: SelectedClass; idx: num
       transition={{ duration: 0.5, delay: idx * 0.1 }}
     >
       <Card className="h-full flex shadow-xl hover:bg-primary/30 hover:scale-[1.03] duration-500">
-        <div className="flex items-center">
+        <div className="pl-3 flex items-center">
           {data.image ? (
             <Image
-              className="object-contain py-2 h-[130px] min-w-[150px] max-w-[150px]"
-              width={150}
-              height={150}
+              className="object-cover h-[110px] min-w-[130px] max-w-[130px] rounded-lg"
+              width={100}
+              height={100}
               src={data.image}
               alt={data.image}
               priority
             />
           ) : (
-            <ImageIcon className="pl-2 h-[130px] w-[150px]" size={130} />
+            <ImageIcon className="ml-[-20px] h-[130px] w-[150px]" size={130} />
           )}
         </div>
         <div className="w-full overflow-hidden justify-center">

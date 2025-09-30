@@ -85,12 +85,12 @@ export default async function ClassInfo({
   return (
     <>
       <BreadcrumbWrap data={breadcrumbData} />
-      <div className="flex justify-center gap-52 items-center">
-        <div className="mb-8 flex flex-col md:flex-row gap-5 items-center">
+      <div className="mb-8 flex justify-center gap-52 items-center">
+        <div className="flex flex-col md:flex-row gap-5 items-center">
           <div className="flex items-center">
             {res.image ? (
               <Image
-                className="object-fill h-[200px] min-w-[200px] max-w-[200px] border-4 rounded-xl"
+                className="object-cover h-[200px] min-w-[200px] max-w-[200px] border-4 rounded-xl"
                 width={200}
                 height={200}
                 src={res.image}
@@ -98,7 +98,7 @@ export default async function ClassInfo({
                 priority
               />
             ) : (
-              <ImageIcon className="pl-2 w-[200px] h-[200px] border-4 rounded-xl" size={200} />
+              <ImageIcon className="w-[200px] h-[200px] border-4 rounded-xl !cursor-auto" size={200} />
             )}
           </div>
           <div className="flex flex-col gap-2 font-semibold">
@@ -137,12 +137,12 @@ export default async function ClassInfo({
         </Link>
       </div>
       {isCreator && (
-        <BtnPanel data={{ id: classId, title, sets, users, image }} sets={getUniqueSets()} users={classUsers.users} />
+        <div className="mb-8">
+          <BtnPanel data={{ id: classId, title, sets, users, image }} sets={getUniqueSets()} users={classUsers.users} />
+        </div>
       )}
       {isMember || isCreator ? (
-        <div className="mt-8">
-          <Activities sets={classSets.sets} />
-        </div>
+        <Activities sets={classSets.sets} />
       ) : (
         <div className="flex justify-center">
           <RequestBtn classId={res.id} recipientId={res.creatorId} />

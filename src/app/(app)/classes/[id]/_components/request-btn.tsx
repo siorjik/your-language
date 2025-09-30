@@ -21,7 +21,7 @@ export default function RequestBtn({ classId, recipientId }: { classId: string; 
   }
 
   return (
-    <Button onClick={sendRequest} variant="outline" className="btn-bg-animated text-lg" disabled={disabled}>
+    <Button onClick={sendRequest} variant="outline" size="lg" className="btn-bg-animated text-lg" disabled={disabled}>
       Send request to join to the class
     </Button>
   )
