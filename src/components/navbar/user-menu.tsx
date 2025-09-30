@@ -150,11 +150,11 @@ export default function UserMenu() {
               !
             </p>
             {notification.status === NOTIFICATION_STATUSES.new && (
-              <div className="mt-2 flex gap-5 justify-center">
-                <Button className="h-7 text-xs p-2" onClick={() => onRequestAnswer('approve', notification)} size="sm">
+              <div className="mt-2 flex flex-col md:flex-row gap-2 justify-center">
+                <Button className="h-5 text-xs p-2 pb-[10px]" onClick={() => onRequestAnswer('approve', notification)} size="sm">
                   Approve
                 </Button>
-                <Button className="h-7 text-xs p-2" onClick={() => onRequestAnswer('reject', notification)} size="sm">
+                <Button className="h-5 text-xs p-2 pb-[10px]" onClick={() => onRequestAnswer('reject', notification)} size="sm">
                   Reject
                 </Button>
               </div>

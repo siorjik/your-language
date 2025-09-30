@@ -19,10 +19,10 @@ export const createNotification = async (
     const session = await getServerSessionToken()
 
     // delete spare notifications, only 4 need to be
-    const count = await prisma.notification.count({ where: { userId: session.id } })
+    const count = await prisma.notification.count({ where: { recipientId: data.recipientId || session.id } })
     if (count > 3) {
       const toDelete = await prisma.notification.findMany({
-        where: { userId: session.id },
+        where: { recipientId: data.recipientId || session.id },
         orderBy: { createdAt: 'asc' },
         take: count - 3,
         select: { id: true },
@@ -52,10 +52,7 @@ export const getUserNotifications = async (): Promise<{ notifications: Notificat
     const session = await getServerSessionToken()
 
     return {
-      notifications: await prisma.notification.findMany({
-        where: { OR: [{ userId: session.id, recipientId: session.id }, { recipientId: session.id }] },
-        orderBy: { createdAt: 'desc' },
-      }),
+      notifications: await prisma.notification.findMany({ where: { recipientId: session.id }, orderBy: { createdAt: 'desc' } }),
       error: null,
     }
   } catch (error) {
