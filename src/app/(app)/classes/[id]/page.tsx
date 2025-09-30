@@ -1,6 +1,7 @@
 import { notFound, redirect } from 'next/navigation'
 import Image from 'next/image'
-import { ImageIcon } from 'lucide-react'
+import { ImageIcon, User2 } from 'lucide-react'
+import Link from 'next/link'
 
 import BreadcrumbWrap from '@/components/breadcrumb-wrap'
 import BtnPanel from './_components/btn-panel'
@@ -10,7 +11,7 @@ import RequestBtn from './_components/request-btn'
 import { getClassById, getClassSets, getClassUsers } from '@/actions/class'
 import { SelectedClass } from '@/types/models/class'
 import { Err } from '@/types/errTypes'
-import { classesAppPath, getClassAppPath, libraryAppPath } from '@/utils/paths'
+import { classesAppPath, getClassAppPath, getUserAppPath, libraryAppPath } from '@/utils/paths'
 import getServerSessionToken from '@/helpers/getServerSessionToken'
 import { SelectedSet } from '@/types/models/set'
 import { SelectedUser } from '@/types/models/user'
@@ -84,33 +85,56 @@ export default async function ClassInfo({
   return (
     <>
       <BreadcrumbWrap data={breadcrumbData} />
-      <div className="mb-8 flex flex-col md:flex-row gap-5 items-center">
-        <div className="flex items-center">
-          {res.image ? (
+      <div className="flex justify-center gap-52 items-center">
+        <div className="mb-8 flex flex-col md:flex-row gap-5 items-center">
+          <div className="flex items-center">
+            {res.image ? (
+              <Image
+                className="object-fill h-[200px] min-w-[200px] max-w-[200px] border-4 rounded-xl"
+                width={200}
+                height={200}
+                src={res.image}
+                alt={res.image}
+                priority
+              />
+            ) : (
+              <ImageIcon className="pl-2 w-[200px] h-[200px] border-4 rounded-xl" size={200} />
+            )}
+          </div>
+          <div className="flex flex-col gap-2 font-semibold">
+            <h2 className="sub-title-1">{res.title}</h2>
+            <p className="block md:hidden">
+              <Link href={getUserAppPath(res.creatorId)}>
+                <span className="text-primary text-lg">Creator:</span> <span className="link">{res.creator.name}</span>
+              </Link>
+            </p>
+            <p>
+              <span className="text-primary text-lg">Sets:</span> {res.sets.length}
+            </p>
+            <p>
+              <span className="text-primary text-lg">Members:</span> {res.users.length}
+            </p>
+          </div>
+        </div>
+        <Link
+          href={getUserAppPath(res.creatorId)}
+          className="w-28 sub-title-3 hidden md:block text-center hover:!text-secondary truncate"
+        >
+          {res.creator.image ? (
             <Image
-              className="object-fill h-[200px] min-w-[200px] max-w-[200px] border-4 rounded-xl"
-              width={200}
-              height={200}
-              src={res.image}
-              alt={res.image}
-              priority
+              className="mb-2 border-2 rounded-full w-28 h-28"
+              width={70}
+              height={70}
+              src={res.creator.image}
+              alt={res.creator.image}
             />
           ) : (
-            <ImageIcon className="pl-2 w-[200px] h-[200px] border-4 rounded-xl" size={200} />
+            <div className="mb-2 w-28 h-28 border-2 rounded-full flex justify-center items-center">
+              <User2 size={70} />
+            </div>
           )}
-        </div>
-        <div className="flex flex-col gap-2 font-semibold">
-          <h2 className="sub-title-1">{res.title}</h2>
-          <p>
-            <span className="text-primary text-lg">Creator:</span> {res.creator.name}
-          </p>
-          <p>
-            <span className="text-primary text-lg">Sets:</span> {res.sets.length}
-          </p>
-          <p>
-            <span className="text-primary text-lg">Members:</span> {res.users.length}
-          </p>
-        </div>
+          {res.creator.name}
+        </Link>
       </div>
       {isCreator && (
         <BtnPanel data={{ id: classId, title, sets, users, image }} sets={getUniqueSets()} users={classUsers.users} />
