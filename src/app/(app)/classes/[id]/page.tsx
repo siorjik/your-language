@@ -122,7 +122,7 @@ export default async function ClassInfo({
         >
           {res.creator.image ? (
             <Image
-              className="mb-2 border-2 rounded-full w-28 h-28"
+              className="mb-2 border-2 rounded-full w-28 h-28 object-cover"
               width={70}
               height={70}
               src={res.creator.image}
