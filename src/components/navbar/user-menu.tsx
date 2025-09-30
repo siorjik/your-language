@@ -143,7 +143,7 @@ export default function UserMenu() {
           <div>
             {time}
             <p>
-              <span className="font-emoji">👩‍🎓</span> You got the request to join your{' '}
+              <span className="font-emoji">👨‍🎓👩‍🎓</span> You got the request to join your{' '}
               <Link className="link inline-block" href={getClassAppPath(notification.classId!)}>
                 Class
               </Link>

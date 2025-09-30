@@ -25,7 +25,7 @@ export const getClassAppPath = (id: string) => `${classesAppPath}/${id}`
 
 // users
 export const usersAppPath = '/users'
-export const getUserAppPath = (name: string) => `${usersAppPath}/${name}`
+export const getUserAppPath = (id: string) => `${usersAppPath}/${id}`
 
 export const appHost = process.env.NEXT_PUBLIC_APP_HOST
 
