@@ -25,7 +25,7 @@ export function Combobox({ placeholder, searchText, notFoundText, data, getValue
   const { setModalVisibility } = use(ModalContext)
 
   useEffect(() => {
-    setModalVisibility(open)
+    setModalVisibility('combo', open)
   }, [open])
 
   return (
@@ -54,6 +54,8 @@ export function Combobox({ placeholder, searchText, notFoundText, data, getValue
 
                     const id = data.find((el) => el.value === currentValue)?.id
                     getValue?.(currentValue === value ? '' : id!)
+
+                    setModalVisibility('combo', false)
                   }}
                 >
                   <span className="max-w-[400px] truncate">{item.label}</span>

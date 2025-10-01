@@ -34,7 +34,6 @@ export default function Flashcards({ data }: { data: SelectedSet }) {
   const [isPlay, setPlay] = useState(false)
   const [isSound, setSound] = useState(false)
   const [selectedMode, setSelectedMode] = useState<'term' | 'definition'>('term')
-  const [isSelectOpen, setSelectOpen] = useState(false)
   const [voices, setVoices] = useState<Voices | null>(null)
   const [isShowDropdownMenu, setShowDropdownMenu] = useState(false)
   const [isShowPlayDropdownMenu, setShowPlayDropdownMenu] = useState(false)
@@ -54,6 +53,8 @@ export default function Flashcards({ data }: { data: SelectedSet }) {
 
   const response = use(ActivityTypesContext) as { activityTypes: ActivityType[] } | null
   const { isModalOpen } = use(ModalContext)
+
+  const isModal = isModalOpen.select || isModalOpen.combo || isModalOpen.dialog
 
   useEffect(() => {
     ;(async () => {
@@ -104,15 +105,15 @@ export default function Flashcards({ data }: { data: SelectedSet }) {
   }, [index, mode, isSound])
 
   useEffect(() => {
-    if (rightPress && !isFinish) paginate(1)
+    if (rightPress && !isFinish && !isModal) paginate(1)
   }, [rightPress, isFinish])
 
   useEffect(() => {
-    if (leftPress && !isFinish) paginate(-1)
+    if (leftPress && !isFinish && !isModal) paginate(-1)
   }, [leftPress, isFinish])
 
   useEffect(() => {
-    if ((spacePress || upPress || downPress) && !isSelectOpen && !isModalOpen && !isFinish) rotate()
+    if ((spacePress || upPress || downPress) && !isModal && !isFinish) rotate()
   }, [spacePress, upPress, downPress, isFinish])
 
   const paginate = (newDirection: number) => {
@@ -246,7 +247,6 @@ export default function Flashcards({ data }: { data: SelectedSet }) {
                 defaultValue={selectedMode}
                 placeholder="Choose mode"
                 label="Choose mode"
-                checkIsActive={(val) => setSelectOpen(val)}
               />
             </div>
           </div>

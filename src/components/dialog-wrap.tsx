@@ -38,7 +38,7 @@ export default function DialogWrap({
   useEffect(() => {
     if (isAutoClose && isOpen) setOpen(false)
 
-    setModalVisibility(isOpen)
+    setModalVisibility('dialog', isOpen)
   }, [isAutoClose, isOpen])
 
   return (
