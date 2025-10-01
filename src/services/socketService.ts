@@ -15,7 +15,7 @@ export const setConnection = (server: Server) => {
       console.log('🟢 User connected:', socket.id)
 
       socket.on(SOCKET_EVENT_LIST, (data?: Record<string, string | number | boolean>) => {
-        console.log('☄️ Event:', SOCKET_EVENT_LIST)
+        console.log('☄️ Event on sever:', SOCKET_EVENT_LIST)
         emitEvent(SOCKET_EVENT_LIST, data)
       })
 

@@ -16,7 +16,7 @@ export default async function Classes({ searchParams }: { searchParams: Promise<
 
   return (
     <>
-      <ClassList isSimple={false} sets={resSets.sets} classes={resClasses.classes} />
+      <ClassList sets={resSets.sets} classes={resClasses.classes} />
     </>
   )
 }

@@ -25,8 +25,12 @@ export default function useSocket(ev: string, cb?: (data?: Obj) => void) {
 
     const onConnect = () => setConnected(true)
     const onDisconnect = () => setConnected(false)
-    const onEvent = (data?: Obj) => savedCb.current?.(data)
     const onSignOut = async () => await signOut({ redirectTo: '/' })
+    const onEvent = (data?: Obj) => {
+      console.log('💥 Event on client: ', ev)
+
+      savedCb.current?.(data)
+    }
 
     s.on('connect', onConnect)
     s.on('disconnect', onDisconnect)

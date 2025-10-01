@@ -28,7 +28,7 @@ export default function NavPanel({ id, isCreator, isOwner }: NavPanelProps) {
     const res: { success: boolean; error: null } | Err = await deleteSet(id, false)
 
     if (!res.error) {
-      toast({ title: 'Set deleting', variant: 'success', description: 'Set was deleted successfully!' })
+      toast({ title: 'Set Deleting', variant: 'success', description: 'Set was deleted successfully!' })
 
       setTimeout(() => push(setsAppPath), 1000)
     }

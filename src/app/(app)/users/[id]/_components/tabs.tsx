@@ -36,7 +36,7 @@ export default function UserTabs({ userId, classes }: { userId: string; classes:
                 <motion.div
                   initial={{ opacity: 0, scale: 0.2 }}
                   whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.3, delay: idx * 0.1, type: 'spring', stiffness: 120 }}
+                  transition={{ duration: 0.3, delay: idx * 0.1, type: 'spring', stiffness: 100 }}
                   key={idx}
                 >
                   <Link href={getClassAppPath(item.id)}>

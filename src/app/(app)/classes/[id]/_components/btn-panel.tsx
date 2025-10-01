@@ -39,7 +39,7 @@ export default function NavPanel({
     const res: { success: boolean; error: null } | Err = await deleteClassById(data.id!)
 
     if (!res.error) {
-      toast({ title: 'Class deleting', variant: 'success', description: 'Class was deleted successfully!' })
+      toast({ title: 'Class Deleting', variant: 'success', description: 'Class was deleted successfully!' })
 
       setTimeout(() => push(classesAppPath), 500)
     }

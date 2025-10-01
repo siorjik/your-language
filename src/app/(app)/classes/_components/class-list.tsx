@@ -17,9 +17,7 @@ import { classesAppPath, getClassAppPath, libraryAppPath } from '@/utils/paths'
 import { SelectedSet } from '@/types/models/set'
 import { SelectedClass } from '@/types/models/class'
 
-type ClassListProps = { isSimple: boolean; sets: SelectedSet[]; classes: SelectedClass[] }
-
-export default function ClassList({ isSimple = false, sets, classes }: ClassListProps) {
+export default function ClassList({ sets, classes }: { sets: SelectedSet[]; classes: SelectedClass[] }) {
   const [isClosed, setClosed] = useState(false)
   const [value, setValue] = useState('')
   const [isLoader, setLoader] = useState(false)
@@ -81,62 +79,60 @@ export default function ClassList({ isSimple = false, sets, classes }: ClassList
 
   return (
     <>
-      <div className="mb-8 flex flex-col md:flex-row gap-5 md:gap-10 justify-between">
-        {!isSimple && (
-          <DialogWrap
-            title={'Create New Class'}
-            trigger={
-              <Button>
-                <>
-                  <CirclePlus />
-                  Create New
-                </>
-              </Button>
-            }
-            isAutoClose={isClosed}
-            content={<ClassForm action="create" sets={sets} onSuccess={onSuccess} />}
-          />
-        )}
-        {!isSimple && (
-          <>
-            {(!!sets?.length || titleParam) && (
-              <div className="w-full max-w-[700px] relative">
-                <span className="h-10 w-10 bg-secondary/40 absolute top-0 left-0 flex justify-center items-center rounded-l-md">
-                  <Search />
+      {(!!sets.length || !!classes.length) && (
+        <div className="mb-8 flex flex-col md:flex-row gap-5 md:gap-10 justify-between">
+          {!!sets.length && (
+            <DialogWrap
+              title={'Create New Class'}
+              trigger={
+                <Button>
+                  <>
+                    <CirclePlus />
+                    Create New
+                  </>
+                </Button>
+              }
+              isAutoClose={isClosed}
+              content={<ClassForm action="create" sets={sets} onSuccess={onSuccess} />}
+            />
+          )}
+          {(!!classes?.length || titleParam) && (
+            <div className="w-full max-w-[700px] relative">
+              <span className="h-10 w-10 bg-secondary/40 absolute top-0 left-0 flex justify-center items-center rounded-l-md">
+                <Search />
+              </span>
+              <Input
+                className="w-full px-12 border-0 bg-secondary/30 !text-lg"
+                placeholder="Search by Class title..."
+                onChange={(e) => onChange(e.target.value)}
+                value={value}
+                ref={inputRef}
+              />
+              {value && (
+                <span
+                  className="h-10 w-10 bg-secondary/40 absolute top-0 right-0 flex justify-center items-center rounded-r-md"
+                  onClick={onReset}
+                >
+                  <X />
                 </span>
-                <Input
-                  className="w-full px-12 border-0 bg-secondary/30 !text-lg"
-                  placeholder="Search by Class title..."
-                  onChange={(e) => onChange(e.target.value)}
-                  value={value}
-                  ref={inputRef}
-                />
-                {value && (
-                  <span
-                    className="h-10 w-10 bg-secondary/40 absolute top-0 right-0 flex justify-center items-center rounded-r-md"
-                    onClick={onReset}
-                  >
-                    <X />
-                  </span>
-                )}
-              </div>
-            )}
-          </>
-        )}
-      </div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
 
-      {!isLoader && !sets.length && (
+      {!isLoader && !sets.length && !classes.length && (
         <div className="h-[calc(100vh-160px)] flex flex-col justify-center items-center">
           <p className="mb-1 text-lg font-semibold">No created Sets yet 🤨</p>
           <Link href={libraryAppPath} className="link text-xl">
-            Visit Library and create a new one {'>>>'}
+            Visit Library and create a new one to create a new Class {'>>>'}
           </Link>
         </div>
       )}
 
-      {!isLoader && !!classes?.length && !!sets.length ? (
+      {!isLoader && !!classes?.length ? (
         <>
-          {!isSimple && <h2 className="sub-title-1">Your Classes:</h2>}
+          <h2 className="sub-title-1">Your Classes:</h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
             {classes.map((el, idx) => (
               <Link key={el.id} href={getClassAppPath(el.id)}>
@@ -144,10 +140,19 @@ export default function ClassList({ isSimple = false, sets, classes }: ClassList
               </Link>
             ))}
           </div>
+          {!sets.length && (
+            <div className="w-fit mt-10 mx-auto text-center">
+              <p className="mb-1 text-lg font-semibold">No created Sets yet 🤨</p>
+              <Link href={libraryAppPath} className="link text-xl">
+                To create a new Class visit Library and create at least one Set {'>>>'}
+              </Link>
+            </div>
+          )}
         </>
-      ) : isLoader ? null : (
+      ) : isLoader ? null : !!sets.length && !classes.length ? (
         <p className="w-fit mx-auto text-lg font-semibold">There are no any Classes 🤨</p>
-      )}
+      ) : null}
+
       {isLoader && <Spinner />}
     </>
   )
