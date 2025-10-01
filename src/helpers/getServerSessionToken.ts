@@ -3,6 +3,8 @@ import { getToken, JWT } from 'next-auth/jwt'
 import { headers } from 'next/headers'
 
 import { SelectedUser } from '@/types/models/user'
+import { emitEvent } from '@/services/socketService'
+import { SOCKET_EVENTS } from '@/utils/constants'
 
 export default async (req?: null | NextRequest) => {
   try {
@@ -16,6 +18,8 @@ export default async (req?: null | NextRequest) => {
     else throw Error('You are not authorized!')
   } catch (error) {
     console.log('error in getServerSessionToken - ', error)
+
+    emitEvent(SOCKET_EVENTS.signOut)
 
     throw error
   }

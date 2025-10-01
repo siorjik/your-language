@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react'
+import { use, useEffect, useState } from 'react'
 
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select'
+
+import { ModalContext } from '@/contexts/modal-context'
 
 type SelectProps = {
   options: { value: string; label: string }[]
@@ -9,22 +11,15 @@ type SelectProps = {
   defaultValue: string
   placeholder: string
   disabled?: boolean
-  checkIsActive?: (isOpen: boolean) => void
 }
 
-export default function SelectWrap({
-  options,
-  label,
-  placeholder,
-  defaultValue,
-  onValueChange,
-  disabled = false,
-  checkIsActive,
-}: SelectProps) {
+export default function SelectWrap({ options, label, placeholder, defaultValue, onValueChange, disabled = false }: SelectProps) {
   const [isOpen, setIsOpen] = useState(false)
 
+  const { setModalVisibility } = use(ModalContext)
+
   useEffect(() => {
-    checkIsActive?.(isOpen)
+    setModalVisibility('select', isOpen)
   }, [isOpen])
 
   return (
