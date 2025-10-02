@@ -361,15 +361,15 @@ body {
   }
 
   .title {
-    @apply mb-5 text-3xl font-medium leading-none text-primary font-balsamiqSans;
+    @apply mb-10 text-3xl font-medium leading-none text-primary font-balsamiqSans;
   }
 
   .sub-title-1 {
-    @apply mb-5 text-2xl leading-none font-balsamiqSans text-primary/80;
+    @apply mb-7 text-2xl leading-none font-balsamiqSans text-primary/80;
   }
 
   .sub-title-3 {
-    @apply mb-5 text-xl leading-none font-balsamiqSans font-semibold text-primary/80;
+    @apply mb-7 text-xl leading-none font-balsamiqSans font-semibold text-primary/80;
   }
 
   .link {

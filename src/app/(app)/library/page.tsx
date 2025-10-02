@@ -22,7 +22,7 @@ export default function Library() {
           transition={{ duration: 0.5, delay: 1 * 0.1 }}
         >
           <Link className="w-full" href={setsAppPath}>
-            <Button variant="outline" className="w-full btn-bg-animated">
+            <Button variant="outline" className="w-full btn-bg-animated text-lg">
               Go To Sets
             </Button>
           </Link>
@@ -81,7 +81,7 @@ export default function Library() {
           transition={{ duration: 0.5, delay: 1.5 * 0.1 }}
         >
           <Link className="w-full" href={activitiesAppPath}>
-            <Button variant="outline" className="w-full btn-bg-animated">
+            <Button variant="outline" className="w-full btn-bg-animated text-lg">
               Go To Activities
             </Button>
           </Link>
@@ -129,7 +129,7 @@ export default function Library() {
           transition={{ duration: 0.5, delay: 2 * 0.1 }}
         >
           <Link className="w-full" href={classesAppPath}>
-            <Button variant="outline" className="w-full btn-bg-animated">
+            <Button variant="outline" className="w-full btn-bg-animated text-lg">
               Go To Classes
             </Button>
           </Link>

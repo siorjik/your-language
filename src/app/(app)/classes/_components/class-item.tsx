@@ -19,7 +19,7 @@ export default function ClassItem({ data, idx }: { data: SelectedClass; idx: num
       initial={{ opacity: 0, y: 100, x: idx % 2 === 0 ? -100 : 100 }}
       whileInView={{ opacity: 1, y: 0, x: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: idx * 0.1 }}
+      transition={{ duration: 0.5, delay: idx * 0.1, ease: 'backOut' }}
     >
       <Card className="h-full flex shadow-xl hover:bg-primary/30 hover:scale-[1.03] duration-500">
         <div className="pl-3 flex items-center">

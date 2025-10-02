@@ -102,7 +102,7 @@ export default function Flashcards({ data }: { data: SelectedSet }) {
   // sound for first element
   useEffect(() => {
     if (isSound && index === 0) sound({})
-  }, [index, mode, isSound])
+  }, [index, mode, isSound, isShuffled])
 
   useEffect(() => {
     if (rightPress && !isFinish && !isModal) paginate(1)
@@ -117,7 +117,7 @@ export default function Flashcards({ data }: { data: SelectedSet }) {
   }, [spacePress, upPress, downPress, isFinish])
 
   const paginate = (newDirection: number) => {
-    cancelUtterance()
+    if (isSound) cancelUtterance()
 
     const isEnd = index + 1 === setList.length
 
@@ -151,7 +151,7 @@ export default function Flashcards({ data }: { data: SelectedSet }) {
   }
 
   const rotate = () => {
-    cancelUtterance()
+    if (isSound) cancelUtterance()
 
     const yVariants = { hidden: { rotateX: 180 }, visible: { rotateX: 0 }, exit: { opacity: 0.5 } }
 
@@ -160,6 +160,8 @@ export default function Flashcards({ data }: { data: SelectedSet }) {
   }
 
   const shuffle = (isShuffled: boolean) => {
+    if (isSound) cancelUtterance()
+
     setShuffled(isShuffled)
     setSetList(isShuffled ? getShuffledArr<SetListItem>(setList) : data.list)
     setIndex(0)
@@ -364,6 +366,8 @@ export default function Flashcards({ data }: { data: SelectedSet }) {
               <span
                 className="icon-hover"
                 onClick={() => {
+                  if (isSound) cancelUtterance()
+
                   setIndex(0)
                   setMode(selectedMode)
                 }}

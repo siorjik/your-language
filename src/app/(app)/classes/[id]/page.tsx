@@ -119,7 +119,7 @@ export default async function ClassInfo({
         </div>
         <Link
           href={getUserAppPath(res.creatorId)}
-          className="w-28 sub-title-1 hidden md:block text-center hover:!text-secondary truncate"
+          className="w-28 self-end sub-title-1 hidden md:block text-center hover:!text-secondary truncate"
         >
           {res.creator.image ? (
             <Image

@@ -59,7 +59,7 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
           initial={{ opacity: 0, x: is2XlDisplay ? -1000 : -500 }}
           animate={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.3, type: 'spring', stiffness: 150 }}
         >
           <h3 className="sub-title-1 mb-5 text-background/70">Welcome to Language Bro!</h3>
           <p className="max-w-[500px] mx-auto p-3 bg-muted rounded-lg italic font-semibold">
@@ -74,7 +74,7 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
           initial={{ opacity: 0, x: is2XlDisplay ? -1000 : -500 }}
           animate={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.3, delay: 0.1 }}
+          transition={{ duration: 0.3, delay: 0.1, type: 'spring', stiffness: 150 }}
         >
           <Image src={tutorImg} alt="tutor" className={`${isDark ? 'brightness-50' : ''}`} width={300} height={300} priority />
         </motion.div>
@@ -86,7 +86,7 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
           initial={{ x: is2XlDisplay ? 1000 : 500, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.3, type: 'spring', stiffness: 150 }}
         >
           <TextLoop className="w-full mb-10 xl:mb-14 text-center hidden md:block" interval={3} transition={{ duration: 0.5 }}>
             <span className="sub-title-1 text-background text-3xl">Improve your language skills!</span>
@@ -119,7 +119,7 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
           initial={{ opacity: 0, x: is2XlDisplay ? 1000 : 500 }}
           animate={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.3, delay: 0.1 }}
+          transition={{ duration: 0.3, delay: 0.1, type: 'spring', stiffness: 150 }}
         >
           <Image
             src={classmatesImg}

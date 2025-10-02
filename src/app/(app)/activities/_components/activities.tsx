@@ -51,7 +51,7 @@ export default function Activities({ sets, creatorList }: { sets: SelectedSet[];
               <span className="sub-title-3 mb-0">Choose Set:</span>
               <div className="w-[200px]">
                 <Combobox
-                  key={Number(isAutoClose) || searchParams.toString()}
+                  key={searchParams.toString()}
                   placeholder="Choose Set..."
                   searchText="Search Set..."
                   notFoundText="Set was not found..."
