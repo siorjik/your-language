@@ -61,7 +61,7 @@ type SetListParams = {
 
 export const getSetList = async (
   params: SetListParams | undefined = undefined,
-): Promise<{ sets: SelectedSet[]; error: null; nextCursor?: string | null } | Err> => {
+): Promise<{ sets: SelectedSet[]; count: number; error: null; nextCursor?: string | null } | Err> => {
   try {
     const session = await getServerSessionToken()
 
@@ -106,15 +106,17 @@ export const getSetList = async (
       },
     })) as SelectedSet[]
 
+    const count = await prisma.set.count({ where: { userId: params?.id || session.id, ...filterParams } })
+
     if (params?.cursor || params?.limit) {
       const limit = params?.limit || INFINITY_SCROLL_LIMIT
       const hasNextPage = sets.length > limit
       const items = hasNextPage ? sets.slice(0, -1) : sets
 
-      return { sets: items, nextCursor: hasNextPage ? items[items.length - 1].id : null, error: null }
+      return { sets: items, count, nextCursor: hasNextPage ? items[items.length - 1].id : null, error: null }
     }
 
-    return { sets, error: null }
+    return { sets, error: null, count }
   } catch (error) {
     return errHandlerService(error)
   }

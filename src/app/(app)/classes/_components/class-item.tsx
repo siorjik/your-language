@@ -44,7 +44,7 @@ export default function ClassItem({ data, idx }: { data: SelectedClass; idx: num
             <CardDescription className="mx-auto text-xs">{format(data.createdAt, 'MM/yyyy')}</CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-2 md:flex-row lg:flex-wrap justify-center">
-            <p className="max-w-36 md:max-w-52 truncate">
+            <div className="max-w-36 md:max-w-52 truncate">
               <span className="font-semibold text-muted-foreground/50">Creator:</span>{' '}
               <p
                 className="link inline-block"
@@ -56,7 +56,7 @@ export default function ClassItem({ data, idx }: { data: SelectedClass; idx: num
               >
                 {data.creator.name}
               </p>
-            </p>
+            </div>
             <p className="whitespace-nowrap">
               <span className="font-semibold text-muted-foreground/50">Sets:</span> {data.sets.length}
             </p>

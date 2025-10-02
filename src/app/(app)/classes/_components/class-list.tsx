@@ -132,7 +132,7 @@ export default function ClassList({ sets, classes }: { sets: SelectedSet[]; clas
 
       {!isLoader && !!classes?.length ? (
         <>
-          <h2 className="sub-title-1">Your Classes:</h2>
+          <h2 className="sub-title-1">Your Classes: {classes.length}</h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
             {classes.map((el, idx) => (
               <Link key={el.id} href={getClassAppPath(el.id)}>

@@ -19,7 +19,7 @@ import { getSetList } from '@/actions/set'
 import { Err } from '@/types/errTypes'
 import { INFINITY_SCROLL_LIMIT } from '@/utils/constants'
 
-type ReturnType = { sets: SelectedSet[]; error: null; nextCursor?: string | null } | Err
+type ReturnType = { sets: SelectedSet[]; count: number; error: null; nextCursor?: string | null } | Err
 
 export default function SetList({
   setList,
@@ -64,6 +64,7 @@ export default function SetList({
   })
 
   const sets = result && result[0] !== undefined ? result.map((el) => (!el?.error ? el?.sets : [])).flat() : setList
+  const count = setList ? setList.length : result?.[0].error === null ? result?.[0].count : 0
 
   const inputRef = useRef<HTMLInputElement>(null)
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
@@ -146,7 +147,7 @@ export default function SetList({
       </div>
       {!isLoader && !!sets?.length ? (
         <>
-          {!isSimple && <h2 className="sub-title-1">Your Sets:</h2>}
+          {!isSimple && <h2 className="sub-title-1">Your Sets: {count}</h2>}
           {sets.map((set, idx) => (
             <Link key={set.id} href={getSetAppPath(set.id)}>
               <SetItem set={set} idx={idx} isSimple={isSimple} />

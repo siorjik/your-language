@@ -12,6 +12,7 @@ import { SelectedUser } from '@/types/models/user'
 import { INFINITY_SCROLL_LIMIT } from '@/utils/constants'
 import { getClassList } from '@/actions/class'
 import { SelectedClass } from '@/types/models/class'
+import { SelectedSet } from '@/types/models/set'
 
 export default async function User({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -19,8 +20,9 @@ export default async function User({ params }: { params: Promise<{ id: string }>
   const user: SelectedUser | null | Err = await getUserById(id)
 
   const res: { classes: SelectedClass[]; error: null } | Err = await getClassList({ userId: id })
+  const resSet: { sets: SelectedSet[]; error: null; count: number } | Err = await getSetList({ id })
 
-  if (!user || user.error || res.error) notFound()
+  if (!user || user.error || res.error || resSet.error) notFound()
 
   const queryClient = new QueryClient()
 
@@ -41,7 +43,7 @@ export default async function User({ params }: { params: Promise<{ id: string }>
         )}
       </div>
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <Tabs userId={user.id} classes={res.classes} />
+        <Tabs userId={user.id} classes={res.classes} setsAmount={resSet.count} />
       </HydrationBoundary>
     </>
   )

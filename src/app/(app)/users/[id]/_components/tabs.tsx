@@ -12,16 +12,24 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { SelectedClass } from '@/types/models/class'
 import { getClassAppPath } from '@/utils/paths'
 
-export default function UserTabs({ userId, classes }: { userId: string; classes: SelectedClass[] }) {
+export default function UserTabs({
+  userId,
+  classes,
+  setsAmount,
+}: {
+  userId: string
+  classes: SelectedClass[]
+  setsAmount: number
+}) {
   return (
     <>
       <Tabs defaultValue="sets" className="w-full">
         <TabsList className="w-full mb-5 flex justify-between overflow-x-auto sticky top-0 z-10">
           <TabsTrigger className="w-full" value="sets">
-            Sets
+            Sets - {setsAmount}
           </TabsTrigger>
           <TabsTrigger className="w-full" value="classes">
-            Classes
+            Classes - {classes.length}
           </TabsTrigger>
         </TabsList>
         <TabsContent value="sets">
