@@ -44,17 +44,26 @@ export default function ClassItem({ data, idx }: { data: SelectedClass; idx: num
             <CardDescription className="mx-auto text-xs">{format(data.createdAt, 'MM/yyyy')}</CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-2 md:flex-row lg:flex-wrap justify-center">
-            <div className="max-w-36 md:max-w-52 truncate">
-              <span className="font-semibold text-muted-foreground/50">Creator:</span>{' '}
+            <div className="max-w-36 md:max-w-52 flex gap-1">
+              <span className="font-semibold text-muted-foreground/50">Creator:</span>
               <p
-                className="link inline-block"
+                className="flex gap-1 overflow-hidden"
                 onClick={(e) => {
                   e.preventDefault()
 
                   push(getUserAppPath(data.creatorId))
                 }}
               >
-                {data.creator.name}
+                {data.creator.image && (
+                  <Image
+                    className="h-5 min-w-5 max-w-5 object-cover rounded-full"
+                    src={data.creator.image}
+                    alt="image"
+                    width={20}
+                    height={20}
+                  />
+                )}
+                <span className="link truncate">{data.creator.name}</span>
               </p>
             </div>
             <p className="whitespace-nowrap">

@@ -42,7 +42,7 @@ export default function SetItem({ set, idx, isSimple }: { set: SelectedSet; idx:
           {LANGUAGE_OPTIONS.find((item) => item.value === set.target)?.label}{' '}
           <span className="font-semibold text-primary">|</span>{' '}
           <div
-            className="pr-1 hover:bg-primary/30 rounded-lg duration-300 inline-block"
+            className="pr-1 inline-block"
             onClick={(e) => {
               e.preventDefault()
 
@@ -56,12 +56,12 @@ export default function SetItem({ set, idx, isSimple }: { set: SelectedSet; idx:
                   alt="user"
                   width={10}
                   height={10}
-                  className="w-5 h-5 rounded-full relative bottom-[1px] inline object-cover"
+                  className="min-w-5 max-w-5 h-5 rounded-full relative bottom-[1px] inline object-cover"
                   priority
                 />{' '}
               </>
             )}
-            <span className="text-primary font-balsamiqSans text-base">{creator?.name}</span>
+            <span className="link inline-block">{creator?.name}</span>
           </div>
         </div>
         <p className="truncate text-xl text-primary font-balsamiqSans leading-none">{set.title}</p>

@@ -5,12 +5,13 @@ import { formatDistanceToNow } from 'date-fns'
 import { ImageIcon } from 'lucide-react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { useRouter } from 'next/navigation'
 
 import SetList from '@/components/set-list'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 import { SelectedClass } from '@/types/models/class'
-import { getClassAppPath } from '@/utils/paths'
+import { getClassAppPath, getUserAppPath } from '@/utils/paths'
 
 export default function UserTabs({
   userId,
@@ -21,6 +22,8 @@ export default function UserTabs({
   classes: SelectedClass[]
   setsAmount: number
 }) {
+  const { push } = useRouter()
+
   return (
     <>
       <Tabs defaultValue="sets" className="w-full">
@@ -70,9 +73,27 @@ export default function UserTabs({
                         <p className="mb-3 text-muted-foreground font-semibold text-sm">
                           {formatDistanceToNow(item.createdAt, { addSuffix: true })}
                         </p>
-                        <div className="truncate">
-                          <span className="text-sm text-muted-foreground/50 font-semibold">Created by:</span>{' '}
-                          <span className="text-sm">{item.creator.name}</span>
+                        <div className="flex gap-1 truncate">
+                          <span className="text-sm text-muted-foreground/50 font-semibold">Created by:</span>
+                          <div
+                            className="flex gap-1 overflow-hidden"
+                            onClick={(e) => {
+                              e.preventDefault()
+
+                              push(getUserAppPath(item.creatorId))
+                            }}
+                          >
+                            {item.creator.image && (
+                              <Image
+                                className="h-5 w-5 object-cover rounded-full"
+                                src={item.creator.image}
+                                alt="image"
+                                width={20}
+                                height={20}
+                              />
+                            )}
+                            <span className="link truncate">{item.creator.name}</span>
+                          </div>
                         </div>
                       </div>
                     </div>
