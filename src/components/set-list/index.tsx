@@ -149,16 +149,17 @@ export default function SetList({
         <>
           {!isSimple && <h2 className="sub-title-1">Your Sets: {count}</h2>}
           {sets.map((set, idx) => (
-            <Link key={set.id} href={getSetAppPath(set.id)}>
-              <SetItem set={set} idx={idx} isSimple={isSimple} />
-            </Link>
+            <div key={set.id} ref={ref}>
+              <Link href={getSetAppPath(set.id)}>
+                <SetItem set={set} idx={idx} isSimple={isSimple} />
+              </Link>
+            </div>
           ))}
         </>
       ) : isLoader ? null : (
         <p className="w-fit mx-auto text-lg font-semibold">There are no any Sets 🤨</p>
       )}
       {((isFetchingNextPage && hasNextPage) || isLoader) && <Spinner />}
-      <div ref={ref} />
     </>
   )
 }
