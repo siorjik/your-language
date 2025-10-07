@@ -79,9 +79,13 @@ export default function SetItem({ set, idx, isSimple }: { set: SelectedSet; idx:
           />
         )}
         {(isOwner || isCreator) && !isSimple && (
-          <span className="bg-primary/15 icon-hover hover:text-destructive" onClick={(e) => e.preventDefault()}>
+          <div onClick={(e) => e.preventDefault()}>
             <AlertDialogWrap
-              trigger={<TrashIcon size={20} />}
+              trigger={
+                <span className="bg-primary/15 icon-hover hover:text-destructive">
+                  <TrashIcon size={20} />
+                </span>
+              }
               action={async () => {
                 await deleteSet(set.id)
 
@@ -89,7 +93,7 @@ export default function SetItem({ set, idx, isSimple }: { set: SelectedSet; idx:
               }}
               description="You are going to delete the Set..."
             />
-          </span>
+          </div>
         )}
       </div>
     </motion.div>

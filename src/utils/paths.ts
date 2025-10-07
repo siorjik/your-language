@@ -9,6 +9,7 @@ export const recoverPasswordAppPath = '/recover-password'
 export const profileAppPath = '/profile'
 export const libraryAppPath = '/library'
 export const activitiesAppPath = '/activities'
+export const contactUsAppPath = '/contact-us'
 
 // set
 export const setsAppPath = '/sets'
@@ -41,5 +42,6 @@ export const twoFaVerifyApiPath = '/api/two-fa/verify'
 
 export const emailCreatePassApiPath = '/api/emails/create-pass'
 export const emailRecoverPassApiPath = '/api/emails/recover-pass'
+export const emailContactUsApiPath = '/api/emails/contact-us'
 
 export const activityTypesListApiPath = `${appHost}/api/activity-types`

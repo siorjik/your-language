@@ -9,6 +9,7 @@ import { Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Textarea } from '../ui/textarea'
 import Spinner from '../spinner'
 
 type FieldsDataType = { name: string; label: string; type?: string; disabled?: boolean }[]
@@ -106,7 +107,14 @@ export default function SimpleForm(props: SimpleFormPropsType) {
                       <FormItem>
                         <FormLabel>{item.label}</FormLabel>
                         <FormControl>
-                          <Input type={item.type} disabled={isDisabled || item.disabled} {...field} />
+                          {item.type !== 'textarea' ? (
+                            <Input type={item.type} disabled={isDisabled || item.disabled} {...field} />
+                          ) : (
+                            <div>
+                              <Textarea disabled={isDisabled || item.disabled} maxLength={500} minLength={10} {...field} />
+                              <p className="mt-2 mr-2 text-right text-xs text-muted-foreground/50">500 / {field.value.length}</p>
+                            </div>
+                          )}
                         </FormControl>
                         <FormMessage />
                       </FormItem>

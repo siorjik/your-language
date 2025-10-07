@@ -102,7 +102,7 @@ export default function UserTabs({
               ))}
             </div>
           ) : (
-            <div className="w-fit mx-auto font-semibold">There are no any classes 🤨...</div>
+            <p className="w-fit mx-auto font-semibold text-lg">There are no any classes 🤨...</p>
           )}
         </TabsContent>
       </Tabs>

@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Settings, UserRoundCog, LogOut, UserRoundPlus, LogIn, Palette, Bell, BellDot, Trash2, Check } from 'lucide-react'
+import { Settings, UserRoundCog, LogOut, UserRoundPlus, LogIn, Palette, Bell, BellDot, Trash2, Check, Mail } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { signOut, useSession } from 'next-auth/react'
@@ -28,7 +28,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import Spinner from '../spinner'
 
-import { profileAppPath, signUpAppPath, signInAppPath, getSetAppPath, getClassAppPath } from '@/utils/paths'
+import { profileAppPath, signUpAppPath, signInAppPath, getSetAppPath, getClassAppPath, contactUsAppPath } from '@/utils/paths'
 import { NOTIFICATION_STATUSES, NOTIFICATION_TYPES, SOCKET_EVENTS, THEMES } from '@/utils/constants'
 import { Notification } from '@prisma/client'
 import { createNotification, deleteNotification, getUserNotifications, readNotification } from '@/actions/notification'
@@ -338,6 +338,15 @@ export default function UserMenu() {
                   </span>
                 </NavigationMenuLink>
                 <NavigationMenuLink asChild>{colorsDropdownMenu()}</NavigationMenuLink>
+                <NavigationMenuLink asChild>
+                  <Link
+                    className="px-2 h-10 hover:bg-accent flex items-center gap-3 cursor-pointer rounded-md font-semibold"
+                    href={contactUsAppPath}
+                  >
+                    <Mail className="text-primary" />
+                    <span className="text-primary">Contact Us</span>
+                  </Link>
+                </NavigationMenuLink>
                 <NavigationMenuLink asChild>
                   <span
                     className="h-10 px-2 hover:bg-accent flex items-center gap-3 cursor-pointer rounded-md font-semibold"

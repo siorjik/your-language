@@ -3,10 +3,12 @@
 import { ReactNode, useEffect, useRef, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { ChevronUp } from 'lucide-react'
+import Link from 'next/link'
 
 import ThemeBtn from './theme-btn'
 import Navbar from './navbar'
 import Spinner from './spinner'
+import { contactUsAppPath } from '@/utils/paths'
 
 export default function Layout({ children }: { children: ReactNode }) {
   const [isHide, setHide] = useState(false)
@@ -75,14 +77,30 @@ export default function Layout({ children }: { children: ReactNode }) {
             </div>
           </header>
           <main className="w-full pt-[55px] transition-all scroll-smooth" ref={mainRef}>
-            <div className="min-h-[calc(100dvh-110px)] px-5 md:px-8 xl:px-0 py-5 w-full m-auto max-w-7xl">{children}</div>
+            <div
+              className="
+                min-h-[calc(100dvh-115px)] md:min-h-[calc(100dvh-111px)] px-5 md:px-8 xl:px-0 py-5 w-full m-auto max-w-7xl
+              "
+            >
+              {children}
+            </div>
             <footer
               className="
-                min-h-[55px] px-5 md:px-8 flex justify-between items-center bg-gradient-to-t from-background to-secondary/30
+                px-5 py-2 md:px-8 flex justify-between items-center bg-gradient-to-t from-background to-secondary/30
               "
             >
               <div className="w-full mx-auto max-w-7xl flex justify-between items-center text-sm text-primary">
-                <span>&copy; {new Date().getFullYear()} Language Bro</span>
+                <div className="flex gap-10 md:gap-16">
+                  <span className="self-end">&copy; {new Date().getFullYear()} Language Bro</span>
+                  <div className="flex flex-col gap-1 md:flex-row md:gap-5">
+                    <Link className="underline leading-tight" href="/">
+                      Home
+                    </Link>
+                    <Link className="underline leading-tight" href={contactUsAppPath}>
+                      Contact Us
+                    </Link>
+                  </div>
+                </div>
                 <span className="icon-hover mr-[-8px] cursor-pointer">
                   <ThemeBtn />
                 </span>

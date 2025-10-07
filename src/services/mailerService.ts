@@ -54,3 +54,24 @@ export const sendRecoverPassMail = async ({ to, token }: { to: string; token: st
     throw error
   }
 }
+
+export const sendContactUsMail = async ({ email, subject, text }: { email: string; subject: string; text: string }) => {
+  try {
+    const result = await transporter.sendMail({
+      from: { name: `noreply-support@${appHost}`, address: process.env.MAILER_USER! },
+      to: process.env.MAILER_USER,
+      subject: 'Email for language-bro support team.',
+      html: `
+        <p>Subject: ${subject}</p>
+        <p>From user: ${email}</p>
+        <p>Message: ${text}</p>
+      `,
+    })
+
+    console.log('email sending result - ', result)
+  } catch (error) {
+    console.log('sendContactUsMail error - ', error)
+
+    throw error
+  }
+}
