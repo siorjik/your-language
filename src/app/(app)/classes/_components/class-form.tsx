@@ -139,12 +139,12 @@ export default function ClassForm({ data = null, action = null, sets, users, onS
                 name="users"
                 render={() => (
                   <FormItem>
-                    <FormLabel>Users</FormLabel>
+                    <FormLabel>Members</FormLabel>
                     <FormControl>
                       <MultipleSelector
                         className="overflow-x-auto"
                         value={userValues}
-                        placeholder="Choose Users"
+                        placeholder="Choose Members"
                         options={userOptions}
                         onChange={onSelect}
                       />

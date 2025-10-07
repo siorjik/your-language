@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import NextAuth from 'next-auth'
 
 import { nextAuthConfig } from './configs/auth'
-import { signInAppPath, createPasswordAppPath, signUpAppPath, recoverPasswordAppPath } from './utils/paths'
+import { signInAppPath, createPasswordAppPath, signUpAppPath, recoverPasswordAppPath, contactUsAppPath } from './utils/paths'
 
 export const config = {
   matcher: [
@@ -15,6 +15,7 @@ export const config = {
     '/library',
     '/activities',
     '/classes/:path*',
+    '/contact-us',
   ],
 }
 // export const config = { matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'] }
@@ -32,7 +33,7 @@ export default auth((req) => {
 
   if (session && isUnauthorizedPath) {
     return NextResponse.redirect(new URL('/', req.nextUrl.origin))
-  } else if (!session && !isUnauthorizedPath && req.nextUrl.pathname !== '/') {
+  } else if (!session && !isUnauthorizedPath && req.nextUrl.pathname !== '/' && req.nextUrl.pathname !== contactUsAppPath) {
     return NextResponse.redirect(new URL(signInAppPath, req.nextUrl.origin))
   }
 
