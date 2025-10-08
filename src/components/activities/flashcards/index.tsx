@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState, use, useCallback, useMemo } from 'react'
-import { motion, Variants } from 'framer-motion'
+import { animate, motion, Variants } from 'framer-motion'
 import { CircleArrowLeft, CircleArrowRight, Shuffle, Play, Volume2, RotateCcw, Lightbulb } from 'lucide-react'
 
 import { Card, CardContent, CardDescription, CardHeader } from '@/components/ui/card'
@@ -254,71 +254,77 @@ export default function Flashcards({ data }: { data: SelectedSet }) {
           </div>
           <Progress className="max-w-5xl h-1 mx-auto my-2" value={(100 / setList.length) * (index + 1)} />
           <motion.div
-            key={index + ' / ' + mode}
-            className="max-w-5xl mx-auto p-1 cursor-pointer"
-            variants={variants!}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            transition={{ duration: 0.3 }}
+            initial={{ scale: 0.1, rotateZ: 360 }}
+            animate={{ scale: 1, rotateZ: 0 }}
+            transition={{ duration: 0.3, type: 'spring', stiffness: 100 }}
           >
-            <Card className="w-full shadow-xl border-transparent bg-secondary/30 relative" onClick={rotate}>
-              <CardHeader className="w-full absolute">
-                <CardDescription className="flex justify-end">
-                  <span
-                    className="icon-hover"
-                    onClick={(e) => {
-                      e.stopPropagation()
+            <motion.div
+              key={index + ' / ' + mode}
+              className="max-w-5xl mx-auto p-1 cursor-pointer"
+              variants={variants!}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              transition={{ duration: 0.3 }}
+            >
+              <Card className="w-full shadow-xl border-transparent bg-secondary/30 relative" onClick={rotate}>
+                <CardHeader className="w-full absolute">
+                  <CardDescription className="flex justify-end">
+                    <span
+                      className="icon-hover"
+                      onClick={(e) => {
+                        e.stopPropagation()
 
-                      sound({ isOneTime: true })
-                    }}
-                  >
-                    <Volume2 size={18} />
-                  </span>
-                  {mode === selectedMode && (
-                    <TooltipProvider>
-                      <Tooltip open={showTooltip} onOpenChange={setShowTooltip} delayDuration={10000}>
-                        <TooltipTrigger asChild>
-                          <span
-                            className="icon-hover"
-                            onClick={(e) => {
-                              e.stopPropagation()
+                        sound({ isOneTime: true })
+                      }}
+                    >
+                      <Volume2 size={18} />
+                    </span>
+                    {mode === selectedMode && (
+                      <TooltipProvider>
+                        <Tooltip open={showTooltip} onOpenChange={setShowTooltip} delayDuration={10000}>
+                          <TooltipTrigger asChild>
+                            <span
+                              className="icon-hover"
+                              onClick={(e) => {
+                                e.stopPropagation()
 
-                              setShowTooltip(true)
-                              setTimeout(() => setShowTooltip(false), 2000)
-                            }}
-                          >
-                            <Lightbulb size={16} />
-                          </span>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          {`
-                            ${setList[index][tooltipMode][0]} ...
-                            ${setList[index][tooltipMode][setList[index][tooltipMode].length - 1]}
-                          `}
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  )}
-                </CardDescription>
-              </CardHeader>
-              <CardContent
-                className="
-                  h-80 md:h-[calc(100vh-450px)] md:min-h-[450px] md:max-h-[550px] flex items-center
-                  justify-center p-6 overflow-auto text-center
-                "
-              >
-                <motion.span
-                  key={mode}
-                  initial={{ opacity: !variants ? 1 : 0 }} // avoid flickering when first render
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.03 }}
-                  className="w-full text-primary/90 text-3xl md:text-4xl !leading-normal"
+                                setShowTooltip(true)
+                                setTimeout(() => setShowTooltip(false), 2000)
+                              }}
+                            >
+                              <Lightbulb size={16} />
+                            </span>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            {`
+                              ${setList[index][tooltipMode][0]} ...
+                              ${setList[index][tooltipMode][setList[index][tooltipMode].length - 1]}
+                            `}
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    )}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent
+                  className="
+                    h-80 md:h-[calc(100vh-450px)] md:min-h-[450px] md:max-h-[550px] flex items-center
+                    justify-center p-6 overflow-auto text-center
+                  "
                 >
-                  {setList[index][mode]}
-                </motion.span>
-              </CardContent>
-            </Card>
+                  <motion.span
+                    key={mode}
+                    initial={{ opacity: !variants ? 1 : 0 }} // avoid flickering when first render
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.03 }}
+                    className="w-full text-primary/90 text-3xl md:text-4xl !leading-normal"
+                  >
+                    {setList[index][mode]}
+                  </motion.span>
+                </CardContent>
+              </Card>
+            </motion.div>
           </motion.div>
           <div className="w-fit mx-auto mt-2 flex items-center gap-5 md:gap-10">
             <div className="flex md:gap-5">
