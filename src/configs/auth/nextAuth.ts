@@ -10,6 +10,7 @@ import { Err } from '@/types/errTypes'
 import { login } from '@/actions/auth'
 import { loginFormTypeSchema } from '@/types/forms/auth'
 import { prisma } from '@/lib/prisma'
+import { SESSION_DURATION } from '@/utils/constants'
 
 class InvalidLoginError extends CredentialsSignin {
   code = 'Invalid credentials...'
@@ -33,7 +34,7 @@ export default {
 
         if (!user || user.error) throw new InvalidLoginError()
 
-        const expires = new Date(Date.now() + +process.env.NEXT_PUBLIC_SESSION_DURATION!)
+        const expires = new Date(Date.now() + SESSION_DURATION)
 
         // create session manually for credentials
         const session = await prisma.session.create({ data: { userId: user.id, sessionToken: crypto.randomUUID(), expires } })

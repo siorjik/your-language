@@ -7,7 +7,7 @@ import { prisma } from '@/lib/prisma'
 import authConfig from './nextAuth'
 import { SelectedUser } from '@/types/models/user'
 import { emitEvent } from '@/services/socketService'
-import { SOCKET_EVENTS } from '@/utils/constants'
+import { SESSION_DURATION, SOCKET_EVENTS } from '@/utils/constants'
 
 export const nextAuthConfig = authConfig
 
@@ -68,11 +68,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
   },
 
-  session: {
-    strategy: 'jwt',
-    maxAge: +process.env.NEXT_PUBLIC_SESSION_DURATION! / 1000,
-    updateAge: +process.env.NEXT_PUBLIC_SESSION_DURATION! / 100,
-  },
+  session: { strategy: 'jwt', maxAge: SESSION_DURATION / 1000, updateAge: SESSION_DURATION / 100 },
   secret: process.env.NEXTAUTH_SECRET,
 
   pages: { signIn: signInAppPath },

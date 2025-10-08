@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState, use, useCallback, useMemo } from 'react'
-import { animate, motion, Variants } from 'framer-motion'
+import { motion, Variants } from 'framer-motion'
 import { CircleArrowLeft, CircleArrowRight, Shuffle, Play, Volume2, RotateCcw, Lightbulb } from 'lucide-react'
 
 import { Card, CardContent, CardDescription, CardHeader } from '@/components/ui/card'

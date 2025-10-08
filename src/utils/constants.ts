@@ -49,3 +49,5 @@ export const SOCKET_EVENT_LIST = SOCKET_EVENTS.notification || SOCKET_EVENTS.mes
 export const ACTIVITIES_NAMES = { flashcards: 'flashcards', memorization: 'memorization', spelling: 'spelling' }
 
 export const INFINITY_SCROLL_LIMIT = 10
+
+export const SESSION_DURATION = 1000 * 60 * 60 * 4 // 4 hours
