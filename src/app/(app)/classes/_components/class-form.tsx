@@ -43,6 +43,8 @@ export default function ClassForm({ data = null, action = null, sets, users, onS
     defaultValues: data || defaultValues,
   })
 
+  const imageValue = form.watch('image')
+
   const { eventEmit } = useSocket(SOCKET_EVENTS.notification)
 
   const isCreate = action === 'create'
@@ -157,9 +159,11 @@ export default function ClassForm({ data = null, action = null, sets, users, onS
           )}
           <div className="w-fit mx-auto my-10 md:mb-0">
             <ImageUploading
-              imageUrl={form.getValues('image')}
+              key={imageValue}
+              imageUrl={imageValue}
               placeholder={<ImageIcon size={150} />}
               getImage={(file) => form.setValue('file', file)}
+              onDelete={async () => form.setValue('image', null)}
             />
           </div>
           <Button type="button" className="dialog-submit-btn" onClick={form.handleSubmit(onSubmit)}>

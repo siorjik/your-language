@@ -93,28 +93,17 @@ export default function ImageUploading({
             </div>
           )}
           {!image.url && !imageUrl ? (
-            <Button
-              className="mt-5 mx-auto block"
-              onClick={(e) => {
-                e.preventDefault()
-                inputRef.current?.click()
-              }}
-            >
+            <Button type="button" className="mt-5 mx-auto block" onClick={() => inputRef.current?.click()}>
               Choose File
             </Button>
           ) : image.url !== imageUrl ? (
             <div className="mt-5 gap-5 flex justify-center">
-              <Button
-                onClick={(e) => {
-                  e.preventDefault()
-
-                  setImage({ file: null, url: imageUrl })
-                }}
-              >
+              <Button type="button" onClick={() => setImage({ file: null, url: imageUrl })}>
                 Cancel
               </Button>
               {upload && (
                 <Button
+                  type="button"
                   onClick={async () => {
                     setLoading(true)
 
@@ -130,15 +119,11 @@ export default function ImageUploading({
             </div>
           ) : (
             <div className="mt-5 gap-5 flex justify-center">
-              <Button
-                onClick={(e) => {
-                  e.preventDefault()
-                  inputRef.current?.click()
-                }}
-              >
+              <Button type="button" onClick={() => inputRef.current?.click()}>
                 Update
               </Button>
               <Button
+                type="button"
                 onClick={async () => {
                   setLoading(true)
 

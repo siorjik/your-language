@@ -20,6 +20,7 @@ import { SelectedSet } from '@/types/models/set'
 import { SelectedUser } from '@/types/models/user'
 import { SelectedClass } from '@/types/models/class'
 import { classFormTypeSchema } from '@/types/forms/class'
+import { deleteFile } from '@/actions/fileStorage'
 
 export default function NavPanel({
   data,
@@ -36,6 +37,8 @@ export default function NavPanel({
   const { push } = useRouter()
   const { toast } = useToast()
   const onDelete = async () => {
+    if (data.image) await deleteFile(data.image)
+
     const res: { success: boolean; error: null } | Err = await deleteClassById(data.id!)
 
     if (!res.error) {
