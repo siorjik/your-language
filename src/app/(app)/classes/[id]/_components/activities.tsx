@@ -28,6 +28,7 @@ export default function Activities({ sets }: { sets: SelectedSet[] }) {
         <span className="sub-title-3 mb-0">Choose Set:</span>
         <div className="w-[200px]">
           <Combobox
+            key={id}
             placeholder="Choose Set..."
             searchText="Search Set..."
             notFoundText="Set was not found..."

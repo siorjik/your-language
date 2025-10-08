@@ -93,10 +93,10 @@ export default function Layout({ children }: { children: ReactNode }) {
                 <div className="flex gap-10 md:gap-16">
                   <span className="self-end">&copy; {new Date().getFullYear()} Language Bro</span>
                   <div className="flex flex-col gap-1 md:flex-row md:gap-5">
-                    <Link className="underline leading-tight" href="/">
+                    <Link className="underline leading-tight hover:text-muted-foreground/50" href="/">
                       Home
                     </Link>
-                    <Link className="underline leading-tight" href={contactUsAppPath}>
+                    <Link className="underline leading-tight hover:text-muted-foreground/50" href={contactUsAppPath}>
                       Contact Us
                     </Link>
                   </div>
