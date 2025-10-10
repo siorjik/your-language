@@ -76,6 +76,7 @@ export const getClassList = async (params: {
 
 export const getClassById = async (id: string, creatorId?: string): Promise<(SelectedClass & { error: null }) | Err> => {
   let classItem
+
   try {
     const session = await getServerSessionToken()
 
@@ -83,11 +84,18 @@ export const getClassById = async (id: string, creatorId?: string): Promise<(Sel
       const sharedClass = await prisma.class.findFirst({ where: { id, creatorId } })
 
       if (sharedClass) {
-        classItem = (await prisma.class.update({
-          where: { id },
-          data: { users: [...(sharedClass.users as string[]), session.id] },
-          include: { creator: { select: { id: true, name: true, image: true } } },
-        })) as SelectedClass
+        if (!(sharedClass.users as string[]).includes(session.id)) {
+          classItem = (await prisma.class.update({
+            where: { id },
+            data: { users: [...(sharedClass.users as string[]), session.id] },
+            include: { creator: { select: { id: true, name: true, image: true } } },
+          })) as SelectedClass
+        } else {
+          classItem = (await prisma.class.findFirst({
+            where: { id },
+            include: { creator: { select: { id: true, name: true, image: true } } },
+          })) as SelectedClass
+        }
       } else throw Error('Class sharing error')
     } else {
       classItem = (await prisma.class.findFirst({

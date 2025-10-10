@@ -79,9 +79,9 @@ export default function ClassForm({ data = null, action = null, sets, users, onS
     }
   }
 
-  const onSelect = (val: { label: string; value: string }[]) => {
+  const onSelect = (val: { label: string; value: string }[], name: 'sets' | 'users') => {
     form.setValue(
-      'sets',
+      name,
       val.map((el) => el.value),
     )
   }
@@ -126,7 +126,7 @@ export default function ClassForm({ data = null, action = null, sets, users, onS
                       value={setValues}
                       placeholder="Choose Sets"
                       options={setOptions}
-                      onChange={onSelect}
+                      onChange={(val: { label: string; value: string }[]) => onSelect(val, 'sets')}
                     />
                   </FormControl>
                   <FormMessage />
@@ -148,7 +148,7 @@ export default function ClassForm({ data = null, action = null, sets, users, onS
                         value={userValues}
                         placeholder="Choose Members"
                         options={userOptions}
-                        onChange={onSelect}
+                        onChange={(val: { label: string; value: string }[]) => onSelect(val, 'users')}
                       />
                     </FormControl>
                     <FormMessage />
