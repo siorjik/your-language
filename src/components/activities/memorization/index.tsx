@@ -148,7 +148,7 @@ export default function Memorization({ data }: { data: SelectedSet }) {
                   h-14 pb-2 pt-1 px-3 flex items-center bg-secondary/30 cursor-pointer rounded-lg shadow-md duration-300
                   ${selectedAnswerStyle?.idx === idx ? selectedAnswerStyle.style : ''}
                 `}
-                whileHover={{ boxShadow: '5px 5px 5px hsl(var(--secondary))' }}
+                whileHover={{ boxShadow: '5px 5px 5px hsl(var(--secondary))', scale: 1.02 }}
                 onClick={() => onSetResult(item, idx)}
               >
                 <span className="max-h-12 line-clamp-2 leading-normal">
