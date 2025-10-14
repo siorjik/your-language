@@ -9,7 +9,7 @@ import { getSetList } from '@/actions/set'
 import { getUserById } from '@/actions/user'
 import { Err } from '@/types/errTypes'
 import { SelectedUser } from '@/types/models/user'
-import { INFINITY_SCROLL_LIMIT } from '@/utils/constants'
+import { BLURRED_DATA_URL, INFINITY_SCROLL_LIMIT } from '@/utils/constants'
 import { getClassList } from '@/actions/class'
 import { SelectedClass } from '@/types/models/class'
 import { SelectedSet } from '@/types/models/set'
@@ -37,7 +37,16 @@ export default async function User({ params }: { params: Promise<{ id: string }>
       <div className="w-fit mb-10 mx-auto">
         <h2 className="w-fit mx-auto sub-title-1">{user.name}</h2>
         {!!user.image ? (
-          <Image className="rounded-full object-cover w-40 h-40" width={100} height={100} src={user.image} alt="user" priority />
+          <Image
+            className="rounded-full object-cover w-40 h-40"
+            width={100}
+            height={100}
+            src={user.image}
+            alt="user"
+            priority
+            placeholder="blur"
+            blurDataURL={BLURRED_DATA_URL}
+          />
         ) : (
           <User2 className="w-40 h-40 pb-5 border-2 rounded-full" />
         )}

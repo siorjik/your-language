@@ -7,6 +7,7 @@ import Spinner from '@/components/spinner'
 import { Button } from '@/components/ui/button'
 
 import { useToast } from '@/hooks/use-toast'
+import { BLURRED_DATA_URL } from '@/utils/constants'
 
 export default function ImageUploading({
   imageUrl = null,
@@ -86,6 +87,8 @@ export default function ImageUploading({
               height={200}
               alt="user"
               priority
+              placeholder="blur"
+              blurDataURL={BLURRED_DATA_URL}
             />
           ) : (
             <div className="flex justify-center items-center rounded-full border-4 border-secondary w-[200px] h-[200px]">

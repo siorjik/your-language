@@ -10,6 +10,7 @@ import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/com
 
 import { SelectedClass } from '@/types/models/class'
 import { getUserAppPath } from '@/utils/paths'
+import { BLURRED_DATA_URL } from '@/utils/constants'
 
 export default function ClassItem({ data, idx }: { data: SelectedClass; idx: number }) {
   const { push } = useRouter()
@@ -31,6 +32,8 @@ export default function ClassItem({ data, idx }: { data: SelectedClass; idx: num
               src={data.image}
               alt={data.image}
               priority
+              placeholder="blur"
+              blurDataURL={BLURRED_DATA_URL}
             />
           ) : (
             <ImageIcon className="ml-[-20px] h-[130px] w-[150px]" size={130} />

@@ -16,6 +16,7 @@ import getServerSessionToken from '@/helpers/getServerSessionToken'
 import { SelectedSet } from '@/types/models/set'
 import { SelectedUser } from '@/types/models/user'
 import { getSetList } from '@/actions/set'
+import { BLURRED_DATA_URL } from '@/utils/constants'
 
 export async function generateMetadata({
   params,
@@ -85,7 +86,7 @@ export default async function ClassInfo({
   return (
     <>
       <BreadcrumbWrap data={breadcrumbData} />
-      <div className="mb-8 flex justify-center gap-52 items-center">
+      <div className="mb-8 flex justify-evenly gap-10 items-center">
         <div className="flex flex-col md:flex-row gap-5 items-center">
           <div className="flex items-center">
             {res.image ? (
@@ -96,19 +97,32 @@ export default async function ClassInfo({
                 src={res.image}
                 alt={res.image}
                 priority
+                placeholder="blur"
+                blurDataURL={BLURRED_DATA_URL}
               />
             ) : (
               <ImageIcon className="w-[200px] h-[200px] border-4 rounded-xl !cursor-auto" size={200} />
             )}
           </div>
           <div className="flex flex-col gap-2 font-semibold">
-            <h2 className="title">{res.title}</h2>
-            <p className="block md:hidden">
-              <Link href={getUserAppPath(res.creatorId)}>
+            <h2 className="title line-clamp-2">{res.title}</h2>
+            <div className="block md:hidden">
+              <Link className="flex gap-2" href={getUserAppPath(res.creatorId)}>
                 <span className="text-muted-foreground/50 text-lg">Creator:</span>{' '}
-                <span className="link">{res.creator.name}</span>
+                <div className="flex gap-1 items-center">
+                  {res.creator.image && (
+                    <Image
+                      className="min-w-5 max-w-5 h-5 rounded-full"
+                      src={res.creator.image}
+                      alt={res.creator.image}
+                      width={50}
+                      height={50}
+                    />
+                  )}
+                  <span className="link">{res.creator.name}</span>
+                </div>
               </Link>
-            </p>
+            </div>
             <p>
               <span className="text-muted-foreground/50 text-lg">Sets:</span> {res.sets.length}
             </p>
@@ -119,15 +133,17 @@ export default async function ClassInfo({
         </div>
         <Link
           href={getUserAppPath(res.creatorId)}
-          className="w-28 self-end sub-title-1 hidden md:block text-center hover:!text-secondary truncate"
+          className="w-28 self-end sub-title-1 hidden md:block truncate text-center hover:!text-secondary"
         >
           {res.creator.image ? (
             <Image
-              className="mb-2 border-2 rounded-full w-28 h-28 object-cover"
+              className="mb-2 border-2 rounded-full min-w-28 max-w-28 h-28 object-cover"
               width={70}
               height={70}
               src={res.creator.image}
               alt={res.creator.image}
+              placeholder="blur"
+              blurDataURL={BLURRED_DATA_URL}
             />
           ) : (
             <div className="mb-2 w-28 h-28 border-2 rounded-full flex justify-center items-center">
