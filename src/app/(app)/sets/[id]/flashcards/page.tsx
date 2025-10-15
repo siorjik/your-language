@@ -37,7 +37,7 @@ export default async function FlashcardsPage({ params }: { params: Promise<{ id:
       { href: setsAppPath, label: 'Sets' },
       { href: getSetAppPath(set.id), label: `${set.title}` },
     ],
-    current: 'flashcards',
+    current: 'Flashcards',
   }
 
   return (

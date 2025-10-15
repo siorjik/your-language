@@ -37,7 +37,7 @@ export default async function TestPage({ params }: { params: Promise<{ id: strin
       { href: setsAppPath, label: 'Sets' },
       { href: getSetAppPath(set.id), label: `${set.title}` },
     ],
-    current: 'memorization',
+    current: 'Memorization',
   }
 
   return (

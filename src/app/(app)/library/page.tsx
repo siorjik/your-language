@@ -13,7 +13,7 @@ export default function Library() {
   return (
     <>
       <h2 className="mx-auto w-fit title">Your helpers</h2>
-      <div className="flex flex-col md:flex-row flex-wrap xl:flex-nowrap justify-center gap-4">
+      <div className="flex flex-col md:flex-row flex-wrap xl:flex-nowrap justify-center gap-6">
         <motion.div
           className="flex flex-col items-center"
           initial={{ opacity: 0, y: 100 }}

@@ -37,7 +37,7 @@ export default async function SpellingPage({ params }: { params: Promise<{ id: s
       { href: setsAppPath, label: 'Sets' },
       { href: getSetAppPath(set.id), label: `${set.title}` },
     ],
-    current: 'spelling',
+    current: 'Spelling',
   }
 
   return (
