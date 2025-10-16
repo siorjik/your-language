@@ -144,7 +144,7 @@ export default function Library() {
               <CardContent className="italic font-semibold text-muted-foreground">
                 <p>
                   Classes are your own study spaces where you can learn languages with friends, classmates, or even the whole
-                  community. It`s like having your personal study club — right inside the app!
+                  community. It`s like having your personal study club - right inside the app!
                 </p>
                 <p className="my-3 text-foreground">
                   <span className="not-italic">🔑</span> Key Features:

@@ -59,13 +59,14 @@ export default function Memorization({ data }: { data: SelectedSet }) {
   }, [isFinish])
 
   useEffect(() => {
-    if (pressEnter) onSetResult()
-  }, [pressEnter])
+    if (pressEnter && index === result.failed.length + result.passed.length) onSetResult()
+  }, [pressEnter, index, result])
 
   const onSetResult = (): void => {
     if (!value) return
 
     const isLast = index + 1 === setList.length
+    const arr: { value: string; isCorrect: boolean }[] = []
 
     if (setList[index].term === value.trim()) {
       setSelectedAnswerStyle({ style: 'text-success font-semibold text-2xl' })
@@ -76,20 +77,28 @@ export default function Memorization({ data }: { data: SelectedSet }) {
         else setFinish(true)
       }, 1000)
     } else {
-      const arr: { value: string; isCorrect: boolean }[] = []
       const valueCharArr = value.split('')
       const setListItemCharArr = setList[index].term.split('')
 
       let firstMatchedLetter = ''
 
       allBreak: for (let i = 0; i < valueCharArr.length; i++) {
-        for (const char of setListItemCharArr) {
+        for (const [idx, char] of Object.entries(setListItemCharArr)) {
           if (char === valueCharArr[i] && setListItemCharArr.indexOf(char) > 0 && valueCharArr.includes(setListItemCharArr[0])) {
             continue
-          }
+          } else if (
+            char === valueCharArr[i] &&
+            setListItemCharArr.indexOf(char) > 0 &&
+            !valueCharArr.includes(setListItemCharArr[0])
+          ) {
+            if (setListItemCharArr.includes(valueCharArr[i + 1])) {
+              if (setListItemCharArr[+idx + 1] === valueCharArr[i + 1]) firstMatchedLetter = char
+              else firstMatchedLetter = valueCharArr[i + 1]
 
-          if (char === valueCharArr[i]) {
-            firstMatchedLetter = char
+              break allBreak
+            } else continue
+          } else if (char === valueCharArr[i]) {
+            firstMatchedLetter = valueCharArr[i]
 
             break allBreak
           }
@@ -108,7 +117,7 @@ export default function Memorization({ data }: { data: SelectedSet }) {
 
       if (!!valueArr.length) {
         valueArr.forEach((value, idx) => {
-          arr.push({ value, isCorrect: value === setListItemCharArr[idx + startIndexSet] ? true : false })
+          arr.push({ value, isCorrect: value === setListItemCharArr[idx + startIndexSet] })
         })
       }
 
