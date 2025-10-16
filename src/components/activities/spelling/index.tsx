@@ -84,13 +84,7 @@ export default function Memorization({ data }: { data: SelectedSet }) {
 
       allBreak: for (let i = 0; i < valueCharArr.length; i++) {
         for (const [idx, char] of Object.entries(setListItemCharArr)) {
-          if (char === valueCharArr[i] && setListItemCharArr.indexOf(char) > 0 && valueCharArr.includes(setListItemCharArr[0])) {
-            continue
-          } else if (
-            char === valueCharArr[i] &&
-            setListItemCharArr.indexOf(char) > 0 &&
-            !valueCharArr.includes(setListItemCharArr[0])
-          ) {
+          if (char === valueCharArr[i] && setListItemCharArr.indexOf(char) > 0) {
             if (setListItemCharArr.includes(valueCharArr[i + 1])) {
               if (setListItemCharArr[+idx + 1] === valueCharArr[i + 1]) firstMatchedLetter = char
               else firstMatchedLetter = valueCharArr[i + 1]
