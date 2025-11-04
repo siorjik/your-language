@@ -347,7 +347,8 @@ body {
     @apply leading-5;
   }
 
-  input {
+  input,
+  textarea {
     @apply outline-none caret-primary;
   }
 
