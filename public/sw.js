@@ -10,5 +10,5 @@ self.addEventListener('activate', () => {
 
 self.addEventListener('fetch', (e) => {
   // No caching at all
-  event.respondWith(fetch(e.request))
+  e.respondWith(fetch(e.request))
 })
