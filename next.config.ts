@@ -1,9 +1,4 @@
 import type { NextConfig } from 'next'
-import withPWA from 'next-pwa'
-
-const isProd = process.env.NODE_ENV === 'production'
-
-const withPWAConfig = withPWA({ dest: 'public', register: true, skipWaiting: true, disable: !isProd })
 
 const nextConfig: NextConfig = {
   experimental: {
@@ -21,4 +16,4 @@ const nextConfig: NextConfig = {
   }
 }
 
-export default withPWAConfig(nextConfig)
+export default nextConfig

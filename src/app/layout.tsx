@@ -6,6 +6,8 @@ import { SessionProvider } from 'next-auth/react'
 import './globals.css'
 
 import { Toaster } from '@/components/ui/toaster'
+import ServiceWorkerRegistration from '@/components/sw-registration'
+
 import { THEMES } from '@/utils/constants'
 import QueryProvider from '@/providers/query-provider'
 
@@ -29,6 +31,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
             themes={THEMES.map((theme) => theme.value)}
             enableSystem={false}
           >
+            <ServiceWorkerRegistration />
             <QueryProvider>{children}</QueryProvider>
           </ThemeProvider>
         </SessionProvider>
