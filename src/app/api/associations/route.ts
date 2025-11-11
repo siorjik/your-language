@@ -14,9 +14,9 @@ export async function POST(req: NextRequest): Promise<NextResponse<string[] | []
 
     if (!word) throw Error('Missing word to create associations')
 
-    const stream = await associationAIService(word, language)
+    // const stream = await associationAIService(word, language)
 
-    return new NextResponse(stream, { status: 200, headers: { 'Content-Type': 'application/json' } })
+    return new NextResponse('stream', { status: 200, headers: { 'Content-Type': 'application/json' } })
   } catch (error) {
     const err = error as ErrObj | Error
 

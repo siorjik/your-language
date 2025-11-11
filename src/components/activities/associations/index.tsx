@@ -202,10 +202,10 @@ export default function Associations({ data }: { data: SelectedSet }) {
           </div>
           <div className="my-8 text-lg font-semibold">
             {current?.association ?? (
-              <div className="flex space-x-2">
-                <div className="w-3 h-3 bg-primary rounded-full animate-bounce"></div>
-                <div className="w-3 h-3 bg-primary rounded-full animate-bounce delay-75"></div>
-                <div className="w-3 h-3 bg-primary rounded-full animate-bounce delay-150"></div>
+              <div className="h-7 flex space-x-2 items-center">
+                <div className="w-4 h-4 bg-primary rounded-full animate-bounce"></div>
+                <div className="w-4 h-4 bg-primary rounded-full animate-bounce delay-75"></div>
+                <div className="w-4 h-4 bg-primary rounded-full animate-bounce delay-150"></div>
               </div>
             )}
           </div>
