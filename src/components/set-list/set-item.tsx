@@ -37,10 +37,11 @@ export default function SetItem({ set, idx, isSimple }: { set: SelectedSet; idx:
       <div className="overflow-hidden">
         <div className="mb-1 text-sm text-primary/60 truncate">
           {(set.list as [])?.length} items <span className="font-semibold text-primary">|</span>{' '}
-          {format(set.createdAt, 'MM/yyyy')} <span className="font-semibold text-primary">|</span>{' '}
-          {LANGUAGE_OPTIONS.find((item) => item.value === set.source)?.label + ' / '}
-          {LANGUAGE_OPTIONS.find((item) => item.value === set.target)?.label}{' '}
-          <span className="font-semibold text-primary">|</span>{' '}
+          <span className="hidden md:inline">{format(set.createdAt, 'MM/yyyy')}</span>{' '}
+          <span className="hidden md:inline font-semibold text-primary">|</span>{' '}
+          <span className="hidden md:inline">{LANGUAGE_OPTIONS.find((item) => item.value === set.source)?.label + ' / '}</span>
+          <span className="hidden md:inline">{LANGUAGE_OPTIONS.find((item) => item.value === set.target)?.label} </span>
+          <span className="hidden md:inline font-semibold text-primary">|</span>{' '}
           <div
             className="pr-1 inline-block"
             onClick={(e) => {

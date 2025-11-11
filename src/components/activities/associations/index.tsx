@@ -88,6 +88,8 @@ export default function Associations({ data }: { data: SelectedSet }) {
               definition: prev!.definition,
               association: prev!.association + chunkValue,
             }))
+
+            await new Promise((r) => setTimeout(r, 100))
           }
         } catch (error) {
           console.log(error)
@@ -211,21 +213,23 @@ export default function Associations({ data }: { data: SelectedSet }) {
           </div>
           <div className="flex flex-wrap gap-2">
             {shuffledList.map((item, idx) => (
-              <motion.span
+              <motion.div
                 initial={{ scale: 0.5, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                whileHover={{ scale: 1.1, transition: { delay: 0, duration: 0.3 } }}
-                transition={{ delay: (idx + 0.5) / 15, type: 'spring', stiffness: 150 }}
+                transition={{ delay: (idx + 0.5) / 15, type: 'spring', stiffness: 200 }}
                 key={item.term + current?.term + amount}
                 onClick={() => onChoose(item)}
-                className={`
-                  px-2 py-1 pb-2 cursor-pointer hover:text-muted-foreground/50 rounded-3xl text-lg
-                  leading-tight font-semibold text-muted-foreground border-primary border-2
-                  ${selectedAnswerStyle?.term === item.term ? selectedAnswerStyle.style : ''}
-                `}
               >
-                {item.term}
-              </motion.span>
+                <p
+                  className={`
+                    px-2 py-1 pb-2 cursor-pointer hover:text-muted-foreground/50 hover:scale-110 rounded-3xl text-lg
+                    leading-tight font-semibold text-muted-foreground border-primary border-2 duration-300
+                    ${selectedAnswerStyle?.term === item.term ? selectedAnswerStyle.style : ''}
+                  `}
+                >
+                  {item.term}
+                </p>
+              </motion.div>
             ))}
           </div>
           <div className="mt-8 mx-auto flex items-center gap-1">
