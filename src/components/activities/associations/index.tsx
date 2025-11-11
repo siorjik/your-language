@@ -55,12 +55,12 @@ export default function Associations({ data }: { data: SelectedSet }) {
       const randomIdx = startArr.length > 1 ? randomIndex(startArr.length - 1) : 0
 
       setShuffledList(startArr)
-      setCurrent(startArr[randomIdx])
+      setCurrent({ ...startArr[randomIdx], association: '' })
     }
   }, [shuffledList])
 
   useEffect(() => {
-    if (current?.term) {
+    if (current?.term && !isFinish) {
       ;(async () => {
         try {
           const res = await fetch(associationsApiPath, {
@@ -86,9 +86,7 @@ export default function Associations({ data }: { data: SelectedSet }) {
               ...prev,
               term: prev!.term,
               definition: prev!.definition,
-              association: !prev?.association?.includes('undefined')
-                ? prev!.association + chunkValue
-                : prev!.association?.replace('undefined', '') + chunkValue,
+              association: prev!.association + chunkValue,
             }))
           }
         } catch (error) {
@@ -96,16 +94,16 @@ export default function Associations({ data }: { data: SelectedSet }) {
         }
       })()
     }
-  }, [current?.term])
+  }, [current?.term, isFinish])
 
   const onRefresh = () => {
     const startArr = getShuffledArr(data.list).slice(0, +amount)
     const randomIdx = startArr.length > 1 ? randomIndex(startArr.length - 1) : 0
 
+    setCurrent({ ...startArr[randomIdx], association: '' })
     setList(data.list)
     setShuffledList(startArr)
     setResult({ failed: [], passed: [] })
-    setCurrent(startArr[randomIdx])
     setAttempt(0)
   }
 
@@ -114,11 +112,11 @@ export default function Associations({ data }: { data: SelectedSet }) {
       action === 'repeat' ? getShuffledArr(result.failed.slice(0, +amount)) : getShuffledArr(data.list).slice(0, +amount)
     const randomIdx = startArr.length > 1 ? randomIndex(startArr.length - 1) : 0
 
+    setCurrent({ ...startArr[randomIdx], association: '' })
     setList(action === 'repeat' ? result.failed : data.list)
     setShuffledList(startArr)
     setResult({ passed: [], failed: [] })
     setFinish(false)
-    setCurrent(startArr[randomIdx])
     setAttempt(0)
   }
 
@@ -138,7 +136,7 @@ export default function Associations({ data }: { data: SelectedSet }) {
       setTimeout(() => {
         setSelectedAnswerStyle(null)
         setShuffledList(getShuffledArr(filtered))
-        setCurrent(getShuffledArr(filtered)[randomIdx])
+        setCurrent({ ...getShuffledArr(filtered)[randomIdx], association: '' })
         setFinish(isLast)
         setAttempt(0)
       }, 1000)
@@ -163,7 +161,7 @@ export default function Associations({ data }: { data: SelectedSet }) {
       setTimeout(() => {
         setSelectedAnswerStyle(null)
         setShuffledList(getShuffledArr(filtered))
-        setCurrent(getShuffledArr(filtered)[randomIdx])
+        setCurrent({ ...getShuffledArr(filtered)[randomIdx], association: '' })
         setFinish(isLast)
         setAttempt(0)
       }, 3000)
@@ -201,7 +199,9 @@ export default function Associations({ data }: { data: SelectedSet }) {
             </div>
           </div>
           <div className="my-8 text-lg font-semibold">
-            {current?.association ?? (
+            {current?.association ? (
+              current.association
+            ) : (
               <div className="h-7 flex space-x-2 items-center">
                 <div className="w-4 h-4 bg-primary rounded-full animate-bounce"></div>
                 <div className="w-4 h-4 bg-primary rounded-full animate-bounce delay-75"></div>
@@ -214,7 +214,7 @@ export default function Associations({ data }: { data: SelectedSet }) {
               <motion.span
                 initial={{ scale: 0.5, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                whileHover={{ scale: 1.1 }}
+                whileHover={{ scale: 1.1, transition: { delay: 0, duration: 0.3 } }}
                 transition={{ delay: (idx + 0.5) / 15, type: 'spring', stiffness: 150 }}
                 key={item.term + current?.term + amount}
                 onClick={() => onChoose(item)}
