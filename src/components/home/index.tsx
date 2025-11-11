@@ -21,6 +21,7 @@ export default function Home({ session, sets, chartData }: MainProps) {
     flashcards: { label: 'Passed Flashcards', color: 'hsl(var(--chart-2))' },
     memorization: { label: 'Passed Memorization', color: 'hsl(var(--chart-3))' },
     spelling: { label: 'Passed Spelling', color: 'hsl(var(--chart-4))' },
+    associations: { label: 'Passed Associations', color: 'hsl(var(--chart-5))' },
   }
 
   return (

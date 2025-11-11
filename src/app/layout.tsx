@@ -17,7 +17,7 @@ const balsamiqSans = Balsamiq_Sans({ variable: '--font-balsamiq-sans', subsets: 
 export const metadata: Metadata = {
   title: 'Home | Language Bro',
   description: 'Learn languages faster with Language Bro. Flashcards, quizzes, and progress tracking — all in one simple app.',
-  manifest: '/manifest.json',
+  manifest: process.env.NODE_ENV === 'production' ? '/manifest.json' : '',
 }
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

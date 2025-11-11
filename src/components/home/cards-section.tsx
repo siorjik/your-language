@@ -54,7 +54,7 @@ export default function CardSection({ sets }: { sets: SelectedSet[] }) {
               <CardTitle className="w-[250px] truncate text-primary leading-normal">{set.title}</CardTitle>
               <CardDescription className="text-primary/70">
                 {LANGUAGE_OPTIONS.find((lg) => lg.value === set.source)?.label + ' / '}
-                {LANGUAGE_OPTIONS.find((lg) => lg.value === set.target)?.label}
+                {LANGUAGE_OPTIONS.find((lg) => lg.value === set.target)?.label} ({set.list.length} items)
               </CardDescription>
             </CardHeader>
             <CardContent>

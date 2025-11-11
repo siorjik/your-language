@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 import { ModalContext } from '@/contexts/modal-context'
 
 type SelectProps = {
-  options: { value: string; label: string }[]
+  options: { value: string; label: string; hidden?: boolean }[]
   label?: string
   onValueChange: (val: string) => void
   defaultValue: string
@@ -30,11 +30,15 @@ export default function SelectWrap({ options, label, placeholder, defaultValue, 
       <SelectContent>
         <SelectGroup>
           <SelectLabel>{label}</SelectLabel>
-          {options.map((option, idx) => (
-            <SelectItem key={idx} value={option.value} onKeyDown={(e) => e.key === ' ' && e.preventDefault()}>
-              {option.label}
-            </SelectItem>
-          ))}
+          {options.map((option, idx) => {
+            if (option.hidden) return null
+
+            return (
+              <SelectItem key={idx} value={option.value} onKeyDown={(e) => e.key === ' ' && e.preventDefault()}>
+                {option.label}
+              </SelectItem>
+            )
+          })}
         </SelectGroup>
       </SelectContent>
     </Select>

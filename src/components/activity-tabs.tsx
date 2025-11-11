@@ -1,7 +1,7 @@
 'use client'
 
 import { Fragment } from 'react'
-import { GalleryHorizontal, Brain, Pen } from 'lucide-react'
+import { GalleryHorizontal, Brain, Pen, BrainCircuit } from 'lucide-react'
 
 import Flashcards from './activities/flashcards'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
@@ -10,6 +10,7 @@ import Spelling from './activities/spelling'
 
 import { ActivityTypesProvider } from '@/contexts/activity-types-context'
 import { SelectedSet } from '@/types/models/set'
+import Associations from './activities/associations'
 
 export default function TabsPage({ set }: { set: SelectedSet }) {
   return (
@@ -29,6 +30,10 @@ export default function TabsPage({ set }: { set: SelectedSet }) {
               <Pen className="mr-2" size={15} />
               Spelling
             </TabsTrigger>
+            <TabsTrigger className="w-full" value="associations">
+              <BrainCircuit className="mr-2" size={15} />
+              Associations
+            </TabsTrigger>
           </TabsList>
           <Fragment key={set?.id}>
             <TabsContent value="flashcards">
@@ -39,6 +44,9 @@ export default function TabsPage({ set }: { set: SelectedSet }) {
             </TabsContent>
             <TabsContent value="spelling">
               <Spelling data={set} />
+            </TabsContent>
+            <TabsContent value="associations">
+              <Associations data={set} />
             </TabsContent>
           </Fragment>
         </Tabs>

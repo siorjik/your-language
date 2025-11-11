@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { GalleryHorizontal, Brain, PanelRightOpen, Pen, FileCog, Trash2, Share } from 'lucide-react'
+import { GalleryHorizontal, Brain, PanelRightOpen, Pen, FileCog, Trash2, Share, BrainCircuit } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
 import { Button } from '@/components/ui/button'
@@ -10,7 +10,14 @@ import AlertDialogWrap from '@/components/alert-dialog-wrap'
 import ShareBtn from '@/components/share-btn'
 import SetCreatorComp from '@/components/set-creator'
 
-import { getFlashcardsAppPath, getMemorizationAppPath, getSpellingAppPath, getUpdateSetAppPath, setsAppPath } from '@/utils/paths'
+import {
+  getAssociationsAppPath,
+  getFlashcardsAppPath,
+  getMemorizationAppPath,
+  getSpellingAppPath,
+  getUpdateSetAppPath,
+  setsAppPath,
+} from '@/utils/paths'
 import useDisplayData from '@/hooks/useDisplayData'
 import { deleteSet } from '@/actions/set'
 import { Err } from '@/types/errTypes'
@@ -44,15 +51,19 @@ export default function NavPanel({ id, isCreator, isOwner }: NavPanelProps) {
         <Brain className="text-primary" size={15} />
         Memorization
       </Link>
-      <Link className="py-3 flex items-center gap-2 font-semibold" href={getSpellingAppPath(id)}>
+      <Link className="py-3 flex items-center gap-2 border-b-2 border-accent font-semibold" href={getSpellingAppPath(id)}>
         <Pen className="text-primary" size={15} />
         Spelling
+      </Link>
+      <Link className="py-3 flex items-center gap-2 font-semibold" href={getAssociationsAppPath(id)}>
+        <BrainCircuit className="text-primary" size={15} />
+        Associations
       </Link>
     </div>
   )
 
   return (
-    <div className="flex gap-5 justify-between">
+    <div className="flex gap-5 justify-between items-center">
       {isOwner && (
         <div className="flex gap-2">
           <Button asChild>
@@ -88,7 +99,7 @@ export default function NavPanel({ id, isCreator, isOwner }: NavPanelProps) {
       )}
       <SetCreatorComp setId={id} />
       {isLgDisplay ? (
-        <div className="flex flex-wrap justify-center md:justify-normal gap-2">
+        <div className="grid grid-cols-3 gap-2">
           <Button variant="outline" className="pushed-btn" asChild>
             <Link href={getFlashcardsAppPath(id)}>
               <GalleryHorizontal />
@@ -105,6 +116,12 @@ export default function NavPanel({ id, isCreator, isOwner }: NavPanelProps) {
             <Link href={getSpellingAppPath(id)}>
               <Pen />
               Spelling
+            </Link>
+          </Button>
+          <Button variant="outline" className="pushed-btn col-start-2" asChild>
+            <Link href={getAssociationsAppPath(id)}>
+              <BrainCircuit />
+              Associations
             </Link>
           </Button>
         </div>

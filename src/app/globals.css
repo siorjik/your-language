@@ -106,6 +106,7 @@ body {
   --chart-2: 2 43% 41%;
   --chart-3: 277 43% 41%;
   --chart-4: 130 43% 41%;
+  --chart-5: 27 87% 67%;
 }
 .theme-blue-dark {
   --background: 198 48% 10%;
@@ -136,6 +137,7 @@ body {
   --chart-2: 2 43% 41%;
   --chart-3: 277 43% 41%;
   --chart-4: 130 43% 41%;
+  --chart-5: 27 87% 67%;
 }
 
 .theme-red {
@@ -167,6 +169,7 @@ body {
   --chart-2: 2 43% 41%;
   --chart-3: 277 43% 41%;
   --chart-4: 130 43% 41%;
+  --chart-5: 27 87% 67%;
 }
 .theme-red-dark {
   --background: 2 48% 10%;
@@ -197,6 +200,7 @@ body {
   --chart-2: 2 43% 41%;
   --chart-3: 277 43% 41%;
   --chart-4: 130 43% 41%;
+  --chart-5: 27 87% 67%;
 }
 
 .theme-green {
@@ -228,6 +232,7 @@ body {
   --chart-2: 2 43% 41%;
   --chart-3: 277 43% 41%;
   --chart-4: 130 43% 41%;
+  --chart-5: 27 87% 67%;
 }
 .theme-green-dark {
   --background: 130 48% 10%;
@@ -258,6 +263,7 @@ body {
   --chart-2: 2 43% 41%;
   --chart-3: 277 43% 41%;
   --chart-4: 130 43% 41%;
+  --chart-5: 27 87% 67%;
 }
 
 .theme-purple {
@@ -289,6 +295,7 @@ body {
   --chart-2: 2 43% 41%;
   --chart-3: 277 43% 41%;
   --chart-4: 130 43% 41%;
+  --chart-5: 27 87% 67%;
 }
 .theme-purple-dark {
   --background: 277 48% 10%;
@@ -319,6 +326,7 @@ body {
   --chart-2: 2 43% 41%;
   --chart-3: 277 43% 41%;
   --chart-4: 130 43% 41%;
+  --chart-5: 27 87% 67%;
 }
 
 /* to disable ring on focus */
@@ -398,7 +406,7 @@ body {
   }
 
   .pushed-btn {
-    @apply !border-b-4 hover:!border-b-0 !transition-all;
+    @apply !border-b-4 hover:!border-b-0 cursor-pointer !transition-all;
   }
 
   .emoji {
