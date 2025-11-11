@@ -51,7 +51,15 @@ async function main() {
     }
   })
 
-  console.log({ admin, test, flashcards, memorization, spelling })
+  const associations = await prisma.activityType.upsert({
+    where: { name: 'associations' },
+    update: {},
+    create: {
+      name: 'associations'
+    }
+  })
+
+  console.log({ admin, test, flashcards, memorization, spelling, associations })
 }
 
 main()

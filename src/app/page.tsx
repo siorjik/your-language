@@ -12,7 +12,14 @@ import { SelectedSet } from '@/types/models/set'
 
 export default async function HomePage() {
   let resSets: { sets: SelectedSet[]; error: null } | Err | null = null
-  let mappedChartData: { month: string; sets: number; flashcards: number; memorization: number; spelling: number }[] = []
+  let mappedChartData: {
+    month: string
+    sets: number
+    flashcards: number
+    memorization: number
+    spelling: number
+    associations: number
+  }[] = []
 
   const session = await auth()
 
@@ -61,12 +68,17 @@ export default async function HomePage() {
                   MONTHS[new Date(el.createdAt).getMonth()] === MONTHS[new Date(current.createdAt).getMonth()] &&
                   activityTypes.find((item) => item.name === 'spelling' && item.id === el.activityTypeId),
               ).length,
+              associations: arr.filter(
+                (el) =>
+                  MONTHS[new Date(el.createdAt).getMonth()] === MONTHS[new Date(current.createdAt).getMonth()] &&
+                  activityTypes.find((item) => item.name === 'associations' && item.id === el.activityTypeId),
+              ).length,
             })
           }
 
           return acc
         },
-        [] as { month: string; flashcards: number; memorization: number; spelling: number }[],
+        [] as { month: string; flashcards: number; memorization: number; spelling: number; associations: number }[],
       )
 
       mappedChartData = MONTHS.reduce(
@@ -80,13 +92,19 @@ export default async function HomePage() {
             } else if (!setsMappedData.find((el) => el.month === current)) {
               acc.push({ ...activityMappedData.find((el) => el.month === current)!, sets: 0 })
             } else {
-              acc.push({ ...setsMappedData.find((el) => el.month === current)!, flashcards: 0, memorization: 0, spelling: 0 })
+              acc.push({
+                ...setsMappedData.find((el) => el.month === current)!,
+                flashcards: 0,
+                memorization: 0,
+                spelling: 0,
+                associations: 0,
+              })
             }
           }
 
           return acc
         },
-        [] as { month: string; sets: number; flashcards: number; memorization: number; spelling: number }[],
+        [] as { month: string; sets: number; flashcards: number; memorization: number; spelling: number; associations: number }[],
       ).filter((el) => !!el.month)
     }
   }

@@ -19,6 +19,7 @@ export const getUpdateSetAppPath = (id: string) => `${setsAppPath}/${id}/update`
 export const getFlashcardsAppPath = (id: string) => `${setsAppPath}/${id}/flashcards`
 export const getMemorizationAppPath = (id: string) => `${setsAppPath}/${id}/memorization`
 export const getSpellingAppPath = (id: string) => `${setsAppPath}/${id}/spelling`
+export const getAssociationsAppPath = (id: string) => `${setsAppPath}/${id}/associations`
 
 // class
 export const classesAppPath = '/classes'
@@ -45,3 +46,5 @@ export const emailRecoverPassApiPath = '/api/emails/recover-pass'
 export const emailContactUsApiPath = '/api/emails/contact-us'
 
 export const activityTypesListApiPath = `${appHost}/api/activity-types`
+
+export const associationsApiPath = '/api/associations'
