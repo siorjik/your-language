@@ -21,6 +21,7 @@ import { ACTIVITIES_NAMES } from '@/utils/constants'
 import { associationsApiPath } from '@/utils/paths'
 
 const randomIndex = (max: number, min: number = 0) => Math.floor(Math.random() * (max - min + 1)) + min
+const delay = process.env.NEXT_PUBLIC_APP_ENV === 'production' ? 400 : 100
 
 export default function Associations({ data }: { data: SelectedSet }) {
   const [list, setList] = useState<SelectedSet['list']>(data.list)
@@ -89,7 +90,8 @@ export default function Associations({ data }: { data: SelectedSet }) {
               association: prev!.association + chunkValue,
             }))
 
-            await new Promise((r) => setTimeout(r, 100))
+            // delay to display stream
+            await new Promise((r) => setTimeout(r, delay))
           }
         } catch (error) {
           console.log(error)

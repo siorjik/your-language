@@ -98,10 +98,12 @@ export default function Filter({ creatorList }: { creatorList: SetCreator[] }) {
   const onClear = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
 
+    const titleParam = searchParams.get('title')
+
     setFilter(null)
     setShow(false)
 
-    push(`${pathname}`)
+    push(titleParam ? `${pathname}?title=${titleParam}` : `${pathname}`)
   }
 
   const getOptions = () => {
