@@ -13,7 +13,7 @@ export default async (word: string, language: string = 'en') => {
 
   const human = new HumanMessage(`Language: ${language}\nWord: ${word}\nGenerate a short association:`)
 
-  const model = new ChatOpenAI({ temperature: 0, modelName: 'gpt-4o-mini' })
+  const model = new ChatOpenAI({ temperature: 0, modelName: 'gpt-4o-mini', streaming: true })
 
   const encoder = new TextEncoder()
 
