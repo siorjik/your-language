@@ -27,7 +27,7 @@ export default async (word: string, inputLanguage: string, outputLanguage: strin
     Return data in JSON format according following format: { translates: string[] }.
   `
 
-  const model = new ChatOpenAI({ temperature: 0, modelName: 'gpt-4' })
+  const model = new ChatOpenAI({ temperature: 0, modelName: 'gpt-4o-mini', maxTokens: 150 })
 
   const parser = StructuredOutputParser.fromZodSchema(
     z.object({ translates: z.array(z.string()).describe('The list of translated texts') }),
