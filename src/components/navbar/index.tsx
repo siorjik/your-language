@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { Menu } from 'lucide-react'
+import { useTheme } from 'next-themes'
 
 import UserMenu from './user-menu'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
@@ -21,6 +22,9 @@ export default function Navbar() {
   const pathname = usePathname()
   const { data: session } = useSession()
   const { isMobile } = useDisplayData()
+  const { theme } = useTheme()
+
+  const isDefault = theme?.includes('-default')
 
   const isAuth = !!session
 
@@ -66,7 +70,7 @@ export default function Navbar() {
         <div className="flex gap-2 items-center">
           <Link className="relative" href="/">
             <Image className="h-[43px] w-[43px] mr-10 z-0" src={logo} alt="logo" placeholder="blur" priority />
-            <div className="h-[43px] w-[43px] bg-primary/50 z-10 absolute top-0 rounded-sm" />
+            {!isDefault && <div className="h-[43px] w-[43px] bg-primary/50 z-10 absolute top-0 rounded-sm" />}
           </Link>
           {!isMobile && (
             <>

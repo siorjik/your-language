@@ -24,7 +24,7 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
 
   const bgColors = isDefault
     ? ['hsla(var(--primary) / 0.1)']
-    : ['hsla(var(--primary) / 0.2)', 'hsla(var(--primary) / 0.6)', 'hsla(var(--primary) / 0.2)']
+    : ['hsla(var(--primary) / 0.4)', 'hsla(var(--primary) / 0.6)', 'hsla(var(--primary) / 0.4)']
 
   const ref = useRef<HTMLDivElement>(null)
 
