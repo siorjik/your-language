@@ -45,7 +45,7 @@ export default function EditAccountForm({ isCredentials }: { isCredentials: bool
 
   return (
     <div className="w-full max-w-[350px]">
-      <h3 className="sub-title-3">Update data:</h3>
+      <h3 className="sub-title-3">Update email or name:</h3>
       <Form
         submit={submit}
         schema={updateAccFormTypeSchema}

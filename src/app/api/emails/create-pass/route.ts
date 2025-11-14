@@ -8,7 +8,7 @@ export async function POST(req: NextRequest): Promise<NextResponse<{ success: tr
   const body = await req.json()
 
   try {
-    const token = await createToken({ email: body.email })
+    const token = await createToken({ email: body.email }, 10)
 
     await sendCreatePassMail({ to: body.email, name: body.name, token })
 

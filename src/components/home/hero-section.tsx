@@ -15,19 +15,16 @@ import tutorImg from '@/../public/tutor.png'
 
 import useDisplayData from '@/hooks/useDisplayData'
 
-const bgColors = [
-  'hsl(198 43% 41% / 0.5)',
-  'hsl(2 43% 41% / 0.5)',
-  'hsl(277 43% 41% / 0.5)',
-  'hsl(130 43% 41% / 0.5)',
-  'hsl(198 43% 41% / 0.5)',
-]
-
 export default function HeroSection({ dialogContent, isClose }: { dialogContent: ReactElement; isClose: boolean }) {
   const { viewSize, isMobile, isXlDisplay, is2XlDisplay } = useDisplayData()
   const { theme } = useTheme()
 
   const isDark = theme?.includes('-dark')
+  const isDefault = theme?.includes('-default')
+
+  const bgColors = isDefault
+    ? ['hsla(var(--primary) / 0.1)']
+    : ['hsla(var(--primary) / 0.2)', 'hsla(var(--primary) / 0.6)', 'hsla(var(--primary) / 0.2)']
 
   const ref = useRef<HTMLDivElement>(null)
 
@@ -75,7 +72,7 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
           viewport={{ once: true }}
           transition={{ duration: 0.3, type: 'spring', stiffness: 150 }}
         >
-          <h3 className="sub-title-1 mb-5 text-background/70">Welcome to Language Bro!</h3>
+          <h3 className="sub-title-1 mb-5 text-background">Welcome to Language Bro!</h3>
           <p className="max-w-[500px] mx-auto p-3 bg-muted rounded-lg italic font-semibold">
             Discover a smarter, more engaging way to learn language. Whether you`re just starting out or sharpening advanced
             skills, our powerful tools help you build vocabulary, master grammar, and grow your confidence - step by step

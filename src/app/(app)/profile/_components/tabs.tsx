@@ -31,7 +31,7 @@ export default function ProfileTabs({
       <Tabs value={activeTab!} onValueChange={setActiveTab}>
         <div className="overflow-auto">
           <TabsList className="mb-5">
-            <TabsTrigger value="acc">Account</TabsTrigger>
+            <TabsTrigger value="acc">Email / Name</TabsTrigger>
             {isCredentials && <TabsTrigger value="pass">Password</TabsTrigger>}
             <TabsTrigger value="image">Image</TabsTrigger>
             <TabsTrigger value="colors">Colors</TabsTrigger>
