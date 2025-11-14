@@ -1,7 +1,7 @@
 'use client'
 
 import { ReactElement, useRef } from 'react'
-import { useScroll, useTransform, motion } from 'framer-motion'
+import { useScroll, useTransform, motion, useMotionTemplate } from 'framer-motion'
 import Image from 'next/image'
 import { useTheme } from 'next-themes'
 
@@ -15,24 +15,36 @@ import tutorImg from '@/../public/tutor.png'
 
 import useDisplayData from '@/hooks/useDisplayData'
 
+const bgColors = [
+  'hsl(198 43% 41% / 0.5)',
+  'hsl(2 43% 41% / 0.5)',
+  'hsl(277 43% 41% / 0.5)',
+  'hsl(130 43% 41% / 0.5)',
+  'hsl(198 43% 41% / 0.5)',
+]
+
 export default function HeroSection({ dialogContent, isClose }: { dialogContent: ReactElement; isClose: boolean }) {
   const { viewSize, isMobile, isXlDisplay, is2XlDisplay } = useDisplayData()
   const { theme } = useTheme()
 
   const isDark = theme?.includes('-dark')
-  const isDefault = theme?.includes('default')
 
   const ref = useRef<HTMLDivElement>(null)
 
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
+  const { scrollYProgress, scrollY } = useScroll({ target: ref, offset: ['start start', 'end start'] })
 
   const y = useTransform(
     scrollYProgress,
     [0, 1],
     ['0%', `${Number(ref.current?.clientHeight) / (isMobile ? 3 : isXlDisplay ? 1.75 : 2)}px`],
   )
+
   const scale = useTransform(scrollYProgress, [0.1, 1], [1, 1.1])
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
+
+  const brightness = useTransform(scrollY, [0, 500], [0.5, 0.9])
+  const blur = useTransform(scrollY, [0, 500], [2, 10])
+  const backdrop = useMotionTemplate`brightness(${brightness}) blur(${blur}px)`
 
   return (
     <div
@@ -48,9 +60,11 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
         `}
         style={{ width: `${viewSize}px` }}
       />
-      <div
-        className={`h-full backdrop-brightness-50 ${isDefault ? 'bg-primary/30' : 'bg-primary/50'} absolute`}
-        style={{ width: `${viewSize}px` }}
+      <motion.div
+        className="h-full absolute"
+        style={{ width: `${viewSize}px`, backdropFilter: backdrop }}
+        animate={{ backgroundColor: [...bgColors] }}
+        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
       />
       <div className="xl:w-1/2 text-muted-foreground text-center z-20 relative">
         <motion.div
