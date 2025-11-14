@@ -101,6 +101,8 @@ export default function Associations({ data }: { data: SelectedSet }) {
   }, [current?.term, isFinish])
 
   const onRefresh = () => {
+    if (!current?.association) return
+
     const startArr = getShuffledArr(data.list).slice(0, +amount)
     const randomIdx = startArr.length > 1 ? randomIndex(startArr.length - 1) : 0
 

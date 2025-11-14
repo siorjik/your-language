@@ -5,6 +5,7 @@ import { useScroll, useTransform, motion, useMotionTemplate } from 'framer-motio
 import Image from 'next/image'
 import { useTheme } from 'next-themes'
 
+import { TextEffect } from '../ui/text-effect'
 import DialogWrap from '../dialog-wrap'
 import { GlowEffect } from '../ui/glow-effect'
 import { TextLoop } from '../ui/text-loop'
@@ -72,11 +73,14 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
           viewport={{ once: true }}
           transition={{ duration: 0.3, type: 'spring', stiffness: 150 }}
         >
-          <h3 className="sub-title-1 mb-5 text-background">Welcome to Language Bro!</h3>
+          <TextEffect className="sub-title-1 mb-5 text-background" preset="fade-in-blur" speedReveal={1.1} speedSegment={0.3}>
+            Welcome to Language Bro!
+          </TextEffect>
           <p className="max-w-[500px] mx-auto p-3 bg-muted rounded-lg italic font-semibold">
-            Discover a smarter, more engaging way to learn language. Whether you`re just starting out or sharpening advanced
-            skills, our powerful tools help you build vocabulary, master grammar, and grow your confidence - step by step
-            <span className="emoji">👌</span>
+            <TextEffect per="char" preset="fade" as="span">
+              Discover a smarter, more engaging way to learn language. Whether you`re just starting out or sharpening advanced
+              skills, our powerful tools help you build vocabulary, master grammar, and grow your confidence - step by step...
+            </TextEffect>
           </p>
         </motion.div>
         <motion.div
