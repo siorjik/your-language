@@ -25,7 +25,7 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
 
   const bgColors = isDefault
     ? ['hsla(var(--primary) / 0.1)']
-    : ['hsla(var(--primary) / 0.4)', 'hsla(var(--primary) / 0.6)', 'hsla(var(--primary) / 0.4)']
+    : ['hsla(var(--primary) / 0.3)', 'hsla(var(--primary) / 0.6)', 'hsla(var(--primary) / 0.3)']
 
   const ref = useRef<HTMLDivElement>(null)
 
@@ -41,7 +41,7 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
 
   const brightness = useTransform(scrollY, [0, 500], [0.5, 0.9])
-  const blur = useTransform(scrollY, [0, 500], [2, 10])
+  const blur = useTransform(scrollY, [0, 500], [2, 15])
   const backdrop = useMotionTemplate`brightness(${brightness}) blur(${blur}px)`
 
   return (
@@ -62,7 +62,7 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
         className="h-full absolute"
         style={{ width: `${viewSize}px`, backdropFilter: backdrop }}
         animate={{ backgroundColor: [...bgColors] }}
-        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+        transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
       />
       <div className="xl:w-1/2 text-muted-foreground text-center z-20 relative">
         <motion.div
@@ -76,12 +76,10 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
           <TextEffect className="sub-title-1 mb-5 text-background" preset="fade-in-blur" speedReveal={1.1} speedSegment={0.3}>
             Welcome to Language Bro!
           </TextEffect>
-          <p className="max-w-[500px] mx-auto p-3 bg-muted rounded-lg italic font-semibold">
-            <TextEffect per="char" preset="fade" as="span">
-              Discover a smarter, more engaging way to learn language. Whether you`re just starting out or sharpening advanced
-              skills, our powerful tools help you build vocabulary, master grammar, and grow your confidence - step by step...
-            </TextEffect>
-          </p>
+          <TextEffect className="max-w-[500px] mx-auto p-3 bg-muted rounded-lg italic font-semibold" per="char" preset="fade">
+            Discover a smarter, more engaging way to learn language. Whether you`re just starting out or sharpening advanced
+            skills, our powerful tools help you build vocabulary, master grammar, and grow your confidence - step by step...
+          </TextEffect>
         </motion.div>
         <motion.div
           className="w-fit hidden xl:block relative mx-auto mt-20 z-0"
@@ -104,10 +102,26 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
           transition={{ duration: 0.3, type: 'spring', stiffness: 150 }}
         >
           <TextLoop className="w-full mb-10 xl:mb-14 text-center hidden md:block" interval={3} transition={{ duration: 0.5 }}>
-            <span className="sub-title-1 text-background text-3xl">Improve your language skills!</span>
-            <span className="sub-title-1 text-background text-3xl">Increase your conversation confidence!</span>
-            <span className="sub-title-1 text-background text-3xl ">Expend your vocabulary!</span>
-            <span className="sub-title-1 text-background text-3xl">Enjoy your learning process!</span>
+            <span className="sub-title-1 text-background text-3xl">
+              <TextEffect preset="fade-in-blur" speedReveal={1.1} speedSegment={0.3} as="span">
+                Improve your language skills!
+              </TextEffect>
+            </span>
+            <span className="sub-title-1 text-background text-3xl">
+              <TextEffect preset="fade-in-blur" speedReveal={1.1} speedSegment={0.3} as="span">
+                Increase your conversation confidence!
+              </TextEffect>
+            </span>
+            <span className="sub-title-1 text-background text-3xl ">
+              <TextEffect preset="fade-in-blur" speedReveal={1.1} speedSegment={0.3} as="span">
+                Expend your vocabulary!
+              </TextEffect>
+            </span>
+            <span className="sub-title-1 text-background text-3xl">
+              <TextEffect preset="fade-in-blur" speedReveal={1.1} speedSegment={0.3} as="span">
+                Enjoy your learning process!
+              </TextEffect>
+            </span>
           </TextLoop>
           <div className="w-fit mx-auto relative">
             <GlowEffect className="rounded-lg" mode="colorShift" blur="softest" duration={5} scale={1} />
