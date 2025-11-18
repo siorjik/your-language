@@ -79,7 +79,11 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
           <TextEffect className="sub-title-1 mb-5 text-background" preset="fade-in-blur" speedReveal={1.1} speedSegment={0.3}>
             Welcome to Language Bro!
           </TextEffect>
-          <TextEffect className="max-w-[500px] mx-auto p-3 bg-muted rounded-lg italic font-semibold" per="char" preset="fade">
+          <TextEffect
+            className="max-w-[500px] mx-auto p-3 bg-transparent backdrop-blur-sm rounded-lg italic font-semibold border-2"
+            per="char"
+            preset="fade"
+          >
             Discover a smarter, more engaging way to learn language. Whether you`re just starting out or sharpening advanced
             skills, our powerful tools help you build vocabulary, master grammar, and grow your confidence - step by step...
           </TextEffect>
