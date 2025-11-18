@@ -45,7 +45,14 @@ export default function GuestMode() {
       </TabsContent>
       <TabsContent value="signUp">
         <div className="mt-5 flex justify-center">
-          <SignUpForm isMainPage onSuccess={() => setClose(true)} />
+          <SignUpForm
+            isMainPage
+            onSuccess={() => {
+              setClose(true)
+
+              setTimeout(() => setClose(false), 500)
+            }}
+          />
         </div>
       </TabsContent>
     </Tabs>

@@ -36,7 +36,11 @@ export default function Associations({ data }: { data: SelectedSet }) {
   const activities = use(ActivityTypesContext) as { activityTypes: ActivityType[] } | null
 
   useEffect(() => {
-    setShuffledList(getShuffledArr(list).slice(0, +amount))
+    const startArr = getShuffledArr(list).slice(0, +amount)
+    const randomIdx = randomIndex(startArr.length - 1)
+
+    setShuffledList(startArr)
+    setCurrent({ ...startArr[randomIdx], association: '' })
   }, [amount])
 
   useEffect(() => {

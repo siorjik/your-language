@@ -68,8 +68,6 @@ export default function LoginForm() {
   }
 
   const recoverPass = async (values: z.infer<typeof recoverPassFormTypeSchema>): Promise<boolean> => {
-    if (isClosed) setClose(false)
-
     try {
       await apiRequestService({ url: emailRecoverPassApiPath, method: 'POST', body: { ...values } })
 
@@ -80,6 +78,7 @@ export default function LoginForm() {
       })
 
       setClose(true)
+      setTimeout(() => setClose(false), 500)
 
       return true
     } catch (error) {
@@ -98,6 +97,7 @@ export default function LoginForm() {
       fieldsData={[{ name: 'email', label: 'Email*' }]}
       btn={{ css: 'dialog-submit-btn' }}
       showLoader
+      isReset
     />
   )
 
