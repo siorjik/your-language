@@ -67,7 +67,7 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
         animate={{ backgroundColor: [...bgColors] }}
         transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
       />
-      <div className="xl:w-1/2 text-muted-foreground text-center z-20 relative">
+      <div className="xl:w-1/2 text-center z-20 relative">
         <motion.div
           className="relative z-20"
           style={{ y, scale }}
@@ -80,7 +80,10 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
             Welcome to Language Bro!
           </TextEffect>
           <TextEffect
-            className="max-w-[500px] mx-auto p-3 bg-transparent backdrop-blur-sm rounded-lg italic font-semibold border-2"
+            className="
+              max-w-[500px] text-background/70 mx-auto p-3 bg-transparent backdrop-blur-sm
+              rounded-2xl italic font-semibold border-2 border-background/50
+            "
             per="char"
             preset="fade"
           >
