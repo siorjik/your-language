@@ -81,7 +81,7 @@ export default function GuestMode() {
     <>
       <HeroSection dialogContent={dialogContent} isClose={isClose} />
       <div className="min-h-[calc(100dvh-50px)] pt-10 pb-5 flex justify-center items-center">
-        <div className="flex flex-wrap gap-10 justify-center items-center">
+        <div className="flex flex-wrap gap-5 justify-center items-center">
           {viewSize && (
             <motion.div
               initial={{ opacity: 0, y: isLgDisplay ? 200 : 0, scaleY: 0.5, rotateY: 150 }}
