@@ -72,11 +72,7 @@ export default function Navbar() {
             <Image className="h-[43px] w-[43px] mr-10 z-0" src={logo} alt="logo" placeholder="blur" priority />
             {!isDefault && <div className="h-[43px] w-[43px] bg-primary/50 z-10 absolute top-0 rounded-sm" />}
           </Link>
-          {!isMobile && (
-            <>
-              {isAuth ? navData.map((item, idx) => <Fragment key={idx}>{getMenuItem(item)}</Fragment>) : getMenuItem(navData[0])}
-            </>
-          )}
+          {!isMobile && <>{isAuth ? navData.map((item, idx) => <Fragment key={idx}>{getMenuItem(item)}</Fragment>) : null}</>}
         </div>
         {isMobile && isAuth && (
           <>

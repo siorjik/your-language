@@ -68,7 +68,8 @@ export default function Layout({ children }: { children: ReactNode }) {
         <>
           <header
             className={`
-              w-full h-[55px] px-5 md:px-8 py-1 flex items-center fixed bg-background z-30 shadow-md
+              w-full h-[55px] px-5 md:px-8 py-1 flex items-center fixed
+              ${isSession ? 'bg-background' : 'bg-transparent backdrop-blur-sm'} z-30 shadow-md
               ${isHide ? 'top-[-55px]' : 'top-0'} transition-all duration-500
             `}
           >

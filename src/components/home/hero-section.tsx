@@ -21,11 +21,14 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
   const { theme } = useTheme()
 
   const isDark = theme?.includes('-dark')
-  const isDefault = theme?.includes('-default')
 
-  const bgColors = isDefault
-    ? ['hsla(var(--primary) / 0.1)']
-    : ['hsla(var(--primary) / 0.3)', 'hsla(var(--primary) / 0.6)', 'hsla(var(--primary) / 0.3)']
+  const bgColors = [
+    'hsl(198 43% 41% / 0.5)',
+    'hsl(2 43% 41% / 0.5)',
+    'hsl(277 43% 41% / 0.5)',
+    'hsl(130 43% 41% / 0.5)',
+    'hsl(198 43% 41% / 0.5)',
+  ]
 
   const ref = useRef<HTMLDivElement>(null)
 
@@ -47,7 +50,7 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
   return (
     <div
       className={`
-        min-h-[calc(100dvh-50px)] mt-[-20px] flex flex-col xl:flex-row gap-10 justify-center items-center relative
+        min-h-[calc(100dvh)] mt-[-75px] flex flex-col xl:flex-row gap-10 justify-center items-center relative
       `}
       ref={ref}
     >
@@ -62,7 +65,7 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
         className="h-full absolute"
         style={{ width: `${viewSize}px`, backdropFilter: backdrop }}
         animate={{ backgroundColor: [...bgColors] }}
-        transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
+        transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
       />
       <div className="xl:w-1/2 text-muted-foreground text-center z-20 relative">
         <motion.div
