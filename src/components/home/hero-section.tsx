@@ -21,6 +21,7 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
   const { theme } = useTheme()
 
   const isDark = theme?.includes('-dark')
+  const isDefault = theme?.includes('-default')
 
   const bgColors = [
     'hsl(198 43% 41% / 0.5)',
@@ -80,10 +81,11 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
             Welcome to Language Bro!
           </TextEffect>
           <TextEffect
-            className="
-              max-w-[500px] text-background/70 mx-auto p-3 bg-transparent backdrop-blur-sm
+            className={`
+              max-w-[500px] ${!isDark ? 'text-background/70' : 'text-accent-foreground/70'}
+              mx-auto p-3 bg-transparent backdrop-blur-sm
               rounded-2xl italic font-semibold border-2 border-background/50
-            "
+            `}
             per="char"
             preset="fade"
           >
