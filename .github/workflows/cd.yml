@@ -23,7 +23,7 @@ jobs:
         run: pnpm install
 
       - name: Generate Prisma Client
-        run: pnpm generate
+        run: PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING=true pnpm generate
 
       - name: Run Migrations
         run: pnpm migrate
