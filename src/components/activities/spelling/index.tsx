@@ -270,7 +270,7 @@ export default function Memorization({ data }: { data: SelectedSet }) {
           </div>
           <div className="max-w-4xl mx-auto flex items-center gap-1">
             <span className="text-xl font-semibold text-primary">1</span>
-            <Progress className="" value={(100 / setList.length) * (result.passed.length + result.failed.length)} />
+            <Progress className="" value={+((100 / setList.length) * (result.passed.length + result.failed.length)).toFixed(0)} />
             <span className="text-xl font-semibold text-primary">{setList.length}</span>
           </div>
         </>

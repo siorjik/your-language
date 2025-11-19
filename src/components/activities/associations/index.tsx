@@ -242,7 +242,7 @@ export default function Associations({ data }: { data: SelectedSet }) {
           </div>
           <div className="mt-8 mx-auto flex items-center gap-1">
             <span className="text-xl font-semibold text-primary">1</span>
-            <Progress className="" value={(100 / list.length) * (result.passed.length + result.failed.length)} />
+            <Progress value={+((100 / list.length) * (result.passed.length + result.failed.length)).toFixed(0)} />
             <span className="text-xl font-semibold text-primary">{list.length}</span>
           </div>
         </>
