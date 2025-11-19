@@ -13,6 +13,7 @@ import { Button } from '../ui/button'
 import HeroSection from './hero-section'
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '../ui/card'
 import { GlowEffect } from '../ui/glow-effect'
+import { TextShimmerWave } from '../ui/text-shimmer-wave'
 
 import flashcardsImg from '@/../public/flashcards.png'
 import deviceImg from '@/../public/devices.png'
@@ -81,7 +82,7 @@ export default function GuestMode() {
     <>
       <HeroSection dialogContent={dialogContent} isClose={isClose} />
       <div className="min-h-[calc(100dvh-50px)] pt-10 pb-5 flex justify-center items-center">
-        <div className="flex flex-wrap gap-5 justify-center items-center">
+        <div className="flex flex-wrap gap-6 justify-center items-center">
           {viewSize && (
             <motion.div
               initial={{ opacity: 0, y: isLgDisplay ? 200 : 0, scaleY: 0.5, rotateY: 150 }}
@@ -92,14 +93,24 @@ export default function GuestMode() {
               <Card className="lg:min-h-[850px] flex flex-col justify-between bg-secondary/50 border-0 shadow-xl text-center">
                 <div>
                   <CardHeader>
-                    <CardTitle className="font-balsamiqSans text-primary/50">Flashcards & Quizzes</CardTitle>
+                    <CardTitle className="font-balsamiqSans text-primary/50">
+                      <TextShimmerWave
+                        className="[--base-color:hsla(var(--primary))] [--base-gradient-color:hsla(var(--secondary))]"
+                        duration={1}
+                        scaleDistance={1.3}
+                        rotateYDistance={20}
+                      >
+                        Flashcards & Quizzes
+                      </TextShimmerWave>
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <p
                       className="
-                        max-w-[350px] mx-auto mb-8 p-3 bg-muted/50 rounded-lg italic font-semibold text-muted-foreground
+                        max-w-[350px] mx-auto mb-8 p-3 italic font-semibold text-muted-foreground relative
                       "
                     >
+                      <GlowEffect className="rounded-lg opacity-40" mode="flowHorizontal" blur="softest" duration={5} scale={1} />
                       Master new words and phrases faster than ever with our{' '}
                       <span className="text-primary">Flashcards & Quizzes</span>. Effortlessly review vocabulary in bite-sized
                       sessions, then challenge yourself with quick quizzes that keep your memory sharp. Flashcards help you
@@ -134,14 +145,24 @@ export default function GuestMode() {
               <Card className="lg:min-h-[850px] flex flex-col justify-between bg-secondary/50 border-0 shadow-xl text-center">
                 <div>
                   <CardHeader>
-                    <CardTitle className="font-balsamiqSans text-primary/50">Your Activity Tracker</CardTitle>
+                    <CardTitle className="font-balsamiqSans text-primary/50">
+                      <TextShimmerWave
+                        className="[--base-color:hsla(var(--primary))] [--base-gradient-color:hsla(var(--secondary))]"
+                        duration={1}
+                        scaleDistance={1.3}
+                        rotateYDistance={20}
+                      >
+                        Your Activity Tracker
+                      </TextShimmerWave>
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <p
                       className="
-                        max-w-[350px] mx-auto mb-4 p-3 bg-muted/50 rounded-lg italic font-semibold text-muted-foreground
+                        max-w-[350px] mx-auto mb-4 p-3 italic font-semibold text-muted-foreground relative
                       "
                     >
+                      <GlowEffect className="rounded-lg opacity-40" mode="flowHorizontal" blur="softest" duration={5} scale={1} />
                       Stay on top of your progress with <span className="text-primary">Your Activity Tracker</span>. See how much
                       you`ve learned, track your daily practice, and celebrate every milestone. From completed flashcards to quiz
                       scores and study streaks, your tracker keeps everything organized in one place. It`s the easiest way to stay
@@ -175,14 +196,24 @@ export default function GuestMode() {
               <Card className="lg:min-h-[850px] flex flex-col justify-between bg-secondary/50 border-0 shadow-xl text-center">
                 <div>
                   <CardHeader>
-                    <CardTitle className="font-balsamiqSans text-primary/50">Accessible Anywhere</CardTitle>
+                    <CardTitle className="font-balsamiqSans text-primary/50">
+                      <TextShimmerWave
+                        className="[--base-color:hsla(var(--primary))] [--base-gradient-color:hsla(var(--secondary))]"
+                        duration={1}
+                        scaleDistance={1.3}
+                        rotateYDistance={20}
+                      >
+                        Accessible Anywhere
+                      </TextShimmerWave>
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <p
                       className="
-                        max-w-[350px] mx-auto mb-3 p-3 bg-muted/50 rounded-lg italic font-semibold text-muted-foreground
+                        max-w-[350px] mx-auto mb-3 p-3 italic font-semibold text-muted-foreground relative
                       "
                     >
+                      <GlowEffect className="rounded-lg opacity-40" mode="flowHorizontal" blur="softest" duration={5} scale={1} />
                       With <span className="text-primary font-semibold">Accessible Anywhere</span>, your language learning goes
                       wherever you go. Whether you`re on your phone, tablet, or computer, all your flashcards, quizzes, and
                       progress are always synced and ready. Practice on the bus, at the café, or from the comfort of home - your

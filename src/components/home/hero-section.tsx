@@ -21,7 +21,6 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
   const { theme } = useTheme()
 
   const isDark = theme?.includes('-dark')
-  const isDefault = theme?.includes('-default')
 
   const bgColors = [
     'hsl(198 43% 41% / 0.5)',
