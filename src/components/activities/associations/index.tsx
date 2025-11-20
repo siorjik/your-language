@@ -182,29 +182,32 @@ export default function Associations({ data }: { data: SelectedSet }) {
     <div>
       {!isFinish && (
         <>
-          <div className="flex flex-col md:flex-row gap-10 justify-center">
-            <Button variant="outline" className="pushed-btn col-start-2" onClick={onRefresh} asChild>
-              <span>
-                <RefreshCcw />
-                Start / Refresh
-              </span>
-            </Button>
-            <div className="flex gap-2 items-center">
-              <span>Terms Amount:</span>
-              <div className="w-fit">
-                <SelectWrap
-                  options={[
-                    { label: '5', value: '5' },
-                    { label: '10', value: '10', hidden: data.list.length < 10 },
-                    { label: '15', value: '15', hidden: data.list.length < 15 },
-                    { label: '20', value: '20', hidden: data.list.length < 20 },
-                  ]}
-                  defaultValue={amount}
-                  onValueChange={(amount) => setAmount(amount)}
-                  placeholder="Terms amount"
-                  label="Terms amount"
-                  disabled={!!result.failed.length || !!result.passed.length}
-                />
+          <div className="flex flex-col lg:flex-row gap-5 justify-evenly items-center">
+            <h2 className="title w-full !truncate mb-0 font-semibold text-center">{data.title}</h2>
+            <div className="flex flex-col md:flex-row gap-5 justify-center">
+              <Button variant="outline" className="pushed-btn col-start-2" onClick={onRefresh} asChild>
+                <span>
+                  <RefreshCcw />
+                  Start / Refresh
+                </span>
+              </Button>
+              <div className="flex gap-2 items-center">
+                <span className="text-nowrap">Terms Amount:</span>
+                <div className="w-fit">
+                  <SelectWrap
+                    options={[
+                      { label: '5', value: '5' },
+                      { label: '10', value: '10', hidden: data.list.length < 10 },
+                      { label: '15', value: '15', hidden: data.list.length < 15 },
+                      { label: '20', value: '20', hidden: data.list.length < 20 },
+                    ]}
+                    defaultValue={amount}
+                    onValueChange={(amount) => setAmount(amount)}
+                    placeholder="Terms amount"
+                    label="Terms amount"
+                    disabled={!!result.failed.length || !!result.passed.length}
+                  />
+                </div>
               </div>
             </div>
           </div>
