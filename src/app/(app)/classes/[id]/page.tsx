@@ -86,8 +86,13 @@ export default async function ClassInfo({
   return (
     <>
       <BreadcrumbWrap data={breadcrumbData} />
-      <div className="mb-8 flex justify-evenly gap-10 items-center">
-        <div className="flex flex-col md:flex-row gap-5 items-center">
+      <div
+        className={`
+        mb-8 height-fit grid grid-cols-3  ${isCreator ? 'lg:grid-cols-4' : 'lg:grid-cols-3'}
+        ${isCreator ? 'grid-rows-[auto_auto] lg:grid-rows-1' : 'grid-rows-1'} gap-8
+      `}
+      >
+        <div className="col-span-3 md:col-span-2 flex flex-col md:flex-row gap-10 items-center">
           <div className="flex items-center">
             {res.image ? (
               <Image
@@ -104,15 +109,15 @@ export default async function ClassInfo({
               <ImageIcon className="w-[200px] h-[200px] border-4 rounded-xl !cursor-auto" size={200} />
             )}
           </div>
-          <div className="flex flex-col gap-2 font-semibold">
-            <h2 className="title line-clamp-2">{res.title}</h2>
+          <div className="flex flex-col items-center gap-2 font-semibold">
+            <h2 className="text-center title mb-5 line-clamp-3">{res.title}</h2>
             <div className="block md:hidden">
               <Link className="flex gap-2" href={getUserAppPath(res.creatorId)}>
                 <span className="text-muted-foreground/50 text-lg">Creator:</span>{' '}
                 <div className="flex gap-1 items-center">
                   {res.creator.image && (
                     <Image
-                      className="min-w-5 max-w-5 h-5 rounded-full"
+                      className="min-w-5 max-w-5 h-5 rounded-full object-cover"
                       src={res.creator.image}
                       alt={res.creator.image}
                       width={50}
@@ -133,11 +138,11 @@ export default async function ClassInfo({
         </div>
         <Link
           href={getUserAppPath(res.creatorId)}
-          className="w-28 self-end sub-title-1 hidden md:block truncate text-center hover:!text-secondary"
+          className="mx-auto min-w-28 max-w-28 self-end sub-title-1 hidden md:block truncate text-center hover:!text-secondary"
         >
           {res.creator.image ? (
             <Image
-              className="mb-2 border-2 rounded-full min-w-28 max-w-28 h-28 object-cover"
+              className="mb-2 border-2 rounded-full w-28 h-28 object-cover"
               width={70}
               height={70}
               src={res.creator.image}
@@ -152,12 +157,12 @@ export default async function ClassInfo({
           )}
           {res.creator.name}
         </Link>
+        {isCreator && (
+          <div className="col-span-3 lg:col-span-1 lg:flex lg:items-center lg:justify-end">
+            <BtnPanel data={{ id: classId, title, sets, users, image }} sets={getUniqueSets()} users={classUsers.users} />
+          </div>
+        )}
       </div>
-      {isCreator && (
-        <div className="mb-8">
-          <BtnPanel data={{ id: classId, title, sets, users, image }} sets={getUniqueSets()} users={classUsers.users} />
-        </div>
-      )}
       {isMember || isCreator ? (
         <Activities sets={classSets.sets} />
       ) : (
