@@ -161,7 +161,7 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
                 </p>
               }
               trigger={
-                <Button className="relative hover:bg-initial p-8 text-xl" variant="ghost">
+                <Button className="relative hover:bg-initial text-2xl p-8" variant="ghost">
                   Start Your Journey 😎
                 </Button>
               }
