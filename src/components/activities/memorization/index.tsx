@@ -134,7 +134,7 @@ export default function Memorization({ data }: { data: SelectedSet }) {
         <div className="max-w-4xl mx-auto">
           <p className="mb-5 text-lg font-semibold">{setList[index][selectedMode]}:</p>
           <motion.ul
-            key={index}
+            key={index + +isShuffled}
             className="grid grid-cols-1 md:grid-cols-2 gap-2"
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}

@@ -245,7 +245,11 @@ export default function Flashcards({ data }: { data: SelectedSet }) {
                     value: 'definition',
                   },
                 ]}
-                onValueChange={(val) => setSelectedMode(val as 'term' | 'definition')}
+                onValueChange={(val) => {
+                  setSelectedMode(val as 'term' | 'definition')
+
+                  rotate()
+                }}
                 defaultValue={selectedMode}
                 placeholder="Choose mode"
                 label="Choose mode"
@@ -254,6 +258,7 @@ export default function Flashcards({ data }: { data: SelectedSet }) {
           </div>
           <Progress className="max-w-5xl h-1 mx-auto my-2" value={+((100 / setList.length) * (index + 1)).toFixed(0)} />
           <motion.div
+            key={+isShuffled}
             initial={{ scale: 0.1, rotateZ: 360 }}
             animate={{ scale: 1, rotateZ: 0 }}
             transition={{ duration: 0.3, type: 'spring', stiffness: 100 }}

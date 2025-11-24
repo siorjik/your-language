@@ -59,7 +59,7 @@ export default function NavPanel({
   }
 
   return (
-    <div className="flex lg:flex-col items-center justify-center gap-3">
+    <div className="flex lg:flex-wrap items-center justify-center gap-3">
       <DialogWrap
         title={'Update Class'}
         trigger={
