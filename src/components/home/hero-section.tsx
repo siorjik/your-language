@@ -1,7 +1,7 @@
 'use client'
 
-import { ReactElement, useRef } from 'react'
-import { useScroll, useTransform, motion, useMotionTemplate } from 'framer-motion'
+import { ReactElement, useRef, useState } from 'react'
+import { useScroll, useTransform, motion, useMotionTemplate, useMotionValueEvent } from 'framer-motion'
 import Image from 'next/image'
 import { useTheme } from 'next-themes'
 
@@ -17,6 +17,8 @@ import tutorImg from '@/../public/tutor.png'
 import useDisplayData from '@/hooks/useDisplayData'
 
 export default function HeroSection({ dialogContent, isClose }: { dialogContent: ReactElement; isClose: boolean }) {
+  const [isScroll, setScroll] = useState(false)
+
   const { viewSize, isMobile, isXlDisplay, is2XlDisplay } = useDisplayData()
   const { theme } = useTheme()
 
@@ -39,6 +41,21 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
     [0, 1],
     ['0%', `${Number(ref.current?.clientHeight) / (isMobile ? 3 : isXlDisplay ? 1.75 : 2)}px`],
   )
+  const xLeft = useTransform(
+    scrollYProgress,
+    [0, 0.7],
+    ['0%', `${Number(ref.current?.clientHeight) / (isXlDisplay ? -1.75 : -2)}px`],
+  )
+  const xRight = useTransform(
+    scrollYProgress,
+    [0, 0.7],
+    ['0%', `${Number(ref.current?.clientHeight) / (isXlDisplay ? 1.75 : 2)}px`],
+  )
+
+  useMotionValueEvent(scrollYProgress, 'change', (val: number) => {
+    if (val > 0 && !isScroll) setScroll(true)
+    else if (val === 0 && isScroll) setScroll(false)
+  })
 
   const scale = useTransform(scrollYProgress, [0.1, 1], [1, 1.1])
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
@@ -94,7 +111,7 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
         </motion.div>
         <motion.div
           className="w-fit hidden xl:block relative mx-auto mt-20 z-0"
-          style={{ opacity }}
+          style={{ opacity, x: isScroll ? xLeft : 0 }}
           initial={{ opacity: 0, x: is2XlDisplay ? -1000 : -500 }}
           animate={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
@@ -155,7 +172,7 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
         </motion.div>
         <motion.div
           className="w-fit hidden xl:block relative mx-auto mt-20 z-0"
-          style={{ opacity }}
+          style={{ opacity, x: isScroll ? xRight : 0 }}
           initial={{ opacity: 0, x: is2XlDisplay ? 1000 : 500 }}
           animate={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}

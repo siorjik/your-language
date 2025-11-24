@@ -105,7 +105,7 @@ export default function GuestMode() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p
+                    <div
                       className="
                         max-w-[350px] mx-auto mb-8 p-3 italic font-semibold text-muted-foreground relative
                       "
@@ -117,7 +117,7 @@ export default function GuestMode() {
                       visualize, repeat, and retain essential language, while quizzes turn learning into an engaging game. Whether
                       you have just a few minutes or a whole hour, these tools adapt to your pace and keep you motivated. Explore,
                       practice, and grow your English skills - all in one place.
-                    </p>
+                    </div>
                     <Image
                       src={flashcardsImg}
                       alt="flash-cards"
@@ -157,7 +157,7 @@ export default function GuestMode() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p
+                    <div
                       className="
                         max-w-[350px] mx-auto mb-4 p-3 italic font-semibold text-muted-foreground relative
                       "
@@ -168,7 +168,7 @@ export default function GuestMode() {
                       scores and study streaks, your tracker keeps everything organized in one place. It`s the easiest way to stay
                       motivated, set goals, and watch your English skills grow step by step. Learning is a journey - let your
                       activity tracker guide the way!
-                    </p>
+                    </div>
                     <Image
                       src={chartImg}
                       alt="flash-cards"
@@ -208,7 +208,7 @@ export default function GuestMode() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p
+                    <div
                       className="
                         max-w-[350px] mx-auto mb-3 p-3 italic font-semibold text-muted-foreground relative
                       "
@@ -218,7 +218,7 @@ export default function GuestMode() {
                       wherever you go. Whether you`re on your phone, tablet, or computer, all your flashcards, quizzes, and
                       progress are always synced and ready. Practice on the bus, at the café, or from the comfort of home - your
                       learning is never limited by location. Just log in and keep moving forward, no matter where life takes you.
-                    </p>
+                    </div>
                     <Image
                       src={deviceImg}
                       alt="flash-cards"
