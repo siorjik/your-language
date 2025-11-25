@@ -43,12 +43,12 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
   )
   const xLeft = useTransform(
     scrollYProgress,
-    [0, 0.7],
+    [0, 1],
     ['0%', `${Number(ref.current?.clientHeight) / (isXlDisplay ? -1.75 : -2)}px`],
   )
   const xRight = useTransform(
     scrollYProgress,
-    [0, 0.7],
+    [0, 1],
     ['0%', `${Number(ref.current?.clientHeight) / (isXlDisplay ? 1.75 : 2)}px`],
   )
 
@@ -59,6 +59,7 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
 
   const scale = useTransform(scrollYProgress, [0.1, 1], [1, 1.1])
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
+  const opacityImg = useTransform(scrollYProgress, [0, 0.6], [1, 0])
 
   const brightness = useTransform(scrollY, [0, 500], [0.5, 0.9])
   const blur = useTransform(scrollY, [0, 500], [2, 15])
@@ -111,7 +112,7 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
         </motion.div>
         <motion.div
           className="w-fit hidden xl:block relative mx-auto mt-20 z-0"
-          style={{ opacity, x: isScroll ? xLeft : 0 }}
+          style={{ opacity: opacityImg, x: isScroll ? xLeft : 0 }}
           initial={{ opacity: 0, x: is2XlDisplay ? -1000 : -500 }}
           animate={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
@@ -129,7 +130,7 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
           viewport={{ once: true }}
           transition={{ duration: 0.3, type: 'spring', stiffness: 150 }}
         >
-          <TextLoop className="w-full mb-10 xl:mb-14 text-center hidden md:block" interval={3} transition={{ duration: 0.5 }}>
+          <TextLoop className="w-full mb-8 xl:mb-14 text-center hidden md:block" interval={3} transition={{ duration: 0.5 }}>
             <span className="sub-title-1 text-background text-3xl">
               <TextEffect preset="fade-in-blur" speedReveal={1.1} speedSegment={0.3} as="span">
                 Improve your language skills!
@@ -171,8 +172,8 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
           </div>
         </motion.div>
         <motion.div
-          className="w-fit hidden xl:block relative mx-auto mt-20 z-0"
-          style={{ opacity, x: isScroll ? xRight : 0 }}
+          className="w-fit hidden xl:block relative mx-auto mt-[87px] z-0"
+          style={{ opacity: opacityImg, x: isScroll ? xRight : 0 }}
           initial={{ opacity: 0, x: is2XlDisplay ? 1000 : 500 }}
           animate={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
