@@ -93,9 +93,8 @@ export default function Layout({ children }: { children: ReactNode }) {
                 px-5 py-2 md:px-8 bg-gradient-to-t from-background to-secondary/30
               "
             >
-              <div className="w-full mx-auto max-w-7xl flex flex-wrap justify-between items-center text-sm text-primary">
-                {!isMobile && <span className="text-primary/70">&copy; {new Date().getFullYear()} Language Bro</span>}
-                {/* <div className="flex gap-10 md:gap-16"> */}
+              <div className="w-full mx-auto max-w-7xl flex flex-wrap justify-between items-center text-primary">
+                {!isMobile && <span className="text-primary/70 text-sm">&copy; {new Date().getFullYear()} Language Bro</span>}
                 <div className="flex gap-5">
                   <Link className="leading-tight hover:text-muted-foreground/50 font-balsamiqSans" href="/">
                     Home
@@ -104,7 +103,6 @@ export default function Layout({ children }: { children: ReactNode }) {
                     Contact Us
                   </Link>
                 </div>
-                {/* </div> */}
                 <span className="icon-hover mr-[-8px] cursor-pointer">
                   <ThemeBtn />
                 </span>
