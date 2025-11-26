@@ -9,11 +9,14 @@ import ThemeBtn from './theme-btn'
 import Navbar from './navbar'
 import Spinner from './spinner'
 import { contactUsAppPath } from '@/utils/paths'
+import useDisplayData from '@/hooks/useDisplayData'
+import { Separator } from './ui/separator'
 
 export default function Layout({ children }: { children: ReactNode }) {
   const [isHide, setHide] = useState(false)
   const [isShowBtn, setShowBtn] = useState(false)
 
+  const { isMobile } = useDisplayData()
   const { status, data: session } = useSession()
 
   const mainRef = useRef<HTMLDivElement>(null)
@@ -87,25 +90,31 @@ export default function Layout({ children }: { children: ReactNode }) {
             </div>
             <footer
               className="
-                px-5 py-2 md:px-8 flex justify-between items-center bg-gradient-to-t from-background to-secondary/30
+                px-5 py-2 md:px-8 bg-gradient-to-t from-background to-secondary/30
               "
             >
-              <div className="w-full mx-auto max-w-7xl flex justify-between items-center text-sm text-primary">
-                <div className="flex gap-10 md:gap-16">
-                  <span className="self-end">&copy; {new Date().getFullYear()} Language Bro</span>
-                  <div className="flex flex-col gap-1 md:flex-row md:gap-5">
-                    <Link className="underline leading-tight hover:text-muted-foreground/50" href="/">
-                      Home
-                    </Link>
-                    <Link className="underline leading-tight hover:text-muted-foreground/50" href={contactUsAppPath}>
-                      Contact Us
-                    </Link>
-                  </div>
+              <div className="w-full mx-auto max-w-7xl flex flex-wrap justify-between items-center text-sm text-primary">
+                {!isMobile && <span className="text-primary/70">&copy; {new Date().getFullYear()} Language Bro</span>}
+                {/* <div className="flex gap-10 md:gap-16"> */}
+                <div className="flex gap-5">
+                  <Link className="leading-tight hover:text-muted-foreground/50 font-balsamiqSans" href="/">
+                    Home
+                  </Link>
+                  <Link className="leading-tight hover:text-muted-foreground/50 font-balsamiqSans" href={contactUsAppPath}>
+                    Contact Us
+                  </Link>
                 </div>
+                {/* </div> */}
                 <span className="icon-hover mr-[-8px] cursor-pointer">
                   <ThemeBtn />
                 </span>
               </div>
+              {isMobile && (
+                <>
+                  <Separator className="my-2" />
+                  <p className="pb-2 w-fit mx-auto text-primary/70 text-sm">&copy; {new Date().getFullYear()} Language Bro</p>
+                </>
+              )}
             </footer>
           </main>
           {isShowBtn && (
