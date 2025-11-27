@@ -10,6 +10,7 @@ import ProgressPanel from '../progress-panel'
 import FinishBlock from '../finish-block'
 import SetCreator from '@/components/set-creator'
 import { Separator } from '@/components/ui/separator'
+import { TextEffect } from '@/components/ui/text-effect'
 
 import { ActivityType } from '@prisma/client'
 import { SelectedSet, SetList, SetListItem } from '@/types/models/set'
@@ -132,7 +133,11 @@ export default function Memorization({ data }: { data: SelectedSet }) {
 
       {!isFinish && (
         <div className="max-w-4xl mx-auto">
-          <p className="mb-5 text-lg font-semibold">{setList[index][selectedMode]}:</p>
+          <p key={setList[index][selectedMode] + isShuffled} className="mb-5 text-lg font-semibold">
+            <TextEffect preset="fade" per="char" as="span">
+              {setList[index][selectedMode] + ':'}
+            </TextEffect>
+          </p>
           <motion.ul
             key={index + +isShuffled}
             className="grid grid-cols-1 md:grid-cols-2 gap-2"

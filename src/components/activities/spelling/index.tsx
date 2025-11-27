@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button'
 import FinishBlock from '../finish-block'
 import { Separator } from '@/components/ui/separator'
 import SetCreator from '@/components/set-creator'
+import { TextEffect } from '@/components/ui/text-effect'
 
 import { ActivityType } from '@prisma/client'
 import { SelectedSet, SetList, SetListItem } from '@/types/models/set'
@@ -178,7 +179,11 @@ export default function Memorization({ data }: { data: SelectedSet }) {
         <>
           <h2 className="title w-full mb-5 !truncate font-semibold text-center">{data.title}</h2>
           <div className="max-w-4xl mx-auto">
-            <p className="mb-5 text-lg font-semibold">{setList[index][selectedMode]}:</p>
+            <p key={setList[index][selectedMode] + isShuffled} className="mb-5 text-lg font-semibold">
+              <TextEffect preset="fade" per="char" as="span">
+                {setList[index][selectedMode] + ':'}
+              </TextEffect>
+            </p>
             <div>
               {!selectedAnswerStyle && !result.failed.find((el) => el.definition === setList[index].definition) && (
                 <input
