@@ -63,6 +63,18 @@ export default function Flashcards({ data }: { data: SelectedSet }) {
       if (voices) setVoices(voices)
     })()
 
+    const mode = window.localStorage.getItem('mode')
+
+    if (mode) {
+      setSelectedMode(mode as 'term' | 'definition')
+      setMode(mode as 'term' | 'definition')
+    } else {
+      window.localStorage.setItem('mode', 'term')
+
+      setSelectedMode('term')
+      setMode('term')
+    }
+
     return () => cancelUtterance()
   }, [])
 
@@ -248,9 +260,11 @@ export default function Flashcards({ data }: { data: SelectedSet }) {
                 onValueChange={(val) => {
                   setSelectedMode(val as 'term' | 'definition')
 
+                  window.localStorage.setItem('mode', val)
+
                   rotate()
                 }}
-                defaultValue={selectedMode}
+                defaultValue={window.localStorage.getItem('mode')!}
                 placeholder="Choose mode"
                 label="Choose mode"
               />

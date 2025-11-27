@@ -32,6 +32,17 @@ export default function Memorization({ data }: { data: SelectedSet }) {
   const response = use(ActivityTypesContext) as { activityTypes: ActivityType[] } | null
 
   useEffect(() => {
+    const mode = window.localStorage.getItem('mode')
+
+    if (mode) setSelectedMode(mode as 'term' | 'definition')
+    else {
+      window.localStorage.setItem('mode', 'term')
+
+      setSelectedMode('term')
+    }
+  })
+
+  useEffect(() => {
     const shuffledArr = getShuffledArr([
       ...data.list?.filter((item) => item[selectedMode] !== setList[index][selectedMode]),
     ]).splice(0, 3)
@@ -108,6 +119,12 @@ export default function Memorization({ data }: { data: SelectedSet }) {
     setResult({ passed: [], failed: [] })
   }
 
+  const setMode = (val: string) => {
+    setSelectedMode(val as 'term' | 'definition')
+
+    window.localStorage.setItem('mode', val)
+  }
+
   return (
     <>
       {!isFinish && (
@@ -122,8 +139,8 @@ export default function Memorization({ data }: { data: SelectedSet }) {
                   value: 'definition',
                 },
               ]}
-              onValueChange={(val) => setSelectedMode(val as 'term' | 'definition')}
-              defaultValue={selectedMode}
+              onValueChange={(val) => setMode(val)}
+              defaultValue={window.localStorage.getItem('mode')!}
               placeholder="Choose mode"
               label="Choose mode"
             />
@@ -139,7 +156,7 @@ export default function Memorization({ data }: { data: SelectedSet }) {
             </TextEffect>
           </p>
           <motion.ul
-            key={index + +isShuffled}
+            key={index + +isShuffled + selectedMode}
             className="grid grid-cols-1 md:grid-cols-2 gap-2"
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
