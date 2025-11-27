@@ -26,6 +26,8 @@ import { ActivityTypesContext } from '@/contexts/activity-types-context'
 import { DropdownMenuCheckboxItem } from '@/components/ui/dropdown-menu'
 import { ModalContext } from '@/contexts/modal-context'
 
+type SoundMode = { term: boolean; definition: boolean }
+
 export default function Flashcards({ data }: { data: SelectedSet }) {
   const [mode, setMode] = useState<'term' | 'definition'>('term')
   const [setList, setSetList] = useState<SetList>(data.list)
@@ -37,7 +39,7 @@ export default function Flashcards({ data }: { data: SelectedSet }) {
   const [voices, setVoices] = useState<Voices | null>(null)
   const [isShowDropdownMenu, setShowDropdownMenu] = useState(false)
   const [isShowPlayDropdownMenu, setShowPlayDropdownMenu] = useState(false)
-  const [soundMode, setSoundMode] = useState<{ term: boolean; definition: boolean }>({ term: false, definition: false })
+  const [soundMode, setSoundMode] = useState<SoundMode>({ term: false, definition: false })
   const [showTooltip, setShowTooltip] = useState(false)
   const [isShuffled, setShuffled] = useState(false)
   const [isFinish, setFinish] = useState(false)
@@ -61,19 +63,24 @@ export default function Flashcards({ data }: { data: SelectedSet }) {
       const voices = await getVoices()
 
       if (voices) setVoices(voices)
+
+      const mode = window.localStorage.getItem('mode')
+      const storageSoundMode: SoundMode | null = window.localStorage.getItem('soundMode')
+        ? JSON.parse(window.localStorage.getItem('soundMode')!)
+        : null
+      const isStorageSound = window.localStorage.getItem('isSound') ? JSON.parse(window.localStorage.getItem('isSound')!) : null
+
+      if (mode) {
+        setSelectedMode(mode as 'term' | 'definition')
+        setMode(mode as 'term' | 'definition')
+      } else window.localStorage.setItem('mode', 'term')
+
+      if (isStorageSound !== null) setSound(isStorageSound)
+      else window.localStorage.setItem('isSound', JSON.stringify(false))
+
+      if (storageSoundMode !== null) setSoundMode(storageSoundMode!)
+      else window.localStorage.setItem('soundMode', JSON.stringify({ term: false, definition: false }))
     })()
-
-    const mode = window.localStorage.getItem('mode')
-
-    if (mode) {
-      setSelectedMode(mode as 'term' | 'definition')
-      setMode(mode as 'term' | 'definition')
-    } else {
-      window.localStorage.setItem('mode', 'term')
-
-      setSelectedMode('term')
-      setMode('term')
-    }
 
     return () => cancelUtterance()
   }, [])
@@ -204,14 +211,22 @@ export default function Flashcards({ data }: { data: SelectedSet }) {
       <DropdownMenuCheckboxItem
         key="term"
         checked={soundMode.term}
-        onCheckedChange={() => setSoundMode({ ...soundMode, term: !soundMode.term })}
+        onCheckedChange={() => {
+          setSoundMode({ ...soundMode, term: !soundMode.term })
+
+          window.localStorage.setItem('soundMode', JSON.stringify({ ...soundMode, term: !soundMode.term }))
+        }}
       >
         {`Term (${LANGUAGE_OPTIONS.find((item) => data.source === item.value)?.label})`}
       </DropdownMenuCheckboxItem>,
       <DropdownMenuCheckboxItem
         key="definition"
         checked={soundMode.definition}
-        onCheckedChange={() => setSoundMode({ ...soundMode, definition: !soundMode.definition })}
+        onCheckedChange={() => {
+          setSoundMode({ ...soundMode, definition: !soundMode.definition })
+
+          window.localStorage.setItem('soundMode', JSON.stringify({ ...soundMode, definition: !soundMode.definition }))
+        }}
       >
         {`Definition (${LANGUAGE_OPTIONS.find((item) => data.target === item.value)?.label})`}
       </DropdownMenuCheckboxItem>,
@@ -264,7 +279,7 @@ export default function Flashcards({ data }: { data: SelectedSet }) {
 
                   rotate()
                 }}
-                defaultValue={window.localStorage.getItem('mode')!}
+                defaultValue={window.localStorage.getItem('mode')! || selectedMode}
                 placeholder="Choose mode"
                 label="Choose mode"
               />
@@ -407,7 +422,11 @@ export default function Flashcards({ data }: { data: SelectedSet }) {
 
                   const el = e.target as HTMLSpanElement
 
-                  if (el.tagName !== 'DIV') setSound(!isSound)
+                  if (el.tagName !== 'DIV') {
+                    setSound(!isSound)
+
+                    window.localStorage.setItem('isSound', JSON.stringify(!isSound))
+                  }
                 }}
               >
                 {isMobile ? (
