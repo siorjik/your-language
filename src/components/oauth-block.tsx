@@ -5,6 +5,8 @@ import { useState } from 'react'
 import { Separator } from '@/components/ui/separator'
 import { Button } from './ui/button'
 import Spinner from './spinner'
+import GoogleIcon from './icons/google-icon'
+import GithubIcon from './icons/github-icon'
 
 import { oauthLogin } from '@/actions/auth'
 import { useToast } from '@/hooks/use-toast'
@@ -38,14 +40,16 @@ export default function OAuthBlock({ isMainPage }: { isMainPage?: boolean }) {
         type="submit"
         onClick={async () => await onSubmit('google')}
       >
-        Continue with <span className="text-primary">Google</span>
+        Continue with
+        <GoogleIcon />
       </Button>
       <Button
         variant="secondary"
         className="w-full text-stone-500 bg-secondary/40"
         onClick={async () => await onSubmit('github')}
       >
-        Continue with <span className="text-primary">Github</span>
+        Continue with
+        <GithubIcon />
       </Button>
       {isLoading && !isMainPage && <Spinner />}
     </>
