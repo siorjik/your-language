@@ -17,7 +17,7 @@ export const getVoices = async (): Promise<Voices> => {
   const voices = await loadVoices()
 
   return {
-    en: voices.find((voice) => voice.name === 'Nicky') || null,
+    en: voices.find((voice) => voice.name === 'Samantha') || null,
     ru: voices.find((voice) => voice.lang === 'ru-RU') || null,
     ua: voices.find((voice) => voice.name === 'Lesya') || null,
   }

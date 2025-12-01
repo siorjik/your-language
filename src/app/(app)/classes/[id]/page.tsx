@@ -93,7 +93,7 @@ export default async function ClassInfo({
       `}
       >
         <div className="col-span-3 md:col-span-2 flex flex-col md:flex-row gap-10 items-center">
-          <div className="flex items-center">
+          <div>
             {res.image ? (
               <Image
                 className="object-cover h-[200px] min-w-[200px] max-w-[200px] border-4 rounded-xl"
@@ -109,8 +109,8 @@ export default async function ClassInfo({
               <ImageIcon className="w-[200px] h-[200px] border-4 rounded-xl !cursor-auto" size={200} />
             )}
           </div>
-          <div className="flex flex-col items-center gap-2 font-semibold">
-            <h2 className="text-center title mb-5 line-clamp-3">{res.title}</h2>
+          <div className="flex flex-col items-center md:items-start gap-2 font-semibold">
+            <h2 className="text-center md:text-start title mb-5 line-clamp-3">{res.title}</h2>
             <div className="block md:hidden">
               <Link className="flex gap-2" href={getUserAppPath(res.creatorId)}>
                 <span className="text-muted-foreground/50 text-lg">Creator:</span>{' '}
