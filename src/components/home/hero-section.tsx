@@ -4,6 +4,7 @@ import { ReactElement, useRef, useState } from 'react'
 import { useScroll, useTransform, motion, useMotionTemplate, useMotionValueEvent } from 'framer-motion'
 import Image from 'next/image'
 import { useTheme } from 'next-themes'
+import { useTranslations } from 'next-intl'
 
 import { TextEffect } from '../ui/text-effect'
 import DialogWrap from '../dialog-wrap'
@@ -21,6 +22,7 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
 
   const { viewSize, isMobile, isXlDisplay, is2XlDisplay } = useDisplayData()
   const { theme } = useTheme()
+  const t = useTranslations('Home.guestMode')
 
   const isDark = theme?.includes('-dark')
 
@@ -95,7 +97,7 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
           transition={{ duration: 0.3, type: 'spring', stiffness: 150 }}
         >
           <TextEffect className="sub-title-1 mb-5 text-background" preset="fade-in-blur" speedReveal={1.1} speedSegment={0.3}>
-            Welcome to Language Bro!
+            {t('welcome')}
           </TextEffect>
           <TextEffect
             className={`
@@ -106,8 +108,7 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
             per="char"
             preset="fade"
           >
-            Discover a smarter, more engaging way to learn language. Whether you`re just starting out or sharpening advanced
-            skills, our powerful tools help you build vocabulary, master grammar, and grow your confidence - step by step...
+            {t('message')}
           </TextEffect>
         </motion.div>
         <motion.div
@@ -133,22 +134,22 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
           <TextLoop className="w-full mb-8 xl:mb-14 text-center hidden md:block" interval={3} transition={{ duration: 0.5 }}>
             <span className="sub-title-1 text-background text-3xl">
               <TextEffect preset="fade-in-blur" speedReveal={1.1} speedSegment={0.3} as="span">
-                Improve your language skills!
+                {t('improve')}
               </TextEffect>
             </span>
             <span className="sub-title-1 text-background text-3xl">
               <TextEffect preset="fade-in-blur" speedReveal={1.1} speedSegment={0.3} as="span">
-                Increase your conversation confidence!
+                {t('increase')}
               </TextEffect>
             </span>
             <span className="sub-title-1 text-background text-3xl ">
               <TextEffect preset="fade-in-blur" speedReveal={1.1} speedSegment={0.3} as="span">
-                Expend your vocabulary!
+                {t('expend')}
               </TextEffect>
             </span>
             <span className="sub-title-1 text-background text-3xl">
               <TextEffect preset="fade-in-blur" speedReveal={1.1} speedSegment={0.3} as="span">
-                Enjoy your learning process!
+                {t('enjoy')}
               </TextEffect>
             </span>
           </TextLoop>
@@ -158,12 +159,12 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
               width="max-w-[400px]"
               title={
                 <p>
-                  Welcome! <span className="emoji mr-1">👋</span>
+                  {t('welcomePopup')} <span className="emoji mr-1">👋</span>
                 </p>
               }
               trigger={
                 <Button className="relative hover:bg-initial text-2xl p-8" variant="ghost">
-                  Start Your Journey 😎
+                  {t('startJourney')} 😎
                 </Button>
               }
               content={dialogContent}

@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef, useEffect, useState } from 'react'
-import Link from 'next/link'
+import Link from '@/components/link'
 import { CirclePlus, Search, X } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 

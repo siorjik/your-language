@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { signOut, useSession } from 'next-auth/react'
 import { useTheme } from 'next-themes'
 import { formatDistanceToNow } from 'date-fns'
+import { useLocale } from 'next-intl'
 
 import {
   NavigationMenu,
@@ -37,6 +38,7 @@ import { Button } from '../ui/button'
 import { getClassById, updateClass } from '@/actions/class'
 import { SelectedClass } from '@/types/models/class'
 import { Err } from '@/types/errTypes'
+import useLocaleUrl from '@/hooks/use-locale-url'
 
 export default function UserMenu() {
   const [isShow, setShow] = useState(false)
@@ -47,6 +49,9 @@ export default function UserMenu() {
 
   const { data: session } = useSession()
   const { theme, setTheme } = useTheme()
+  const locale = useLocale()
+  const { getLocaleUrl } = useLocaleUrl()
+
   useSocket(SOCKET_EVENTS.notification, () => {
     setTimeout(async () => await getNotifications(), 500)
   })
@@ -66,7 +71,7 @@ export default function UserMenu() {
   const logOut = async () => {
     if (window.localStorage.getItem('tab')) window.localStorage.removeItem('tab')
 
-    await signOut({ redirectTo: '/' })
+    await signOut({ redirectTo: `/${locale}` })
   }
 
   const changeTheme = (val: string) => {
@@ -362,12 +367,12 @@ export default function UserMenu() {
         </NavigationMenu>
       ) : (
         <div className="flex">
-          <Link href={signUpAppPath}>
+          <Link href={getLocaleUrl(signUpAppPath)}>
             <span className="icon-hover">
               <UserRoundPlus />
             </span>
           </Link>
-          <Link href={signInAppPath}>
+          <Link href={getLocaleUrl(signInAppPath)}>
             <span className="icon-hover mr-[-8px]">
               <LogIn />
             </span>

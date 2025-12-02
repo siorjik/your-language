@@ -1,6 +1,6 @@
 'use client'
 
-import Link from 'next/link'
+import Link from '@/components/link'
 import { GalleryHorizontal, Brain, PanelRightOpen, Pen, FileCog, Trash2, Share, BrainCircuit } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 

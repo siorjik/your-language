@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import z from 'zod'
 import Link from 'next/link'
+import { useLocale } from 'next-intl'
 
 import Form from '@/components/forms/simple-form'
 import OAuthBlock from '@/components/oauth-block'
@@ -23,6 +24,7 @@ export default function LoginForm() {
   const [isClosed, setClose] = useState(false)
 
   const { toast } = useToast()
+  const locale = useLocale()
 
   const onSubmit = async (values: z.infer<typeof loginFormTypeSchema>): Promise<boolean> => {
     const res: { isTwoFa: boolean; error: null } | Err = await checkTwoFa(values.email)
@@ -57,7 +59,7 @@ export default function LoginForm() {
     const res = await signIn('credentials', { ...data, redirect: false })
 
     if (res && !res?.error) {
-      window.location.href = '/'
+      window.location.href = `/${locale}`
 
       return true
     } else {

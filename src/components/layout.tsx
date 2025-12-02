@@ -4,13 +4,18 @@ import { ReactNode, useEffect, useRef, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { ChevronUp } from 'lucide-react'
 import Link from 'next/link'
+import { useLocale } from 'next-intl'
+import { useTranslations } from 'next-intl'
 
 import ThemeBtn from './theme-btn'
 import Navbar from './navbar'
 import Spinner from './spinner'
+import SelectWrap from './select-wrap'
+import { Separator } from './ui/separator'
+
 import { contactUsAppPath } from '@/utils/paths'
 import useDisplayData from '@/hooks/useDisplayData'
-import { Separator } from './ui/separator'
+import useLocaleUrl from '@/hooks/use-locale-url'
 
 export default function Layout({ children }: { children: ReactNode }) {
   const [isHide, setHide] = useState(false)
@@ -18,6 +23,10 @@ export default function Layout({ children }: { children: ReactNode }) {
 
   const { isMobile } = useDisplayData()
   const { status, data: session } = useSession()
+  const locale = useLocale()
+  const t = useTranslations('menu')
+  const tLocaleSwitcher = useTranslations('localeSwitcher')
+  const { getLocaleUrl } = useLocaleUrl()
 
   const mainRef = useRef<HTMLDivElement>(null)
 
@@ -97,20 +106,51 @@ export default function Layout({ children }: { children: ReactNode }) {
                 {!isMobile && <span className="text-primary/70 text-sm">&copy; {new Date().getFullYear()} Language Bro</span>}
                 <div className="flex gap-5">
                   <Link className="leading-tight hover:text-muted-foreground/50 font-balsamiqSans" href="/">
-                    Home
+                    {t('home')}
                   </Link>
-                  <Link className="leading-tight hover:text-muted-foreground/50 font-balsamiqSans" href={contactUsAppPath}>
-                    Contact Us
+                  <Link
+                    className="leading-tight hover:text-muted-foreground/50 font-balsamiqSans"
+                    href={getLocaleUrl(contactUsAppPath)}
+                  >
+                    {t('contactUs')}
                   </Link>
                 </div>
-                <span className="icon-hover mr-[-8px] cursor-pointer">
-                  <ThemeBtn />
-                </span>
+                <div className="flex gap-5">
+                  <SelectWrap
+                    defaultValue={locale}
+                    options={[
+                      { value: 'en', label: 'English' },
+                      { value: 'ru', label: 'Русский' },
+                    ]}
+                    label={tLocaleSwitcher('label')}
+                    placeholder={tLocaleSwitcher('label')}
+                    onValueChange={(val) => {
+                      if (val === locale) return
+
+                      const url =
+                        window.location.pathname.split('/').length === 2
+                          ? `/${val}`
+                          : `/${val}/${window.location.pathname.split('/')[2]}`
+
+                      window.location.href = url
+                    }}
+                  />
+                  {!isMobile && (
+                    <span className="icon-hover mr-[-8px] cursor-pointer">
+                      <ThemeBtn />
+                    </span>
+                  )}
+                </div>
               </div>
               {isMobile && (
                 <>
                   <Separator className="my-2" />
-                  <p className="pb-2 w-fit mx-auto text-primary/70 text-sm">&copy; {new Date().getFullYear()} Language Bro</p>
+                  <div className="flex justify-between items-center">
+                    <p className="pb-2 w-fit text-primary/70 text-sm">&copy; {new Date().getFullYear()} Language Bro</p>
+                    <span className="icon-hover mr-[-8px] cursor-pointer">
+                      <ThemeBtn />
+                    </span>
+                  </div>
                 </>
               )}
             </footer>

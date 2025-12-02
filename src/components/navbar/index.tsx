@@ -7,6 +7,10 @@ import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { Menu } from 'lucide-react'
 import { useTheme } from 'next-themes'
+import { useLocale } from 'next-intl'
+import { useTranslations } from 'next-intl'
+
+import useLocaleUrl from '@/hooks/use-locale-url'
 
 import UserMenu from './user-menu'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
@@ -23,6 +27,9 @@ export default function Navbar() {
   const { data: session } = useSession()
   const { isMobile } = useDisplayData()
   const { theme } = useTheme()
+  const locale = useLocale()
+  const { getLocaleUrl } = useLocaleUrl()
+  const t = useTranslations('menu')
 
   const isDefault = theme?.includes('-default')
 
@@ -31,7 +38,7 @@ export default function Navbar() {
   const getMenuItem = ({ path, title }: { path: string; title: string }) => {
     let css: string = ''
 
-    if (pathname === path || (pathname.startsWith(path) && path !== '/')) {
+    if (pathname === path || (pathname.startsWith(path) && path !== `/${locale}`)) {
       css = !isMobile ? '!border-primary' : '!text-primary'
     }
 
@@ -57,11 +64,11 @@ export default function Navbar() {
   }
 
   const navData = [
-    { title: 'Home', path: '/' },
-    { title: 'Library', path: libraryAppPath },
-    { title: 'Sets', path: setsAppPath },
-    { title: 'Activities', path: activitiesAppPath },
-    { title: 'Classes', path: classesAppPath },
+    { title: t('home'), path: `/${locale}` },
+    { title: t('library'), path: getLocaleUrl(libraryAppPath) },
+    { title: t('sets'), path: getLocaleUrl(setsAppPath) },
+    { title: t('activities'), path: getLocaleUrl(activitiesAppPath) },
+    { title: t('classes'), path: getLocaleUrl(classesAppPath) },
   ]
 
   return (

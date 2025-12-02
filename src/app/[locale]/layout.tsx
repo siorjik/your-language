@@ -2,6 +2,9 @@ import type { Metadata } from 'next'
 import { Playpen_Sans, Balsamiq_Sans } from 'next/font/google'
 import { ThemeProvider } from 'next-themes'
 import { SessionProvider } from 'next-auth/react'
+import { NextIntlClientProvider } from 'next-intl'
+import { getMessages } from 'next-intl/server'
+import { notFound } from 'next/navigation'
 
 import './globals.css'
 
@@ -20,9 +23,25 @@ export const metadata: Metadata = {
   manifest: process.env.NODE_ENV === 'production' ? '/manifest.json' : '',
 }
 
-export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export function generateStaticParams() {
+  return [{ locale: 'en' }, { locale: 'ru' }]
+}
+
+export default async function RootLayout({
+  children,
+  params,
+}: Readonly<{ children: React.ReactNode; params: { locale: string } }>) {
+  const { locale } = await params
+
+  let messages
+  try {
+    messages = await getMessages({ locale })
+  } catch {
+    notFound()
+  }
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <body className={`${playpenSans.variable} ${balsamiqSans.variable} antialiased`}>
         <SessionProvider>
           <ThemeProvider
@@ -32,7 +51,11 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
             enableSystem={false}
           >
             <ServiceWorkerRegistration />
-            <QueryProvider>{children}</QueryProvider>
+            <QueryProvider>
+              <NextIntlClientProvider messages={messages} locale={locale}>
+                {children}
+              </NextIntlClientProvider>
+            </QueryProvider>
           </ThemeProvider>
         </SessionProvider>
         <Toaster />

@@ -26,8 +26,8 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   }
 }
 
-export default async function SetUpdate({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params
+export default async function SetUpdate({ params }: { params: Promise<{ id: string; locale: string }> }) {
+  const { id, locale } = await params
 
   const session = await getServerSessionToken()
 
@@ -37,12 +37,12 @@ export default async function SetUpdate({ params }: { params: Promise<{ id: stri
 
   const isSetCreator = session?.id === set.user?.id
 
-  if (!isSetCreator) redirect(getSetAppPath(id))
+  if (!isSetCreator) redirect(`/${locale}${getSetAppPath(id)}`)
 
   return (
     <>
       <Button className="mb-8" asChild>
-        <Link href={getSetAppPath(id)}>Cancel</Link>
+        <Link href={`/${locale}${getSetAppPath(id)}`}>Cancel</Link>
       </Button>
       <h2 className="sub-title-1">Set Update:</h2>
       <SetForm data={{ ...set, list: set.list as { term: string; definition: string }[] }} action="update" />
