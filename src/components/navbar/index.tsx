@@ -7,8 +7,8 @@ import Image from 'next/image'
 import { Menu } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { useTranslations } from 'next-intl'
+import Link from 'next/link'
 
-import Link from '../link'
 import UserMenu from './user-menu'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 
@@ -61,11 +61,11 @@ export default function Navbar() {
   }
 
   const navData = [
-    { title: t('home'), path: '/' },
-    { title: t('library'), path: libraryAppPath },
-    { title: t('sets'), path: setsAppPath },
-    { title: t('activities'), path: activitiesAppPath },
-    { title: t('classes'), path: classesAppPath },
+    { title: t('home'), path: getLocaleUrl() },
+    { title: t('library'), path: getLocaleUrl(libraryAppPath) },
+    { title: t('sets'), path: getLocaleUrl(setsAppPath) },
+    { title: t('activities'), path: getLocaleUrl(activitiesAppPath) },
+    { title: t('classes'), path: getLocaleUrl(classesAppPath) },
   ]
 
   return (
