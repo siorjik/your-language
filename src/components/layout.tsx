@@ -3,10 +3,10 @@
 import { ReactNode, useEffect, useRef, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { ChevronUp } from 'lucide-react'
-import Link from 'next/link'
 import { useLocale } from 'next-intl'
 import { useTranslations } from 'next-intl'
 
+import Link from '@/components/link'
 import ThemeBtn from './theme-btn'
 import Navbar from './navbar'
 import Spinner from './spinner'
@@ -15,7 +15,6 @@ import { Separator } from './ui/separator'
 
 import { contactUsAppPath } from '@/utils/paths'
 import useDisplayData from '@/hooks/useDisplayData'
-import useLocaleUrl from '@/hooks/use-locale-url'
 
 export default function Layout({ children }: { children: ReactNode }) {
   const [isHide, setHide] = useState(false)
@@ -26,7 +25,6 @@ export default function Layout({ children }: { children: ReactNode }) {
   const locale = useLocale()
   const t = useTranslations('menu')
   const tLocaleSwitcher = useTranslations('localeSwitcher')
-  const { getLocaleUrl } = useLocaleUrl()
 
   const mainRef = useRef<HTMLDivElement>(null)
 
@@ -108,15 +106,13 @@ export default function Layout({ children }: { children: ReactNode }) {
                   <Link className="leading-tight hover:text-muted-foreground/50 font-balsamiqSans" href="/">
                     {t('home')}
                   </Link>
-                  <Link
-                    className="leading-tight hover:text-muted-foreground/50 font-balsamiqSans"
-                    href={getLocaleUrl(contactUsAppPath)}
-                  >
+                  <Link className="leading-tight hover:text-muted-foreground/50 font-balsamiqSans" href={contactUsAppPath}>
                     {t('contactUs')}
                   </Link>
                 </div>
                 <div className="flex gap-5">
                   <SelectWrap
+                    css="!min-w-[110px]"
                     defaultValue={locale}
                     options={[
                       { value: 'en', label: 'English' },

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 
 import { Separator } from '@/components/ui/separator'
 import { Button } from './ui/button'
@@ -15,6 +16,7 @@ export default function OAuthBlock({ isMainPage }: { isMainPage?: boolean }) {
   const [isLoading, setLoading] = useState(false)
 
   const { toast } = useToast()
+  const t = useTranslations('oauth')
 
   const onSubmit = async (name: 'google' | 'github'): Promise<void> => {
     setLoading(true)
@@ -31,7 +33,7 @@ export default function OAuthBlock({ isMainPage }: { isMainPage?: boolean }) {
     <>
       <div className="flex justify-center items-center gap-2 overflow-hidden text-primary font-semibold">
         <Separator className="bg-primary h-[2px]" />
-        OR
+        <span>{t('or')}</span>
         <Separator className="bg-primary h-[2px]" />
       </div>
       <Button
@@ -40,7 +42,7 @@ export default function OAuthBlock({ isMainPage }: { isMainPage?: boolean }) {
         type="submit"
         onClick={async () => await onSubmit('google')}
       >
-        Continue with
+        {t('continue')}
         <GoogleIcon />
       </Button>
       <Button
@@ -48,7 +50,7 @@ export default function OAuthBlock({ isMainPage }: { isMainPage?: boolean }) {
         className="w-full text-stone-500 bg-secondary/40"
         onClick={async () => await onSubmit('github')}
       >
-        Continue with
+        {t('continue')}
         <GithubIcon />
       </Button>
       {isLoading && !isMainPage && <Spinner />}

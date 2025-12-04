@@ -3,9 +3,9 @@
 import { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import z from 'zod'
-import Link from 'next/link'
-import { useLocale } from 'next-intl'
+import { useTranslations } from 'next-intl'
 
+import Link from '@/components/link'
 import Form from '@/components/forms/simple-form'
 import OAuthBlock from '@/components/oauth-block'
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp'
@@ -17,6 +17,7 @@ import { checkTwoFa } from '@/actions/auth'
 import { Err } from '@/types/errTypes'
 import DialogWrap from '@/components/dialog-wrap'
 import apiRequestService from '@/services/apiRequestService'
+import useLocaleUrl from '@/hooks/use-locale-url'
 
 export default function LoginForm() {
   const [code, setCode] = useState('')
@@ -24,7 +25,8 @@ export default function LoginForm() {
   const [isClosed, setClose] = useState(false)
 
   const { toast } = useToast()
-  const locale = useLocale()
+  const { getLocaleUrl } = useLocaleUrl()
+  const t = useTranslations('form')
 
   const onSubmit = async (values: z.infer<typeof loginFormTypeSchema>): Promise<boolean> => {
     const res: { isTwoFa: boolean; error: null } | Err = await checkTwoFa(values.email)
@@ -59,7 +61,7 @@ export default function LoginForm() {
     const res = await signIn('credentials', { ...data, redirect: false })
 
     if (res && !res?.error) {
-      window.location.href = `/${locale}`
+      window.location.href = getLocaleUrl()
 
       return true
     } else {
@@ -96,7 +98,7 @@ export default function LoginForm() {
     <Form
       submit={recoverPass}
       schema={recoverPassFormTypeSchema}
-      fieldsData={[{ name: 'email', label: 'Email*' }]}
+      fieldsData={[{ name: 'email', label: `${t('email')}*` }]}
       btn={{ css: 'dialog-submit-btn' }}
       showLoader
       isReset
@@ -104,15 +106,15 @@ export default function LoginForm() {
   )
 
   const fieldsData = [
-    { name: 'email', label: 'Email*' },
-    { name: 'password', label: 'Password*', type: 'password' },
+    { name: 'email', label: `${t('email')}*` },
+    { name: 'password', label: `${t('password')}*`, type: 'password' },
   ]
 
   return (
     <div className="w-full">
       {isTwoFa && (
         <div className="mx-auto mb-5">
-          <p className="mb-2 text-warn font-semibold">Code*</p>
+          <p className="mb-2 text-warn font-semibold">{t('code')}*</p>
           <InputOTP maxLength={6} onChange={(val) => setCode(val)}>
             <InputOTPGroup>
               <InputOTPSlot index={0} />
@@ -125,12 +127,12 @@ export default function LoginForm() {
           </InputOTP>
         </div>
       )}
-      <Form submit={onSubmit} schema={loginFormTypeSchema} fieldsData={fieldsData} btn={{ text: 'Login' }} showSpinner />
+      <Form submit={onSubmit} schema={loginFormTypeSchema} fieldsData={fieldsData} btn={{ text: t('logIn') }} showSpinner />
       <DialogWrap
-        title="Password Recovery"
+        title={t('passRecovery')}
         trigger={
           <p className="my-8">
-            Forgot your password? <span className="link">Password Recovery</span>
+            {t('forgotPass')} <span className="link">{t('passRecovery')}</span>
           </p>
         }
         content={passRecoveryForm}
@@ -138,15 +140,18 @@ export default function LoginForm() {
       />
       <OAuthBlock />
       <div className="mt-8 w-fit mx-auto">
-        Go to{' '}
-        <Link className="link" href="/">
-          Home
-        </Link>
-        {' or '}
-        <Link className="link" href={signUpAppPath}>
-          Sign Up
-        </Link>{' '}
-        page
+        {t.rich('goToSignUp', {
+          Link1: (chunks) => (
+            <Link className="link" href={'/'}>
+              {chunks}
+            </Link>
+          ),
+          Link2: (chunks) => (
+            <Link className="link" href={signUpAppPath}>
+              {chunks}
+            </Link>
+          ),
+        })}
       </div>
     </div>
   )

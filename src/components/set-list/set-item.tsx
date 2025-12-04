@@ -14,6 +14,7 @@ import { deleteSet } from '@/actions/set'
 import { SelectedSet } from '@/types/models/set'
 import useSocket from '@/hooks/useSocket'
 import { getUserAppPath } from '@/utils/paths'
+import useLocaleUrl from '@/hooks/use-locale-url'
 
 export default function SetItem({ set, idx, isSimple }: { set: SelectedSet; idx: number; isSimple: boolean }) {
   const creator = set.creator
@@ -22,6 +23,7 @@ export default function SetItem({ set, idx, isSimple }: { set: SelectedSet; idx:
 
   const { eventEmit } = useSocket(SOCKET_EVENTS.notification)
   const { push } = useRouter()
+  const { getLocaleUrl } = useLocaleUrl()
 
   return (
     <motion.div
@@ -47,7 +49,7 @@ export default function SetItem({ set, idx, isSimple }: { set: SelectedSet; idx:
             onClick={(e) => {
               e.preventDefault()
 
-              push(getUserAppPath(creator!.id))
+              push(getLocaleUrl(getUserAppPath(creator!.id)))
             }}
           >
             {creator?.image && (

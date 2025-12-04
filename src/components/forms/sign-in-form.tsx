@@ -3,7 +3,8 @@
 import { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import z from 'zod'
-import { useLocale } from 'next-intl'
+import useLocaleUrl from '@/hooks/use-locale-url'
+import { useTranslations } from 'next-intl'
 
 import Form from './simple-form'
 import OAuthBlock from '../oauth-block'
@@ -19,7 +20,8 @@ export default function SignInForm() {
   const [isTwoFa, setTwoFa] = useState(false)
 
   const { toast } = useToast()
-  const locale = useLocale()
+  const { getLocaleUrl } = useLocaleUrl()
+  const t = useTranslations('form')
 
   const onSubmit = async (values: z.infer<typeof loginFormTypeSchema>): Promise<boolean> => {
     const res: { isTwoFa: boolean; error: null } | Err = await checkTwoFa(values.email)
@@ -54,7 +56,7 @@ export default function SignInForm() {
     const res = await signIn('credentials', { ...data, redirect: false })
 
     if (res && !res?.error) {
-      window.location.href = `/${locale}`
+      window.location.href = getLocaleUrl()
 
       return true
     } else {
@@ -65,15 +67,15 @@ export default function SignInForm() {
   }
 
   const fieldsData = [
-    { name: 'email', label: 'Email*' },
-    { name: 'password', label: 'Password*', type: 'password' },
+    { name: 'email', label: `${t('email')}*` },
+    { name: 'password', label: `${t('password')}*`, type: 'password' },
   ]
 
   return (
     <div className="w-full">
       {isTwoFa && (
         <div className="mx-auto mb-5">
-          <p className="mb-2 text-warn font-semibold">Code*</p>
+          <p className="mb-2 text-warn font-semibold">{t('code')}*</p>
           <InputOTP maxLength={6} onChange={(val) => setCode(val)}>
             <InputOTPGroup>
               <InputOTPSlot index={0} />
@@ -86,7 +88,7 @@ export default function SignInForm() {
           </InputOTP>
         </div>
       )}
-      <Form submit={onSubmit} schema={loginFormTypeSchema} fieldsData={fieldsData} btn={{ text: 'Login' }} showLoader />
+      <Form submit={onSubmit} schema={loginFormTypeSchema} fieldsData={fieldsData} btn={{ text: t('logIn') }} showLoader />
       <div className="mt-5">
         <OAuthBlock isMainPage />
       </div>

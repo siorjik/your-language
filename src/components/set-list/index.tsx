@@ -18,6 +18,7 @@ import { useInfiniteScroll } from '@/hooks/use-infinity-scroll'
 import { getSetList } from '@/actions/set'
 import { Err } from '@/types/errTypes'
 import { INFINITY_SCROLL_LIMIT } from '@/utils/constants'
+import useLocaleUrl from '@/hooks/use-locale-url'
 
 type ReturnType = { sets: SelectedSet[]; count: number; error: null; nextCursor?: string | null } | Err
 
@@ -39,6 +40,7 @@ export default function SetList({
 
   const { push } = useRouter()
   const params = useSearchParams()
+  const { getLocaleUrl } = useLocaleUrl()
 
   const titleParam = params.get('title')
   const fromParam = params.get('from')
@@ -92,7 +94,7 @@ export default function SetList({
         toDeleteParams: !val ? ['title'] : null,
       })
 
-      push(`${setsAppPath}?${q}`)
+      push(getLocaleUrl(`${setsAppPath}?${q}`))
     }, 1000)
   }
 
@@ -103,7 +105,7 @@ export default function SetList({
 
     const q = getQueryString({ currentParams: params, toDeleteParams: ['title'] })
 
-    push(`${setsAppPath}?${q}`)
+    push(getLocaleUrl(`${setsAppPath}?${q}`))
   }
 
   return (

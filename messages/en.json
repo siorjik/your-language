@@ -1,6 +1,23 @@
 {
   "localeSwitcher": { "label": "Choose language:  " },
   "common": { "signIn": "Sign In", "signUp": "Sign Up" },
+  "oauth": { "continue": "Continue with", "or": "OR" },
+  "form": {
+    "email": "Email",
+    "password": "Password",
+    "name": "Name",
+    "createAcc": "Create Account",
+    "logIn": "Log In",
+    "code": "Code",
+    "passRecovery": "Password Recovery",
+    "forgotPass": "Forgot your password?",
+    "subject": "Subject",
+    "message": "Message",
+    "submit": "Submit",
+    "goToSignUp": "Go to <Link1>Home</Link1> or <Link2>Sign Up</Link2> page",
+    "goToSignIn": "Go to <Link1>Home</Link1> or <Link2>Sign In</Link2> page"
+  },
+  "popup": { "close": "Close" },
   "menu": {
     "library": "Library",
     "activities": "Activities",
@@ -29,5 +46,6 @@
       "accessibilityText": "With <span>Accessible Anywhere</span>, your language learning goes wherever you go. Whether you`re on your phone, tablet, or computer, all your flashcards, quizzes, and progress are always synced and ready. Practice on the bus, at the café, or from the comfort of home - your learning is never limited by location. Just log in and keep moving forward, no matter where life takes you.",
       "startLearning": "Start Learning"
     }
-  }
+  },
+  "ContactUs": { "title": "Contact us if you have any issues or propositions:" }
 }

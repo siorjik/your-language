@@ -1,6 +1,8 @@
 'use client'
 
 import { ReactElement, use, useEffect, useState } from 'react'
+import { useTranslations } from 'next-intl'
+
 import {
   Dialog,
   DialogClose,
@@ -35,6 +37,8 @@ export default function DialogWrap({
 
   const { setModalVisibility } = use(ModalContext)
 
+  const t = useTranslations('popup')
+
   useEffect(() => {
     if (isAutoClose && isOpen) setOpen(false)
 
@@ -54,7 +58,7 @@ export default function DialogWrap({
           <DialogFooter className="sm:justify-start">
             <DialogClose asChild>
               <Button type="button" variant="secondary">
-                Close
+                {t('close')}
               </Button>
             </DialogClose>
           </DialogFooter>

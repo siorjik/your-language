@@ -3,15 +3,16 @@
 import Image from 'next/image'
 import { formatDistanceToNow } from 'date-fns'
 import { ImageIcon } from 'lucide-react'
-import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 
+import Link from '@/components/link'
 import SetList from '@/components/set-list'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 import { SelectedClass } from '@/types/models/class'
 import { getClassAppPath, getUserAppPath } from '@/utils/paths'
+import useLocaleUrl from '@/hooks/use-locale-url'
 
 export default function UserTabs({
   userId,
@@ -23,6 +24,7 @@ export default function UserTabs({
   setsAmount: number
 }) {
   const { push } = useRouter()
+  const { getLocaleUrl } = useLocaleUrl()
 
   return (
     <>
@@ -80,7 +82,7 @@ export default function UserTabs({
                             onClick={(e) => {
                               e.preventDefault()
 
-                              push(getUserAppPath(item.creatorId))
+                              push(getLocaleUrl(getUserAppPath(item.creatorId)))
                             }}
                           >
                             {item.creator.image && (

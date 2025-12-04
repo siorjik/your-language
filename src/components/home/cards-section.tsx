@@ -2,11 +2,11 @@
 
 import { RefObject, useLayoutEffect, useRef, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { formatDistanceToNow } from 'date-fns'
 
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '../ui/card'
+import Link from '@/components/link'
 
 import { LANGUAGE_OPTIONS } from '@/utils/constants'
 import { getSetAppPath, newSetAppPath } from '@/utils/paths'

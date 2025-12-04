@@ -1,8 +1,8 @@
 import { notFound, redirect } from 'next/navigation'
 import Image from 'next/image'
 import { ImageIcon, User2 } from 'lucide-react'
-import Link from 'next/link'
 
+import Link from '@/components/link'
 import BreadcrumbWrap from '@/components/breadcrumb-wrap'
 import BtnPanel from './_components/btn-panel'
 import Activities from './_components/activities'

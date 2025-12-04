@@ -1,17 +1,14 @@
 'use client'
 
 import { Fragment, useState } from 'react'
-import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { Menu } from 'lucide-react'
 import { useTheme } from 'next-themes'
-import { useLocale } from 'next-intl'
 import { useTranslations } from 'next-intl'
 
-import useLocaleUrl from '@/hooks/use-locale-url'
-
+import Link from '../link'
 import UserMenu from './user-menu'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 
@@ -19,6 +16,7 @@ import logo from '@/../public/logo.png'
 
 import { libraryAppPath, activitiesAppPath, setsAppPath, classesAppPath } from '@/utils/paths'
 import useDisplayData from '@/hooks/useDisplayData'
+import useLocaleUrl from '@/hooks/use-locale-url'
 
 export default function Navbar() {
   const [showMenu, setShowMenu] = useState(false)
@@ -27,7 +25,6 @@ export default function Navbar() {
   const { data: session } = useSession()
   const { isMobile } = useDisplayData()
   const { theme } = useTheme()
-  const locale = useLocale()
   const { getLocaleUrl } = useLocaleUrl()
   const t = useTranslations('menu')
 
@@ -38,7 +35,7 @@ export default function Navbar() {
   const getMenuItem = ({ path, title }: { path: string; title: string }) => {
     let css: string = ''
 
-    if (pathname === path || (pathname.startsWith(path) && path !== `/${locale}`)) {
+    if (pathname === path || (pathname.startsWith(path) && path !== getLocaleUrl())) {
       css = !isMobile ? '!border-primary' : '!text-primary'
     }
 
@@ -64,11 +61,11 @@ export default function Navbar() {
   }
 
   const navData = [
-    { title: t('home'), path: `/${locale}` },
-    { title: t('library'), path: getLocaleUrl(libraryAppPath) },
-    { title: t('sets'), path: getLocaleUrl(setsAppPath) },
-    { title: t('activities'), path: getLocaleUrl(activitiesAppPath) },
-    { title: t('classes'), path: getLocaleUrl(classesAppPath) },
+    { title: t('home'), path: '/' },
+    { title: t('library'), path: libraryAppPath },
+    { title: t('sets'), path: setsAppPath },
+    { title: t('activities'), path: activitiesAppPath },
+    { title: t('classes'), path: classesAppPath },
   ]
 
   return (

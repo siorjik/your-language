@@ -102,8 +102,8 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
           <TextEffect
             className={`
               max-w-[500px] ${!isDark ? 'text-background/70' : 'text-accent-foreground/70'}
-              mx-auto p-3 bg-transparent backdrop-blur-sm
-              rounded-2xl italic font-semibold border-2 border-background/50
+              mx-auto p-3 bg-white/10 backdrop-blur-md shadow-lg
+              rounded-2xl italic font-semibold border border-white/20
             `}
             per="char"
             preset="fade"
@@ -153,7 +153,7 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
               </TextEffect>
             </span>
           </TextLoop>
-          <div className="w-fit mx-auto relative">
+          <div className="w-fit mx-auto relative hover:scale-105 duration-300">
             <GlowEffect className="rounded-lg" mode="colorShift" blur="softest" duration={5} scale={1} />
             <DialogWrap
               width="max-w-[400px]"
@@ -163,7 +163,14 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
                 </p>
               }
               trigger={
-                <Button className="relative hover:bg-initial text-2xl p-8" variant="ghost">
+                <Button
+                  className={`
+                    relative hover:bg-white/30 ${isMobile ? 'text-xl' : 'text-2xl'}
+                    ${isMobile ? 'p-6' : 'p-8'} backdrop-blur-lg shadow-lg border border-white/20
+                    ${!isDark ? '!text-background/70' : '!text-accent-foreground/70'} duration-300
+                  `}
+                  variant="ghost"
+                >
                   {t('startJourney')} 😎
                 </Button>
               }

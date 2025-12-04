@@ -195,6 +195,7 @@ export default function Associations({ data }: { data: SelectedSet }) {
                 <span className="text-nowrap">Terms Amount:</span>
                 <div className="w-fit">
                   <SelectWrap
+                    css="!min-w-[70px]"
                     options={[
                       { label: '5', value: '5' },
                       { label: '10', value: '10', hidden: data.list.length < 10 },

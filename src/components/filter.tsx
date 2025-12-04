@@ -103,7 +103,7 @@ export default function Filter({ creatorList }: { creatorList: SetCreator[] }) {
     setFilter(null)
     setShow(false)
 
-    push(titleParam ? `${pathname}?title=${titleParam}` : `${pathname}`)
+    push(titleParam ? `${pathname}?title=${titleParam}` : pathname)
   }
 
   const getOptions = () => {
@@ -142,7 +142,7 @@ export default function Filter({ creatorList }: { creatorList: SetCreator[] }) {
       <Sheet
         open={show}
         onOpenChange={() => {
-          if (show && !filter && !!searchParams.toString()) push(`${pathname}`)
+          if (show && !filter && !!searchParams.toString()) push(pathname)
 
           setShow(!show)
         }}

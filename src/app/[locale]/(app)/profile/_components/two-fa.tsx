@@ -13,6 +13,7 @@ import apiRequestService from '@/services/apiRequestService'
 import { profileAppPath, twoFaVerifyApiPath } from '@/utils/paths'
 import { updateAccTwoFaHash } from '@/actions/user'
 import { useToast } from '@/hooks/use-toast'
+import useLocaleUrl from '@/hooks/use-locale-url'
 
 export default function TwoFa({ twoFaData }: { twoFaData: { data: string; secret: string } | null }) {
   const [isShow, setShow] = useState(false)
@@ -20,6 +21,7 @@ export default function TwoFa({ twoFaData }: { twoFaData: { data: string; secret
   const { toast } = useToast()
   const { push } = useRouter()
   const { update } = useSession()
+  const { getLocaleUrl } = useLocaleUrl()
 
   const getErrToast = (description: string) =>
     toast({ title: 'Two-Factor Authentication Error', variant: 'destructive', description })
@@ -45,7 +47,7 @@ export default function TwoFa({ twoFaData }: { twoFaData: { data: string; secret
 
         update({ isTwoFa: true })
 
-        setTimeout(() => push(profileAppPath), 100)
+        setTimeout(() => push(getLocaleUrl(profileAppPath)), 100)
       } else getErrToast('Invalid code, please repeat...')
 
       setShow(false)
@@ -63,7 +65,7 @@ export default function TwoFa({ twoFaData }: { twoFaData: { data: string; secret
 
     update({ isTwoFa: false })
 
-    setTimeout(() => push(profileAppPath), 100)
+    setTimeout(() => push(getLocaleUrl(profileAppPath)), 100)
   }
 
   return (

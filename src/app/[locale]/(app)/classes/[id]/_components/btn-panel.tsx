@@ -21,6 +21,7 @@ import { SelectedUser } from '@/types/models/user'
 import { SelectedClass } from '@/types/models/class'
 import { classFormTypeSchema } from '@/types/forms/class'
 import { deleteFile } from '@/actions/fileStorage'
+import useLocaleUrl from '@/hooks/use-locale-url'
 
 export default function NavPanel({
   data,
@@ -36,6 +37,8 @@ export default function NavPanel({
 
   const { push } = useRouter()
   const { toast } = useToast()
+  const { getLocaleUrl } = useLocaleUrl()
+
   const onDelete = async () => {
     if (data.image) await deleteFile(data.image)
 
@@ -44,7 +47,7 @@ export default function NavPanel({
     if (!res.error) {
       toast({ title: 'Class Deleting', variant: 'success', description: 'Class was deleted successfully!' })
 
-      setTimeout(() => push(classesAppPath), 500)
+      setTimeout(() => push(getLocaleUrl(classesAppPath)), 500)
     }
   }
 

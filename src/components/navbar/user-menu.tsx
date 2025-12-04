@@ -3,12 +3,11 @@
 import { useEffect, useState } from 'react'
 import { Settings, UserRoundCog, LogOut, UserRoundPlus, LogIn, Palette, Bell, BellDot, Trash2, Check, Mail } from 'lucide-react'
 import Image from 'next/image'
-import Link from 'next/link'
 import { signOut, useSession } from 'next-auth/react'
 import { useTheme } from 'next-themes'
 import { formatDistanceToNow } from 'date-fns'
-import { useLocale } from 'next-intl'
 
+import Link from '../link'
 import {
   NavigationMenu,
   NavigationMenuList,
@@ -49,7 +48,6 @@ export default function UserMenu() {
 
   const { data: session } = useSession()
   const { theme, setTheme } = useTheme()
-  const locale = useLocale()
   const { getLocaleUrl } = useLocaleUrl()
 
   useSocket(SOCKET_EVENTS.notification, () => {
@@ -71,7 +69,7 @@ export default function UserMenu() {
   const logOut = async () => {
     if (window.localStorage.getItem('tab')) window.localStorage.removeItem('tab')
 
-    await signOut({ redirectTo: `/${locale}` })
+    await signOut({ redirectTo: getLocaleUrl() })
   }
 
   const changeTheme = (val: string) => {
@@ -367,12 +365,12 @@ export default function UserMenu() {
         </NavigationMenu>
       ) : (
         <div className="flex">
-          <Link href={getLocaleUrl(signUpAppPath)}>
+          <Link href={signUpAppPath}>
             <span className="icon-hover">
               <UserRoundPlus />
             </span>
           </Link>
-          <Link href={getLocaleUrl(signInAppPath)}>
+          <Link href={signInAppPath}>
             <span className="icon-hover mr-[-8px]">
               <LogIn />
             </span>

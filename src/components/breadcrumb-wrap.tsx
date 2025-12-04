@@ -12,7 +12,11 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
 
+import useLocaleUrl from '@/hooks/use-locale-url'
+
 export default function BreadcrumbWrap({ data }: { data: { links: { href: string; label: string }[]; current: string } }) {
+  const { getLocaleUrl } = useLocaleUrl()
+
   return (
     <Breadcrumb className="mb-8">
       <BreadcrumbList>
@@ -26,7 +30,7 @@ export default function BreadcrumbWrap({ data }: { data: { links: { href: string
           return (
             <Fragment key={idx}>
               <BreadcrumbItem>
-                <BreadcrumbLink className="max-w-40 truncate" href={item.href}>
+                <BreadcrumbLink className="max-w-40 truncate" href={getLocaleUrl(item.href)}>
                   {item.label}
                 </BreadcrumbLink>
               </BreadcrumbItem>

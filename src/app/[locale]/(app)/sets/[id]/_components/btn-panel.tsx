@@ -22,6 +22,7 @@ import useDisplayData from '@/hooks/useDisplayData'
 import { deleteSet } from '@/actions/set'
 import { Err } from '@/types/errTypes'
 import { useToast } from '@/hooks/use-toast'
+import useLocaleUrl from '@/hooks/use-locale-url'
 
 type NavPanelProps = { id: string; isCreator: boolean; isOwner: boolean }
 
@@ -30,6 +31,7 @@ export default function NavPanel({ id, isCreator, isOwner }: NavPanelProps) {
 
   const { push } = useRouter()
   const { toast } = useToast()
+  const { getLocaleUrl } = useLocaleUrl()
 
   const onDelete = async () => {
     const res: { success: boolean; error: null } | Err = await deleteSet(id, false)
@@ -37,7 +39,7 @@ export default function NavPanel({ id, isCreator, isOwner }: NavPanelProps) {
     if (!res.error) {
       toast({ title: 'Set Deleting', variant: 'success', description: 'Set was deleted successfully!' })
 
-      setTimeout(() => push(setsAppPath), 1000)
+      setTimeout(() => push(getLocaleUrl(setsAppPath)), 1000)
     }
   }
 

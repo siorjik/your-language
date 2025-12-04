@@ -1,8 +1,9 @@
 'use client'
 
 import z from 'zod'
-import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 
+import Link from '@/components/link'
 import Form from '@/components/forms/simple-form'
 import OAuthBlock from '@/components/oauth-block'
 
@@ -22,6 +23,7 @@ export default function SignUpForm({
   onSuccess?: (() => void) | null
 }) {
   const { toast } = useToast()
+  const t = useTranslations('form')
 
   const submit = async (data: z.infer<typeof createAccFormTypeSchema>): Promise<boolean> => {
     try {
@@ -55,8 +57,8 @@ export default function SignUpForm({
   }
 
   const fieldData = [
-    { name: 'email', label: 'Email*' },
-    { name: 'name', label: 'Name*' },
+    { name: 'email', label: `${t('email')}*` },
+    { name: 'name', label: `${t('name')}*` },
   ]
 
   return (
@@ -65,7 +67,7 @@ export default function SignUpForm({
         submit={submit}
         schema={createAccFormTypeSchema}
         fieldsData={fieldData}
-        btn={{ text: 'Create Account' }}
+        btn={{ text: t('createAcc') }}
         showSpinner={!isMainPage}
         showLoader={isMainPage}
         isReset
@@ -75,15 +77,18 @@ export default function SignUpForm({
       </div>
       {!isMainPage && (
         <div className="mt-8 w-fit mx-auto">
-          Go to{' '}
-          <Link className="link" href="/">
-            Home
-          </Link>{' '}
-          or{' '}
-          <Link className="link" href={signInAppPath}>
-            Sign In
-          </Link>{' '}
-          page
+          {t.rich('goToSignIn', {
+            Link1: (chunks) => (
+              <Link className="link" href={'/'}>
+                {chunks}
+              </Link>
+            ),
+            Link2: (chunks) => (
+              <Link className="link" href={signInAppPath}>
+                {chunks}
+              </Link>
+            ),
+          })}
         </div>
       )}
     </div>

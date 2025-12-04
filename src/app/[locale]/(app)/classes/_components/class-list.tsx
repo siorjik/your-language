@@ -3,8 +3,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { CirclePlus, Search, X } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import Link from 'next/link'
 
+import Link from '@/components/link'
 import DialogWrap from '@/components/dialog-wrap'
 import { Button } from '@/components/ui/button'
 import ClassForm from './class-form'
@@ -16,6 +16,7 @@ import getQueryString from '@/helpers/getQueryString'
 import { classesAppPath, getClassAppPath, libraryAppPath } from '@/utils/paths'
 import { SelectedSet } from '@/types/models/set'
 import { SelectedClass } from '@/types/models/class'
+import useLocaleUrl from '@/hooks/use-locale-url'
 
 export default function ClassList({ sets, classes }: { sets: SelectedSet[]; classes: SelectedClass[] }) {
   const [isClosed, setClosed] = useState(false)
@@ -24,6 +25,7 @@ export default function ClassList({ sets, classes }: { sets: SelectedSet[]; clas
 
   const params = useSearchParams()
   const { push } = useRouter()
+  const { getLocaleUrl } = useLocaleUrl()
 
   const titleParam = params.get('title')
 
@@ -53,7 +55,7 @@ export default function ClassList({ sets, classes }: { sets: SelectedSet[]; clas
         toDeleteParams: !val ? ['title'] : null,
       })
 
-      push(`${classesAppPath}?${q}`)
+      push(getLocaleUrl(`${classesAppPath}?${q}`))
     }, 1000)
   }
 
@@ -64,7 +66,7 @@ export default function ClassList({ sets, classes }: { sets: SelectedSet[]; clas
 
     const q = getQueryString({ currentParams: params, toDeleteParams: ['title'] })
 
-    push(`${classesAppPath}?${q}`)
+    push(getLocaleUrl(`${classesAppPath}?${q}`))
   }
 
   const onSuccess = () => {

@@ -1,6 +1,6 @@
-import Link from 'next/link'
 import type { Metadata } from 'next'
 
+import Link from '@/components/link'
 import SetForm from '@/components/forms/set-form'
 import { Button } from '@/components/ui/button'
 

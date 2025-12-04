@@ -1,6 +1,6 @@
-import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
 
+import Link from '@/components/link'
 import SetForm from '@/components/forms/set-form'
 import { Button } from '@/components/ui/button'
 
@@ -42,7 +42,7 @@ export default async function SetUpdate({ params }: { params: Promise<{ id: stri
   return (
     <>
       <Button className="mb-8" asChild>
-        <Link href={`/${locale}${getSetAppPath(id)}`}>Cancel</Link>
+        <Link href={getSetAppPath(id)}>Cancel</Link>
       </Button>
       <h2 className="sub-title-1">Set Update:</h2>
       <SetForm data={{ ...set, list: set.list as { term: string; definition: string }[] }} action="update" />

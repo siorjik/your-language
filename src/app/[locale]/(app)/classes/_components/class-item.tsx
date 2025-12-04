@@ -11,9 +11,11 @@ import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/com
 import { SelectedClass } from '@/types/models/class'
 import { getUserAppPath } from '@/utils/paths'
 import { BLURRED_DATA_URL } from '@/utils/constants'
+import useLocaleUrl from '@/hooks/use-locale-url'
 
 export default function ClassItem({ data, idx }: { data: SelectedClass; idx: number }) {
   const { push } = useRouter()
+  const { getLocaleUrl } = useLocaleUrl()
 
   return (
     <motion.div
@@ -54,7 +56,7 @@ export default function ClassItem({ data, idx }: { data: SelectedClass; idx: num
                 onClick={(e) => {
                   e.preventDefault()
 
-                  push(getUserAppPath(data.creatorId))
+                  push(getLocaleUrl(getUserAppPath(data.creator.id)))
                 }}
               >
                 {data.creator.image && (

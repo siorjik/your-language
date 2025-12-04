@@ -2,6 +2,7 @@
 
 import z from 'zod'
 import { useSession } from 'next-auth/react'
+import { useTranslations } from 'next-intl'
 
 import SimpleForm from '@/components/forms/simple-form'
 
@@ -13,6 +14,7 @@ import { emailContactUsApiPath } from '@/utils/paths'
 export default function ContactUsForm() {
   const { toast } = useToast()
   const { data: session } = useSession()
+  const t = useTranslations('form')
 
   const submit = async (data: z.infer<typeof contactUsFormTypeSchema>): Promise<boolean> => {
     try {
@@ -31,18 +33,19 @@ export default function ContactUsForm() {
   }
 
   const fieldsData = [
-    { name: 'email', label: 'Your Email*' },
-    { name: 'subject', label: 'Subject*' },
-    { name: 'text', label: 'Message*', type: 'textarea' },
+    { name: 'email', label: `${t('email')}*` },
+    { name: 'subject', label: `${t('subject')}*` },
+    { name: 'text', label: `${t('message')}*`, type: 'textarea' },
   ]
 
   return (
     <div className="w-full lg:w-1/2">
       <SimpleForm
+        btn={{ text: t('submit') }}
         fieldsData={fieldsData}
         submit={submit}
         schema={contactUsFormTypeSchema}
-        data={{ email: session?.user.email, subject: '', text: '' }}
+        data={{ email: session?.user.email || '', subject: '', text: '' }}
         isReset
         showLoader
       />
