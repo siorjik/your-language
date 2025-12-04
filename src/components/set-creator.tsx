@@ -1,16 +1,17 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
 import { User2 } from 'lucide-react'
 import Image from 'next/image'
 import { formatDistanceToNow } from 'date-fns'
 
+import Link from '@/components/link'
+
 import { SetCreatorInfo } from '@/types/models/set'
-import Link from 'next/link'
 import { getUserAppPath } from '@/utils/paths'
-import { useEffect, useState } from 'react'
 import { getSetById } from '@/actions/set'
 import useDisplayData from '@/hooks/useDisplayData'
-import { useQuery } from '@tanstack/react-query'
 
 export default function SetCreator({ setId }: { setId: string }) {
   const [creatorData, setCreatorData] = useState<SetCreatorInfo | null>(null)

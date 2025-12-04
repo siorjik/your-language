@@ -3,11 +3,11 @@
 import { useEffect, useState } from 'react'
 import { Settings, UserRoundCog, LogOut, UserRoundPlus, LogIn, Palette, Bell, BellDot, Trash2, Check, Mail } from 'lucide-react'
 import Image from 'next/image'
-import Link from 'next/link'
 import { signOut, useSession } from 'next-auth/react'
 import { useTheme } from 'next-themes'
 import { formatDistanceToNow } from 'date-fns'
 
+import Link from '../link'
 import {
   NavigationMenu,
   NavigationMenuList,
@@ -37,6 +37,7 @@ import { Button } from '../ui/button'
 import { getClassById, updateClass } from '@/actions/class'
 import { SelectedClass } from '@/types/models/class'
 import { Err } from '@/types/errTypes'
+import useLocaleUrl from '@/hooks/use-locale-url'
 
 export default function UserMenu() {
   const [isShow, setShow] = useState(false)
@@ -47,6 +48,8 @@ export default function UserMenu() {
 
   const { data: session } = useSession()
   const { theme, setTheme } = useTheme()
+  const { getLocaleUrl } = useLocaleUrl()
+
   useSocket(SOCKET_EVENTS.notification, () => {
     setTimeout(async () => await getNotifications(), 500)
   })
@@ -66,7 +69,7 @@ export default function UserMenu() {
   const logOut = async () => {
     if (window.localStorage.getItem('tab')) window.localStorage.removeItem('tab')
 
-    await signOut({ redirectTo: '/' })
+    await signOut({ redirectTo: getLocaleUrl() })
   }
 
   const changeTheme = (val: string) => {

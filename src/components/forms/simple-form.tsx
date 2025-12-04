@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import z, { ZodSchema } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
@@ -41,6 +42,8 @@ export default function SimpleForm(props: SimpleFormPropsType) {
     onSuccess,
     showLoader = false,
   } = props
+
+  const t = useTranslations('form')
 
   const getDefaultValues = () => {
     return fieldsData.reduce(
@@ -126,7 +129,7 @@ export default function SimpleForm(props: SimpleFormPropsType) {
           })}
           {((!isDisabled && Object.keys(dirtyFields).length > 0) || isErr) && (
             <Button className={`${btn?.css || 'w-full'} mt-8`} type="submit" disabled={isSubmitting}>
-              {btn?.text || 'Submit'} {isSubmitting && showLoader && <Loader2 className="animate-spin" />}
+              {btn?.text || t('submit')} {isSubmitting && showLoader && <Loader2 className="animate-spin" />}
             </Button>
           )}
         </form>

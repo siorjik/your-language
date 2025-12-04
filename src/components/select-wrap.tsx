@@ -11,9 +11,18 @@ type SelectProps = {
   defaultValue: string
   placeholder: string
   disabled?: boolean
+  css?: string
 }
 
-export default function SelectWrap({ options, label, placeholder, defaultValue, onValueChange, disabled = false }: SelectProps) {
+export default function SelectWrap({
+  options,
+  label,
+  placeholder,
+  defaultValue,
+  onValueChange,
+  disabled = false,
+  css = '',
+}: SelectProps) {
   const [isOpen, setIsOpen] = useState(false)
 
   const { setModalVisibility } = use(ModalContext)
@@ -24,7 +33,7 @@ export default function SelectWrap({ options, label, placeholder, defaultValue, 
 
   return (
     <Select open={isOpen} onOpenChange={setIsOpen} onValueChange={onValueChange} defaultValue={defaultValue} disabled={disabled}>
-      <SelectTrigger className="min-w-[180px]">
+      <SelectTrigger className={`min-w-[180px] ${css}`}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>

@@ -1,0 +1,124 @@
+'use client'
+
+import { useEffect, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
+import { FileCog, Share } from 'lucide-react'
+
+import Link from '@/components/link'
+import Tabs from '@/components/activity-tabs'
+import { Combobox } from '@/components/combobox'
+import { Button } from '@/components/ui/button'
+import DialogWrap from '@/components/dialog-wrap'
+import SetForm from '@/components/forms/set-form'
+import ShareBtn from '@/components/share-btn'
+import Filter from '@/components/filter'
+import Spinner from '@/components/spinner'
+
+import { libraryAppPath } from '@/utils/paths'
+import { SelectedSet, SetCreator } from '@/types/models/set'
+import { ModalContextProvider } from '@/contexts/modal-context'
+
+export default function Activities({ sets, creatorList }: { sets: SelectedSet[]; creatorList: SetCreator[] }) {
+  const [id, setId] = useState<string | null>(null)
+  const [isAutoClose, setAutoClose] = useState(false)
+  const [isLoader, setLoader] = useState(false)
+
+  const searchParams = useSearchParams()
+
+  const fromParam = searchParams.get('from')
+  const toParam = searchParams.get('to')
+  const isParams = fromParam || toParam
+
+  useEffect(() => {
+    if (!!sets.length) setId(sets[0].id)
+
+    setLoader(true)
+    setTimeout(() => setLoader(false), 500)
+  }, [searchParams])
+
+  useEffect(() => {
+    setLoader(true)
+    setTimeout(() => setLoader(false), 500)
+  }, [id])
+
+  return (
+    <ModalContextProvider>
+      {!!sets.length ? (
+        <>
+          <h2 className="mx-auto w-fit title">Training with Sets</h2>
+          <div className="mb-10 flex flex-col lg:flex-row justify-between items-center gap-5">
+            <div className="flex items-center gap-3">
+              <span className="sub-title-3 mb-0">Choose Set:</span>
+              <div className="w-[200px]">
+                <Combobox
+                  key={searchParams.toString()}
+                  placeholder="Choose Set..."
+                  searchText="Search Set..."
+                  notFoundText="Set was not found..."
+                  data={sets.map((set) => ({ value: set.title, label: set.title, id: set.id }))}
+                  getValue={(val) => setId(val)}
+                  value={sets[sets.findIndex((set) => set.id === id || sets[0].id)].title}
+                />
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <DialogWrap
+                width="max-w-3xl"
+                title="Set Update"
+                isAutoClose={isAutoClose}
+                trigger={
+                  <Button>
+                    <FileCog />
+                    Update
+                  </Button>
+                }
+                content={
+                  <SetForm
+                    data={sets.find((set) => set.id === id) as SelectedSet}
+                    action="update"
+                    btnStyle="dialog-submit-btn"
+                    afterSubmitFn={() => {
+                      setAutoClose(true)
+
+                      setTimeout(() => setAutoClose(false), 1000)
+                    }}
+                  />
+                }
+              />
+              <ShareBtn
+                trigger={
+                  <Button>
+                    <Share />
+                    Share
+                  </Button>
+                }
+                id={id!}
+              />
+            </div>
+            <Filter creatorList={creatorList} />
+          </div>
+          <Tabs set={sets.find((set) => set.id === id)!} />
+          {isLoader && <Spinner />}
+        </>
+      ) : (
+        <div className="h-[calc(100vh-160px)] flex flex-col justify-center items-center">
+          {!isParams ? (
+            <>
+              <p className="mb-1 text-lg font-semibold">No created Sets yet 🤨</p>
+              <Link href={libraryAppPath} className="link text-xl">
+                Visit Library and create a new one {'>>>'}
+              </Link>
+            </>
+          ) : (
+            <>
+              <div className="mb-5">
+                <Filter creatorList={creatorList} />
+              </div>
+              <p className="mb-1 text-lg font-semibold">No any Sets 🤨</p>
+            </>
+          )}
+        </div>
+      )}
+    </ModalContextProvider>
+  )
+}

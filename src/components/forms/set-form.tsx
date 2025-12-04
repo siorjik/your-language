@@ -25,6 +25,7 @@ import dictionaryService from '@/services/dictionaryService'
 import { SelectedSet } from '@/types/models/set'
 import { createNotification } from '@/actions/notification'
 import useSocket from '@/hooks/useSocket'
+import useLocaleUrl from '@/hooks/use-locale-url'
 
 const defaultValues = { list: [{ term: '', definition: '' }], title: '', source: '', target: '' }
 
@@ -42,6 +43,7 @@ export default function SetForm({ data = null, action = null, btnStyle = '', aft
 
   const { push } = useRouter()
   const { eventEmit } = useSocket(SOCKET_EVENTS.notification)
+  const { getLocaleUrl } = useLocaleUrl()
 
   const timeoutRef: { current: NodeJS.Timeout | null } = useRef(null)
   const translateRef = useRef<(HTMLInputElement | null)[]>([])
@@ -67,9 +69,9 @@ export default function SetForm({ data = null, action = null, btnStyle = '', aft
 
         eventEmit()
 
-        push(setsAppPath)
+        push(getLocaleUrl(setsAppPath))
       } else {
-        if (!afterSubmitFn) push(getSetAppPath(res.id))
+        if (!afterSubmitFn) push(getLocaleUrl(getSetAppPath(res.id)))
         else afterSubmitFn()
       }
     } else

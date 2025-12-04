@@ -1,0 +1,51 @@
+{
+  "localeSwitcher": { "label": "Choose language:  " },
+  "common": { "signIn": "Sign In", "signUp": "Sign Up" },
+  "oauth": { "continue": "Continue with", "or": "OR" },
+  "form": {
+    "email": "Email",
+    "password": "Password",
+    "name": "Name",
+    "createAcc": "Create Account",
+    "logIn": "Log In",
+    "code": "Code",
+    "passRecovery": "Password Recovery",
+    "forgotPass": "Forgot your password?",
+    "subject": "Subject",
+    "message": "Message",
+    "submit": "Submit",
+    "goToSignUp": "Go to <Link1>Home</Link1> or <Link2>Sign Up</Link2> page",
+    "goToSignIn": "Go to <Link1>Home</Link1> or <Link2>Sign In</Link2> page"
+  },
+  "popup": { "close": "Close" },
+  "menu": {
+    "library": "Library",
+    "activities": "Activities",
+    "sets": "Sets",
+    "classes": "Classes",
+    "home": "Home",
+    "contactUs": "Contact Us"
+  },
+  "Home": {
+    "guestMode": {
+      "welcome": "Welcome to Language Bro!",
+      "message": "Discover a smarter, more engaging way to learn language. Whether you`re just starting out or sharpening advanced skills, our powerful tools help you build vocabulary, master grammar, and grow your confidence - step by step...",
+      "improve": "Improve your language skills!",
+      "increase": "Increase your conversation confidence!",
+      "expend": "Expend your vocabulary!",
+      "enjoy": "Enjoy your learning process!",
+      "startJourney": "Start your journey!",
+      "welcomePopup": "Welcome!",
+      "flashcardsQuizzes": "Flashcards & Quizzes",
+      "flashcardsQuizzesText": "Master new words and phrases faster than ever with our <span>Flashcards & Quizzes</span>. Effortlessly review vocabulary in bite-sized sessions, then challenge yourself with quick quizzes that keep your memory sharp. Flashcards help you visualize, repeat, and retain essential language, while quizzes turn learning into an engaging game. Whether you have just a few minutes or a whole hour, these tools adapt to your pace and keep you motivated. Explore, practice, and grow your English skills - all in one place",
+      "createFlashcards": "Create Flashcards",
+      "activityTracker": "Your Activity Tracker",
+      "activityTrackerText": "Stay on top of your progress with <span>Your Activity Tracker</span>. See how much you`ve learned, track your daily practice, and celebrate every milestone. From completed flashcards to quiz scores and study streaks, your tracker keeps everything organized in one place. It`s the easiest way to stay motivated, set goals, and watch your English skills grow step by step. Learning is a journey - let your activity tracker guide the way!",
+      "startActivity": "Start Activity",
+      "accessibility": "Accessible Anywhere",
+      "accessibilityText": "With <span>Accessible Anywhere</span>, your language learning goes wherever you go. Whether you`re on your phone, tablet, or computer, all your flashcards, quizzes, and progress are always synced and ready. Practice on the bus, at the café, or from the comfort of home - your learning is never limited by location. Just log in and keep moving forward, no matter where life takes you.",
+      "startLearning": "Start Learning"
+    }
+  },
+  "ContactUs": { "title": "Contact us if you have any issues or propositions:" }
+}

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { useTheme } from 'next-themes'
 import { motion } from 'framer-motion'
+import { useTranslations } from 'next-intl'
 
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '../ui/tabs'
 import DialogWrap from '../dialog-wrap'
@@ -26,6 +27,8 @@ export default function GuestMode() {
 
   const { theme } = useTheme()
   const { isLgDisplay, viewSize } = useDisplayData()
+  const t = useTranslations('Home.guestMode')
+  const tCommon = useTranslations('common')
 
   const isDark = theme?.includes('-dark')
 
@@ -33,10 +36,10 @@ export default function GuestMode() {
     <Tabs>
       <TabsList className="w-full flex justify-evenly">
         <TabsTrigger value="signIn" className="w-1/2">
-          Sign In
+          {tCommon('signIn')}
         </TabsTrigger>
         <TabsTrigger value="signUp" className="w-1/2">
-          Sign Up
+          {tCommon('signUp')}
         </TabsTrigger>
       </TabsList>
       <TabsContent value="signIn">
@@ -64,7 +67,7 @@ export default function GuestMode() {
       width="max-w-[400px]"
       title={
         <p>
-          Welcome! <span className="emoji">👋</span>
+          {t('welcomePopup')} <span className="emoji">👋</span>
         </p>
       }
       trigger={
@@ -100,7 +103,7 @@ export default function GuestMode() {
                         scaleDistance={1.3}
                         rotateYDistance={20}
                       >
-                        Flashcards & Quizzes
+                        {t('flashcardsQuizzes')}
                       </TextShimmerWave>
                     </CardTitle>
                   </CardHeader>
@@ -111,12 +114,7 @@ export default function GuestMode() {
                       "
                     >
                       <GlowEffect className="rounded-lg opacity-40" mode="flowHorizontal" blur="softest" duration={5} scale={1} />
-                      Master new words and phrases faster than ever with our{' '}
-                      <span className="text-primary">Flashcards & Quizzes</span>. Effortlessly review vocabulary in bite-sized
-                      sessions, then challenge yourself with quick quizzes that keep your memory sharp. Flashcards help you
-                      visualize, repeat, and retain essential language, while quizzes turn learning into an engaging game. Whether
-                      you have just a few minutes or a whole hour, these tools adapt to your pace and keep you motivated. Explore,
-                      practice, and grow your English skills - all in one place.
+                      {t.rich('flashcardsQuizzesText', { span: (text) => <span className="text-primary">{text}</span> })}
                     </div>
                     <Image
                       src={flashcardsImg}
@@ -129,7 +127,7 @@ export default function GuestMode() {
                   </CardContent>
                 </div>
                 <CardFooter>
-                  <span className="mx-auto">{getDialog('Create Flashcards')}</span>
+                  <span className="mx-auto">{getDialog(t('createFlashcards'))}</span>
                 </CardFooter>
               </Card>
             </motion.div>
@@ -152,7 +150,7 @@ export default function GuestMode() {
                         scaleDistance={1.3}
                         rotateYDistance={20}
                       >
-                        Your Activity Tracker
+                        {t('activityTracker')}
                       </TextShimmerWave>
                     </CardTitle>
                   </CardHeader>
@@ -163,11 +161,7 @@ export default function GuestMode() {
                       "
                     >
                       <GlowEffect className="rounded-lg opacity-40" mode="flowHorizontal" blur="softest" duration={5} scale={1} />
-                      Stay on top of your progress with <span className="text-primary">Your Activity Tracker</span>. See how much
-                      you`ve learned, track your daily practice, and celebrate every milestone. From completed flashcards to quiz
-                      scores and study streaks, your tracker keeps everything organized in one place. It`s the easiest way to stay
-                      motivated, set goals, and watch your English skills grow step by step. Learning is a journey - let your
-                      activity tracker guide the way!
+                      {t.rich('activityTrackerText', { span: (text) => <span className="text-primary">{text}</span> })}
                     </div>
                     <Image
                       src={chartImg}
@@ -180,7 +174,7 @@ export default function GuestMode() {
                   </CardContent>
                 </div>
                 <CardFooter>
-                  <span className="mx-auto">{getDialog('Start Activity')}</span>
+                  <span className="mx-auto">{getDialog(t('startActivity'))}</span>
                 </CardFooter>
               </Card>
             </motion.div>
@@ -203,7 +197,7 @@ export default function GuestMode() {
                         scaleDistance={1.3}
                         rotateYDistance={20}
                       >
-                        Accessible Anywhere
+                        {t('accessibility')}
                       </TextShimmerWave>
                     </CardTitle>
                   </CardHeader>
@@ -214,10 +208,7 @@ export default function GuestMode() {
                       "
                     >
                       <GlowEffect className="rounded-lg opacity-40" mode="flowHorizontal" blur="softest" duration={5} scale={1} />
-                      With <span className="text-primary font-semibold">Accessible Anywhere</span>, your language learning goes
-                      wherever you go. Whether you`re on your phone, tablet, or computer, all your flashcards, quizzes, and
-                      progress are always synced and ready. Practice on the bus, at the café, or from the comfort of home - your
-                      learning is never limited by location. Just log in and keep moving forward, no matter where life takes you.
+                      {t.rich('accessibilityText', { span: (text) => <span className="text-primary">{text}</span> })}
                     </div>
                     <Image
                       src={deviceImg}
@@ -230,7 +221,7 @@ export default function GuestMode() {
                   </CardContent>
                 </div>
                 <CardFooter>
-                  <span className="mx-auto">{getDialog('Start Learning')}</span>
+                  <span className="mx-auto">{getDialog(t('startLearning'))}</span>
                 </CardFooter>
               </Card>
             </motion.div>

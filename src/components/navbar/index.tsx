@@ -1,13 +1,14 @@
 'use client'
 
 import { Fragment, useState } from 'react'
-import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { Menu } from 'lucide-react'
 import { useTheme } from 'next-themes'
+import { useTranslations } from 'next-intl'
 
+import Link from '../link'
 import UserMenu from './user-menu'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 
@@ -15,6 +16,7 @@ import logo from '@/../public/logo.png'
 
 import { libraryAppPath, activitiesAppPath, setsAppPath, classesAppPath } from '@/utils/paths'
 import useDisplayData from '@/hooks/useDisplayData'
+import useLocaleUrl from '@/hooks/use-locale-url'
 
 export default function Navbar() {
   const [showMenu, setShowMenu] = useState(false)
@@ -23,6 +25,8 @@ export default function Navbar() {
   const { data: session } = useSession()
   const { isMobile } = useDisplayData()
   const { theme } = useTheme()
+  const { getLocaleUrl } = useLocaleUrl()
+  const t = useTranslations('menu')
 
   const isDefault = theme?.includes('-default')
 
@@ -31,7 +35,7 @@ export default function Navbar() {
   const getMenuItem = ({ path, title }: { path: string; title: string }) => {
     let css: string = ''
 
-    if (pathname === path || (pathname.startsWith(path) && path !== '/')) {
+    if (pathname === path || (pathname.startsWith(path) && path !== getLocaleUrl())) {
       css = !isMobile ? '!border-primary' : '!text-primary'
     }
 
@@ -57,11 +61,11 @@ export default function Navbar() {
   }
 
   const navData = [
-    { title: 'Home', path: '/' },
-    { title: 'Library', path: libraryAppPath },
-    { title: 'Sets', path: setsAppPath },
-    { title: 'Activities', path: activitiesAppPath },
-    { title: 'Classes', path: classesAppPath },
+    { title: t('home'), path: '/' },
+    { title: t('library'), path: libraryAppPath },
+    { title: t('sets'), path: setsAppPath },
+    { title: t('activities'), path: activitiesAppPath },
+    { title: t('classes'), path: classesAppPath },
   ]
 
   return (

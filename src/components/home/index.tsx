@@ -1,7 +1,8 @@
 'use client'
 
 import { Session } from 'next-auth'
-import Link from 'next/link'
+
+import Link from '../link'
 import { Separator } from '../ui/separator'
 import Chart from '../chart'
 import CardSection from './cards-section'
