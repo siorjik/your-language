@@ -102,7 +102,7 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
           <TextEffect
             className={`
               max-w-[500px] ${!isDark ? 'text-background/70' : 'text-accent-foreground/70'}
-              mx-auto p-3 bg-white/10 backdrop-blur-md shadow-lg
+              mx-auto p-3 bg-white/20 backdrop-blur-sm shadow-lg
               rounded-2xl italic font-semibold border border-white/20
             `}
             per="char"

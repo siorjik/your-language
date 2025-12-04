@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { signOut, useSession } from 'next-auth/react'
 import { useTheme } from 'next-themes'
 import { formatDistanceToNow } from 'date-fns'
+import { useTranslations } from 'next-intl'
 
 import Link from '../link'
 import {
@@ -49,6 +50,7 @@ export default function UserMenu() {
   const { data: session } = useSession()
   const { theme, setTheme } = useTheme()
   const { getLocaleUrl } = useLocaleUrl()
+  const t = useTranslations('userMenu')
 
   useSocket(SOCKET_EVENTS.notification, () => {
     setTimeout(async () => await getNotifications(), 500)
@@ -211,7 +213,7 @@ export default function UserMenu() {
       <DropdownMenuTrigger asChild>
         <span className="flex items-center gap-3 h-10 px-2 hover:bg-accent cursor-pointer rounded-md font-semibold w-full">
           <Palette className="text-primary" />
-          <span className="text-primary">Colors</span>
+          <span className="text-primary">{t('colors')}</span>
         </span>
       </DropdownMenuTrigger>
       <DropdownMenuContent side="left" align="start">
@@ -254,7 +256,7 @@ export default function UserMenu() {
             </span>
           )}
           {!!notificationList.length ? <BellDot className="text-primary" /> : <Bell className="text-primary" />}
-          <span className="text-primary">Notifications</span>
+          <span className="text-primary">{t('notifications')}</span>
         </span>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="right-0 w-fit" side="left" align="start">
@@ -328,7 +330,7 @@ export default function UserMenu() {
                     href={profileAppPath}
                   >
                     <UserRoundCog className="text-primary" />
-                    <span className="text-primary">Settings</span>
+                    <span className="text-primary">{t('settings')}</span>
                   </Link>
                 </NavigationMenuLink>
                 <NavigationMenuLink asChild>{notificationsDropDownMenu()}</NavigationMenuLink>
@@ -337,7 +339,7 @@ export default function UserMenu() {
                     onClick={() => setMenuValue('menu')}
                     className="h-10 px-2 hover:bg-accent flex items-center cursor-pointer rounded-md font-semibold"
                   >
-                    <ThemeBtn text="Mode" />
+                    <ThemeBtn text={t('mode')} />
                   </span>
                 </NavigationMenuLink>
                 <NavigationMenuLink asChild>{colorsDropdownMenu()}</NavigationMenuLink>
@@ -347,7 +349,7 @@ export default function UserMenu() {
                     href={contactUsAppPath}
                   >
                     <Mail className="text-primary" />
-                    <span className="text-primary">Contact Us</span>
+                    <span className="text-primary">{t('contactUs')}</span>
                   </Link>
                 </NavigationMenuLink>
                 <NavigationMenuLink asChild>
@@ -356,7 +358,7 @@ export default function UserMenu() {
                     onClick={logOut}
                   >
                     <LogOut className="text-primary" />
-                    <span className="whitespace-nowrap text-primary">Log Out</span>
+                    <span className="whitespace-nowrap text-primary">{t('logOut')}</span>
                   </span>
                 </NavigationMenuLink>
               </NavigationMenuContent>

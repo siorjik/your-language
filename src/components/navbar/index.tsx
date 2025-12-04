@@ -23,7 +23,7 @@ export default function Navbar() {
 
   const pathname = usePathname()
   const { data: session } = useSession()
-  const { isMobile } = useDisplayData()
+  const { isMobile, isLgDisplay } = useDisplayData()
   const { theme } = useTheme()
   const { getLocaleUrl } = useLocaleUrl()
   const t = useTranslations('menu')
@@ -72,7 +72,7 @@ export default function Navbar() {
     <>
       <nav className="flex justify-between">
         <div className="flex gap-2 items-center">
-          <Link className="relative" href="/">
+          <Link className={`w-[43px] ${isLgDisplay ? 'mr-10' : 'mr-5'} relative`} href={getLocaleUrl()}>
             <Image className="h-[43px] w-[43px] mr-10 z-0" src={logo} alt="logo" placeholder="blur" priority />
             {!isDefault && <div className="h-[43px] w-[43px] bg-primary/50 z-10 absolute top-0 rounded-sm" />}
           </Link>
