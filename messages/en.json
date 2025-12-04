@@ -26,6 +26,14 @@
     "home": "Home",
     "contactUs": "Contact Us"
   },
+  "userMenu": {
+    "logOut": "Log Out",
+    "settings": "Settings",
+    "notifications": "Notifications",
+    "contactUs": "Contact Us",
+    "mode": "Mode",
+    "colors": "Colors"
+  },
   "Home": {
     "guestMode": {
       "welcome": "Welcome to Language Bro!",
@@ -45,6 +53,17 @@
       "accessibility": "Accessible Anywhere",
       "accessibilityText": "With <span>Accessible Anywhere</span>, your language learning goes wherever you go. Whether you`re on your phone, tablet, or computer, all your flashcards, quizzes, and progress are always synced and ready. Practice on the bus, at the café, or from the comfort of home - your learning is never limited by location. Just log in and keep moving forward, no matter where life takes you.",
       "startLearning": "Start Learning"
+    },
+    "session": {
+      "activity": "Your activity",
+      "recentSets": "Recent Created Sets",
+      "chart": {
+        "sets": "Created Sets",
+        "flashcards": "Passed Flashcards",
+        "memorization": "Passed Memorization",
+        "spelling": "Passed Spelling",
+        "associations": "Passed Associations"
+      }
     }
   },
   "ContactUs": { "title": "Contact us if you have any issues or propositions:" }

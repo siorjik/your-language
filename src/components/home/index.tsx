@@ -1,6 +1,7 @@
 'use client'
 
 import { Session } from 'next-auth'
+import { useTranslations } from 'next-intl'
 
 import Link from '../link'
 import { Separator } from '../ui/separator'
@@ -17,12 +18,14 @@ type MainProps = {
   chartData: { month: string; sets: number; flashcards: number; memorization: number; spelling: number }[]
 }
 export default function Home({ session, sets, chartData }: MainProps) {
+  const t = useTranslations('Home.session')
+
   const chartConfig = {
-    sets: { label: 'Created Sets', color: 'hsl(var(--chart-1))' },
-    flashcards: { label: 'Passed Flashcards', color: 'hsl(var(--chart-2))' },
-    memorization: { label: 'Passed Memorization', color: 'hsl(var(--chart-3))' },
-    spelling: { label: 'Passed Spelling', color: 'hsl(var(--chart-4))' },
-    associations: { label: 'Passed Associations', color: 'hsl(var(--chart-5))' },
+    sets: { label: `${t('chart.sets')}`, color: 'hsl(var(--chart-1))' },
+    flashcards: { label: `${t('chart.flashcards')}`, color: 'hsl(var(--chart-2))' },
+    memorization: { label: `${t('chart.memorization')}`, color: 'hsl(var(--chart-3))' },
+    spelling: { label: `${t('chart.spelling')}`, color: 'hsl(var(--chart-4))' },
+    associations: { label: `${t('chart.associations')}`, color: 'hsl(var(--chart-5))' },
   }
 
   return (
@@ -31,7 +34,7 @@ export default function Home({ session, sets, chartData }: MainProps) {
         <>
           {!!sets.length ? (
             <>
-              <h2 className="title text-center">Your activity</h2>
+              <h2 className="title text-center">{t('activity')}</h2>
               <Chart data={chartData} config={chartConfig} />
               <Separator className="my-5 h-[2px]" />
               <CardSection sets={sets.filter((set) => set.creator?.name === session.user.name)} />

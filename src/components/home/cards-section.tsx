@@ -4,6 +4,7 @@ import { RefObject, useLayoutEffect, useRef, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { formatDistanceToNow } from 'date-fns'
+import { useTranslations } from 'next-intl'
 
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '../ui/card'
 import Link from '@/components/link'
@@ -18,6 +19,7 @@ export default function CardSection({ sets }: { sets: SelectedSet[] }) {
   const [isShowNav, setShowNav] = useState(false)
 
   const { isLgDisplay } = useDisplayData()
+  const t = useTranslations('Home.session')
 
   const divRef = useRef<HTMLDivElement>(null)
 
@@ -123,7 +125,7 @@ export default function CardSection({ sets }: { sets: SelectedSet[] }) {
 
     return (
       <>
-        <p className="sub-title-1 mb-0">Recent created Sets:</p>
+        <p className="sub-title-1 mb-0">{t('recentSets')}</p>
         <div className="relative overflow-hidden">
           <div className="w-full px-3 py-5 flex gap-5 overflow-x-auto scroll-smooth" ref={ref}>
             <span
