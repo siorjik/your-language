@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import { motion } from 'framer-motion'
 
 import { SetList } from '@/types/models/set'
 
@@ -37,7 +38,14 @@ export default function FinishBlock({
             ?
           </>
           {!result?.failed.length && (
-            <Image className="my-20 mx-auto" src={partyPopperImg} alt="party" width={200} height={200} />
+            <motion.div
+              className="w-fit my-20 mx-auto"
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1, type: 'spring', stiffness: 700 }}
+            >
+              <Image src={partyPopperImg} alt="party" width={200} height={200} />
+            </motion.div>
           )}
         </>
       ) : (
@@ -47,7 +55,14 @@ export default function FinishBlock({
           <span className="link" onClick={start}>
             Refresh flashcards
           </span>
-          <Image className="my-20 mx-auto" src={partyPopperImg} alt="party" width={200} height={200} />
+          <motion.div
+            className="w-fit my-20 mx-auto"
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, type: 'spring', stiffness: 700 }}
+          >
+            <Image src={partyPopperImg} alt="party" width={200} height={200} />
+          </motion.div>
         </>
       )}
     </div>
