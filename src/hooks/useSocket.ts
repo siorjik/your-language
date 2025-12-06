@@ -5,6 +5,7 @@ import { io, Socket } from 'socket.io-client'
 import { signOut } from 'next-auth/react'
 
 import { SOCKET_EVENTS } from '@/utils/constants'
+import useLocaleUrl from './use-locale-url'
 
 let socket: Socket | null = null
 
@@ -12,6 +13,9 @@ type Obj = Record<string, string | number | boolean>
 
 export default function useSocket(ev: string, cb?: (data?: Obj) => void) {
   const [isConnected, setConnected] = useState(false)
+
+  const { getLocaleUrl } = useLocaleUrl()
+
   const savedCb = useRef(cb)
 
   useEffect(() => {
@@ -25,7 +29,7 @@ export default function useSocket(ev: string, cb?: (data?: Obj) => void) {
 
     const onConnect = () => setConnected(true)
     const onDisconnect = () => setConnected(false)
-    const onSignOut = async () => await signOut({ redirectTo: '/' })
+    const onSignOut = async () => await signOut({ redirectTo: getLocaleUrl() })
     const onEvent = (data?: Obj) => {
       console.log('💥 Event on client: ', ev)
 

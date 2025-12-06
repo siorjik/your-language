@@ -15,9 +15,28 @@
     "message": "Message",
     "submit": "Submit",
     "goToSignUp": "Go to <Link1>Home</Link1> or <Link2>Sign Up</Link2> page",
-    "goToSignIn": "Go to <Link1>Home</Link1> or <Link2>Sign In</Link2> page"
+    "goToSignIn": "Go to <Link1>Home</Link1> or <Link2>Sign In</Link2> page",
+    "set": {
+      "term": "Term*",
+      "definition": "Definition*",
+      "title": "Title*",
+      "source": "Language Source*",
+      "target": "Language Target*",
+      "chooseSource": "Choose Source",
+      "chooseTarget": "Choose Target",
+      "chooseBoth": "Choose language source and target",
+      "textTerm": "Text Term",
+      "textDefinition": "Text Definition",
+      "needDifferentTarget": "Need to be different than target",
+      "needDifferentSource": "Need to be different than source",
+      "loading": "Loading...",
+      "from": "from:",
+      "to": "to:",
+      "create": "Create",
+      "update": "Update"
+    }
   },
-  "popup": { "close": "Close" },
+  "popup": { "close": "Close", "deleteSetMess": "You are going to delete the Set...", "sure": "Are you sure?" },
   "menu": {
     "library": "Library",
     "activities": "Activities",
@@ -32,7 +51,63 @@
     "notifications": "Notifications",
     "contactUs": "Contact Us",
     "mode": "Mode",
-    "colors": "Colors"
+    "colors": "Colors",
+    "notificationsTexts": {
+      "noAny": "No any notifications yet",
+      "notificationCenter": "Notification Center",
+      "newSet": "Hi there! Your new created <Link>Set</Link> is waiting for you!",
+      "newClass": "Invite friends in your created <Link>Class</Link> and have fun!",
+      "request": "You got the request to join your <Link>Class</Link>!",
+      "approve": "Approve",
+      "decline": "Decline",
+      "joined": "You were joined the <Link>Class</Link>!"
+    },
+    "themes": "Theme Colors"
+  },
+  "filter": {
+    "title": "Filters",
+    "choose": "Choose filters",
+    "reset": "Reset",
+    "apply": "Apply",
+    "creators": "Creators",
+    "from": "Date From",
+    "to": "Date To",
+    "resetFilters": "Reset Filters",
+    "chooseCreators": "Choose Creators"
+  },
+  "datePicker": { "select": "Select Date" },
+  "btn": {
+    "create": "Create",
+    "update": "Update",
+    "delete": "Remove",
+    "cancel": "Cancel",
+    "share": "Share",
+    "continue": "Continue"
+  },
+  "activities": {
+    "flashcards": "Flashcards",
+    "memorization": "Memorization",
+    "spelling": "Spelling",
+    "associations": "Associations",
+    "term": "Term",
+    "definition": "Definition",
+    "chooseSpeech": "Choose speech mode:",
+    "chooseDelay": "Choose delay:",
+    "passed": "Passed:",
+    "failed": "Failed:",
+    "yourAnswer": "Your answer...",
+    "answer": "Answer",
+    "check": "Check",
+    "startRefresh": "Start / Refresh",
+    "termsAmount": "Terms amount"
+  },
+  "finishBlock": {
+    "niceJob": "Nice job",
+    "doYouWant": "Do you want to",
+    "repeat": "repeat failed",
+    "or": "or",
+    "startOver": "start over",
+    "refreshFlashcards": "Refresh flashcards"
   },
   "Home": {
     "guestMode": {
@@ -66,5 +141,67 @@
       }
     }
   },
-  "ContactUs": { "title": "Contact us if you have any issues or propositions:" }
+  "ContactUs": { "title": "Contact us if you have any issues or propositions:" },
+  "Library": {
+    "title": "Your helpers",
+    "sets": {
+      "goTo": "Go to Sets",
+      "title": "Sets",
+      "subtitle": "One of the most powerful features to expend your vocabulary.",
+      "text": "A Set is a structured group of words or expressions that helps you learn and retain new vocabulary more effectively. Each Set can be focused on a specific topic - like food, travel, emotions, or business language - so you can learn in a meaningful and practical context.",
+      "includes": "Every Set includes:",
+      "flashcards": "Flashcards:",
+      "flashcardsText": "Review each word or phrase with a clean, distraction-free flashcard interface. You`ll see the term on one side and its meaning, translation, or example sentence on the other. Flip through at your own pace or use spaced repetition to optimize your memory.",
+      "memorization": "Memorization:",
+      "memorizationText": "Train your brain to recall words without seeing them. This test mode uses multiple-choice questions, matching tasks, and fill-in-the-blanks to challenge what you`ve retained. It`s a key step in moving words from passive recognition to active recall.",
+      "spelling": "Spelling:",
+      "spellingText": "Practice writing new vocabulary correctly. You`ll hear the word (or see its translation/definition), then be asked to type it out from memory. This strengthens spelling, listening, and recall all at once.",
+      "textEnd": "Using Sets, you`re not just memorizing words - you`re building real, usable language skills. Whether you`re a beginner or brushing up your fluency, Sets give you a focused, efficient, and enjoyable learning path.",
+      "create": "Create a new one"
+    },
+    "activities": {
+      "goTo": "Go to Activities",
+      "title": "Activities",
+      "subtitle": "Training with exercises that cover learning aspects.",
+      "text": "The Activity page is where you actively engage with the vocabulary sets you`ve created. Each set contains pairs of terms and definitions, and you can choose how to practice them through three interactive modes:",
+      "how": "How It Works:",
+      "choose": "Choose a Set - select a vocabulary set that contains your terms and definitions.",
+      "pick": "Pick an Activity Mode - switch between Flashcards, Memorization, or Spelling depending on your learning goal.",
+      "track": "Track Your Learning - each mode reinforces memory in a unique way, giving you a balanced approach to mastering your vocabulary.",
+      "passed": "Each passed activity will be tracked by your Progress Activity Chart.",
+      "textEnd": "It`s the fastest access to your exercises and this makes the Activity page a flexible practice hub - you decide whether to review, test, or drill spelling for any of your sets."
+    },
+    "classes": {
+      "goTo": "Go to Classes",
+      "title": "Classes",
+      "subtitle": "Create a personal study space with your friends and enjoy learn process together!",
+      "text": "Classes are your own study spaces where you can learn languages with friends, classmates, or even the whole community. It`s like having your personal study club - right inside the app!",
+      "features": "Key Features:",
+      "create": "Create Your Own Class",
+      "start": "Start a new class in just a few taps.",
+      "choose": "Choose the name, invite people, and organize everything in one place.",
+      "perfect": "Perfect for teachers",
+      "group": "group leaders, or anyone who loves collaborative learning!",
+      "join": "Invite & Join",
+      "share": "Share a class link and let friends, classmates, or learners from all over the world join.",
+      "joinExisting": "Or join existing classes to connect with people who share your language goals.",
+      "shared": "Shared Study Sets",
+      "createActivities": "Create Sets with flashcards, quizzes, and spelling activities and share them with the class.",
+      "everyone": "Everyone learns from the same content, making it easier to study together.",
+      "train": "Train & Compete",
+      "practice": "Practice together with interactive activities:",
+      "flashcards": "Flashcards to memorize words.",
+      "quizzes": "Quizzes to test knowledge.",
+      "spelling": "Spelling challenges to boost accuracy",
+      "createNew": "Create a new one"
+    }
+  },
+  "Sets": {
+    "createNew": "Create New",
+    "search": "Search by Set title...",
+    "yourSets": "Your Sets:",
+    "noSets": "There are no any Sets",
+    "creationPage": { "title": "Set Creation", "cancel": "Cancel" },
+    "updatePage": { "title": "Set Update", "cancel": "Cancel" }
+  }
 }

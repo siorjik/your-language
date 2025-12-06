@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation'
+import { getTranslations } from 'next-intl/server'
 
 import Flashcards from '@/components/activities/flashcards'
 import BreadcrumbWrap from '@/components/breadcrumb-wrap'
@@ -24,8 +25,11 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   }
 }
 
-export default async function FlashcardsPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params
+export default async function FlashcardsPage({ params }: { params: Promise<{ locale: string; id: string }> }) {
+  const { locale, id } = await params
+
+  const t = await getTranslations({ locale, namespace: 'menu' })
+  const tActivities = await getTranslations({ locale, namespace: 'activities' })
 
   const set: (SelectedSet & { error: null }) | Err = await getSetById(id)
 
@@ -33,11 +37,11 @@ export default async function FlashcardsPage({ params }: { params: Promise<{ id:
 
   const breadcrumbData = {
     links: [
-      { href: libraryAppPath, label: 'Library' },
-      { href: setsAppPath, label: 'Sets' },
+      { href: libraryAppPath, label: t('library') },
+      { href: setsAppPath, label: t('sets') },
       { href: getSetAppPath(set.id), label: `${set.title}` },
     ],
-    current: 'Flashcards',
+    current: tActivities('flashcards'),
   }
 
   return (

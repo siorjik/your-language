@@ -4,6 +4,7 @@ import { useRef, useEffect, useState } from 'react'
 import Link from '@/components/link'
 import { CirclePlus, Search, X } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 
 import { Button } from '@/components/ui/button'
 import SetItem from './set-item'
@@ -41,6 +42,7 @@ export default function SetList({
   const { push } = useRouter()
   const params = useSearchParams()
   const { getLocaleUrl } = useLocaleUrl()
+  const t = useTranslations('Sets')
 
   const titleParam = params.get('title')
   const fromParam = params.get('from')
@@ -115,7 +117,7 @@ export default function SetList({
           <Button asChild>
             <Link href={newSetAppPath}>
               <CirclePlus />
-              Create New
+              {t('createNew')}
             </Link>
           </Button>
         )}
@@ -128,7 +130,7 @@ export default function SetList({
                 </span>
                 <Input
                   className="w-full px-12 border-0 bg-secondary/30 !text-lg"
-                  placeholder="Search by Set title..."
+                  placeholder={t('search')}
                   onChange={(e) => onChange(e.target.value)}
                   value={value}
                   ref={inputRef}
@@ -149,7 +151,11 @@ export default function SetList({
       </div>
       {!isLoader && !!sets?.length ? (
         <>
-          {!isSimple && <h2 className="sub-title-1">Your Sets: {count}</h2>}
+          {!isSimple && (
+            <h2 className="sub-title-1">
+              {t('yourSets')} {count}
+            </h2>
+          )}
           {sets.map((set, idx) => (
             <div key={set.id} ref={ref}>
               <Link href={getSetAppPath(set.id)}>
@@ -159,7 +165,7 @@ export default function SetList({
           ))}
         </>
       ) : isLoader ? null : (
-        <p className="w-fit mx-auto text-lg font-semibold">There are no any Sets 🤨</p>
+        <p className="w-fit mx-auto text-lg font-semibold">{t('noSets')} 🤨</p>
       )}
       {((isFetchingNextPage && hasNextPage) || isLoader) && <Spinner />}
     </>

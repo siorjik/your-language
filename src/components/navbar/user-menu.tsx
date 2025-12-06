@@ -120,11 +120,14 @@ export default function UserMenu() {
           <div>
             {time}
             <p>
-              <span className="font-emoji">😉</span> Hi there! Your new created{' '}
-              <Link className="link inline-block" href={getSetAppPath(notification.setId!)}>
-                Set
-              </Link>{' '}
-              is waiting for you!
+              <span className="font-emoji">😉</span>{' '}
+              {t.rich('notificationsTexts.newSet', {
+                Link: (text) => (
+                  <Link className="link inline-block" href={getClassAppPath(notification.setId!)}>
+                    {text}
+                  </Link>
+                ),
+              })}
             </p>
           </div>
         )
@@ -134,11 +137,14 @@ export default function UserMenu() {
           <div>
             {time}
             <p>
-              <span className="font-emoji">👨‍🏫</span> Invite friends in your created{' '}
-              <Link className="link inline-block" href={getClassAppPath(notification.classId!)}>
-                Class
-              </Link>{' '}
-              and have fun!
+              <span className="font-emoji">👨‍🏫</span>{' '}
+              {t.rich('notificationsTexts.newClass', {
+                Link: (text) => (
+                  <Link className="link inline-block" href={getSetAppPath(notification.classId!)}>
+                    {text}
+                  </Link>
+                ),
+              })}
             </p>
           </div>
         )
@@ -148,19 +154,22 @@ export default function UserMenu() {
           <div>
             {time}
             <p>
-              <span className="font-emoji">👨‍🎓👩‍🎓</span> You got the request to join your{' '}
-              <Link className="link inline-block" href={getClassAppPath(notification.classId!)}>
-                Class
-              </Link>
-              !
+              <span className="font-emoji">👨‍🎓👩‍🎓</span>{' '}
+              {t.rich('notificationsTexts.request', {
+                Link: (text) => (
+                  <Link className="link inline-block" href={getClassAppPath(notification.classId!)}>
+                    {text}
+                  </Link>
+                ),
+              })}
             </p>
             {notification.status === NOTIFICATION_STATUSES.new && (
               <div className="mt-2 flex flex-col md:flex-row gap-2 justify-center">
                 <Button className="h-5 text-xs p-2 pb-[10px]" onClick={() => onRequestAnswer('approve', notification)} size="sm">
-                  Approve
+                  {t('notificationsTexts.approve')}
                 </Button>
                 <Button className="h-5 text-xs p-2 pb-[10px]" onClick={() => onRequestAnswer('reject', notification)} size="sm">
-                  Reject
+                  {t('notificationsTexts.decline')}
                 </Button>
               </div>
             )}
@@ -172,11 +181,14 @@ export default function UserMenu() {
           <div>
             {time}
             <p>
-              <span className="font-emoji">🥳</span> You were joined the{' '}
-              <Link className="link inline-block" href={getClassAppPath(notification.classId!)}>
-                Class
-              </Link>
-              !
+              <span className="font-emoji">🥳</span>
+              {t.rich('notificationsTexts.joined', {
+                Link: (text) => (
+                  <Link className="link inline-block" href={getClassAppPath(notification.classId!)}>
+                    {text}
+                  </Link>
+                ),
+              })}
             </p>
           </div>
         )
@@ -217,7 +229,7 @@ export default function UserMenu() {
         </span>
       </DropdownMenuTrigger>
       <DropdownMenuContent side="left" align="start">
-        <DropdownMenuLabel>Theme Colors</DropdownMenuLabel>
+        <DropdownMenuLabel>{t('themes')}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuRadioGroup value={theme?.replace('-dark', '')} onValueChange={(val) => changeTheme(val)}>
           {THEMES.filter((el) => !el.value.includes('-dark')).map((el, idx) => (
@@ -260,12 +272,12 @@ export default function UserMenu() {
         </span>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="right-0 w-fit" side="left" align="start">
-        <DropdownMenuLabel>Notifications Center</DropdownMenuLabel>
+        <DropdownMenuLabel>{t('notificationsTexts.notificationCenter')}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <div className="min-h-20 max-h-72 md:max-h-fit px-2 flex flex-col overflow-y-auto">
           {!notificationList.length ? (
             <span className="max-w-[calc(100vw-250px)] w-fit my-1">
-              No any notifications yet <span className="font-emoji">🙄</span>
+              {t('notificationsTexts.noAny')} <span className="font-emoji">🙄</span>
             </span>
           ) : (
             <>

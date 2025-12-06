@@ -3,6 +3,7 @@
 import { MouseEvent, useCallback, useEffect, useState } from 'react'
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 import { Filter as FilterIcon, FilterX } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 import {
   Sheet,
@@ -30,6 +31,7 @@ export default function Filter({ creatorList }: { creatorList: SetCreator[] }) {
   const { push } = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
+  const t = useTranslations('filter')
 
   useEffect(() => {
     let params: FilterType = {}
@@ -151,12 +153,12 @@ export default function Filter({ creatorList }: { creatorList: SetCreator[] }) {
           <div className="w-fit flex gap-3">
             <Button onClick={() => setShow(!show)}>
               <FilterIcon />
-              Filters
+              {t('title')}
             </Button>
             {(filter?.from || filter?.creators) && (
               <Button variant="warn" onClick={onClear}>
                 <FilterX />
-                Clear Filters
+                {t('reset')}
               </Button>
             )}
           </div>
@@ -164,20 +166,20 @@ export default function Filter({ creatorList }: { creatorList: SetCreator[] }) {
         <SheetContent className="flex flex-col justify-between overflow-y-auto">
           <div>
             <SheetHeader className="mb-5">
-              <SheetTitle>Choose filters:</SheetTitle>
+              <SheetTitle>{t('choose')}</SheetTitle>
               <SheetDescription></SheetDescription>
             </SheetHeader>
             <div className="flex flex-col">
               <div className="mb-5 flex flex-col md:flex-row gap-5">
                 <DatePicker
-                  label="Date From"
+                  label={t('from')}
                   cb={(from) => onDate('from', from)}
                   date={filter?.from}
                   disabledDate={{ lessMore: 'more', value: new Date() }}
                 />
                 <DatePicker
                   key={+!!filter?.from}
-                  label="Date To"
+                  label={t('to')}
                   cb={(to) => onDate('to', to)}
                   date={filter?.to}
                   disabledDate={{ lessMore: 'less', value: filter?.from || new Date() }}
@@ -187,8 +189,8 @@ export default function Filter({ creatorList }: { creatorList: SetCreator[] }) {
               <MultipleSelector
                 className="max-w-[250px] md:max-w-[400px]"
                 value={filter?.creators || []}
-                label="Creators"
-                placeholder="Choose Creators"
+                label={t('creators')}
+                placeholder={t('chooseCreators')}
                 options={getOptions()}
                 onChange={onSelect}
               />
@@ -197,11 +199,11 @@ export default function Filter({ creatorList }: { creatorList: SetCreator[] }) {
           {filter && (
             <SheetFooter className="gap-3 md:gap-1">
               <Button size="sm" onClick={onApply}>
-                Apply
+                {t('apply')}
               </Button>
               <SheetClose asChild>
                 <Button size="sm" variant="outline" onClick={onClear}>
-                  Clear
+                  {t('reset')}
                 </Button>
               </SheetClose>
             </SheetFooter>

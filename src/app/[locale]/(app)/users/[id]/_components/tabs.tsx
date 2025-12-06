@@ -13,6 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { SelectedClass } from '@/types/models/class'
 import { getClassAppPath, getUserAppPath } from '@/utils/paths'
 import useLocaleUrl from '@/hooks/use-locale-url'
+import { BLURRED_DATA_URL } from '@/utils/constants'
 
 export default function UserTabs({
   userId,
@@ -66,6 +67,9 @@ export default function UserTabs({
                           height={100}
                           src={item.image}
                           alt={item.image}
+                          priority
+                          placeholder="blur"
+                          blurDataURL={BLURRED_DATA_URL}
                         />
                       ) : (
                         <ImageIcon className="min-w-[100px] max-w-[100px] h-[100px] border-2 rounded-lg" size={100} />

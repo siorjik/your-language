@@ -6,6 +6,7 @@ import z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { TrashIcon, CirclePlus } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
 import { Input } from '../ui/input'
@@ -44,6 +45,7 @@ export default function SetForm({ data = null, action = null, btnStyle = '', aft
   const { push } = useRouter()
   const { eventEmit } = useSocket(SOCKET_EVENTS.notification)
   const { getLocaleUrl } = useLocaleUrl()
+  const t = useTranslations('form.set')
 
   const timeoutRef: { current: NodeJS.Timeout | null } = useRef(null)
   const translateRef = useRef<(HTMLInputElement | null)[]>([])
@@ -134,7 +136,7 @@ export default function SetForm({ data = null, action = null, btnStyle = '', aft
               name="title"
               render={({ field }) => (
                 <FormItem className="grow">
-                  <FormLabel>Title*</FormLabel>
+                  <FormLabel>{t('title')}</FormLabel>
                   <FormControl>
                     <Input {...field} disabled={!action} />
                   </FormControl>
@@ -151,14 +153,14 @@ export default function SetForm({ data = null, action = null, btnStyle = '', aft
               name="source"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Language Source*</FormLabel>
+                  <FormLabel>{t('source')}</FormLabel>
                   <FormControl>
                     <Select
                       options={LANGUAGE_OPTIONS}
-                      placeholder="Choose source"
+                      placeholder={t('chooseSource')}
                       onValueChange={(val) => {
                         if (val === form.getValues('target')) {
-                          form.setError('source', { message: 'Need to be different than target' })
+                          form.setError('source', { message: t('needDifferentTarget') })
                         } else if (form.formState.errors.source || form.formState.errors.target) {
                           form.clearErrors('source')
                           form.clearErrors('target')
@@ -179,14 +181,14 @@ export default function SetForm({ data = null, action = null, btnStyle = '', aft
               name="target"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Language Target*</FormLabel>
+                  <FormLabel>{t('target')}</FormLabel>
                   <FormControl>
                     <Select
                       options={LANGUAGE_OPTIONS}
-                      placeholder="Choose target"
+                      placeholder={t('chooseTarget')}
                       onValueChange={(val) => {
                         if (val === form.getValues('source')) {
-                          form.setError('target', { message: 'Need to be different than source' })
+                          form.setError('target', { message: t('needDifferentSource') })
                         } else if (form.formState.errors.source || form.formState.errors.target) {
                           form.clearErrors('source')
                           form.clearErrors('target')
@@ -217,7 +219,7 @@ export default function SetForm({ data = null, action = null, btnStyle = '', aft
                   name={`list.${idx}.term`}
                   render={({ field }) => (
                     <FormItem className="w-full">
-                      <FormLabel>Term*</FormLabel>
+                      <FormLabel>{t('term')}</FormLabel>
                       <FormControl>
                         <Autocomplete
                           value={field.value}
@@ -229,21 +231,17 @@ export default function SetForm({ data = null, action = null, btnStyle = '', aft
 
                             translateRef.current[idx]!.focus()
 
-                            setTranslate({ ...translate, words: ['Loading...'] })
+                            setTranslate({ ...translate, words: [t('loading')] })
                             setDictionary({ name: '', words: [] })
                           }}
                           data={dictionary.words}
                           disabled={!(form.getValues('source') && form.getValues('target')) || !action}
-                          placeholder={
-                            !(form.getValues('source') && form.getValues('target'))
-                              ? 'Choose language source and target'
-                              : 'Text Term'
-                          }
+                          placeholder={!(form.getValues('source') && form.getValues('target')) ? t('chooseBoth') : t('textTerm')}
                           ref={dictionaryRef}
                         />
                       </FormControl>
                       <FormDescription>
-                        from: {LANGUAGE_OPTIONS.find((item) => item.value === form.watch('source'))?.label}
+                        {t('from')} {LANGUAGE_OPTIONS.find((item) => item.value === form.watch('source'))?.label}
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -254,7 +252,7 @@ export default function SetForm({ data = null, action = null, btnStyle = '', aft
                   name={`list.${idx}.definition`}
                   render={({ field }) => (
                     <FormItem className="w-full">
-                      <FormLabel>Definition*</FormLabel>
+                      <FormLabel>{t('definition')}</FormLabel>
                       <FormControl>
                         <Autocomplete
                           value={field.value}
@@ -274,14 +272,12 @@ export default function SetForm({ data = null, action = null, btnStyle = '', aft
                           }}
                           disabled={!(form.getValues('source') && form.getValues('target')) || !action}
                           placeholder={
-                            !(form.getValues('source') && form.getValues('target'))
-                              ? 'Choose language source and target'
-                              : 'Text Definition'
+                            !(form.getValues('source') && form.getValues('target')) ? t('chooseBoth') : t('textDefinition')
                           }
                         />
                       </FormControl>
                       <FormDescription>
-                        to: {LANGUAGE_OPTIONS.find((item) => item.value === form.watch('target'))?.label}
+                        {t('to')} {LANGUAGE_OPTIONS.find((item) => item.value === form.watch('target'))?.label}
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -290,7 +286,7 @@ export default function SetForm({ data = null, action = null, btnStyle = '', aft
                 {fields.length > 1 && action && (
                   <Button
                     type="button"
-                    className="md:mt-8 p-0 w-fit h-fit hover:bg-transparent text-primary hover:text-destructive"
+                    className="md:mt-9 p-0 w-fit h-fit hover:bg-transparent text-primary hover:text-destructive"
                     variant="ghost"
                     onClick={() => remove(idx)}
                   >
@@ -316,7 +312,7 @@ export default function SetForm({ data = null, action = null, btnStyle = '', aft
           )}
           {action && fields.length > 1 && (
             <Button type="button" className={`mt-3 ${btnStyle}`} onClick={form.handleSubmit(onSubmit)}>
-              {action === 'create' ? 'Create' : 'Update'}
+              {action === 'create' ? t('create') : t('update')}
             </Button>
           )}
         </form>

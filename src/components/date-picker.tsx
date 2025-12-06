@@ -2,6 +2,7 @@
 
 import { memo, useState } from 'react'
 import { ChevronDownIcon } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 import { Calendar } from '@/components/ui/calendar'
 import { Label } from '@/components/ui/label'
@@ -24,6 +25,8 @@ export default memo(function DatePicker({
   const [open, setOpen] = useState(false)
   const [date, setDate] = useState<Date | undefined>(dateVal || undefined)
 
+  const t = useTranslations('datePicker')
+
   return (
     <>
       <div className="flex flex-col gap-3">
@@ -33,7 +36,7 @@ export default memo(function DatePicker({
         <Popover modal open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button variant="outline" id="date" className="w-48 justify-between font-normal" disabled={disabled}>
-              {date ? date.toLocaleDateString() : 'Select date'}
+              {date ? date.toLocaleDateString() : t('select')}
               <div className="flex items-center gap-2">
                 <ChevronDownIcon />
                 {date && (

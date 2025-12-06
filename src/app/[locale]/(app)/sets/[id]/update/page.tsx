@@ -1,4 +1,5 @@
 import { notFound, redirect } from 'next/navigation'
+import { getTranslations } from 'next-intl/server'
 
 import Link from '@/components/link'
 import SetForm from '@/components/forms/set-form'
@@ -29,6 +30,8 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 export default async function SetUpdate({ params }: { params: Promise<{ id: string; locale: string }> }) {
   const { id, locale } = await params
 
+  const t = await getTranslations({ locale, namespace: 'Sets.updatePage' })
+
   const session = await getServerSessionToken()
 
   const set: (SelectedSet & { error: null }) | Err = await getSetById(id)
@@ -42,9 +45,9 @@ export default async function SetUpdate({ params }: { params: Promise<{ id: stri
   return (
     <>
       <Button className="mb-8" asChild>
-        <Link href={getSetAppPath(id)}>Cancel</Link>
+        <Link href={getSetAppPath(id)}>{t('cancel')}</Link>
       </Button>
-      <h2 className="sub-title-1">Set Update:</h2>
+      <h2 className="sub-title-1">{t('title')}</h2>
       <SetForm data={{ ...set, list: set.list as { term: string; definition: string }[] }} action="update" />
     </>
   )

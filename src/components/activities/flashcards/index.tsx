@@ -3,6 +3,7 @@
 import { useEffect, useState, use, useCallback, useMemo } from 'react'
 import { motion, Variants } from 'framer-motion'
 import { CircleArrowLeft, CircleArrowRight, Shuffle, Play, Volume2, RotateCcw, Lightbulb } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 import { Card, CardContent, CardDescription, CardHeader } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
@@ -52,6 +53,7 @@ export default function Flashcards({ data }: { data: SelectedSet }) {
   const leftPress = useKeyPress('ArrowLeft')
 
   const { isMobile } = useDisplayData()
+  const t = useTranslations('activities')
 
   const response = use(ActivityTypesContext) as { activityTypes: ActivityType[] } | null
   const { isModalOpen } = use(ModalContext)
@@ -217,7 +219,7 @@ export default function Flashcards({ data }: { data: SelectedSet }) {
           window.localStorage.setItem('soundMode', JSON.stringify({ ...soundMode, term: !soundMode.term }))
         }}
       >
-        {`Term (${LANGUAGE_OPTIONS.find((item) => data.source === item.value)?.label})`}
+        {`${t('term')} (${LANGUAGE_OPTIONS.find((item) => data.source === item.value)?.label})`}
       </DropdownMenuCheckboxItem>,
       <DropdownMenuCheckboxItem
         key="definition"
@@ -228,7 +230,7 @@ export default function Flashcards({ data }: { data: SelectedSet }) {
           window.localStorage.setItem('soundMode', JSON.stringify({ ...soundMode, definition: !soundMode.definition }))
         }}
       >
-        {`Definition (${LANGUAGE_OPTIONS.find((item) => data.target === item.value)?.label})`}
+        {`${t('definition')} (${LANGUAGE_OPTIONS.find((item) => data.target === item.value)?.label})`}
       </DropdownMenuCheckboxItem>,
     ],
     [soundMode],
@@ -266,9 +268,12 @@ export default function Flashcards({ data }: { data: SelectedSet }) {
             <div className="w-fit">
               <SelectWrap
                 options={[
-                  { label: `Term (${LANGUAGE_OPTIONS.find((item) => data.source === item.value)?.label})`, value: 'term' },
                   {
-                    label: `Definition (${LANGUAGE_OPTIONS.find((item) => data.target === item.value)?.label})`,
+                    label: `${t('term')} (${LANGUAGE_OPTIONS.find((item) => data.source === item.value)?.label})`,
+                    value: 'term',
+                  },
+                  {
+                    label: `${t('definition')} (${LANGUAGE_OPTIONS.find((item) => data.target === item.value)?.label})`,
                     value: 'definition',
                   },
                 ]}
@@ -377,7 +382,7 @@ export default function Flashcards({ data }: { data: SelectedSet }) {
                   <Play size={22} />
                 ) : (
                   <DropdownMenu
-                    title="Choose delay:"
+                    title={t('chooseDelay')}
                     items={playMenuItems}
                     trigger={playTrigger}
                     setShowDropdownMenu={setShowDropdownMenuPlayCallback}
@@ -433,7 +438,7 @@ export default function Flashcards({ data }: { data: SelectedSet }) {
                   <Volume2 size={25} />
                 ) : (
                   <DropdownMenu
-                    title="Choose speech mode:"
+                    title={t('chooseSpeech')}
                     items={soundMenuItems}
                     trigger={soundTrigger}
                     setShowDropdownMenu={setShowDropdownMenuCallback}
