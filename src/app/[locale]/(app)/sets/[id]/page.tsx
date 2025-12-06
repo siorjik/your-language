@@ -1,4 +1,5 @@
 import { notFound, redirect } from 'next/navigation'
+import { getTranslations } from 'next-intl/server'
 
 import SetForm from '@/components/forms/set-form'
 import BreadcrumbWrap from '@/components/breadcrumb-wrap'
@@ -35,12 +36,14 @@ export default async function SetData({
   params,
   searchParams,
 }: {
-  params: Promise<{ id: string }>
+  params: Promise<{ locale: string; id: string }>
   searchParams: Promise<{ creator?: string }>
 }) {
-  const { id } = await params
+  const { locale, id } = await params
   const { creator } = await searchParams
+
   const session = await getServerSessionToken()
+  const t = await getTranslations({ locale, namespace: 'menu' })
 
   const set: (SelectedSet & { error: null }) | Err = await getSetById(id, creator)
 
@@ -50,8 +53,8 @@ export default async function SetData({
 
   const breadcrumbData = {
     links: [
-      { href: libraryAppPath, label: 'Library' },
-      { href: setsAppPath, label: 'Sets' },
+      { href: libraryAppPath, label: t('library') },
+      { href: setsAppPath, label: t('sets') },
     ],
     current: set.title,
   }

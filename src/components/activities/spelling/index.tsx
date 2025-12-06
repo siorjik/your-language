@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, use } from 'react'
 import { motion } from 'framer-motion'
 import { RotateCcw, Shuffle } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 import { Progress } from '@/components/ui/progress'
 import { Button } from '@/components/ui/button'
@@ -34,6 +35,7 @@ export default function Memorization({ data }: { data: SelectedSet }) {
   const [isShuffled, setShuffled] = useState(false)
 
   const pressEnter = useKeyPress('Enter')
+  const t = useTranslations('activities')
 
   const response = use(ActivityTypesContext) as { activityTypes: ActivityType[] } | null
 
@@ -191,7 +193,7 @@ export default function Memorization({ data }: { data: SelectedSet }) {
                   type="text"
                   onChange={onChange}
                   value={value}
-                  placeholder="Your answer here..."
+                  placeholder={t('yourAnswer')}
                   ref={inputRef}
                 />
               )}
@@ -242,7 +244,7 @@ export default function Memorization({ data }: { data: SelectedSet }) {
         <>
           <div className="my-5 mx-auto flex items-center justify-center gap-10">
             <Button size="sm" variant="outline" onClick={onSetResult}>
-              Check
+              {t('check')}
             </Button>
             <span
               className={`icon-hover border-2 rounded-full border-transparent ${isShuffled ? '!border-primary' : ''}`}
@@ -270,7 +272,7 @@ export default function Memorization({ data }: { data: SelectedSet }) {
               <RotateCcw size={20} />
             </span>
             <Button size="sm" variant="outline" onClick={onProvideAnswer}>
-              Answer
+              {t('answer')}
             </Button>
           </div>
           <div className="max-w-4xl mx-auto flex items-center gap-1">

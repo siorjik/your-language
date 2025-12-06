@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { motion } from 'framer-motion'
+import { useTranslations } from 'next-intl'
 
 import { SetList } from '@/types/models/set'
 
@@ -18,23 +19,25 @@ export default function FinishBlock({
   repeat?: () => void
   isFlashcards?: boolean
 }) {
+  const t = useTranslations('finishBlock')
+
   return (
     <div className="w-fit mt-5 mx-auto text-xl font-semibold">
       {!isFlashcards ? (
         <>
-          Nice job <span className="font-emoji">👍</span>! Do you want to{' '}
+          {t('niceJob')} <span className="font-emoji">👍</span>! {t('doYouWant') + ' '}
           {!!result?.failed.length && (
             <>
               <span className="link" onClick={repeat}>
-                repeat failed
+                {t('repeat')}
               </span>{' '}
-              or{' '}
+              {t('or') + ' '}
             </>
           )}
           <>
             <span className="link" onClick={start}>
-              start over
-            </span>{' '}
+              {t('startOver')}
+            </span>
             ?
           </>
           {!result?.failed.length && (
@@ -50,10 +53,10 @@ export default function FinishBlock({
         </>
       ) : (
         <>
-          Nice job <span className="font-emoji">👍</span>
+          {t('niceJob')} <span className="font-emoji">👍</span>
           {'! '}
           <span className="link" onClick={start}>
-            Refresh flashcards
+            {t('refreshFlashcards')}
           </span>
           <motion.div
             className="w-fit my-20 mx-auto"

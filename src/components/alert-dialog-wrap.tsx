@@ -1,6 +1,7 @@
 'use client'
 
 import { ReactElement } from 'react'
+import { useTranslations } from 'next-intl'
 
 import {
   AlertDialog,
@@ -23,17 +24,20 @@ export default function AlertDialogWrap({
   action: () => void
   description: string
 }) {
+  const t = useTranslations('popup')
+  const tBtn = useTranslations('btn')
+
   return (
     <AlertDialog>
       <AlertDialogTrigger>{trigger}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>{t('sure')}</AlertDialogTitle>
           <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={action}>Continue</AlertDialogAction>
+          <AlertDialogCancel>{tBtn('cancel')}</AlertDialogCancel>
+          <AlertDialogAction onClick={action}>{tBtn('continue')}</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

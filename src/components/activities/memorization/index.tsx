@@ -3,6 +3,7 @@
 import { useState, useEffect, use } from 'react'
 import { motion } from 'framer-motion'
 import { RotateCcw, Shuffle } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 import { Progress } from '@/components/ui/progress'
 import SelectWrap from '@/components/select-wrap'
@@ -28,6 +29,8 @@ export default function Memorization({ data }: { data: SelectedSet }) {
   const [result, setResult] = useState<{ failed: SetList; passed: SetList }>({ failed: [], passed: [] })
   const [isFinish, setFinish] = useState(false)
   const [isShuffled, setShuffled] = useState(false)
+
+  const t = useTranslations('activities')
 
   const response = use(ActivityTypesContext) as { activityTypes: ActivityType[] } | null
 
@@ -133,9 +136,9 @@ export default function Memorization({ data }: { data: SelectedSet }) {
           <div className="w-fit">
             <SelectWrap
               options={[
-                { label: `Term (${LANGUAGE_OPTIONS.find((item) => data.source === item.value)?.label})`, value: 'term' },
+                { label: `${t('term')} (${LANGUAGE_OPTIONS.find((item) => data.source === item.value)?.label})`, value: 'term' },
                 {
-                  label: `Definition (${LANGUAGE_OPTIONS.find((item) => data.target === item.value)?.label})`,
+                  label: `${t('definition')} (${LANGUAGE_OPTIONS.find((item) => data.target === item.value)?.label})`,
                   value: 'definition',
                 },
               ]}

@@ -3,6 +3,7 @@
 import { useEffect, useState, use } from 'react'
 import { RefreshCcw } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { useTranslations } from 'next-intl'
 
 import SelectWrap from '@/components/select-wrap'
 import { Button } from '@/components/ui/button'
@@ -32,6 +33,8 @@ export default function Associations({ data }: { data: SelectedSet }) {
   const [isFinish, setFinish] = useState(false)
   const [amount, setAmount] = useState('5')
   const [attempt, setAttempt] = useState(0)
+
+  const t = useTranslations('activities')
 
   const activities = use(ActivityTypesContext) as { activityTypes: ActivityType[] } | null
 
@@ -188,11 +191,11 @@ export default function Associations({ data }: { data: SelectedSet }) {
               <Button variant="outline" className="pushed-btn col-start-2" onClick={onRefresh} asChild>
                 <span>
                   <RefreshCcw />
-                  Start / Refresh
+                  {t('startRefresh')}
                 </span>
               </Button>
               <div className="flex gap-2 items-center">
-                <span className="text-nowrap">Terms Amount:</span>
+                <span className="text-nowrap">{t('termsAmount')}</span>
                 <div className="w-fit">
                   <SelectWrap
                     css="!min-w-[70px]"

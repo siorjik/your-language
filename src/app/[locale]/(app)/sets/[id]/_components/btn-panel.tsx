@@ -3,6 +3,7 @@
 import Link from '@/components/link'
 import { GalleryHorizontal, Brain, PanelRightOpen, Pen, FileCog, Trash2, Share, BrainCircuit } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 
 import { Button } from '@/components/ui/button'
 import SheetWrap from '@/components/sheet-wrap'
@@ -32,6 +33,9 @@ export default function NavPanel({ id, isCreator, isOwner }: NavPanelProps) {
   const { push } = useRouter()
   const { toast } = useToast()
   const { getLocaleUrl } = useLocaleUrl()
+  const t = useTranslations('btn')
+  const tPopup = useTranslations('popup')
+  const tActivities = useTranslations('activities')
 
   const onDelete = async () => {
     const res: { success: boolean; error: null } | Err = await deleteSet(id, false)
@@ -47,19 +51,19 @@ export default function NavPanel({ id, isCreator, isOwner }: NavPanelProps) {
     <div>
       <Link className="py-3 flex items-center gap-2 border-b-2 border-accent font-semibold" href={getFlashcardsAppPath(id)}>
         <GalleryHorizontal className="text-primary" size={15} />
-        Flashcards
+        {tActivities('flashcards')}
       </Link>
       <Link className="py-3 flex items-center gap-2 border-b-2 border-accent font-semibold" href={getMemorizationAppPath(id)}>
         <Brain className="text-primary" size={15} />
-        Memorization
+        {tActivities('memorization')}
       </Link>
       <Link className="py-3 flex items-center gap-2 border-b-2 border-accent font-semibold" href={getSpellingAppPath(id)}>
         <Pen className="text-primary" size={15} />
-        Spelling
+        {tActivities('spelling')}
       </Link>
       <Link className="py-3 flex items-center gap-2 font-semibold" href={getAssociationsAppPath(id)}>
         <BrainCircuit className="text-primary" size={15} />
-        Associations
+        {tActivities('associations')}
       </Link>
     </div>
   )
@@ -71,7 +75,7 @@ export default function NavPanel({ id, isCreator, isOwner }: NavPanelProps) {
           <Button asChild>
             <Link href={getUpdateSetAppPath(id)}>
               <FileCog />
-              {isXlDisplay && 'Update'}
+              {isXlDisplay && t('update')}
             </Link>
           </Button>
           {isCreator && (
@@ -79,7 +83,7 @@ export default function NavPanel({ id, isCreator, isOwner }: NavPanelProps) {
               trigger={
                 <Button>
                   <Share />
-                  {isXlDisplay && 'Share'}
+                  {isXlDisplay && t('share')}
                 </Button>
               }
               id={id}
@@ -90,12 +94,12 @@ export default function NavPanel({ id, isCreator, isOwner }: NavPanelProps) {
               <Button variant="destructive" asChild>
                 <span>
                   <Trash2 />
-                  {isXlDisplay && 'Remove'}
+                  {isXlDisplay && t('delete')}
                 </span>
               </Button>
             }
             action={onDelete}
-            description="You are going to delete the Set..."
+            description={tPopup('deleteSetMess')}
           />
         </div>
       )}
@@ -105,25 +109,25 @@ export default function NavPanel({ id, isCreator, isOwner }: NavPanelProps) {
           <Button variant="outline" className="pushed-btn" asChild>
             <Link href={getFlashcardsAppPath(id)}>
               <GalleryHorizontal />
-              Flashcards
+              {tActivities('flashcards')}
             </Link>
           </Button>
           <Button variant="outline" className="pushed-btn" asChild>
             <Link href={getMemorizationAppPath(id)}>
               <Brain />
-              Memorization
+              {tActivities('memorization')}
             </Link>
           </Button>
           <Button variant="outline" className="pushed-btn" asChild>
             <Link href={getSpellingAppPath(id)}>
               <Pen />
-              Spelling
+              {tActivities('spelling')}
             </Link>
           </Button>
           <Button variant="outline" className="pushed-btn col-start-2" asChild>
             <Link href={getAssociationsAppPath(id)}>
               <BrainCircuit />
-              Associations
+              {tActivities('associations')}
             </Link>
           </Button>
         </div>

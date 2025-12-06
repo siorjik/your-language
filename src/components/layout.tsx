@@ -126,7 +126,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                       const url =
                         window.location.pathname.split('/').length === 2
                           ? `/${val}`
-                          : `/${val}/${window.location.pathname.split('/')[2]}`
+                          : `/${val}/${window.location.pathname.split('/').slice(2).join('/')}`
 
                       window.location.href = url
                     }}
