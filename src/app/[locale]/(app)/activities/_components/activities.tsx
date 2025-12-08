@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { FileCog, Share } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 import Link from '@/components/link'
 import Tabs from '@/components/activity-tabs'
@@ -24,6 +25,8 @@ export default function Activities({ sets, creatorList }: { sets: SelectedSet[];
   const [isLoader, setLoader] = useState(false)
 
   const searchParams = useSearchParams()
+  const t = useTranslations('Activities')
+  const tBtn = useTranslations('btn')
 
   const fromParam = searchParams.get('from')
   const toParam = searchParams.get('to')
@@ -45,16 +48,16 @@ export default function Activities({ sets, creatorList }: { sets: SelectedSet[];
     <ModalContextProvider>
       {!!sets.length ? (
         <>
-          <h2 className="mx-auto w-fit title">Training with Sets</h2>
+          <h2 className="mx-auto w-fit title">{t('title')}</h2>
           <div className="mb-10 flex flex-col lg:flex-row justify-between items-center gap-5">
             <div className="flex items-center gap-3">
-              <span className="sub-title-3 mb-0">Choose Set:</span>
+              <span className="sub-title-3 mb-0">{t('chooseSet')}</span>
               <div className="w-[200px]">
                 <Combobox
                   key={searchParams.toString()}
-                  placeholder="Choose Set..."
-                  searchText="Search Set..."
-                  notFoundText="Set was not found..."
+                  placeholder={t('chooseSet')}
+                  searchText={t('searchSet')}
+                  notFoundText={t('notFound')}
                   data={sets.map((set) => ({ value: set.title, label: set.title, id: set.id }))}
                   getValue={(val) => setId(val)}
                   value={sets[sets.findIndex((set) => set.id === id || sets[0].id)].title}
@@ -64,12 +67,12 @@ export default function Activities({ sets, creatorList }: { sets: SelectedSet[];
             <div className="flex gap-3">
               <DialogWrap
                 width="max-w-3xl"
-                title="Set Update"
+                title={t('setUpdate')}
                 isAutoClose={isAutoClose}
                 trigger={
                   <Button>
                     <FileCog />
-                    Update
+                    {tBtn('update')}
                   </Button>
                 }
                 content={
@@ -89,7 +92,7 @@ export default function Activities({ sets, creatorList }: { sets: SelectedSet[];
                 trigger={
                   <Button>
                     <Share />
-                    Share
+                    {tBtn('share')}
                   </Button>
                 }
                 id={id!}
@@ -104,9 +107,9 @@ export default function Activities({ sets, creatorList }: { sets: SelectedSet[];
         <div className="h-[calc(100vh-160px)] flex flex-col justify-center items-center">
           {!isParams ? (
             <>
-              <p className="mb-1 text-lg font-semibold">No created Sets yet 🤨</p>
+              <p className="mb-1 text-lg font-semibold">{t('noCreated')} 🤨</p>
               <Link href={libraryAppPath} className="link text-xl">
-                Visit Library and create a new one {'>>>'}
+                {t('visitLibrary')} {'>>>'}
               </Link>
             </>
           ) : (
@@ -114,7 +117,7 @@ export default function Activities({ sets, creatorList }: { sets: SelectedSet[];
               <div className="mb-5">
                 <Filter creatorList={creatorList} />
               </div>
-              <p className="mb-1 text-lg font-semibold">No any Sets 🤨</p>
+              <p className="mb-1 text-lg font-semibold">{t('noAny')} 🤨</p>
             </>
           )}
         </div>

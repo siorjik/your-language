@@ -99,7 +99,8 @@
     "answer": "Answer",
     "check": "Check",
     "startRefresh": "Start / Refresh",
-    "termsAmount": "Terms amount"
+    "termsAmount": "Terms amount",
+    "selectSet": "First select Set"
   },
   "finishBlock": {
     "niceJob": "Nice job",
@@ -109,6 +110,7 @@
     "startOver": "start over",
     "refreshFlashcards": "Refresh flashcards"
   },
+  "shareBtn": { "share": "Share", "copied": "Copied to clipboard" },
   "Home": {
     "guestMode": {
       "welcome": "Welcome to Language Bro!",
@@ -203,5 +205,15 @@
     "noSets": "There are no any Sets",
     "creationPage": { "title": "Set Creation", "cancel": "Cancel" },
     "updatePage": { "title": "Set Update", "cancel": "Cancel" }
+  },
+  "Activities": {
+    "title": "Training with Sets",
+    "chooseSet": "Choose a Set:",
+    "searchSet": "Search Set...",
+    "notFound": "Set not found",
+    "setUpdate": "Set Update",
+    "noCreated": "No created Sets yet",
+    "visitLibrary": "Visit Library and create a new one",
+    "noAny": "No any sets"
   }
 }

@@ -2,10 +2,12 @@
 
 import { ReactElement, useState } from 'react'
 import { getSession } from 'next-auth/react'
+import { useTranslations } from 'next-intl'
 
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/components/ui/tooltip'
 
 import { getSetAppPath } from '@/utils/paths'
+import useLocaleUrl from '@/hooks/use-locale-url'
 
 export default function ShareBtn({
   trigger,
@@ -21,6 +23,9 @@ export default function ShareBtn({
   const [showTooltip, setShowTooltip] = useState(false)
   const [isClicked, setClicked] = useState(false)
 
+  const { getLocaleUrl } = useLocaleUrl()
+  const t = useTranslations('shareBtn')
+
   const handleClick = async (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault()
 
@@ -35,7 +40,7 @@ export default function ShareBtn({
 
     const session = await getSession()
 
-    const sharingStr = `${window.location.host}${url ? url : getSetAppPath(id)}?creator=${session?.user.id}`
+    const sharingStr = `${window.location.host}${url ? url : getLocaleUrl(getSetAppPath(id))}?creator=${session?.user.id}`
 
     window.navigator.clipboard.writeText(sharingStr)
   }
@@ -47,7 +52,7 @@ export default function ShareBtn({
           <TooltipTrigger asChild>
             <div onClick={handleClick}>{trigger}</div>
           </TooltipTrigger>
-          <TooltipContent>{!isClicked && isDouble ? 'Share' : 'Copied to clipboard'}</TooltipContent>
+          <TooltipContent>{!isClicked && isDouble ? t('share') : t('copied')}</TooltipContent>
         </Tooltip>
       </TooltipProvider>
     </>

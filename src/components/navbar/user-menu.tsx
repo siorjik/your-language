@@ -123,7 +123,7 @@ export default function UserMenu() {
               <span className="font-emoji">😉</span>{' '}
               {t.rich('notificationsTexts.newSet', {
                 Link: (text) => (
-                  <Link className="link inline-block" href={getClassAppPath(notification.setId!)}>
+                  <Link className="link inline-block" href={getSetAppPath(notification.setId!)}>
                     {text}
                   </Link>
                 ),
@@ -140,7 +140,7 @@ export default function UserMenu() {
               <span className="font-emoji">👨‍🏫</span>{' '}
               {t.rich('notificationsTexts.newClass', {
                 Link: (text) => (
-                  <Link className="link inline-block" href={getSetAppPath(notification.classId!)}>
+                  <Link className="link inline-block" href={getClassAppPath(notification.classId!)}>
                     {text}
                   </Link>
                 ),
