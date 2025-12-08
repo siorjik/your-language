@@ -285,8 +285,8 @@ export default function Flashcards({ data }: { data: SelectedSet }) {
                   rotate()
                 }}
                 defaultValue={window.localStorage.getItem('mode')! || selectedMode}
-                placeholder="Choose mode"
-                label="Choose mode"
+                placeholder={t('chooseMode')}
+                label={t('chooseMode')}
               />
             </div>
           </div>

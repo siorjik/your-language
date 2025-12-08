@@ -144,8 +144,8 @@ export default function Memorization({ data }: { data: SelectedSet }) {
               ]}
               onValueChange={(val) => setMode(val)}
               defaultValue={window.localStorage.getItem('mode')!}
-              placeholder="Choose mode"
-              label="Choose mode"
+              placeholder={t('chooseMode')}
+              label={t('chooseMode')}
             />
           </div>
         </div>

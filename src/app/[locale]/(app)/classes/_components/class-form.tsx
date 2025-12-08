@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ImageIcon } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
@@ -34,6 +35,9 @@ type ClassFormProps = {
 const defaultValues = { title: '', sets: [], users: [], image: '', file: undefined }
 
 export default function ClassForm({ data = null, action = null, sets, users, onSuccess }: ClassFormProps) {
+  const t = useTranslations('form.class')
+  const tBtn = useTranslations('btn')
+
   useEffect(() => {
     form.setFocus('title')
   }, [])
@@ -105,7 +109,7 @@ export default function ClassForm({ data = null, action = null, sets, users, onS
             name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Title*</FormLabel>
+                <FormLabel>{t('title')}</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -119,7 +123,7 @@ export default function ClassForm({ data = null, action = null, sets, users, onS
               name="sets"
               render={() => (
                 <FormItem>
-                  <FormLabel>Sets*</FormLabel>
+                  <FormLabel>{t('sets')}</FormLabel>
                   <FormControl>
                     <MultipleSelector
                       className="overflow-x-auto"
@@ -141,7 +145,7 @@ export default function ClassForm({ data = null, action = null, sets, users, onS
                 name="users"
                 render={() => (
                   <FormItem>
-                    <FormLabel>Members</FormLabel>
+                    <FormLabel>{t('members')}</FormLabel>
                     <FormControl>
                       <MultipleSelector
                         className="overflow-x-auto"
@@ -167,7 +171,7 @@ export default function ClassForm({ data = null, action = null, sets, users, onS
             />
           </div>
           <Button type="button" className="dialog-submit-btn" onClick={form.handleSubmit(onSubmit)}>
-            {action === 'create' ? 'Create' : 'Update'}
+            {action === 'create' ? tBtn('create') : tBtn('update')}
           </Button>
         </form>
       </Form>

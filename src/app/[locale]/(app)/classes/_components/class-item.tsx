@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { ImageIcon } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card'
 
@@ -16,6 +17,7 @@ import useLocaleUrl from '@/hooks/use-locale-url'
 export default function ClassItem({ data, idx }: { data: SelectedClass; idx: number }) {
   const { push } = useRouter()
   const { getLocaleUrl } = useLocaleUrl()
+  const t = useTranslations('Classes.item')
 
   return (
     <motion.div
@@ -50,7 +52,7 @@ export default function ClassItem({ data, idx }: { data: SelectedClass; idx: num
           </CardHeader>
           <CardContent className="flex flex-col gap-2 md:flex-row lg:flex-wrap justify-center">
             <div className="max-w-36 md:max-w-52 flex gap-1">
-              <span className="font-semibold text-muted-foreground/50">Creator:</span>
+              <span className="font-semibold text-muted-foreground/50">{t('creator')}</span>
               <p
                 className="flex gap-1 overflow-hidden"
                 onClick={(e) => {
@@ -72,10 +74,10 @@ export default function ClassItem({ data, idx }: { data: SelectedClass; idx: num
               </p>
             </div>
             <p className="whitespace-nowrap">
-              <span className="font-semibold text-muted-foreground/50">Sets:</span> {data.sets.length}
+              <span className="font-semibold text-muted-foreground/50">{t('sets')}</span> {data.sets.length}
             </p>
             <p className="whitespace-nowrap">
-              <span className="font-semibold text-muted-foreground/50">Members:</span> {data.users.length}
+              <span className="font-semibold text-muted-foreground/50">{t('members')}</span> {data.users.length}
             </p>
           </CardContent>
         </div>
