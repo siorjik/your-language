@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { CirclePlus, Search, X } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 
 import Link from '@/components/link'
 import DialogWrap from '@/components/dialog-wrap'
@@ -26,6 +27,7 @@ export default function ClassList({ sets, classes }: { sets: SelectedSet[]; clas
   const params = useSearchParams()
   const { push } = useRouter()
   const { getLocaleUrl } = useLocaleUrl()
+  const t = useTranslations('Classes')
 
   const titleParam = params.get('title')
 
@@ -85,12 +87,12 @@ export default function ClassList({ sets, classes }: { sets: SelectedSet[]; clas
         <div className="mb-8 flex flex-col md:flex-row gap-5 md:gap-10 justify-between">
           {!!sets.length && (
             <DialogWrap
-              title={'Create New Class'}
+              title={t('createClass')}
               trigger={
                 <Button>
                   <>
                     <CirclePlus />
-                    Create New
+                    {t('createNew')}
                   </>
                 </Button>
               }
@@ -105,7 +107,7 @@ export default function ClassList({ sets, classes }: { sets: SelectedSet[]; clas
               </span>
               <Input
                 className="w-full px-12 border-0 bg-secondary/30 !text-lg"
-                placeholder="Search by Class title..."
+                placeholder={t('search')}
                 onChange={(e) => onChange(e.target.value)}
                 value={value}
                 ref={inputRef}
@@ -125,16 +127,18 @@ export default function ClassList({ sets, classes }: { sets: SelectedSet[]; clas
 
       {!isLoader && !sets.length && !classes.length && (
         <div className="h-[calc(100vh-160px)] flex flex-col justify-center items-center">
-          <p className="mb-1 text-lg font-semibold">No created Sets yet 🤨</p>
+          <p className="mb-1 text-lg font-semibold">{t('noCreated')} 🤨</p>
           <Link href={libraryAppPath} className="link text-xl">
-            Visit Library and create a new one to create a new Class {'>>>'}
+            {t('visitLibrary')} {'>>>'}
           </Link>
         </div>
       )}
 
       {!isLoader && !!classes?.length ? (
         <>
-          <h2 className="sub-title-1">Your Classes: {classes.length}</h2>
+          <h2 className="sub-title-1">
+            {t('yourClasses')} {classes.length}
+          </h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
             {classes.map((el, idx) => (
               <Link key={el.id} href={getClassAppPath(el.id)}>
@@ -144,15 +148,15 @@ export default function ClassList({ sets, classes }: { sets: SelectedSet[]; clas
           </div>
           {!sets.length && (
             <div className="w-fit mt-10 mx-auto text-center">
-              <p className="mb-1 text-lg font-semibold">No created Sets yet 🤨</p>
+              <p className="mb-1 text-lg font-semibold">{t('noCreated')} 🤨</p>
               <Link href={libraryAppPath} className="link text-xl">
-                To create a new Class visit Library and create at least one Set {'>>>'}
+                {t('createSet')} {'>>>'}
               </Link>
             </div>
           )}
         </>
       ) : isLoader ? null : !!sets.length && !classes.length ? (
-        <p className="w-fit mx-auto text-lg font-semibold">There are no any Classes 🤨</p>
+        <p className="w-fit mx-auto text-lg font-semibold">{t('noAny')} 🤨</p>
       ) : null}
 
       {isLoader && <Spinner />}

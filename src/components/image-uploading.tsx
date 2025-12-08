@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, ReactNode } from 'react'
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
 
 import Spinner from '@/components/spinner'
 import { Button } from '@/components/ui/button'
@@ -26,6 +27,7 @@ export default function ImageUploading({
   const [isLoading, setLoading] = useState(false)
 
   const { toast } = useToast()
+  const t = useTranslations('btn')
 
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -97,12 +99,12 @@ export default function ImageUploading({
           )}
           {!image.url && !imageUrl ? (
             <Button type="button" className="mt-5 mx-auto block" onClick={() => inputRef.current?.click()}>
-              Choose File
+              {t('chooseFile')}
             </Button>
           ) : image.url !== imageUrl ? (
             <div className="mt-5 gap-5 flex justify-center">
               <Button type="button" onClick={() => setImage({ file: null, url: imageUrl })}>
-                Cancel
+                {t('cancel')}
               </Button>
               {upload && (
                 <Button
@@ -116,14 +118,14 @@ export default function ImageUploading({
                     setLoading(false)
                   }}
                 >
-                  Save
+                  {t('save')}
                 </Button>
               )}
             </div>
           ) : (
             <div className="mt-5 gap-5 flex justify-center">
               <Button type="button" onClick={() => inputRef.current?.click()}>
-                Update
+                {t('update')}
               </Button>
               <Button
                 type="button"
@@ -135,7 +137,7 @@ export default function ImageUploading({
                   setLoading(false)
                 }}
               >
-                Delete
+                {t('delete')}
               </Button>
             </div>
           )}

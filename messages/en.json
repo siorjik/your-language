@@ -34,7 +34,8 @@
       "to": "to:",
       "create": "Create",
       "update": "Update"
-    }
+    },
+    "class": { "title": "Title*", "sets": "Sets*", "members": "Members" }
   },
   "popup": { "close": "Close", "deleteSetMess": "You are going to delete the Set...", "sure": "Are you sure?" },
   "menu": {
@@ -82,7 +83,9 @@
     "delete": "Remove",
     "cancel": "Cancel",
     "share": "Share",
-    "continue": "Continue"
+    "continue": "Continue",
+    "chooseFile": "Choose File",
+    "save": "Save"
   },
   "activities": {
     "flashcards": "Flashcards",
@@ -92,6 +95,7 @@
     "term": "Term",
     "definition": "Definition",
     "chooseSpeech": "Choose speech mode:",
+    "chooseMode": "Choose mode:",
     "chooseDelay": "Choose delay:",
     "passed": "Passed:",
     "failed": "Failed:",
@@ -215,5 +219,17 @@
     "noCreated": "No created Sets yet",
     "visitLibrary": "Visit Library and create a new one",
     "noAny": "No any sets"
+  },
+  "Classes": {
+    "createClass": "Create New Class",
+    "createNew": "Create New",
+    "search": "Search by Class title...",
+    "yourClasses": "Your Classes:",
+    "noClasses": "There are no any Classes",
+    "noCreated": "No created Sets yet",
+    "visitLibrary": "Visit Library and create a new one to create a new Class",
+    "createSet": "To create a new Class visit Library and create at least one Set",
+    "noAny": "There are no any Classes",
+    "item": { "creator": "Creator:", "sets": "Sets:", "members": "Members:" }
   }
 }
