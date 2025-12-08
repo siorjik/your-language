@@ -37,7 +37,12 @@
     },
     "class": { "title": "Title*", "sets": "Sets*", "members": "Members" }
   },
-  "popup": { "close": "Close", "deleteSetMess": "You are going to delete the Set...", "sure": "Are you sure?" },
+  "popup": {
+    "close": "Close",
+    "deleteSetMess": "You are going to delete the Set...",
+    "sure": "Are you sure?",
+    "deleteClassMess": "You are going to delete the Class..."
+  },
   "menu": {
     "library": "Library",
     "activities": "Activities",
@@ -222,6 +227,7 @@
   },
   "Classes": {
     "createClass": "Create New Class",
+    "updateClass": "Update Class",
     "createNew": "Create New",
     "search": "Search by Class title...",
     "yourClasses": "Your Classes:",

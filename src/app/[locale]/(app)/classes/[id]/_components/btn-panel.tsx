@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { FileCog, Share, Trash2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import z from 'zod'
+import { useTranslations } from 'next-intl'
 
 import ShareBtn from '@/components/share-btn'
 import { Button } from '@/components/ui/button'
@@ -38,6 +39,9 @@ export default function NavPanel({
   const { push } = useRouter()
   const { toast } = useToast()
   const { getLocaleUrl } = useLocaleUrl()
+  const t = useTranslations('btn')
+  const tPopup = useTranslations('popup')
+  const tClasses = useTranslations('Classes')
 
   const onDelete = async () => {
     if (data.image) await deleteFile(data.image)
@@ -62,14 +66,14 @@ export default function NavPanel({
   }
 
   return (
-    <div className="flex lg:flex-wrap items-center justify-center gap-3">
+    <div className="flex flex-wrap items-center justify-center gap-3">
       <DialogWrap
-        title={'Update Class'}
+        title={tClasses('updateClass')}
         trigger={
           <Button>
             <>
               <FileCog />
-              Update
+              {t('update')}
             </>
           </Button>
         }
@@ -88,7 +92,7 @@ export default function NavPanel({
         trigger={
           <Button>
             <Share />
-            Share
+            {t('share')}
           </Button>
         }
         id={data.id!}
@@ -99,12 +103,12 @@ export default function NavPanel({
           <Button variant="destructive" asChild>
             <span>
               <Trash2 />
-              Remove
+              {t('delete')}
             </span>
           </Button>
         }
         action={onDelete}
-        description="You are going to delete the Class..."
+        description={tPopup('deleteClassMess')}
       />
       {isLoader && <Spinner />}
     </div>

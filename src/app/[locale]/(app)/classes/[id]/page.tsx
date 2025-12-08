@@ -1,6 +1,7 @@
 import { notFound, redirect } from 'next/navigation'
 import Image from 'next/image'
 import { ImageIcon, User2 } from 'lucide-react'
+import { getTranslations } from 'next-intl/server'
 
 import Link from '@/components/link'
 import BreadcrumbWrap from '@/components/breadcrumb-wrap'
@@ -43,12 +44,16 @@ export default async function ClassInfo({
   params,
   searchParams,
 }: {
-  params: Promise<{ id: string }>
+  params: Promise<{ id: string; locale: string }>
   searchParams: Promise<{ creator?: string }>
 }) {
-  const { id } = await params
+  const { locale, id } = await params
   const { creator } = await searchParams
+
   const session = await getServerSessionToken()
+  const t = await getTranslations({ locale, namespace: 'Activities' })
+  const tClasses = await getTranslations({ locale, namespace: 'Classes.item' })
+  const tMenu = await getTranslations({ locale, namespace: 'menu' })
 
   const res: (SelectedClass & { error: null }) | Err = await getClassById(id, creator)
   const classSets: { sets: SelectedSet[]; error: null } | Err = await getClassSets(id)
@@ -64,8 +69,8 @@ export default async function ClassInfo({
 
   const breadcrumbData = {
     links: [
-      { href: libraryAppPath, label: 'Library' },
-      { href: classesAppPath, label: 'Classes' },
+      { href: libraryAppPath, label: tMenu('library') },
+      { href: classesAppPath, label: tMenu('classes') },
     ],
     current: res.title,
   }
@@ -92,7 +97,7 @@ export default async function ClassInfo({
         ${isCreator ? 'grid-rows-[auto_auto] lg:grid-rows-1' : 'grid-rows-1'} gap-8
       `}
       >
-        <div className="col-span-3 md:col-span-2 flex flex-col md:flex-row gap-10 items-center">
+        <div className="col-span-3 md:col-span-2 flex flex-col md:flex-row gap-6 items-center">
           <div>
             {res.image ? (
               <Image
@@ -113,7 +118,7 @@ export default async function ClassInfo({
             <h2 className="text-center md:text-start title mb-5 line-clamp-3">{res.title}</h2>
             <div className="block md:hidden">
               <Link className="flex gap-2" href={getUserAppPath(res.creatorId)}>
-                <span className="text-muted-foreground/50 text-lg">Creator:</span>{' '}
+                <span className="text-muted-foreground/50 text-lg">{tClasses('creator')}</span>{' '}
                 <div className="flex gap-1 items-center">
                   {res.creator.image && (
                     <Image
@@ -129,10 +134,10 @@ export default async function ClassInfo({
               </Link>
             </div>
             <p>
-              <span className="text-muted-foreground/50 text-lg">Sets:</span> {res.sets.length}
+              <span className="text-muted-foreground/50 text-lg">{tClasses('sets')}</span> {res.sets.length}
             </p>
             <p>
-              <span className="text-muted-foreground/50 text-lg">Members:</span> {res.users.length}
+              <span className="text-muted-foreground/50 text-lg">{tClasses('members')}</span> {res.users.length}
             </p>
           </div>
         </div>
