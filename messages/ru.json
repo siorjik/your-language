@@ -93,13 +93,14 @@
     "definition": "Определение",
     "chooseSpeech": "Выберите режим речи:",
     "chooseDelay": "Выберите задержку:",
-    "passed": "Прошло:",
-    "failed": "Не прошло:",
+    "passed": "Пройдено:",
+    "failed": "Не пройдено:",
     "yourAnswer": "Ваш ответ...",
     "answer": "Ответ",
     "check": "Проверить",
     "startRefresh": "Начать / Обновить",
-    "termsAmount": "Количество терминов"
+    "termsAmount": "Количество терминов",
+    "selectSet": "Сначала выберите Набор"
   },
   "finishBlock": {
     "niceJob": "Отличная работа",
@@ -109,6 +110,7 @@
     "startOver": "начать заново",
     "refreshFlashcards": "Начать заново"
   },
+  "shareBtn": { "share": "Поделиться", "copied": "Скопировано в буфер" },
   "Home": {
     "guestMode": {
       "welcome": "Добро пожаловать в Language Bro!",
@@ -203,5 +205,15 @@
     "noSets": "Ни одного набора пока нет",
     "creationPage": { "title": "Создание набора", "cancel": "Отменить" },
     "updatePage": { "title": "Обновление набора", "cancel": "Отменить" }
+  },
+  "Activities": {
+    "title": "Тренировка с наборами",
+    "chooseSet": "Выберите набор:",
+    "searchSet": "Поиск набора...",
+    "notFound": "Набор не найден",
+    "setUpdate": "Обновление набора",
+    "noCreated": "Ещё нет созданных наборов",
+    "visitLibrary": "Перейдите в библиотеку и создайте новый",
+    "noAny": "Нет ни одного набора"
   }
 }

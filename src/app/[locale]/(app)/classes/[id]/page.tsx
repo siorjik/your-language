@@ -96,7 +96,7 @@ export default async function ClassInfo({
           <div>
             {res.image ? (
               <Image
-                className="object-cover h-[200px] min-w-[200px] max-w-[200px] border-4 rounded-xl"
+                className="object-cover h-[200px] min-w-[200px] max-w-[200px] border-4 rounded-3xl"
                 width={200}
                 height={200}
                 src={res.image}
@@ -106,7 +106,7 @@ export default async function ClassInfo({
                 blurDataURL={BLURRED_DATA_URL}
               />
             ) : (
-              <ImageIcon className="w-[200px] h-[200px] border-4 rounded-xl !cursor-auto" size={200} />
+              <ImageIcon className="w-[200px] h-[200px] border-4 rounded-3xl !cursor-auto" size={200} />
             )}
           </div>
           <div className="flex flex-col items-center md:items-start gap-2 font-semibold">

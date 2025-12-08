@@ -2,6 +2,7 @@
 
 import { Fragment } from 'react'
 import { GalleryHorizontal, Brain, Pen, BrainCircuit } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 import Flashcards from './activities/flashcards'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
@@ -13,6 +14,8 @@ import { SelectedSet } from '@/types/models/set'
 import Associations from './activities/associations'
 
 export default function TabsPage({ set }: { set: SelectedSet }) {
+  const t = useTranslations('activities')
+
   return (
     <ActivityTypesProvider>
       {!!set ? (
@@ -20,19 +23,19 @@ export default function TabsPage({ set }: { set: SelectedSet }) {
           <TabsList className="w-full mb-5 flex justify-between overflow-x-auto">
             <TabsTrigger className="w-full" value="flashcards">
               <GalleryHorizontal className="mr-2" size={15} />
-              Flashcards
+              {t('flashcards')}
             </TabsTrigger>
             <TabsTrigger className="w-full" value="memorization">
               <Brain className="mr-2" size={15} />
-              Memorization
+              {t('memorization')}
             </TabsTrigger>
             <TabsTrigger className="w-full" value="spelling">
               <Pen className="mr-2" size={15} />
-              Spelling
+              {t('spelling')}
             </TabsTrigger>
             <TabsTrigger className="w-full" value="associations">
               <BrainCircuit className="mr-2" size={15} />
-              Associations
+              {t('associations')}
             </TabsTrigger>
           </TabsList>
           <Fragment key={set?.id}>
@@ -52,7 +55,7 @@ export default function TabsPage({ set }: { set: SelectedSet }) {
         </Tabs>
       ) : (
         <p className="sub-title-3 text-center text-warn">
-          First select Set above <span className="emoji">🧐</span>
+          {t('selectSet')} <span className="emoji">🧐</span>
         </p>
       )}
     </ActivityTypesProvider>
