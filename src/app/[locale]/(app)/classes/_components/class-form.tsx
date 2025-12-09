@@ -37,6 +37,7 @@ const defaultValues = { title: '', sets: [], users: [], image: '', file: undefin
 export default function ClassForm({ data = null, action = null, sets, users, onSuccess }: ClassFormProps) {
   const t = useTranslations('form.class')
   const tBtn = useTranslations('btn')
+  const tClasses = useTranslations('Classes')
 
   useEffect(() => {
     form.setFocus('title')
@@ -128,7 +129,7 @@ export default function ClassForm({ data = null, action = null, sets, users, onS
                     <MultipleSelector
                       className="overflow-x-auto"
                       value={setValues}
-                      placeholder="Choose Sets"
+                      placeholder={tClasses('chooseSets')}
                       options={setOptions}
                       onChange={(val: { label: string; value: string }[]) => onSelect(val, 'sets')}
                     />
@@ -150,7 +151,7 @@ export default function ClassForm({ data = null, action = null, sets, users, onS
                       <MultipleSelector
                         className="overflow-x-auto"
                         value={userValues}
-                        placeholder="Choose Members"
+                        placeholder={tClasses('chooseMembers')}
                         options={userOptions}
                         onChange={(val: { label: string; value: string }[]) => onSelect(val, 'users')}
                       />

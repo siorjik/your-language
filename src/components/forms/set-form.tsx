@@ -144,9 +144,8 @@ export default function SetForm({ data = null, action = null, btnStyle = '', aft
                 </FormItem>
               )}
             />
-            <div className="h-10 w-10 text-center pt-2 mx-auto md:mt-7 border-2 rounded-md text-xs leading-[.6] font-semibold">
-              <span className="text-sm leading-[.3]">{fields.length}</span>
-              <p>items</p>
+            <div className="h-10 w-10 text-center pt-2 mx-auto md:mt-7 border-2 rounded-md font-semibold">
+              <span>{fields.length}</span>
             </div>
             <FormField
               control={form.control}

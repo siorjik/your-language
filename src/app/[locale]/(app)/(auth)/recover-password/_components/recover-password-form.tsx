@@ -3,6 +3,7 @@
 import z from 'zod'
 
 import Form from '@/components/forms/simple-form'
+import { useTranslations } from 'next-intl'
 
 import { createPassFormTypeSchema } from '@/types/forms/auth'
 import { useToast } from '@/hooks/use-toast'
@@ -13,6 +14,7 @@ import { signInAppPath } from '@/utils/paths'
 
 export default function RecoverPasswordForm({ token }: { token: string | '' }) {
   const { toast } = useToast()
+  const t = useTranslations('form')
 
   const onSubmit = async (values: z.infer<typeof createPassFormTypeSchema>): Promise<boolean> => {
     const res: SelectedUser | Err = await recoverPass({ password: values.password, token })
@@ -35,8 +37,8 @@ export default function RecoverPasswordForm({ token }: { token: string | '' }) {
   }
 
   const fieldsData = [
-    { name: 'password', label: 'New Password*', type: 'password' },
-    { name: 'confirmPassword', label: 'Confirm Password*', type: 'password' },
+    { name: 'password', label: `${t('password')}*`, type: 'password' },
+    { name: 'confirmPassword', label: `${t('confirmPass')}*`, type: 'password' },
   ]
 
   return (
@@ -44,7 +46,7 @@ export default function RecoverPasswordForm({ token }: { token: string | '' }) {
       submit={onSubmit}
       schema={createPassFormTypeSchema}
       fieldsData={fieldsData}
-      btn={{ text: 'Recover Password' }}
+      btn={{ text: t('recoverPass') }}
       showSpinner
       isReset
     />

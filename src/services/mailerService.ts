@@ -72,8 +72,8 @@ const getEmailTemplate = ({
                     If the button doesn't work, copy and paste this URL into your browser:
                   </p>
                   <p style="word-break:break-all; margin-top:8px;">
-                    <a href="${appHost}${createPasswordAppPath}?token=${token}" style="color:#4A6CF7;">
-                      ${appHost}${createPasswordAppPath}?token=${token}
+                    <a href="${appHost}${url}?token=${token}" style="color:#4A6CF7;">
+                      ${appHost}${url}?token=${token}
                     </a>
                   </p>
                 </td>
@@ -101,7 +101,17 @@ const getEmailTemplate = ({
   </html>
 `
 
-export const sendCreatePassMail = async ({ to, token, name }: { to: string; token: string; name: string }): Promise<void> => {
+export const sendCreatePassMail = async ({
+  to,
+  token,
+  name,
+  locale,
+}: {
+  to: string
+  token: string
+  name: string
+  locale: string
+}): Promise<void> => {
   const text = 'To complete your account setup, please create a password using the secure link below:'
   const btnText = 'Create Password'
 
@@ -110,7 +120,7 @@ export const sendCreatePassMail = async ({ to, token, name }: { to: string; toke
       from: { name: `noreply@${appHost}`, address: process.env.MAILER_USER! },
       to,
       subject: 'Password creation.',
-      html: getEmailTemplate({ name, token, text, btnText, url: createPasswordAppPath }),
+      html: getEmailTemplate({ name, token, text, btnText, url: `/${locale}${createPasswordAppPath}` }),
     })
 
     console.log('email sending result - ', result)
@@ -121,7 +131,15 @@ export const sendCreatePassMail = async ({ to, token, name }: { to: string; toke
   }
 }
 
-export const sendRecoverPassMail = async ({ to, token }: { to: string; token: string }): Promise<void> => {
+export const sendRecoverPassMail = async ({
+  to,
+  token,
+  locale,
+}: {
+  to: string
+  token: string
+  locale: string
+}): Promise<void> => {
   const text = 'This is the link to recover your password:'
 
   try {
@@ -129,7 +147,13 @@ export const sendRecoverPassMail = async ({ to, token }: { to: string; token: st
       from: { name: `noreply@${appHost}`, address: process.env.MAILER_USER! },
       to,
       subject: 'Password recovery.',
-      html: getEmailTemplate({ text, btnText: 'Password recovery', token, url: recoverPasswordAppPath, name: 'user' }),
+      html: getEmailTemplate({
+        text,
+        btnText: 'Password recovery',
+        token,
+        url: `/${locale}${recoverPasswordAppPath}`,
+        name: 'user',
+      }),
     })
 
     console.log('email sending result - ', result)

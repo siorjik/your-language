@@ -7,9 +7,13 @@
     "password": "Password",
     "name": "Name",
     "createAcc": "Create Account",
+    "createPass": "Create Password",
+    "recoverPass": "Recover Password",
+    "confirmPass": "Confirm Password",
     "logIn": "Log In",
     "code": "Code",
     "passRecovery": "Password Recovery",
+    "passCreation": "Password Creation",
     "forgotPass": "Forgot your password?",
     "subject": "Subject",
     "message": "Message",
@@ -236,6 +240,9 @@
     "visitLibrary": "Visit Library and create a new one to create a new Class",
     "createSet": "To create a new Class visit Library and create at least one Set",
     "noAny": "There are no any Classes",
-    "item": { "creator": "Creator:", "sets": "Sets:", "members": "Members:" }
+    "item": { "creator": "Creator:", "sets": "Sets:", "members": "Members:" },
+    "chooseSets": "Choose Sets",
+    "chooseMembers": "Choose Members",
+    "request": "Send request to join to the Class"
   }
 }

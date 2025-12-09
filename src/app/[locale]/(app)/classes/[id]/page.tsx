@@ -51,7 +51,6 @@ export default async function ClassInfo({
   const { creator } = await searchParams
 
   const session = await getServerSessionToken()
-  const t = await getTranslations({ locale, namespace: 'Activities' })
   const tClasses = await getTranslations({ locale, namespace: 'Classes.item' })
   const tMenu = await getTranslations({ locale, namespace: 'menu' })
 
