@@ -10,7 +10,7 @@ export async function POST(req: NextRequest): Promise<NextResponse<{ success: tr
   try {
     const token = await createToken({ email: body.email }, 10)
 
-    await sendCreatePassMail({ to: body.email, name: body.name, token })
+    await sendCreatePassMail({ to: body.email, name: body.name, token, locale: body.locale })
 
     return NextResponse.json({ success: true })
   } catch (error) {

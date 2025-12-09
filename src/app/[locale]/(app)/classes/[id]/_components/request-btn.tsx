@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 
 import { Button } from '@/components/ui/button'
 
@@ -11,6 +12,7 @@ import { useToast } from '@/hooks/use-toast'
 export default function RequestBtn({ classId, recipientId }: { classId: string; recipientId: string }) {
   const [disabled, setDisabled] = useState(false)
   const { toast } = useToast()
+  const t = useTranslations('Classes')
 
   const sendRequest = async () => {
     await createNotification({ classId, recipientId, type: NOTIFICATION_TYPES.sentClassJoinRequest })
@@ -22,7 +24,7 @@ export default function RequestBtn({ classId, recipientId }: { classId: string; 
 
   return (
     <Button onClick={sendRequest} variant="outline" size="lg" className="btn-bg-animated text-lg" disabled={disabled}>
-      Send request to join to the Class
+      {t('request')}
     </Button>
   )
 }

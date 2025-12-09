@@ -2,6 +2,7 @@
 
 import z from 'zod'
 import { useTranslations } from 'next-intl'
+import { useLocale } from 'next-intl'
 
 import Link from '@/components/link'
 import Form from '@/components/forms/simple-form'
@@ -24,6 +25,7 @@ export default function SignUpForm({
 }) {
   const { toast } = useToast()
   const t = useTranslations('form')
+  const locale = useLocale()
 
   const submit = async (data: z.infer<typeof createAccFormTypeSchema>): Promise<boolean> => {
     try {
@@ -33,7 +35,7 @@ export default function SignUpForm({
         await apiRequestService<{ success: boolean }>({
           url: emailCreatePassApiPath,
           method: 'POST',
-          body: { email: res.email, name: res.name },
+          body: { email: res.email, name: res.name, locale },
         })
 
         toast({

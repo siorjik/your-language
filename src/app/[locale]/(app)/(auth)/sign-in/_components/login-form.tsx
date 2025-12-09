@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import z from 'zod'
 import { useTranslations } from 'next-intl'
+import { useLocale } from 'next-intl'
 
 import Link from '@/components/link'
 import Form from '@/components/forms/simple-form'
@@ -27,6 +28,7 @@ export default function LoginForm() {
   const { toast } = useToast()
   const { getLocaleUrl } = useLocaleUrl()
   const t = useTranslations('form')
+  const locale = useLocale()
 
   const onSubmit = async (values: z.infer<typeof loginFormTypeSchema>): Promise<boolean> => {
     const res: { isTwoFa: boolean; error: null } | Err = await checkTwoFa(values.email)
@@ -73,7 +75,7 @@ export default function LoginForm() {
 
   const recoverPass = async (values: z.infer<typeof recoverPassFormTypeSchema>): Promise<boolean> => {
     try {
-      await apiRequestService({ url: emailRecoverPassApiPath, method: 'POST', body: { ...values } })
+      await apiRequestService({ url: emailRecoverPassApiPath, method: 'POST', body: { ...values, locale } })
 
       toast({
         title: 'Password Recovery',
