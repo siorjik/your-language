@@ -163,8 +163,8 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
               trigger={
                 <Button
                   className={`
-                    relative bg-white/10 hover:bg-white/20 ${isMobile ? 'text-xl' : 'text-2xl'}
-                    ${isMobile ? 'p-6' : 'p-8'} backdrop-blur-md shadow-lg border border-white/20
+                    bg-white/10 hover:bg-white/20 ${isMobile ? 'text-xl' : 'text-2xl'}
+                    ${isMobile ? 'p-6' : 'p-8'} backdrop-blur-sm shadow-lg border border-white/20
                     ${!isDark ? '!text-background/70' : '!text-accent-foreground/70'} duration-300
                   `}
                   variant="ghost"

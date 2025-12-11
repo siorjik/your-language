@@ -28,6 +28,7 @@ export default function LoginForm() {
   const { toast } = useToast()
   const { getLocaleUrl } = useLocaleUrl()
   const t = useTranslations('form')
+  const tToast = useTranslations('toast.login')
   const locale = useLocale()
 
   const onSubmit = async (values: z.infer<typeof loginFormTypeSchema>): Promise<boolean> => {
@@ -40,19 +41,14 @@ export default function LoginForm() {
 
       setTwoFa(res.isTwoFa)
     } else {
-      toast({ variant: 'destructive', title: 'Two-Factor Authentication Checking Error', description: res.error.message })
+      toast({ variant: 'destructive', title: tToast('twoFa.destructive.title'), description: res.error.message })
 
       return false
     }
 
     if (!isTwoFa) return await login(values)
     else if (isTwoFa && !code) {
-      toast({
-        variant: 'warn',
-        title: 'Two-Factor Authentication',
-        description: 'You have enabled two-fa authentication, provide your code in appeared field...',
-        duration: 7000,
-      })
+      toast({ variant: 'warn', title: tToast('twoFa.warn.title'), description: tToast('twoFa.warn.description'), duration: 7000 })
 
       return false
     } else if (isTwoFa && code) return await login({ ...values, code })
@@ -67,7 +63,7 @@ export default function LoginForm() {
 
       return true
     } else {
-      toast({ variant: 'destructive', title: 'Login Error', description: res?.code })
+      toast({ variant: 'destructive', title: tToast('destructive.title'), description: res?.code })
 
       return false
     }
@@ -78,9 +74,9 @@ export default function LoginForm() {
       await apiRequestService({ url: emailRecoverPassApiPath, method: 'POST', body: { ...values, locale } })
 
       toast({
-        title: 'Password Recovery',
+        title: tToast('recoverPass.success.title'),
         variant: 'success',
-        description: 'Email with password recovery link was sent. Check your email.',
+        description: tToast('recoverPass.success.description'),
       })
 
       setClose(true)
@@ -90,7 +86,7 @@ export default function LoginForm() {
     } catch (error) {
       const err = error as Err
 
-      toast({ title: 'Password Recovery', variant: 'destructive', description: err.error.message })
+      toast({ title: tToast('recoverPass.destructive.title'), variant: 'destructive', description: err.error.message })
 
       return false
     }
