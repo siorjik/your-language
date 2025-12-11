@@ -8,7 +8,6 @@ import { useTranslations } from 'next-intl'
 
 import { TextEffect } from '../ui/text-effect'
 import DialogWrap from '../dialog-wrap'
-import { GlowEffect } from '../ui/glow-effect'
 import { TextLoop } from '../ui/text-loop'
 import { Button } from '../ui/button'
 
@@ -102,7 +101,7 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
           <TextEffect
             className={`
               max-w-[500px] ${!isDark ? 'text-background/70' : 'text-accent-foreground/70'}
-              mx-auto p-3 bg-white/20 backdrop-blur-sm shadow-lg
+              mx-auto p-3 bg-white/10 backdrop-blur-sm shadow-lg
               rounded-2xl italic font-semibold border border-white/20
             `}
             per="char"
@@ -154,7 +153,6 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
             </span>
           </TextLoop>
           <div className="w-fit mx-auto relative hover:scale-105 duration-300">
-            <GlowEffect className="rounded-lg" mode="colorShift" blur="softest" duration={5} scale={1} />
             <DialogWrap
               width="max-w-[400px]"
               title={
@@ -165,8 +163,8 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
               trigger={
                 <Button
                   className={`
-                    relative hover:bg-white/30 ${isMobile ? 'text-xl' : 'text-2xl'}
-                    ${isMobile ? 'p-6' : 'p-8'} backdrop-blur-lg shadow-lg border border-white/20
+                    relative bg-white/10 hover:bg-white/20 ${isMobile ? 'text-xl' : 'text-2xl'}
+                    ${isMobile ? 'p-6' : 'p-8'} backdrop-blur-md shadow-lg border border-white/20
                     ${!isDark ? '!text-background/70' : '!text-accent-foreground/70'} duration-300
                   `}
                   variant="ghost"
