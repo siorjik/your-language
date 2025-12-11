@@ -20,6 +20,8 @@
     "submit": "Submit",
     "goToSignUp": "Go to <Link1>Home</Link1> or <Link2>Sign Up</Link2> page",
     "goToSignIn": "Go to <Link1>Home</Link1> or <Link2>Sign In</Link2> page",
+    "currentPass": "Current Password",
+    "newPass": "New Password",
     "set": {
       "term": "Term*",
       "definition": "Definition*",
@@ -94,7 +96,8 @@
     "share": "Share",
     "continue": "Continue",
     "chooseFile": "Choose File",
-    "save": "Save"
+    "save": "Save",
+    "disable": "Disable"
   },
   "activities": {
     "flashcards": "Flashcards",
@@ -244,5 +247,26 @@
     "chooseSets": "Choose Sets",
     "chooseMembers": "Choose Members",
     "request": "Send request to join to the Class"
+  },
+  "Profile": {
+    "tabs": {
+      "acc": "Email / Name",
+      "pass": "Password",
+      "image": "Image",
+      "colors": "Colors",
+      "two-fa": "Two-Factor Authentication"
+    },
+    "updateAcc": "Update email or name",
+    "updatePass": "Update password",
+    "updateImage": "Update image",
+    "chooseTheme": "Choose your color theme",
+    "chooseColor": "Choose color",
+    "two-fa": {
+      "title": "Manage your Two-Factor authentication",
+      "first": "1 - scan the QR Code with your Authenticator app",
+      "second": "2 - enter the code below from your app",
+      "next": "Next time, you`ll sign in with 2FA.",
+      "enabled": "Two-Factor authentication is enabled!"
+    }
   }
 }

@@ -2,6 +2,7 @@
 
 import z from 'zod'
 import { useSession, getSession } from 'next-auth/react'
+import { useTranslations } from 'next-intl'
 
 import Form from '@/components/forms/simple-form'
 
@@ -14,6 +15,9 @@ import { Err } from '@/types/errTypes'
 export default function EditAccountForm({ isCredentials }: { isCredentials: boolean }) {
   const { toast } = useToast()
   const { data: session, update } = useSession()
+  const t = useTranslations('Profile')
+  const tForm = useTranslations('form')
+  const tBtn = useTranslations('btn')
 
   const submit = async (data: z.infer<typeof updateAccFormTypeSchema>): Promise<boolean> => {
     await getSession()
@@ -39,18 +43,18 @@ export default function EditAccountForm({ isCredentials }: { isCredentials: bool
   }
 
   const fieldData = [
-    { name: 'email', label: 'Email*', disabled: !isCredentials },
-    { name: 'name', label: 'Name*' },
+    { name: 'email', label: `${tForm('email')}*`, disabled: !isCredentials },
+    { name: 'name', label: `${tForm('name')}*` },
   ]
 
   return (
     <div className="w-full max-w-[350px]">
-      <h3 className="sub-title-3">Update email or name:</h3>
+      <h3 className="sub-title-3">{t('updateAcc')}:</h3>
       <Form
         submit={submit}
         schema={updateAccFormTypeSchema}
         fieldsData={fieldData}
-        btn={{ text: 'Update', css: 'w-auto' }}
+        btn={{ text: tBtn('update'), css: 'w-auto' }}
         data={{ email: session?.user?.email, name: session?.user?.name }}
         showLoader
       />

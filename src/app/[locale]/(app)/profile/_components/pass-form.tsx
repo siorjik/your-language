@@ -2,6 +2,7 @@
 
 import z from 'zod'
 import { getSession } from 'next-auth/react'
+import { useTranslations } from 'next-intl'
 
 import Form from '@/components/forms/simple-form'
 
@@ -12,6 +13,9 @@ import { Err } from '@/types/errTypes'
 
 export default function EditAccountForm() {
   const { toast } = useToast()
+  const t = useTranslations('Profile')
+  const tForm = useTranslations('form')
+  const tBtn = useTranslations('btn')
 
   const submit = async (data: z.infer<typeof changePassFormTypeSchema>): Promise<boolean> => {
     await getSession()
@@ -30,18 +34,18 @@ export default function EditAccountForm() {
   }
 
   const fieldData = [
-    { name: 'currentPass', label: 'Current Password*', type: 'password' },
-    { name: 'newPass', label: 'New Password*', type: 'password' },
+    { name: 'currentPass', label: `${tForm('currentPass')}*`, type: 'password' },
+    { name: 'newPass', label: `${tForm('newPass')}*`, type: 'password' },
   ]
 
   return (
     <div className="w-full max-w-[350px]">
-      <h3 className="sub-title-3">Update password:</h3>
+      <h3 className="sub-title-3">{t('updatePass')}:</h3>
       <Form
         submit={submit}
         schema={changePassFormTypeSchema}
         fieldsData={fieldData}
-        btn={{ text: 'Update', css: 'w-auto' }}
+        btn={{ text: tBtn('update'), css: 'w-auto' }}
         isReset
         showLoader
       />

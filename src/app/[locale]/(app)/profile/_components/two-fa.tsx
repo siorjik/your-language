@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
+import { useTranslations } from 'next-intl'
 
 import { Button } from '@/components/ui/button'
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp'
@@ -22,6 +23,8 @@ export default function TwoFa({ twoFaData }: { twoFaData: { data: string; secret
   const { push } = useRouter()
   const { update } = useSession()
   const { getLocaleUrl } = useLocaleUrl()
+  const t = useTranslations('Profile')
+  const tBtn = useTranslations('btn')
 
   const getErrToast = (description: string) =>
     toast({ title: 'Two-Factor Authentication Error', variant: 'destructive', description })
@@ -70,12 +73,12 @@ export default function TwoFa({ twoFaData }: { twoFaData: { data: string; secret
 
   return (
     <>
-      <h3 className="sub-title-3">Manage your Two-Factor authentication:</h3>
+      <h3 className="sub-title-3">{t('two-fa.title')}:</h3>
       {twoFaData ? (
         <div>
           <Image className="mb-10 rounded-md" width={150} height={150} src={twoFaData?.data} alt="qr-code" />
-          <p className="mb-2 text-primary font-semibold">1 - scan the QR Code with your Authenticator app</p>
-          <p className="mb-10 text-primary font-semibold">2 - enter the code below from your app</p>
+          <p className="mb-2 text-primary font-semibold">{t('two-fa.first')}</p>
+          <p className="mb-10 text-primary font-semibold">{t('two-fa.second')}</p>
           <InputOTP maxLength={6} onChange={(val) => setCode(val)}>
             <InputOTPGroup>
               <InputOTPSlot index={0} />
@@ -86,13 +89,13 @@ export default function TwoFa({ twoFaData }: { twoFaData: { data: string; secret
               <InputOTPSlot index={5} />
             </InputOTPGroup>
           </InputOTP>
-          <div className="mt-10 font-semibold text-primary">Next time, you`ll sign in with 2FA.</div>
+          <div className="mt-10 font-semibold text-primary">{t('two-fa.next')}</div>
         </div>
       ) : (
         <>
-          <p className="mb-5 text-success font-semibold">Two-Factor authentication is enabled!</p>
+          <p className="mb-5 text-success font-semibold">{t('two-fa.enabled')}</p>
           <Button variant="warn" onClick={disableTwoFaHash}>
-            Disable
+            {tBtn('disable')}
           </Button>
         </>
       )}

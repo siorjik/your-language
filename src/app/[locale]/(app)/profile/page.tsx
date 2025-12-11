@@ -12,7 +12,7 @@ export default async function Profile() {
   const session = await auth()
   const isCredentials = session?.user.isCredentials
 
-  if (!session?.user.isTwoFa) twoFaData = await apiRequestService({ url: `${twoFaApiPath}`, headers: await headers() })
+  if (!session?.user.isTwoFa) twoFaData = await apiRequestService({ url: twoFaApiPath, headers: await headers() })
 
   return <ProfileTabs twoFaData={twoFaData} isCredentials={isCredentials} />
 }
