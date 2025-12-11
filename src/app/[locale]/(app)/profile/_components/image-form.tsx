@@ -2,6 +2,7 @@
 
 import { useSession } from 'next-auth/react'
 import { User2 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 import { useToast } from '@/hooks/use-toast'
 import { updateAccImage } from '@/actions/user'
@@ -11,6 +12,7 @@ import ImageUploading from '@/components/image-uploading'
 export default function ImageForm() {
   const { data: session, update } = useSession()
   const { toast } = useToast()
+  const t = useTranslations('Profile')
 
   const upload = async (image: File): Promise<string | null> => {
     const isBucketImage = session?.user.image?.includes('amazonaws.com')
@@ -57,7 +59,7 @@ export default function ImageForm() {
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <h3 className="sub-title-3">Update image:</h3>
+      <h3 className="sub-title-3">{t('updateImage')}:</h3>
       <ImageUploading imageUrl={session?.user.image} upload={upload} onDelete={onDelete} placeholder={<User2 size={100} />} />
     </div>
   )
