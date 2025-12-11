@@ -15,22 +15,19 @@ import { signInAppPath } from '@/utils/paths'
 export default function CreatePasswordForm({ token }: { token: string | '' }) {
   const { toast } = useToast()
   const t = useTranslations('form')
+  const tToast = useTranslations('toast.createPass')
 
   const onSubmit = async (values: z.infer<typeof createPassFormTypeSchema>): Promise<boolean> => {
     const res: SelectedUser | Err = await createPass({ password: values.password, token })
 
     if (res && !res.error) {
-      toast({
-        title: 'Password Creating Success',
-        variant: 'success',
-        description: 'Password was created successfully! Redirect to login page...',
-      })
+      toast({ title: tToast('success.title'), variant: 'success', description: tToast('success.description') })
 
       setTimeout(() => (window.location.href = signInAppPath), 3000)
 
       return true
     } else {
-      toast({ variant: 'destructive', title: 'Password Creation Error', description: res.error.message })
+      toast({ variant: 'destructive', title: tToast('destructive.title'), description: res.error.message })
 
       return false
     }

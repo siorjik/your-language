@@ -268,5 +268,31 @@
       "next": "Next time, you`ll sign in with 2FA.",
       "enabled": "Two-Factor authentication is enabled!"
     }
+  },
+  "toast": {
+    "createPass": {
+      "success": {
+        "title": "Password Creating Success",
+        "description": "Password was created successfully! Redirect to login page..."
+      },
+      "destructive": { "title": "Password Creation Error" }
+    },
+    "login": {
+      "twoFa": {
+        "destructive": { "title": "Two-Factor Authentication Checking Error" },
+        "warn": {
+          "title": "Two-Factor Authentication",
+          "description": "You have enabled two-fa authentication, provide your code in appeared field..."
+        }
+      },
+      "destructive": { "title": "Login Error" },
+      "recoverPass": {
+        "success": {
+          "title": "Password Recovery",
+          "description": "Email with password recovery link was sent. Check your email."
+        },
+        "destructive": { "title": "Password Recovery Error" }
+      }
+    }
   }
 }
