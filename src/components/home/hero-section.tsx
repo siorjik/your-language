@@ -95,13 +95,12 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
           viewport={{ once: true }}
           transition={{ duration: 0.3, type: 'spring', stiffness: 150 }}
         >
-          <TextEffect className="sub-title-1 mb-5 text-background" preset="fade-in-blur" speedReveal={1.1} speedSegment={0.3}>
+          <TextEffect className="sub-title-1 mb-5 text-slate-100" preset="fade-in-blur" speedReveal={1.1} speedSegment={0.3}>
             {t('welcome')}
           </TextEffect>
           <TextEffect
             className={`
-              max-w-[500px] ${!isDark ? 'text-background/70' : 'text-accent-foreground/70'}
-              mx-auto p-3 bg-white/10 backdrop-blur-sm shadow-lg
+              max-w-[500px] text-slate-300 mx-auto p-3 bg-white/10 backdrop-blur-sm shadow-lg
               rounded-2xl italic font-semibold border border-white/20
             `}
             per="char"
@@ -131,28 +130,28 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
           transition={{ duration: 0.3, type: 'spring', stiffness: 150 }}
         >
           <TextLoop className="w-full mb-8 xl:mb-14 text-center hidden md:block" interval={3} transition={{ duration: 0.5 }}>
-            <span className="sub-title-1 text-background text-3xl">
+            <span className="sub-title-1 text-slate-100 text-3xl">
               <TextEffect preset="fade-in-blur" speedReveal={1.1} speedSegment={0.3} as="span">
                 {t('improve')}
               </TextEffect>
             </span>
-            <span className="sub-title-1 text-background text-3xl">
+            <span className="sub-title-1 text-slate-100 text-3xl">
               <TextEffect preset="fade-in-blur" speedReveal={1.1} speedSegment={0.3} as="span">
                 {t('increase')}
               </TextEffect>
             </span>
-            <span className="sub-title-1 text-background text-3xl ">
+            <span className="sub-title-1 text-slate-100 text-3xl ">
               <TextEffect preset="fade-in-blur" speedReveal={1.1} speedSegment={0.3} as="span">
                 {t('expend')}
               </TextEffect>
             </span>
-            <span className="sub-title-1 text-background text-3xl">
+            <span className="sub-title-1 text-slate-100 text-3xl">
               <TextEffect preset="fade-in-blur" speedReveal={1.1} speedSegment={0.3} as="span">
                 {t('enjoy')}
               </TextEffect>
             </span>
           </TextLoop>
-          <div className="w-fit mx-auto relative hover:scale-105 duration-300">
+          <div className="w-fit mx-auto">
             <DialogWrap
               width="max-w-[400px]"
               title={
@@ -164,8 +163,8 @@ export default function HeroSection({ dialogContent, isClose }: { dialogContent:
                 <Button
                   className={`
                     bg-white/10 hover:bg-white/20 ${isMobile ? 'text-xl' : 'text-2xl'}
-                    ${isMobile ? 'p-6' : 'p-8'} backdrop-blur-sm shadow-lg border border-white/20
-                    ${!isDark ? '!text-background/70' : '!text-accent-foreground/70'} duration-300
+                    text-slate-300 backdrop-filter backdrop-blur-sm transition-all duration-300
+                    hover:scale-105 ${isMobile ? 'p-6' : 'p-8'} shadow-lg border border-white/20
                   `}
                   variant="ghost"
                 >

@@ -74,7 +74,7 @@ export default function Navbar() {
         <div className="flex gap-2 items-center">
           <Link className={`w-[43px] ${isLgDisplay ? 'mr-10' : 'mr-5'} relative`} href={getLocaleUrl()}>
             <Image className="h-[43px] w-[43px] mr-10 z-0" src={logo} alt="logo" placeholder="blur" priority />
-            {!isDefault && <div className="h-[43px] w-[43px] bg-primary/50 z-10 absolute top-0 rounded-sm" />}
+            {isAuth && !isDefault && <div className="h-[43px] w-[43px] bg-primary/50 z-10 absolute top-0 rounded-sm" />}
           </Link>
           {!isMobile && <>{isAuth ? navData.map((item, idx) => <Fragment key={idx}>{getMenuItem(item)}</Fragment>) : null}</>}
         </div>

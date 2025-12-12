@@ -42,7 +42,7 @@ export default function Home({ session, sets, chartData }: MainProps) {
           ) : (
             <div className="h-[calc(100vh-160px)] flex flex-col justify-center items-center">
               <Link href={libraryAppPath} className="link text-xl">
-                Visit Library and create your first Set 🤓 {'>>>'}
+                {t('createSet')} 🤓 {'>>>'}
               </Link>
             </div>
           )}

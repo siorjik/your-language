@@ -15,18 +15,19 @@ export default function ContactUsForm() {
   const { toast } = useToast()
   const { data: session } = useSession()
   const t = useTranslations('form')
+  const tToast = useTranslations('toast.contactUs')
 
   const submit = async (data: z.infer<typeof contactUsFormTypeSchema>): Promise<boolean> => {
     try {
       await apiRequestService({ url: emailContactUsApiPath, method: 'POST', body: data })
 
-      toast({ title: 'Message Sending', description: 'Your message was sent successfully!', variant: 'success' })
+      toast({ title: tToast('success.title'), description: tToast('success.description'), variant: 'success' })
 
       return true
     } catch (error) {
       console.log(error)
 
-      toast({ title: 'Message Sending Error', description: 'Something went wrong with sending...', variant: 'destructive' })
+      toast({ title: tToast('destructive.title'), description: tToast('destructive.description'), variant: 'destructive' })
 
       return false
     }

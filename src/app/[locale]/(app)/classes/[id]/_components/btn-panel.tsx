@@ -42,6 +42,7 @@ export default function NavPanel({
   const t = useTranslations('btn')
   const tPopup = useTranslations('popup')
   const tClasses = useTranslations('Classes')
+  const tToast = useTranslations('toast.class')
 
   const onDelete = async () => {
     if (data.image) await deleteFile(data.image)
@@ -49,7 +50,7 @@ export default function NavPanel({
     const res: { success: boolean; error: null } | Err = await deleteClassById(data.id!)
 
     if (!res.error) {
-      toast({ title: 'Class Deleting', variant: 'success', description: 'Class was deleted successfully!' })
+      toast({ title: tToast('delete.success.title'), variant: 'success', description: tToast('delete.success.description') })
 
       setTimeout(() => push(getLocaleUrl(classesAppPath)), 500)
     }
