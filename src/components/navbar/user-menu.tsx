@@ -380,12 +380,12 @@ export default function UserMenu() {
       ) : (
         <div className="flex">
           <Link href={signUpAppPath}>
-            <span className="icon-hover">
+            <span className="icon-hover text-slate-300 hover:bg-white/20">
               <UserRoundPlus />
             </span>
           </Link>
           <Link href={signInAppPath}>
-            <span className="icon-hover mr-[-8px]">
+            <span className="icon-hover text-slate-300 hover:bg-white/20 mr-[-8px]">
               <LogIn />
             </span>
           </Link>

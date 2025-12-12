@@ -148,6 +148,7 @@
       "startLearning": "Start Learning"
     },
     "session": {
+      "createSet": "Visit Library and create your first Set",
       "activity": "Your activity",
       "recentSets": "Recent Created Sets",
       "chart": {
@@ -293,6 +294,19 @@
         },
         "destructive": { "title": "Password Recovery Error" }
       }
+    },
+    "recoverPass": {
+      "success": {
+        "title": "Password Recovery Success",
+        "description": "Password was recovery successfully! Redirect to login page..."
+      },
+      "destructive": { "title": "Password Recovery Error" }
+    },
+    "class": { "delete": { "success": { "title": "Class Deleting", "description": "Class was deleted successfully!" } } },
+    "requestBtn": { "success": { "title": "Join Request Sending", "description": "Your request was sent successfully!" } },
+    "contactUs": {
+      "success": { "title": "Message Sending", "description": "Your message was sent successfully!" },
+      "destructive": { "title": "Message Sending Error", "description": "Something went wrong with sending..." }
     }
   }
 }

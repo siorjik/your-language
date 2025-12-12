@@ -13,13 +13,14 @@ export default function RequestBtn({ classId, recipientId }: { classId: string; 
   const [disabled, setDisabled] = useState(false)
   const { toast } = useToast()
   const t = useTranslations('Classes')
+  const tToast = useTranslations('toast.requestBtn')
 
   const sendRequest = async () => {
     await createNotification({ classId, recipientId, type: NOTIFICATION_TYPES.sentClassJoinRequest })
 
     setDisabled(true)
 
-    toast({ title: 'Join Request Sending', description: 'Your request was sent successfully!', variant: 'success' })
+    toast({ title: tToast('success.title'), description: tToast('success.description'), variant: 'success' })
   }
 
   return (

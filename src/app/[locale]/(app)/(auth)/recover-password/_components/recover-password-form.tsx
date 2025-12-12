@@ -15,22 +15,19 @@ import { signInAppPath } from '@/utils/paths'
 export default function RecoverPasswordForm({ token }: { token: string | '' }) {
   const { toast } = useToast()
   const t = useTranslations('form')
+  const tToast = useTranslations('toast.recoverPass')
 
   const onSubmit = async (values: z.infer<typeof createPassFormTypeSchema>): Promise<boolean> => {
     const res: SelectedUser | Err = await recoverPass({ password: values.password, token })
 
     if (res && !res.error) {
-      toast({
-        title: 'Password Recovery Success',
-        variant: 'success',
-        description: 'Password was recovery successfully! Redirect to login page...',
-      })
+      toast({ title: tToast('success.title'), variant: 'success', description: tToast('success.description') })
 
       setTimeout(() => (window.location.href = signInAppPath), 3000)
 
       return true
     } else {
-      toast({ variant: 'destructive', title: 'Password Recovery Error', description: res.error.message })
+      toast({ variant: 'destructive', title: tToast('destructive.title'), description: res.error.message })
 
       return false
     }
