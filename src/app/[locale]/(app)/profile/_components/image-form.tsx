@@ -13,6 +13,7 @@ export default function ImageForm() {
   const { data: session, update } = useSession()
   const { toast } = useToast()
   const t = useTranslations('Profile')
+  const tToast = useTranslations('toast.profile.image')
 
   const upload = async (image: File): Promise<string | null> => {
     const isBucketImage = session?.user.image?.includes('amazonaws.com')
@@ -22,14 +23,14 @@ export default function ImageForm() {
 
       const res = await uploadFile(image!)
 
-      if (res.error) throw Error('Uploaded image url not found')
+      if (res.error) throw Error(tToast('destructive.imageErr'))
 
       const updatedUser = await updateAccImage({ image: res.url })
-      if (updatedUser.error) throw Error('Updated user error')
+      if (updatedUser.error) throw Error(tToast('destructive.userErr'))
 
       await update({ image: res.url })
 
-      toast({ title: 'Image Uploading', description: 'Image was uploaded successfully!', variant: 'success' })
+      toast({ title: tToast('success.title'), description: tToast('success.description'), variant: 'success' })
 
       return res.url
     } catch (error) {
@@ -37,7 +38,11 @@ export default function ImageForm() {
 
       const err = error as Error
 
-      toast({ title: 'File Type Error', description: err.message || 'Something went wrong', variant: 'destructive' })
+      toast({
+        title: tToast('destructive.title'),
+        description: err.message || tToast('destructive.description'),
+        variant: 'destructive',
+      })
 
       return null
     }

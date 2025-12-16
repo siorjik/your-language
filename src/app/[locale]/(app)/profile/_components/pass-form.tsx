@@ -16,6 +16,7 @@ export default function EditAccountForm() {
   const t = useTranslations('Profile')
   const tForm = useTranslations('form')
   const tBtn = useTranslations('btn')
+  const tToast = useTranslations('toast.profile.pass')
 
   const submit = async (data: z.infer<typeof changePassFormTypeSchema>): Promise<boolean> => {
     await getSession()
@@ -23,11 +24,11 @@ export default function EditAccountForm() {
     const res: { success: true; error: null } | Err = await updatePass(data)
 
     if (res && !res?.error) {
-      toast({ title: 'Password Updating', variant: 'success', description: 'Your password was updated successfully!' })
+      toast({ title: tToast('success.title'), variant: 'success', description: tToast('success.description') })
 
       return true
     } else {
-      toast({ variant: 'destructive', title: 'Password Updating Error', description: res.error.message })
+      toast({ variant: 'destructive', title: tToast('destructive.title'), description: res.error.message })
 
       return false
     }

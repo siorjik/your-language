@@ -18,6 +18,7 @@ export default function EditAccountForm({ isCredentials }: { isCredentials: bool
   const t = useTranslations('Profile')
   const tForm = useTranslations('form')
   const tBtn = useTranslations('btn')
+  const tToast = useTranslations('toast.profile.acc')
 
   const submit = async (data: z.infer<typeof updateAccFormTypeSchema>): Promise<boolean> => {
     await getSession()
@@ -26,17 +27,17 @@ export default function EditAccountForm({ isCredentials }: { isCredentials: bool
 
     if (res && !res?.error) {
       toast({
-        title: 'Account Updating',
+        title: tToast('success.title'),
         color: 'bg-green-300',
         variant: 'success',
-        description: 'Your account was updated successfully!',
+        description: tToast('success.description'),
       })
 
       update({ ...data })
 
       return true
     } else {
-      toast({ variant: 'destructive', title: 'Account Updating Error', description: res?.error?.message })
+      toast({ variant: 'destructive', title: tToast('destructive.title'), description: res?.error?.message })
 
       return false
     }
