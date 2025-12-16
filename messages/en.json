@@ -307,6 +307,31 @@
     "contactUs": {
       "success": { "title": "Message Sending", "description": "Your message was sent successfully!" },
       "destructive": { "title": "Message Sending Error", "description": "Something went wrong with sending..." }
+    },
+    "profile": {
+      "acc": {
+        "success": { "title": "Account Updating", "description": "Account was updated successfully!" },
+        "destructive": { "title": "Account Updating Error" }
+      },
+      "pass": {
+        "success": { "title": "Password Updating", "description": "Password was updated successfully!" },
+        "destructive": { "title": "Password Updating Error" }
+      },
+      "image": {
+        "success": { "title": "Image Updating", "description": "Image was updated successfully!" },
+        "destructive": {
+          "title": "Image Updating Error",
+          "description": "Something went wrong with updating...",
+          "imageErr": "Uploaded image url not found",
+          "userErr": "Updated user error"
+        }
+      },
+      "two-fa": {
+        "destructive": {
+          "title": "Two-Factor Authentication Updating Error",
+          "description": "Invalid code or something went wrong with updating..."
+        }
+      }
     }
   }
 }

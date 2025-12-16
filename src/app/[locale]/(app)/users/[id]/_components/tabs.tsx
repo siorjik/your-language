@@ -5,6 +5,7 @@ import { formatDistanceToNow } from 'date-fns'
 import { ImageIcon } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 
 import Link from '@/components/link'
 import SetList from '@/components/set-list'
@@ -26,16 +27,17 @@ export default function UserTabs({
 }) {
   const { push } = useRouter()
   const { getLocaleUrl } = useLocaleUrl()
+  const t = useTranslations('menu')
 
   return (
     <>
       <Tabs defaultValue="sets" className="w-full">
         <TabsList className="w-full mb-5 flex justify-between overflow-x-auto sticky top-0 z-10">
           <TabsTrigger className="w-full" value="sets">
-            Sets - {setsAmount}
+            {t('sets')} - {setsAmount}
           </TabsTrigger>
           <TabsTrigger className="w-full" value="classes">
-            Classes - {classes.length}
+            {t('classes')} - {classes.length}
           </TabsTrigger>
         </TabsList>
         <TabsContent value="sets">

@@ -25,9 +25,9 @@ export default function TwoFa({ twoFaData }: { twoFaData: { data: string; secret
   const { getLocaleUrl } = useLocaleUrl()
   const t = useTranslations('Profile')
   const tBtn = useTranslations('btn')
+  const tToast = useTranslations('toast.profile.two-fa')
 
-  const getErrToast = (description: string) =>
-    toast({ title: 'Two-Factor Authentication Error', variant: 'destructive', description })
+  const getErrToast = (description: string) => toast({ title: tToast('destructive.title'), variant: 'destructive', description })
 
   const setCode = (val: string): void => {
     if (val.length === 6) onSubmit(val)
@@ -51,7 +51,7 @@ export default function TwoFa({ twoFaData }: { twoFaData: { data: string; secret
         update({ isTwoFa: true })
 
         setTimeout(() => push(getLocaleUrl(profileAppPath)), 100)
-      } else getErrToast('Invalid code, please repeat...')
+      } else getErrToast(tToast('destructive.description'))
 
       setShow(false)
     } catch (error) {
