@@ -36,15 +36,16 @@ export default function NavPanel({ id, isCreator, isOwner }: NavPanelProps) {
   const t = useTranslations('btn')
   const tPopup = useTranslations('popup')
   const tActivities = useTranslations('activities')
+  const tToast = useTranslations('toast.set.delete')
 
   const onDelete = async () => {
     const res: { success: boolean; error: null } | Err = await deleteSet(id, false)
 
     if (!res.error) {
-      toast({ title: 'Set Deleting', variant: 'success', description: 'Set was deleted successfully!' })
+      toast({ title: tToast('success.title'), variant: 'success', description: tToast('success.description') })
 
       setTimeout(() => push(getLocaleUrl(setsAppPath)), 1000)
-    }
+    } else toast({ title: tToast('destructive.title'), variant: 'destructive', description: res.error.message })
   }
 
   const navigation = (

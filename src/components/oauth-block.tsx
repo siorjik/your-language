@@ -17,13 +17,14 @@ export default function OAuthBlock({ isMainPage }: { isMainPage?: boolean }) {
 
   const { toast } = useToast()
   const t = useTranslations('oauth')
+  const tToast = useTranslations('toast.oauthBlock')
 
   const onSubmit = async (name: 'google' | 'github'): Promise<void> => {
     setLoading(true)
 
     const res = await oauthLogin(name)
 
-    if (res.error) toast({ title: 'Authentication Error', variant: 'destructive', description: res.error.message })
+    if (res.error) toast({ title: tToast('destructive.title'), variant: 'destructive', description: res.error.message })
     else window.location.href = res.url
 
     setLoading(false)

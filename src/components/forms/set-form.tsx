@@ -46,6 +46,7 @@ export default function SetForm({ data = null, action = null, btnStyle = '', aft
   const { eventEmit } = useSocket(SOCKET_EVENTS.notification)
   const { getLocaleUrl } = useLocaleUrl()
   const t = useTranslations('form.set')
+  const tToast = useTranslations('toast.set')
 
   const timeoutRef: { current: NodeJS.Timeout | null } = useRef(null)
   const translateRef = useRef<(HTMLInputElement | null)[]>([])
@@ -78,7 +79,7 @@ export default function SetForm({ data = null, action = null, btnStyle = '', aft
       }
     } else
       toast({
-        title: action === 'create' ? 'Set Creation Error' : 'Set Updating Error',
+        title: action === 'create' ? tToast('create.destructive.title') : tToast('update.destructive.title'),
         variant: 'destructive',
         description: res.error.message,
       })

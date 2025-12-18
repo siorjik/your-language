@@ -25,6 +25,7 @@ export default function SignUpForm({
 }) {
   const { toast } = useToast()
   const t = useTranslations('form')
+  const tToast = useTranslations('toast.signUp')
   const locale = useLocale()
 
   const submit = async (data: z.infer<typeof createAccFormTypeSchema>): Promise<boolean> => {
@@ -38,12 +39,7 @@ export default function SignUpForm({
           body: { email: res.email, name: res.name, locale },
         })
 
-        toast({
-          title: 'Account Creation',
-          duration: 7000,
-          variant: 'success',
-          description: 'Your account was created successfully! Check your email to create password and finish registration.',
-        })
+        toast({ title: tToast('success.title'), duration: 7000, variant: 'success', description: tToast('success.description') })
 
         onSuccess?.()
       } else throw res
@@ -52,7 +48,7 @@ export default function SignUpForm({
     } catch (error) {
       const err = error as Err
 
-      toast({ variant: 'destructive', title: 'Account Creation Error', description: err.error.message })
+      toast({ variant: 'destructive', title: tToast('destructive.title'), description: err.error.message })
 
       return false
     }
