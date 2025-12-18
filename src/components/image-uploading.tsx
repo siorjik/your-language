@@ -28,6 +28,7 @@ export default function ImageUploading({
 
   const { toast } = useToast()
   const t = useTranslations('btn')
+  const tToast = useTranslations('toast.imageUploading')
 
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -46,20 +47,12 @@ export default function ImageUploading({
       getImage?.(file)
 
       if (ext !== 'png' && ext !== 'jpg' && ext !== 'jpeg') {
-        toast({
-          title: 'File Type Error',
-          description: 'File type not supported! Need to be .png, .jpg or .jpeg!',
-          variant: 'destructive',
-        })
+        toast({ title: tToast('incorrectType.title'), description: tToast('incorrectType.description'), variant: 'destructive' })
         return
       }
 
       if (!isAllowedSize) {
-        toast({
-          title: 'File Size Error',
-          description: 'File size too large! Need to be less than 10Mb!',
-          variant: 'destructive',
-        })
+        toast({ title: tToast('incorrectSize.title'), description: tToast('incorrectSize.description'), variant: 'destructive' })
         return
       }
 

@@ -1,5 +1,7 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
+
 import { useState, useEffect, RefObject, useRef, memo } from 'react'
 import { Input } from '@/components/ui/input'
 
@@ -28,6 +30,8 @@ export default memo(function Autocomplete({
   const [isLoading, setIsLoading] = useState(false)
   const [isFocused, setIsFocused] = useState(false)
   const [isOver, setOver] = useState(false)
+
+  const t = useTranslations('autocomplete')
 
   const blockRef = useRef<HTMLInputElement | null>(null)
 
@@ -109,7 +113,7 @@ export default memo(function Autocomplete({
       <div>
         <Input
           type="text"
-          placeholder={placeholder || 'Search...'}
+          placeholder={placeholder || t('search')}
           value={query}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
@@ -125,7 +129,7 @@ export default memo(function Autocomplete({
       </div>
       {isLoading && isFocused && (
         <div className="mt-2 p-2 bg-background border rounded-md shadow-sm absolute z-10" aria-live="polite">
-          Loading...
+          {t('loading')}
         </div>
       )}
       {suggestions.length > 0 && !isLoading && isFocused && (

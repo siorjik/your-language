@@ -2,6 +2,7 @@
   "localeSwitcher": { "label": "Choose language:  " },
   "common": { "signIn": "Sign In", "signUp": "Sign Up" },
   "oauth": { "continue": "Continue with", "or": "OR" },
+  "autocomplete": { "loading": "Loading...", "search": "Search..." },
   "form": {
     "email": "Email",
     "password": "Password",
@@ -302,6 +303,13 @@
       },
       "destructive": { "title": "Password Recovery Error" }
     },
+    "signUp": {
+      "success": {
+        "title": "Account Creating",
+        "description": "Your account was created successfully! Check your email to create password and finish registration."
+      },
+      "destructive": { "title": "Account Creation Error" }
+    },
     "class": { "delete": { "success": { "title": "Class Deleting", "description": "Class was deleted successfully!" } } },
     "requestBtn": { "success": { "title": "Join Request Sending", "description": "Your request was sent successfully!" } },
     "contactUs": {
@@ -332,6 +340,19 @@
           "description": "Invalid code or something went wrong with updating..."
         }
       }
-    }
+    },
+    "set": {
+      "delete": {
+        "success": { "title": "Set Deleting", "description": "Set was deleted successfully!" },
+        "destructive": { "title": "Set Deleting Error" }
+      },
+      "create": { "destructive": { "title": "Set Creating Error" } },
+      "update": { "destructive": { "title": "Set Updating Error" } }
+    },
+    "imageUploading": {
+      "incorrectType": { "title": "File Type Error", "description": "File type not supported! Need to be .png, .jpg or .jpeg!" },
+      "incorrectSize": { "title": "File Size Error", "description": "File size too large! Need to be less than 10Mb!" }
+    },
+    "oauthBlock": { "destructive": { "title": "Authentication Error" } }
   }
 }

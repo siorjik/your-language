@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { format } from 'date-fns'
+import { useTranslations } from 'next-intl'
 
 import AlertDialogWrap from '@/components/alert-dialog-wrap'
 import ShareBtn from '@/components/share-btn'
@@ -24,6 +25,7 @@ export default function SetItem({ set, idx, isSimple }: { set: SelectedSet; idx:
   const { eventEmit } = useSocket(SOCKET_EVENTS.notification)
   const { push } = useRouter()
   const { getLocaleUrl } = useLocaleUrl()
+  const t = useTranslations('popup')
 
   return (
     <motion.div
@@ -94,7 +96,7 @@ export default function SetItem({ set, idx, isSimple }: { set: SelectedSet; idx:
 
                 eventEmit()
               }}
-              description="You are going to delete the Set..."
+              description={t('deleteSetMess')}
             />
           </div>
         )}
