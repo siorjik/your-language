@@ -8,7 +8,6 @@ import Tabs from '@/components/activity-tabs'
 import Spinner from '@/components/spinner'
 
 import { SelectedSet } from '@/types/models/set'
-import { ModalContextProvider } from '@/contexts/modal-context'
 
 export default function Activities({ sets }: { sets: SelectedSet[] }) {
   const [id, setId] = useState<string | null>(null)
@@ -26,7 +25,7 @@ export default function Activities({ sets }: { sets: SelectedSet[] }) {
   }, [id])
 
   return (
-    <ModalContextProvider>
+    <>
       <div className="w-fit mx-auto mb-10 flex items-center gap-3">
         <span className="sub-title-3 mb-0">{t('chooseSet')}</span>
         <div className="w-[200px]">
@@ -43,6 +42,6 @@ export default function Activities({ sets }: { sets: SelectedSet[] }) {
       </div>
       {id && <Tabs set={sets.find((set) => set.id === id)!} />}
       {isLoading && <Spinner />}
-    </ModalContextProvider>
+    </>
   )
 }

@@ -9,6 +9,7 @@ import { forwardRef, useEffect } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Command, CommandGroup, CommandItem, CommandList } from '@/components/ui/command'
 import { cn } from '@/lib/utils'
+import { ModalContext } from '@/contexts/modal-context'
 
 export interface Option {
   value: string
@@ -203,6 +204,8 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
     const [inputValue, setInputValue] = React.useState('')
     const debouncedSearchTerm = useDebounce(inputValue, delay || 500)
 
+    const { setModalVisibility } = React.use(ModalContext)
+
     React.useImperativeHandle(
       ref,
       () => ({
@@ -265,6 +268,8 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
         document.removeEventListener('mousedown', handleClickOutside)
         document.removeEventListener('touchend', handleClickOutside)
       }
+
+      setModalVisibility('multi-select', open)
 
       return () => {
         document.removeEventListener('mousedown', handleClickOutside)

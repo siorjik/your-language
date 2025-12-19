@@ -18,6 +18,7 @@ import { SelectedSet } from '@/types/models/set'
 import { SelectedUser } from '@/types/models/user'
 import { getSetList } from '@/actions/set'
 import { BLURRED_DATA_URL } from '@/utils/constants'
+import { ModalContextProvider } from '@/contexts/modal-context'
 
 export async function generateMetadata({
   params,
@@ -88,7 +89,7 @@ export default async function ClassInfo({
   }
 
   return (
-    <>
+    <ModalContextProvider>
       <BreadcrumbWrap data={breadcrumbData} />
       <div
         className={`
@@ -174,6 +175,6 @@ export default async function ClassInfo({
           <RequestBtn classId={res.id} recipientId={res.creatorId} />
         </div>
       )}
-    </>
+    </ModalContextProvider>
   )
 }
