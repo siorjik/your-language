@@ -31,6 +31,9 @@ export default auth((req) => {
   const pathname = req.nextUrl.pathname
   const locale = pathname.split('/')[1]
 
+  // set locale in headers for server
+  req.headers.set('x-next-intl-locale', locale)
+
   if (pathname === '/' || !LOCALE.includes(locale)) {
     const intlResponse = intlMiddleware(req)
 
@@ -51,5 +54,5 @@ export default auth((req) => {
     return NextResponse.redirect(new URL(`/${locale}${signInAppPath}`, req.nextUrl.origin))
   }
 
-  return NextResponse.next()
+  return NextResponse.next({ request: { headers: req.headers } })
 })

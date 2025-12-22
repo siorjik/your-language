@@ -12,15 +12,12 @@ export const metadata: Metadata = {
 
 export default async function RecoverPasswordPage({
   searchParams,
-  params,
 }: {
   searchParams: Promise<{ locale: string; token: string }>
-  params: Promise<{ locale: string }>
 }) {
   const { token } = await searchParams
-  const { locale } = await params
 
-  const t = await getTranslations({ locale, namespace: 'form' })
+  const t = await getTranslations('form')
 
   return (
     <Card className="max-w-[450px] w-[100%] py-5 md:px-5 border-transparent bg-secondary/10 shadow-xl">

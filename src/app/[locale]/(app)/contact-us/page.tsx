@@ -2,10 +2,8 @@ import { getTranslations } from 'next-intl/server'
 
 import ContactUsForm from './_components/contact-us-form'
 
-export default async function ContactUs({ params }: { params: Promise<{ locale: string }> }) {
-  const { locale } = await params
-
-  const t = await getTranslations({ locale, namespace: 'ContactUs' })
+export default async function ContactUs() {
+  const t = await getTranslations('ContactUs')
 
   return (
     <div className="flex flex-col justify-center items-center">
