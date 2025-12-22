@@ -13,10 +13,8 @@ export const metadata: Metadata = {
     improve your memorization with flashcards, quizzes and spelling.`,
 }
 
-export default async function NewSet({ params }: { params: Promise<{ locale: string }> }) {
-  const { locale } = await params
-
-  const t = await getTranslations({ locale, namespace: 'Sets.creationPage' })
+export default async function NewSet() {
+  const t = await getTranslations('Sets.creationPage')
 
   return (
     <>

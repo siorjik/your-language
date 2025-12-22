@@ -12,10 +12,8 @@ export const metadata: Metadata = {
   `,
 }
 
-export default async function SignUp({ params }: { params: Promise<{ locale: string }> }) {
-  const { locale } = await params
-
-  const t = await getTranslations({ locale, namespace: 'common' })
+export default async function SignUp() {
+  const t = await getTranslations('common')
 
   return (
     <Card className="max-w-[450px] w-[100%] py-5 md:px-5 border-transparent bg-secondary/10 shadow-xl">

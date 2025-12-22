@@ -10,17 +10,10 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 }
 
-export default async function CreatePasswordPage({
-  searchParams,
-  params,
-}: {
-  searchParams: Promise<{ token: string }>
-  params: Promise<{ locale: string }>
-}) {
+export default async function CreatePasswordPage({ searchParams }: { searchParams: Promise<{ token: string }> }) {
   const { token } = await searchParams
-  const { locale } = await params
 
-  const t = await getTranslations({ locale, namespace: 'form' })
+  const t = await getTranslations('form')
 
   return (
     <Card className="max-w-[450px] w-[100%] py-5 md:px-5 border-transparent bg-secondary/10 shadow-xl">
