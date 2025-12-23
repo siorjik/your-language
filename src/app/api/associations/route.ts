@@ -1,10 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { getTranslations } from 'next-intl/server'
 
 import { Err, ErrObj } from '@/types/errTypes'
 import getServerSessionToken from '@/helpers/getServerSessionToken'
 import associationAIService from '@/services/associationAIService'
+import getLocaleByReferer from '@/helpers/getLocaleByReferer'
 
 export async function POST(req: NextRequest): Promise<NextResponse<string[] | [] | Err>> {
+  const locale = await getLocaleByReferer()
+  const t = await getTranslations({ locale, namespace: 'error.associations' })
+
   try {
     await getServerSessionToken(req)
 
@@ -12,7 +17,7 @@ export async function POST(req: NextRequest): Promise<NextResponse<string[] | []
     const word = (body?.word || '').trim()
     const language = (body?.language || 'en').trim()
 
-    if (!word) throw Error('Missing word to create associations')
+    if (!word) throw Error(t('missing'))
 
     const stream = await associationAIService(word, language)
 

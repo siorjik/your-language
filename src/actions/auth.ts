@@ -1,6 +1,7 @@
 'use server'
 
 import z from 'zod'
+import { getTranslations } from 'next-intl/server'
 
 import { SelectedUser } from '@/types/models/user'
 import { loginFormTypeSchema, createAccFormTypeSchema, createPassActionTypeSchema } from '@/types/forms/auth'
@@ -12,11 +13,15 @@ import { encode, isVerifiedStr } from '@/services/cryptoService'
 import { signIn } from '@/configs/auth'
 import apiRequestService from '@/services/apiRequestService'
 import { appHost, twoFaVerifyApiPath } from '@/utils/paths'
+import getLocaleByReferer from '@/helpers/getLocaleByReferer'
 
 const registrationTime = 1000 * 60 * 3 // 3 mins
 
 export const login = async (data: z.infer<typeof loginFormTypeSchema>): Promise<SelectedUser | null | Err> => {
   const { email, password, code } = data
+
+  const locale = await getLocaleByReferer()
+  const t = await getTranslations({ locale, namespace: 'error.auth' })
 
   try {
     loginFormTypeSchema.parse(data)
@@ -38,7 +43,7 @@ export const login = async (data: z.infer<typeof loginFormTypeSchema>): Promise<
 
           if (!('error' in isVerifiedTwoFa) && isVerifiedTwoFa.verified) return { ...user, error: null }
           else return null
-        } else if (user.isTwoFa && user.twoFaHash && !code) throw Error('Two-fa code is required!')
+        } else if (user.isTwoFa && user.twoFaHash && !code) throw Error(t('twoFa'))
 
         return { ...user, error: null }
       } else return null
@@ -57,6 +62,8 @@ const deleteInactiveUsers = async (): Promise<void> => {
 export const createAcc = async (data: z.infer<typeof createAccFormTypeSchema>): Promise<SelectedUser | Err> => {
   const { email, name } = data
 
+  const t = await getTranslations('error.auth')
+
   try {
     createAccFormTypeSchema.parse(data)
 
@@ -69,7 +76,7 @@ export const createAcc = async (data: z.infer<typeof createAccFormTypeSchema>): 
 
     if (user) return { ...user, error: null }
 
-    return { error: { message: 'Creation user error...' } }
+    return { error: { message: t('creationUser') } }
   } catch (error) {
     return errHandlerService(error)
   }
@@ -77,6 +84,8 @@ export const createAcc = async (data: z.infer<typeof createAccFormTypeSchema>): 
 
 export const createPass = async (data: z.infer<typeof createPassActionTypeSchema>): Promise<SelectedUser | Err> => {
   const { password, token } = data
+
+  const t = await getTranslations('error.auth')
 
   try {
     createPassActionTypeSchema.parse(data)
@@ -94,8 +103,8 @@ export const createPass = async (data: z.infer<typeof createPassActionTypeSchema
           ...(await prisma.user.update({ data: { password: hash, isActive: true }, where: { email }, omit: { password: true } })),
           error: null,
         }
-      } else throw Error('User already have password!')
-    } else throw Error('Token error!')
+      } else throw Error(t('alreadyPass'))
+    } else throw Error(t('token'))
   } catch (error) {
     return errHandlerService(error)
   }
@@ -103,6 +112,8 @@ export const createPass = async (data: z.infer<typeof createPassActionTypeSchema
 
 export const recoverPass = async (data: z.infer<typeof createPassActionTypeSchema>) => {
   const { password, token } = data
+
+  const t = await getTranslations('error.auth')
 
   try {
     createPassActionTypeSchema.parse(data)
@@ -120,14 +131,17 @@ export const recoverPass = async (data: z.infer<typeof createPassActionTypeSchem
           ...(await prisma.user.update({ data: { password: hash }, where: { email }, omit: { password: true } })),
           error: null,
         }
-      } else throw Error(`User with ${email} not found!`)
-    } else throw Error('Token error!')
+      } else throw Error(t('emailNotFound', { email }))
+    } else throw Error(t('token'))
   } catch (error) {
     return errHandlerService(error)
   }
 }
 
 export const oauthLogin = async (name: 'google' | 'github'): Promise<{ url: string; error: false } | Err> => {
+  const locale = await getLocaleByReferer()
+  const t = await getTranslations({ locale, namespace: 'error.auth' })
+
   try {
     const res = await signIn(name, { redirect: false })
 
@@ -135,11 +149,13 @@ export const oauthLogin = async (name: 'google' | 'github'): Promise<{ url: stri
   } catch (error) {
     console.log('oauthLogin err - ', error)
 
-    return { error: { message: 'OAuth authentication error...' } }
+    return { error: { message: t('oauth') } }
   }
 }
 
 export const checkTwoFa = async (email: string): Promise<{ isTwoFa: boolean; error: null } | Err> => {
+  const t = await getTranslations('error.auth')
+
   try {
     const user = await prisma.user.findFirst({ where: { email } })
 
@@ -147,6 +163,6 @@ export const checkTwoFa = async (email: string): Promise<{ isTwoFa: boolean; err
   } catch (error) {
     console.log('checkTwoFa err - ', error)
 
-    return { error: { message: 'Check two-fa error...' } }
+    return { error: { message: t('checkTwoFa') } }
   }
 }
