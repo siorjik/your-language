@@ -2,6 +2,7 @@
 
 import { z } from 'zod'
 import { revalidatePath } from 'next/cache'
+import { getTranslations } from 'next-intl/server'
 
 import getServerSessionToken from '@/helpers/getServerSessionToken'
 import errHandlerService from '@/services/errHandlerService'
@@ -77,6 +78,8 @@ export const getClassList = async (params: {
 export const getClassById = async (id: string, creatorId?: string): Promise<(SelectedClass & { error: null }) | Err> => {
   let classItem
 
+  const t = await getTranslations('error.class')
+
   try {
     const session = await getServerSessionToken()
 
@@ -96,7 +99,7 @@ export const getClassById = async (id: string, creatorId?: string): Promise<(Sel
             include: { creator: { select: { id: true, name: true, image: true } } },
           })) as SelectedClass
         }
-      } else throw Error('Class sharing error')
+      } else throw Error(t('sharing'))
     } else {
       classItem = (await prisma.class.findFirst({
         where: { id },

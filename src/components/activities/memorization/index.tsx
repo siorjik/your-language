@@ -46,8 +46,15 @@ export default function Memorization({ data }: { data: SelectedSet }) {
   })
 
   useEffect(() => {
+    const passedArr = [...result.passed.map((item) => item[selectedMode]), ...result.failed.map((item) => item[selectedMode])]
+    const isLengthEnough = setList.length - passedArr.length > 3
+
     const shuffledArr = getShuffledArr([
-      ...data.list?.filter((item) => item[selectedMode] !== setList[index][selectedMode]),
+      ...data.list?.filter((item) =>
+        isLengthEnough
+          ? item[selectedMode] !== setList[index][selectedMode] && !passedArr.includes(item[selectedMode])
+          : item[selectedMode] !== setList[index][selectedMode],
+      ),
     ]).splice(0, 3)
 
     shuffledArr.push(setList[index])

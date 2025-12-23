@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { getTranslations } from 'next-intl/server'
 
 import { sendRecoverPassMail } from '@/services/mailerService'
 import { createToken } from '@/services/jwtService'
@@ -8,10 +9,12 @@ import { prisma } from '@/lib/prisma'
 export async function POST(req: NextRequest): Promise<NextResponse<{ success: boolean } | Err>> {
   const { email, locale } = await req.json()
 
+  const t = await getTranslations({ locale, namespace: 'error.recoverPass' })
+
   try {
     const user = await prisma.user.findFirst({ where: { email } })
 
-    if (!user) throw Error('User with this email does not exist!')
+    if (!user) throw Error(t('emailNotFound'))
 
     const token = await createToken({ email })
 

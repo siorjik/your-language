@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import z from 'zod'
+import { getTranslations } from 'next-intl/server'
 
 import errHandlerService from '@/services/errHandlerService'
 import { setFormTypeSchema } from '@/types/forms/set'
@@ -125,6 +126,8 @@ export const getSetList = async (
 export const getSetById = async (id: string, creatorId?: string): Promise<(SelectedSet & { error: null }) | Err> => {
   let set: SelectedSet | null
 
+  const t = await getTranslations('error.set')
+
   try {
     const session = await getServerSessionToken()
 
@@ -135,7 +138,7 @@ export const getSetById = async (id: string, creatorId?: string): Promise<(Selec
         set = (await prisma.set.create({
           data: { ...sharedSet, list: sharedSet.list as SetList, userId: session.id, creatorId },
         })) as SelectedSet
-      } else throw Error('Set sharing error')
+      } else throw Error(t('sharing'))
     } else
       set = (await prisma.set.findFirst({
         where: { id },
@@ -146,7 +149,7 @@ export const getSetById = async (id: string, creatorId?: string): Promise<(Selec
       })) as SelectedSet
 
     if (set) return { ...(set as SelectedSet), error: null }
-    else throw Error('Set not found')
+    else throw Error(t('notFound'))
   } catch (error) {
     return errHandlerService(error)
   }

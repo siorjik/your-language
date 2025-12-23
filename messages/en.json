@@ -354,5 +354,21 @@
       "incorrectSize": { "title": "File Size Error", "description": "File size too large! Need to be less than 10Mb!" }
     },
     "oauthBlock": { "destructive": { "title": "Authentication Error" } }
+  },
+  "error": {
+    "auth": {
+      "twoFa": "Two-Fa code is required!",
+      "creationUser": "Creation user error...",
+      "alreadyPass": "User already has password!",
+      "token": "Token error!",
+      "emailNotFound": "User with {email} not found!",
+      "oauth": "OAuth authentication error...",
+      "checkTwoFa": "Check two-fa error..."
+    },
+    "class": { "sharing": "Class sharing error" },
+    "set": { "sharing": "Set sharing error", "notFound": "Set not found" },
+    "user": { "invalidPass": "Invalid password..." },
+    "associations": { "missing": "Missing word to create associations" },
+    "recoverPass": { "emailNotFound": "User with this email not found!" }
   }
 }

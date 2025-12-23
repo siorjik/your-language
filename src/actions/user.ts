@@ -1,6 +1,7 @@
 'use server'
 
 import { z } from 'zod'
+import { getTranslations } from 'next-intl/server'
 
 import getServerSessionToken from '@/helpers/getServerSessionToken'
 import { prisma } from '@/lib/prisma'
@@ -49,6 +50,8 @@ export const updateAcc = async (data: z.infer<typeof updateAccFormTypeSchema>): 
 export const updatePass = async (
   data: z.infer<typeof changePassFormTypeSchema>,
 ): Promise<{ success: true; error: null } | Err> => {
+  const t = await getTranslations('error.user')
+
   try {
     changePassFormTypeSchema.parse(data)
 
@@ -64,7 +67,7 @@ export const updatePass = async (
       await prisma.user.update({ where: { id: session.id }, data: { password: hash } })
 
       return { success: true, error: null }
-    } else throw Error('Invalid password...')
+    } else throw Error(t('invalidPass'))
   } catch (error) {
     return errHandlerService(error)
   }
