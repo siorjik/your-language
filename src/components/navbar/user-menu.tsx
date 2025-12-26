@@ -29,7 +29,15 @@ import {
 } from '@/components/ui/dropdown-menu'
 import Spinner from '../spinner'
 
-import { profileAppPath, signUpAppPath, signInAppPath, getSetAppPath, getClassAppPath, contactUsAppPath } from '@/utils/paths'
+import {
+  profileAppPath,
+  signUpAppPath,
+  signInAppPath,
+  getSetAppPath,
+  getClassAppPath,
+  contactUsAppPath,
+  getUserAppPath,
+} from '@/utils/paths'
 import { NOTIFICATION_STATUSES, NOTIFICATION_TYPES, SOCKET_EVENTS, THEMES } from '@/utils/constants'
 import { Notification } from '@prisma/client'
 import { createNotification, deleteNotification, getUserNotifications, readNotification } from '@/actions/notification'
@@ -40,12 +48,14 @@ import { SelectedClass } from '@/types/models/class'
 import { Err } from '@/types/errTypes'
 import useLocaleUrl from '@/hooks/use-locale-url'
 
+type NotificationItem = Notification & { user: { id: string; name: string }; class: { id: string; title: string } | null }
+
 export default function UserMenu() {
   const [isShow, setShow] = useState(false)
   const [menuValue, setMenuValue] = useState<string | undefined>(undefined)
   const [showLoader, setShowLoader] = useState(false)
   const [showNotifications, setShowNotifications] = useState(false)
-  const [notificationList, setNotificationList] = useState<Notification[]>([])
+  const [notificationList, setNotificationList] = useState<NotificationItem[]>([])
 
   const { data: session } = useSession()
   const { theme, setTheme } = useTheme()
@@ -112,7 +122,7 @@ export default function UserMenu() {
     }
   }
 
-  const getNotificationMessage = (notification: Notification) => {
+  const getNotificationMessage = (notification: NotificationItem) => {
     const time = <p className="mb-2 text-xs text-primary">{formatDistanceToNow(notification.createdAt, { addSuffix: true })}</p>
     switch (notification.type) {
       case NOTIFICATION_TYPES.createdSet:
@@ -156,9 +166,14 @@ export default function UserMenu() {
             <p>
               <span className="font-emoji">👨‍🎓👩‍🎓</span>{' '}
               {t.rich('notificationsTexts.request', {
-                Link: (text) => (
+                Link: () => (
+                  <Link className="link inline-block" href={getUserAppPath(notification.userId!)}>
+                    {notification.user.name}
+                  </Link>
+                ),
+                Link1: () => (
                   <Link className="link inline-block" href={getClassAppPath(notification.classId!)}>
-                    {text}
+                    {notification.class!.title}
                   </Link>
                 ),
               })}
@@ -181,11 +196,11 @@ export default function UserMenu() {
           <div>
             {time}
             <p>
-              <span className="font-emoji">🥳</span>
+              <span className="font-emoji">🥳</span>{' '}
               {t.rich('notificationsTexts.joined', {
-                Link: (text) => (
+                Link: () => (
                   <Link className="link inline-block" href={getClassAppPath(notification.classId!)}>
-                    {text}
+                    {notification.class!.title}
                   </Link>
                 ),
               })}
