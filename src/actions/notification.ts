@@ -47,12 +47,22 @@ export const createNotification = async (
   }
 }
 
-export const getUserNotifications = async (): Promise<{ notifications: Notification[]; error: null } | Err> => {
+export const getUserNotifications = async (): Promise<
+  | {
+      notifications: (Notification & { user: { id: string; name: string }; class: { id: string; title: string } | null })[]
+      error: null
+    }
+  | Err
+> => {
   try {
     const session = await getServerSessionToken()
 
     return {
-      notifications: await prisma.notification.findMany({ where: { recipientId: session.id }, orderBy: { createdAt: 'desc' } }),
+      notifications: await prisma.notification.findMany({
+        where: { recipientId: session.id },
+        include: { user: { select: { id: true, name: true } }, class: { select: { id: true, title: true } } },
+        orderBy: { createdAt: 'desc' },
+      }),
       error: null,
     }
   } catch (error) {

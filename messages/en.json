@@ -70,10 +70,10 @@
       "notificationCenter": "Notification Center",
       "newSet": "Hi there! Your new created <Link>Set</Link> is waiting for you!",
       "newClass": "Invite friends in your created <Link>Class</Link> and have fun!",
-      "request": "You got the request to join your <Link>Class</Link>!",
+      "request": "You got the request from <Link>user</Link> to join <Link1>class</Link1>!",
       "approve": "Approve",
       "decline": "Decline",
-      "joined": "You were joined the <Link>Class</Link>!"
+      "joined": "You were joined the <Link>class</Link>!"
     },
     "themes": "Theme Colors"
   },
@@ -369,6 +369,7 @@
     "set": { "sharing": "Set sharing error", "notFound": "Set not found" },
     "user": { "invalidPass": "Invalid password..." },
     "associations": { "missing": "Missing word to create associations" },
-    "recoverPass": { "emailNotFound": "User with this email not found!" }
+    "recoverPass": { "emailNotFound": "User with this email not found!" },
+    "fileStorage": { "upload": "File upload error" }
   }
 }
