@@ -6,21 +6,21 @@ import { nextAuthConfig } from './configs/auth'
 import { signInAppPath, createPasswordAppPath, signUpAppPath, recoverPasswordAppPath, contactUsAppPath } from './utils/paths'
 import { LOCALE } from './utils/constants'
 
-export const intlMiddleware = createIntlMiddleware({ locales: ['en', 'ru'], defaultLocale: 'en' })
+export const intlMiddleware = createIntlMiddleware({ locales: ['en', 'ru', 'ua'], defaultLocale: 'en' })
 
 export const config = {
   matcher: [
     '/',
-    '/(en|ru)',
-    '/(en|ru)/profile',
-    '/(en|ru)/create-password',
-    '/(en|ru)/sign-up',
-    '/(en|ru)/sign-in',
-    '/(en|ru)/sets/:path*',
-    '/(en|ru)/library',
-    '/(en|ru)/activities',
-    '/(en|ru)/classes/:path*',
-    '/(en|ru)/contact-us',
+    '/(en|ru|ua)',
+    '/(en|ru|ua)/profile',
+    '/(en|ru|ua)/create-password',
+    '/(en|ru|ua)/sign-up',
+    '/(en|ru|ua)/sign-in',
+    '/(en|ru|ua)/sets/:path*',
+    '/(en|ru|ua)/library',
+    '/(en|ru|ua)/activities',
+    '/(en|ru|ua)/classes/:path*',
+    '/(en|ru|ua)/contact-us',
   ],
 }
 // export const config = { matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'] }

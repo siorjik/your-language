@@ -93,7 +93,7 @@ export default function GuestMode() {
               viewport={{ once: !isLgDisplay }}
               transition={{ duration: 0.5 }}
             >
-              <Card className="lg:min-h-[850px] flex flex-col justify-between bg-secondary/50 border-0 shadow-xl text-center">
+              <Card className="lg:min-h-[870px] flex flex-col justify-between bg-secondary/50 border-0 shadow-xl text-center">
                 <div>
                   <CardHeader>
                     <CardTitle className="font-balsamiqSans text-primary/50">
@@ -140,7 +140,7 @@ export default function GuestMode() {
               viewport={{ once: !isLgDisplay }}
               transition={{ duration: 0.5, delay: 1.5 * 0.1 }}
             >
-              <Card className="lg:min-h-[850px] flex flex-col justify-between bg-secondary/50 border-0 shadow-xl text-center">
+              <Card className="lg:min-h-[870px] flex flex-col justify-between bg-secondary/50 border-0 shadow-xl text-center">
                 <div>
                   <CardHeader>
                     <CardTitle className="font-balsamiqSans text-primary/50">
@@ -187,7 +187,7 @@ export default function GuestMode() {
               viewport={{ once: !isLgDisplay }}
               transition={{ duration: 0.5, delay: 2 * 0.1 }}
             >
-              <Card className="lg:min-h-[850px] flex flex-col justify-between bg-secondary/50 border-0 shadow-xl text-center">
+              <Card className="lg:min-h-[870px] flex flex-col justify-between bg-secondary/50 border-0 shadow-xl text-center">
                 <div>
                   <CardHeader>
                     <CardTitle className="font-balsamiqSans text-primary/50">
