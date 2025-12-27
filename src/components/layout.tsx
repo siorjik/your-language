@@ -112,11 +112,12 @@ export default function Layout({ children }: { children: ReactNode }) {
                 </div>
                 <div className="flex gap-5">
                   <SelectWrap
-                    css="!min-w-[110px]"
+                    css="!min-w-[125px]"
                     defaultValue={locale}
                     options={[
                       { value: 'en', label: 'English' },
                       { value: 'ru', label: 'Русский' },
+                      { value: 'ua', label: 'Українська' },
                     ]}
                     label={tLocaleSwitcher('label')}
                     placeholder={tLocaleSwitcher('label')}
