@@ -274,7 +274,7 @@
   "toast": {
     "createPass": {
       "success": { "title": "Создание Пароля Успешно", "description": "Пароль был создан успешно! Переход на страницу входа..." },
-      "destructive": { "title": "Ошибка создания Пароля" }
+      "destructive": { "title": "Ошибка Создания Пароля" }
     },
     "login": {
       "twoFa": {
@@ -313,7 +313,7 @@
     },
     "contactUs": {
       "success": { "title": "Отправка Сообщения", "description": "Ваше сообщение было отправлено успешно!" },
-      "destructive": { "title": "Ошибка отправки", "description": "Что-то пошло не так при отправке..." }
+      "destructive": { "title": "Ошибка Отправки", "description": "Что-то пошло не так при отправке..." }
     },
     "profile": {
       "acc": {
@@ -343,10 +343,10 @@
     "set": {
       "delete": {
         "success": { "title": "Удаление Набора", "description": "Набор удален успешно!" },
-        "destructive": { "title": "Ошибка удаления Набора" }
+        "destructive": { "title": "Ошибка Удаления Набора" }
       },
-      "create": { "destructive": { "title": "Ошибка создания Набора" } },
-      "update": { "destructive": { "title": "Ошибка обновления Набора" } }
+      "create": { "destructive": { "title": "Ошибка Создания Набора" } },
+      "update": { "destructive": { "title": "Ошибка Обновления Набора" } }
     },
     "imageUploading": {
       "incorrectType": {
@@ -359,7 +359,7 @@
   },
   "error": {
     "auth": {
-      "twoFa": "Двухфакторная аутентификация требуется!",
+      "twoFa": "Требуется двухфакторная аутентификация!",
       "creationUser": "Ошибка создания юзера...",
       "alreadyPass": "Юзер уже имеет пароль!",
       "token": "Ошибка токена!",
