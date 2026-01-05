@@ -151,7 +151,8 @@
     "session": {
       "createSet": "Visit Library and create your first Set",
       "activity": "Your activity",
-      "recentSets": "Recent Created Sets",
+      "recentSets": "Recent created Sets",
+      "year": "Choose year",
       "chart": {
         "sets": "Created Sets",
         "flashcards": "Passed Flashcards",

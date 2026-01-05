@@ -10,7 +10,10 @@ import { getActivityTypes } from '@/actions/activityType'
 import { MONTHS } from '@/utils/constants'
 import { SelectedSet } from '@/types/models/set'
 
-export default async function HomePage() {
+export default async function HomePage({ searchParams }: { searchParams: Promise<{ year: string }> }) {
+  const { year } = await searchParams
+
+  let years: number[] = []
   let resSets: { sets: SelectedSet[]; error: null } | Err | null = null
   let mappedChartData: {
     month: string
@@ -30,9 +33,18 @@ export default async function HomePage() {
     const resActivityTypes: { activityTypes: ActivityType[]; error: null } | Err = await getActivityTypes()
 
     if (!resSets.error && !resActivities.error && !resActivityTypes.error) {
-      const activityTypes = resActivityTypes.activityTypes
+      years = [
+        ...new Set([
+          ...new Set(resSets.sets.map((set) => set.createdAt.getFullYear())),
+          ...new Set(resActivities.activities.map((activity) => activity.createdAt.getFullYear())),
+        ]),
+      ].sort((a, b) => b - a)
 
-      const setsMappedData = resSets.sets.reduce(
+      const selectedYear = year ?? years[0]
+      const activityTypes = resActivityTypes.activityTypes
+      const setList = resSets.sets.filter((set) => +set.createdAt.getFullYear() === +selectedYear)
+
+      const setsMappedData = setList.reduce(
         (acc = [], current, _, arr) => {
           if (!acc.find((item) => item.month === MONTHS[new Date(current.createdAt).getMonth()])) {
             acc.push({
@@ -48,38 +60,40 @@ export default async function HomePage() {
         [] as { month: string; sets: number }[],
       )
 
-      const activityMappedData = resActivities.activities.reduce(
-        (acc = [], current, _, arr) => {
-          if (!acc.find((item) => item.month === MONTHS[new Date(current.createdAt).getMonth()])) {
-            acc.push({
-              month: MONTHS[new Date(current.createdAt).getMonth()],
-              flashcards: arr.filter(
-                (el) =>
-                  MONTHS[new Date(el.createdAt).getMonth()] === MONTHS[new Date(current.createdAt).getMonth()] &&
-                  activityTypes.find((item) => item.name === 'flashcards' && item.id === el.activityTypeId),
-              ).length,
-              memorization: arr.filter(
-                (el) =>
-                  MONTHS[new Date(el.createdAt).getMonth()] === MONTHS[new Date(current.createdAt).getMonth()] &&
-                  activityTypes.find((item) => item.name === 'memorization' && item.id === el.activityTypeId),
-              ).length,
-              spelling: arr.filter(
-                (el) =>
-                  MONTHS[new Date(el.createdAt).getMonth()] === MONTHS[new Date(current.createdAt).getMonth()] &&
-                  activityTypes.find((item) => item.name === 'spelling' && item.id === el.activityTypeId),
-              ).length,
-              associations: arr.filter(
-                (el) =>
-                  MONTHS[new Date(el.createdAt).getMonth()] === MONTHS[new Date(current.createdAt).getMonth()] &&
-                  activityTypes.find((item) => item.name === 'associations' && item.id === el.activityTypeId),
-              ).length,
-            })
-          }
+      const activityMappedData = resActivities.activities
+        .filter((activity) => +activity.createdAt.getFullYear() === +selectedYear)
+        .reduce(
+          (acc = [], current, _, arr) => {
+            if (!acc.find((item) => item.month === MONTHS[new Date(current.createdAt).getMonth()])) {
+              acc.push({
+                month: MONTHS[new Date(current.createdAt).getMonth()],
+                flashcards: arr.filter(
+                  (el) =>
+                    MONTHS[new Date(el.createdAt).getMonth()] === MONTHS[new Date(current.createdAt).getMonth()] &&
+                    activityTypes.find((item) => item.name === 'flashcards' && item.id === el.activityTypeId),
+                ).length,
+                memorization: arr.filter(
+                  (el) =>
+                    MONTHS[new Date(el.createdAt).getMonth()] === MONTHS[new Date(current.createdAt).getMonth()] &&
+                    activityTypes.find((item) => item.name === 'memorization' && item.id === el.activityTypeId),
+                ).length,
+                spelling: arr.filter(
+                  (el) =>
+                    MONTHS[new Date(el.createdAt).getMonth()] === MONTHS[new Date(current.createdAt).getMonth()] &&
+                    activityTypes.find((item) => item.name === 'spelling' && item.id === el.activityTypeId),
+                ).length,
+                associations: arr.filter(
+                  (el) =>
+                    MONTHS[new Date(el.createdAt).getMonth()] === MONTHS[new Date(current.createdAt).getMonth()] &&
+                    activityTypes.find((item) => item.name === 'associations' && item.id === el.activityTypeId),
+                ).length,
+              })
+            }
 
-          return acc
-        },
-        [] as { month: string; flashcards: number; memorization: number; spelling: number; associations: number }[],
-      )
+            return acc
+          },
+          [] as { month: string; flashcards: number; memorization: number; spelling: number; associations: number }[],
+        )
 
       mappedChartData = MONTHS.reduce(
         (acc, current) => {
@@ -111,7 +125,7 @@ export default async function HomePage() {
 
   return (
     <Layout>
-      <Home session={session} sets={(resSets?.error ? [] : resSets?.sets) || []} chartData={mappedChartData!} />
+      <Home session={session} sets={(resSets?.error ? [] : resSets?.sets) || []} chartData={mappedChartData!} years={years} />
     </Layout>
   )
 }
