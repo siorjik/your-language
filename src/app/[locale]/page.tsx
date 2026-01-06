@@ -13,7 +13,7 @@ import { SelectedSet } from '@/types/models/set'
 export default async function HomePage({ searchParams }: { searchParams: Promise<{ year: string }> }) {
   const { year } = await searchParams
 
-  let years: number[] = []
+  let years: string[] = []
   let resSets: { sets: SelectedSet[]; error: null } | Err | null = null
   let mappedChartData: {
     month: string
@@ -38,7 +38,9 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
           ...new Set(resSets.sets.map((set) => set.createdAt.getFullYear())),
           ...new Set(resActivities.activities.map((activity) => activity.createdAt.getFullYear())),
         ]),
-      ].sort((a, b) => b - a)
+      ]
+        .sort((a, b) => b - a)
+        .map((year) => year.toString())
 
       const selectedYear = year ?? years[0]
       const activityTypes = resActivityTypes.activityTypes
