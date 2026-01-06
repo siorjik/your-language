@@ -152,7 +152,9 @@
       "createSet": "Visit Library and create your first Set",
       "activity": "Your activity",
       "recentSets": "Recent created Sets",
-      "year": "Choose year",
+      "chooseYear": "Choose year",
+      "year": "Year",
+      "current": "Current",
       "chart": {
         "sets": "Created Sets",
         "flashcards": "Passed Flashcards",

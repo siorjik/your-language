@@ -16,7 +16,7 @@ import { SelectedSet } from '@/types/models/set'
 import useLocaleUrl from '@/hooks/use-locale-url'
 
 type MainProps = {
-  years: number[]
+  years: string[]
   session: Session | null
   sets: SelectedSet[] | []
   chartData: { month: string; sets: number; flashcards: number; memorization: number; spelling: number }[]
@@ -47,13 +47,18 @@ export default function Home({ session, sets, chartData, years }: MainProps) {
                 <h2 className={`title text-center ${years.length > 1 ? 'mb-5' : 'mb-0'} md:mb-0`}>{t('activity')}</h2>
                 {years.length > 1 && (
                   <div className="flex gap-5 justify-center items-center md:items-start mb-0">
-                    <div className="sub-title-3 mb-0 md:mt-2">{t('year')}:</div>
+                    <div className="sub-title-3 mb-0 md:mt-2">{t('chooseYear')}:</div>
                     <SelectWrap
-                      options={years.map((year) => ({ value: year.toString(), label: year.toString() }))}
-                      defaultValue={year || years[0].toString()}
-                      onValueChange={(val) => push(getLocaleUrl(`/?year=${val}`))}
-                      placeholder="Choose year"
-                      label="Choose year:"
+                      options={years.map((year) => ({
+                        value: year,
+                        label: +year === new Date().getFullYear() ? t('current') : year,
+                      }))}
+                      defaultValue={year || years[0]}
+                      onValueChange={(val) =>
+                        push(getLocaleUrl(val === new Date().getFullYear().toString() ? '/' : `/?year=${val}`))
+                      }
+                      placeholder={t('year')}
+                      label={`${t('year')}:`}
                       css="min-w-28 w-28"
                     />
                   </div>
